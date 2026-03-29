@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Clock } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Last Minute Angebote | Besten Urlaub',
@@ -10,33 +11,43 @@ export const metadata: Metadata = {
 
 export default function LastMinutePage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Compact header */}
-      <div className="bg-gradient-to-r from-[#0a1a3a] to-[#2e75fa] py-6 sm:py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-white/60 hover:text-white text-sm mb-3 transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            Startseite
-          </Link>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">
-            Last Minute Angebote
-          </h1>
-          <p className="text-white/70 mt-1 text-sm sm:text-base">
-            Pauschalreisen vergleichen und direkt buchen
-          </p>
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Top bar — same style as /angebot/[id] */}
+      <div className="bg-white border-b border-[#0a1a3a]/10 px-4 sm:px-6 py-3 shrink-0">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60 hover:text-[#2e75fa] transition-colors shrink-0">
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Startseite</span>
+            </Link>
+            <div className="h-5 w-px bg-[#0a1a3a]/10 shrink-0" />
+            <div className="flex items-center gap-2">
+              <Image src="/symbol.svg" alt="Besten Urlaub" width={20} height={20} className="shrink-0" />
+              <div>
+                <p className="text-sm font-semibold text-[#0a1a3a]">Last Minute Angebote</p>
+                <p className="text-xs text-[#0a1a3a]/50">Pauschalreisen vergleichen und direkt buchen</p>
+              </div>
+            </div>
+          </div>
+          <div className="hidden sm:flex items-center gap-1.5 text-xs text-[#0a1a3a]/40">
+            <Clock className="w-3.5 h-3.5" />
+            <span>Buchung über Check24</span>
+          </div>
         </div>
       </div>
 
-      {/* Check24 Widget — directly integrated, no gaps */}
-      <div id="c24pp-package-iframe" data-offer="lastminute" data-scrollto="iframe" data-forward-url="no" style={{ width: '100%' }} />
-      <Script
-        src="https://files.check24.net/widgets/auto/1168044/c24pp-package-iframe/package-iframe.js"
-        strategy="afterInteractive"
-      />
+      {/* Check24 Widget — full width, no padding */}
+      <div className="flex-1">
+        <div id="c24pp-package-iframe" data-offer="lastminute" data-scrollto="iframe" data-forward-url="no" style={{ width: '100%' }} />
+        <Script
+          src="https://files.check24.net/widgets/auto/1168044/c24pp-package-iframe/package-iframe.js"
+          strategy="afterInteractive"
+        />
+      </div>
 
       {/* Affiliate disclosure */}
-      <div className="border-t border-[#0a1a3a]/5 bg-[#f8f9fc]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+      <div className="border-t border-[#0a1a3a]/5 bg-[#f8f9fc] shrink-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <p className="text-[10px] text-[#0a1a3a]/40 leading-relaxed">
             <span className="font-semibold">CHECK24.net Partnerprogramm:</span>{' '}
             Wir nehmen am CHECK24.net Partnerprogramm teil. Auf unseren Seiten werden iFrame-Buchungsmasken
