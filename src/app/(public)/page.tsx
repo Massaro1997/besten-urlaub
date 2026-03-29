@@ -3,6 +3,7 @@ import { HeroSection } from '@/components/public/hero-section'
 import { OffersSection } from '@/components/public/offers-section'
 import { DestinationGrid } from '@/components/public/destination-grid'
 import { CtaSection } from '@/components/public/cta-section'
+import { TikTokFeed } from '@/components/public/tiktok-feed'
 
 export default async function HomePage() {
   const [offers, popularDestinations] = await Promise.all([
@@ -78,6 +79,9 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <DestinationGrid destinations={typedDestinations} />
       </section>
+
+      {/* TikTok Feed */}
+      <TikTokFeed />
 
       {/* CTA */}
       <CtaSection />
