@@ -4,9 +4,6 @@ import { useEffect, useRef } from 'react'
 
 const TIKTOK_USERNAME = 'bestenurlaub'
 
-// Aggiungi qui i video ID quando li pubblichi su TikTok
-// Esempio: '7389234567890123456'
-// L'ID lo trovi nell'URL del video: tiktok.com/@bestenurlaub/video/7389234567890123456
 const TIKTOK_VIDEOS: string[] = [
   '7622735656665533728',
   '7622739776348704032',
@@ -21,6 +18,7 @@ function TikTokIcon({ className }: { className?: string }) {
 }
 
 export function TikTokFeed() {
+  const scrollRef = useRef<HTMLDivElement>(null)
   const scriptLoaded = useRef(false)
 
   useEffect(() => {
@@ -33,120 +31,136 @@ export function TikTokFeed() {
     }
   }, [])
 
-  const hasVideos = TIKTOK_VIDEOS.length > 0
+  function scrollLeft() {
+    scrollRef.current?.scrollBy({ left: -320, behavior: 'smooth' })
+  }
+
+  function scrollRight() {
+    scrollRef.current?.scrollBy({ left: 320, behavior: 'smooth' })
+  }
+
+  if (TIKTOK_VIDEOS.length === 0) return null
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center">
-            <TikTokIcon className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-[#0a1a3a]">
-              Unsere TikTok Videos
-            </h2>
-            <p className="text-sm text-[#0a1a3a]/60">
-              @{TIKTOK_USERNAME} — Folge uns f&uuml;r t&auml;gliche Urlaubsinspiration
-            </p>
-          </div>
-        </div>
-        <a
-          href={`https://www.tiktok.com/@${TIKTOK_USERNAME}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden sm:flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-black/80 transition-colors"
-        >
-          <TikTokIcon className="w-4 h-4" />
-          Auf TikTok folgen
-        </a>
-      </div>
-
-      {hasVideos ? (
-        /* Video Grid — embedded TikTok videos */
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
-          {TIKTOK_VIDEOS.map((videoId) => (
-            <div key={videoId} className="w-full max-w-[325px]">
-              <blockquote
-                className="tiktok-embed"
-                cite={`https://www.tiktok.com/@${TIKTOK_USERNAME}/video/${videoId}`}
-                data-video-id={videoId}
-                style={{ maxWidth: '325px', minWidth: '250px' }}
-              >
-                <section>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`https://www.tiktok.com/@${TIKTOK_USERNAME}/video/${videoId}`}
-                  >
-                    Video laden...
-                  </a>
-                </section>
-              </blockquote>
+    <section className="py-12 sm:py-16">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center">
+              <TikTokIcon className="w-[18px] h-[18px] text-white" />
             </div>
-          ))}
-        </div>
-      ) : (
-        /* Coming soon — placeholder cards */
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {[
-            { title: 'Mallorca', subtitle: 'Die Lieblingsinsel der Deutschen', img: '/maldives.png' },
-            { title: 'Antalya', subtitle: '5 Sterne zum besten Preis', img: '/santorini.png' },
-            { title: 'Sharm el-Sheikh', subtitle: 'Sonne, Meer & Entspannung', img: '/maldives.png' },
-            { title: 'Hurghada', subtitle: 'All Inclusive am Roten Meer', img: '/bali.png' },
-          ].map((item) => (
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-[#0a1a3a]">
+                Unsere Videos
+              </h2>
+              <p className="text-xs sm:text-sm text-[#0a1a3a]/50">
+                @{TIKTOK_USERNAME}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {/* Scroll arrows — desktop only */}
+            <div className="hidden sm:flex items-center gap-1.5">
+              <button
+                onClick={scrollLeft}
+                className="w-9 h-9 rounded-full bg-[#0a1a3a]/5 hover:bg-[#0a1a3a]/10 flex items-center justify-center transition-colors"
+                aria-label="Scroll links"
+              >
+                <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-[#0a1a3a]/60">
+                  <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
+                </svg>
+              </button>
+              <button
+                onClick={scrollRight}
+                className="w-9 h-9 rounded-full bg-[#0a1a3a]/5 hover:bg-[#0a1a3a]/10 flex items-center justify-center transition-colors"
+                aria-label="Scroll rechts"
+              >
+                <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-[#0a1a3a]/60">
+                  <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+
             <a
-              key={item.title}
               href={`https://www.tiktok.com/@${TIKTOK_USERNAME}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative rounded-2xl overflow-hidden aspect-[9/16] group cursor-pointer"
+              className="hidden sm:flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-black/80 transition-colors"
             >
-              {/* Background */}
-              <div
-                className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                style={{ backgroundImage: `url(${item.img})` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-              {/* TikTok play icon */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                  <svg viewBox="0 0 24 24" fill="white" className="w-8 h-8 ml-1">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <TikTokIcon className="w-3.5 h-3.5 text-white" />
-                  <span className="text-white/70 text-xs">@{TIKTOK_USERNAME}</span>
-                </div>
-                <p className="text-white font-semibold text-sm leading-tight">
-                  {item.title}
-                </p>
-                <p className="text-white/60 text-xs mt-0.5">
-                  {item.subtitle}
-                </p>
-                <span className="inline-block mt-2 bg-white/20 backdrop-blur rounded-full px-2.5 py-0.5 text-[10px] text-white font-medium">
-                  Bald verfügbar
-                </span>
-              </div>
+              <TikTokIcon className="w-3.5 h-3.5" />
+              Folgen
             </a>
-          ))}
+          </div>
         </div>
-      )}
+      </div>
 
-      {/* Mobile follow button */}
-      <div className="flex justify-center mt-8 sm:hidden">
+      {/* Scrollable video cards */}
+      <div
+        ref={scrollRef}
+        className="flex gap-4 overflow-x-auto scrollbar-hide px-5 sm:px-6 snap-x snap-mandatory pb-4"
+        style={{ scrollPaddingLeft: '20px' }}
+      >
+        {/* Left spacer for centering on large screens */}
+        <div className="hidden xl:block shrink-0" style={{ width: 'calc((100vw - 1280px) / 2)' }} />
+
+        {TIKTOK_VIDEOS.map((videoId) => (
+          <div
+            key={videoId}
+            className="shrink-0 snap-start w-[300px] sm:w-[325px] bg-white rounded-2xl shadow-sm overflow-hidden"
+          >
+            <blockquote
+              className="tiktok-embed"
+              cite={`https://www.tiktok.com/@${TIKTOK_USERNAME}/video/${videoId}`}
+              data-video-id={videoId}
+              style={{ maxWidth: '325px', minWidth: '280px', margin: 0 }}
+            >
+              <section>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://www.tiktok.com/@${TIKTOK_USERNAME}/video/${videoId}`}
+                  className="flex items-center justify-center h-[500px] bg-[#f8f9fc] text-[#0a1a3a]/30 text-sm"
+                >
+                  Video wird geladen...
+                </a>
+              </section>
+            </blockquote>
+          </div>
+        ))}
+
+        {/* "More on TikTok" card */}
         <a
           href={`https://www.tiktok.com/@${TIKTOK_USERNAME}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 bg-black text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-black/80 transition-colors"
+          className="shrink-0 snap-start w-[300px] sm:w-[325px] bg-gradient-to-br from-[#0a1a3a] to-[#1a3a6a] rounded-2xl flex flex-col items-center justify-center gap-4 p-8 group"
+        >
+          <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/15 transition-colors">
+            <TikTokIcon className="w-8 h-8 text-white" />
+          </div>
+          <div className="text-center">
+            <p className="text-white font-semibold text-base">Mehr Videos</p>
+            <p className="text-white/50 text-sm mt-1">auf TikTok ansehen</p>
+          </div>
+          <div className="flex items-center gap-2 bg-white text-[#0a1a3a] px-5 py-2.5 rounded-xl text-sm font-semibold group-hover:bg-white/90 transition-colors">
+            <TikTokIcon className="w-4 h-4" />
+            @{TIKTOK_USERNAME}
+          </div>
+        </a>
+
+        {/* Right spacer */}
+        <div className="hidden xl:block shrink-0" style={{ width: 'calc((100vw - 1280px) / 2)' }} />
+      </div>
+
+      {/* Mobile follow button */}
+      <div className="flex justify-center mt-6 sm:hidden px-5">
+        <a
+          href={`https://www.tiktok.com/@${TIKTOK_USERNAME}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 bg-black text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-black/80 transition-colors w-full justify-center"
         >
           <TikTokIcon className="w-4 h-4" />
           Auf TikTok folgen
