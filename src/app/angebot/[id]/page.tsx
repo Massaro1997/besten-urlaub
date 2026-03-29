@@ -5,7 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CATEGORY_DE_MAP } from '@/lib/public-constants'
 import { formatPrice } from '@/lib/utils'
-import { ArrowLeft, ExternalLink, Shield } from 'lucide-react'
+import { ArrowLeft, Shield } from 'lucide-react'
+import { AngebotTracker } from '@/components/public/angebot-tracker'
 
 export async function generateMetadata({
   params,
@@ -91,15 +92,12 @@ export default async function AngebotPage({
               <Shield className="w-3.5 h-3.5" />
               <span>Buchung über Check24</span>
             </div>
-            <a
-              href={offer.affiliateLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 bg-[#ff6b35] text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[#e55a2b] transition-colors"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">In neuem Tab öffnen</span>
-            </a>
+            <AngebotTracker
+              offerId={offer.id}
+              offerTitle={offer.title}
+              priceFrom={offer.priceFrom}
+              affiliateLink={offer.affiliateLink}
+            />
           </div>
         </div>
       </div>

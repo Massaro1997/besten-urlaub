@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { formatPrice } from '@/lib/utils'
 import { CATEGORY_DE_MAP } from '@/lib/public-constants'
-import { trackViewContent, trackClickButton, trackCompletePayment } from '@/lib/tiktok-pixel'
+import { trackViewContent, trackClickButton, trackAddToCart } from '@/lib/tiktok-pixel'
 
 const CATEGORY_IMAGES: Record<string, string> = {
   mare: '/maldives.png',
@@ -108,7 +108,7 @@ export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
             href={`/angebot/${offer.id}`}
             onClick={() => {
               trackClickButton(offer)
-              trackCompletePayment(offer)
+              trackAddToCart(offer)
             }}
             className="bg-[#ff6b35] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#e55a2b] active:scale-95 transition-all inline-block shadow-sm shadow-[#ff6b35]/25"
           >

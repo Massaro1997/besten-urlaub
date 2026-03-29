@@ -8,13 +8,15 @@ declare global {
   }
 }
 
+type OfferData = { id: string; title: string; priceFrom: number | null }
+
 function getTtq() {
   if (typeof window !== 'undefined' && window.ttq) return window.ttq
   return null
 }
 
-export function trackViewContent(offer: { id: string; title: string; priceFrom: number | null }) {
-  getTtq()?.track('ViewContent', {
+function buildContents(offer: OfferData) {
+  return {
     contents: [
       {
         content_id: offer.id,
@@ -24,39 +26,34 @@ export function trackViewContent(offer: { id: string; title: string; priceFrom: 
     ],
     value: offer.priceFrom || 0,
     currency: 'EUR',
-  })
+  }
 }
 
-export function trackClickButton(offer: { id: string; title: string; priceFrom: number | null }) {
-  getTtq()?.track('ClickButton', {
-    contents: [
-      {
-        content_id: offer.id,
-        content_type: 'product',
-        content_name: offer.title,
-      },
-    ],
-    value: offer.priceFrom || 0,
-    currency: 'EUR',
-  })
+// Step 1: User sees the offer card (scroll into view)
+export function trackViewContent(offer: OfferData) {
+  getTtq()?.track('ViewContent', buildContents(offer))
 }
 
-export function trackCompletePayment(offer: { id: string; title: string; priceFrom: number | null }) {
-  getTtq()?.track('CompletePayment', {
-    contents: [
-      {
-        content_id: offer.id,
-        content_type: 'product',
-        content_name: offer.title,
-      },
-    ],
-    value: offer.priceFrom || 0,
-    currency: 'EUR',
-  })
+// Step 2: User clicks "Zum Angebot"
+export function trackClickButton(offer: OfferData) {
+  getTtq()?.track('ClickButton', buildContents(offer))
+}
+
+// Step 3: User adds to cart (= clicks to see the offer detail)
+export function trackAddToCart(offer: OfferData) {
+  getTtq()?.track('AddToCart', buildContents(offer))
+}
+
+// Step 4: User initiates checkout (= lands on /angebot/[id] page with Check24 iframe)
+export function trackInitiateCheckout(offer: OfferData) {
+  getTtq()?.track('InitiateCheckout', buildContents(offer))
+}
+
+// Step 5: User completes payment (= opens Check24 in new tab or interacts with iframe)
+export function trackCompletePayment(offer: OfferData) {
+  getTtq()?.track('CompletePayment', buildContents(offer))
 }
 
 export function trackSearch(query: string) {
-  getTtq()?.track('Search', {
-    search_string: query,
-  })
+  getTtq()?.track('Search', { search_string: query })
 }
