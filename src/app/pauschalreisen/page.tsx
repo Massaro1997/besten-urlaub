@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Plane } from 'lucide-react'
+import { Check24Widget } from '@/components/public/check24-widget'
 
 export const metadata: Metadata = {
   title: 'Pauschalreisen vergleichen | Besten Urlaub',
@@ -36,16 +36,13 @@ export default function PauschalreisenPage() {
       </div>
 
       <div className="flex-1 px-0 sm:px-5">
-        <div id="c24pp-package-iframe" data-offer="allgemein" data-scrollto="begin" data-forward-url="no" style={{ width: '100%' }} />
-        <Script src="https://files.check24.net/widgets/auto/1168044/c24pp-package-iframe/package-iframe.js" strategy="afterInteractive" />
+        <Check24Widget offer="allgemein" />
       </div>
 
       <div className="border-t border-[#0a1a3a]/5 bg-[#f8f9fc] shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <p className="text-[10px] text-[#0a1a3a]/40 leading-relaxed">
-            <span className="font-semibold">CHECK24.net Partnerprogramm:</span>{' '}
-            Wir nehmen am CHECK24.net Partnerprogramm teil. Weitere Informationen:{' '}
-            <a href="https://www.check24.net" target="_blank" rel="noopener noreferrer" className="text-[#2e75fa] hover:underline">CHECK24.net</a>
+          <p className="text-[10px] text-[#0a1a3a]/40">
+            <span className="font-semibold">CHECK24.net Partnerprogramm</span> — Affiliate-Links. <a href="https://www.check24.net" target="_blank" rel="noopener noreferrer" className="text-[#2e75fa] hover:underline">Mehr Info</a>
           </p>
         </div>
       </div>

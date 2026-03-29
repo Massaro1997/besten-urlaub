@@ -131,16 +131,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Check24 Banner — between sections */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-4">
-        <a href="https://a.check24.net/misc/click.php?pid=1168044&aid=256&deep=pauschalreisen-vergleich&cat=9" target="_blank" rel="noopener noreferrer" className="hidden sm:block">
-          <img src="https://a.check24.net/misc/view.php?pid=1168044&aid=256&cat=9" width={728} height={90} alt="Check24 Pauschalreisen" className="mx-auto rounded-xl opacity-90 hover:opacity-100 transition-opacity" style={{ maxWidth: '100%', height: 'auto' }} />
-        </a>
-        <a href="https://a.check24.net/misc/click.php?pid=1168044&aid=257&deep=pauschalreisen-vergleich&cat=9" target="_blank" rel="noopener noreferrer" className="block sm:hidden">
-          <img src="https://a.check24.net/misc/view.php?pid=1168044&aid=257&cat=9" width={468} height={60} alt="Check24 Pauschalreisen" className="mx-auto rounded-lg opacity-90 hover:opacity-100 transition-opacity" style={{ maxWidth: '100%', height: 'auto' }} />
-        </a>
-      </div>
-
       {/* Beliebte Reiseziele */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <DestinationGrid destinations={typedDestinations} />
@@ -148,13 +138,6 @@ export default async function HomePage() {
 
       {/* TikTok Feed */}
       <TikTokFeed />
-
-      {/* Check24 Banner — before CTA */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex justify-center">
-        <a href="https://a.check24.net/misc/click.php?pid=1168044&aid=258&deep=pauschalreisen-vergleich&cat=9" target="_blank" rel="noopener noreferrer">
-          <img src="https://a.check24.net/misc/view.php?pid=1168044&aid=258&cat=9" width={300} height={250} alt="Check24 Pauschalreisen" className="rounded-xl opacity-90 hover:opacity-100 transition-opacity" style={{ maxWidth: '100%', height: 'auto' }} />
-        </a>
-      </div>
 
       {/* CTA */}
       <CtaSection />

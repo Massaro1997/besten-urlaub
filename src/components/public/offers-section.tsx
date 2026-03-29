@@ -39,8 +39,27 @@ export function OffersSection({ offers }: { offers: OfferWithDestination[] }) {
 
       {filteredOffers.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-          {filteredOffers.map((offer) => (
-            <PublicOfferCard key={offer.id} offer={offer} />
+          {filteredOffers.map((offer, i) => (
+            <span key={offer.id}>
+              <PublicOfferCard offer={offer} />
+              {/* Insert Check24 banner card after 6th offer */}
+              {i === 5 && (
+                <a
+                  href="https://a.check24.net/misc/click.php?pid=1168044&aid=258&deep=pauschalreisen-vergleich&cat=9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all flex items-center justify-center p-4"
+                >
+                  <img
+                    src="https://a.check24.net/misc/view.php?pid=1168044&aid=258&cat=9"
+                    width={300}
+                    height={250}
+                    alt="Check24 Pauschalreisen"
+                    className="rounded-xl max-w-full h-auto"
+                  />
+                </a>
+              )}
+            </span>
           ))}
         </div>
       ) : (

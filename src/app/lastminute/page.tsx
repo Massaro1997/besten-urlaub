@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Clock } from 'lucide-react'
+import { Check24Widget } from '@/components/public/check24-widget'
 
 export const metadata: Metadata = {
   title: 'Last Minute Angebote | Besten Urlaub',
@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 export default function LastMinutePage() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      {/* Top bar — same style as /angebot/[id] */}
       <div className="bg-white border-b border-[#0a1a3a]/10 px-4 sm:px-6 py-3 shrink-0">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -36,26 +35,14 @@ export default function LastMinutePage() {
         </div>
       </div>
 
-      {/* Check24 Widget */}
       <div className="flex-1 px-0 sm:px-5">
-        <div id="c24pp-package-iframe" data-offer="lastminute" data-scrollto="iframe" data-forward-url="no" style={{ width: '100%' }} />
-        <Script
-          src="https://files.check24.net/widgets/auto/1168044/c24pp-package-iframe/package-iframe.js"
-          strategy="afterInteractive"
-        />
+        <Check24Widget offer="lastminute" />
       </div>
 
-      {/* Affiliate disclosure */}
       <div className="border-t border-[#0a1a3a]/5 bg-[#f8f9fc] shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <p className="text-[10px] text-[#0a1a3a]/40 leading-relaxed">
-            <span className="font-semibold">CHECK24.net Partnerprogramm:</span>{' '}
-            Wir nehmen am CHECK24.net Partnerprogramm teil. Auf unseren Seiten werden iFrame-Buchungsmasken
-            und andere Werbemittel eingebunden, an denen wir über Transaktionen eine Werbekostenerstattung
-            erhalten können. Weitere Informationen:{' '}
-            <a href="https://www.check24.net" target="_blank" rel="noopener noreferrer" className="text-[#2e75fa] hover:underline">
-              CHECK24.net
-            </a>
+          <p className="text-[10px] text-[#0a1a3a]/40">
+            <span className="font-semibold">CHECK24.net Partnerprogramm</span> — Affiliate-Links. <a href="https://www.check24.net" target="_blank" rel="noopener noreferrer" className="text-[#2e75fa] hover:underline">Mehr Info</a>
           </p>
         </div>
       </div>
