@@ -1,5 +1,7 @@
-const TIKTOK_PIXEL_IDS = ['D74IPBRC77U2583OHQB0', 'D74KVVJC77U2583OHT0G']
-const TIKTOK_ACCESS_TOKEN = '2257b1d36d6fb21b6d3d9717621342c223e84918'
+const TIKTOK_PIXELS = [
+  { id: 'D74IPBRC77U2583OHQB0', token: '2257b1d36d6fb21b6d3d9717621342c223e84918' },
+  { id: 'D74KVVJC77U2583OHT0G', token: 'edbeb44e1aba3e2377bd25e914e1d94742a1dc1e' },
+]
 const TIKTOK_EVENTS_API = 'https://business-api.tiktok.com/open_api/v1.3/event/track/'
 
 interface TikTokEventParams {
@@ -43,25 +45,25 @@ export async function sendTikTokEvent(params: TikTokEventParams) {
       properties,
     }
 
-    // Send to all pixel IDs
+    // Send to all pixels with their own access tokens
     await Promise.all(
-      TIKTOK_PIXEL_IDS.map(async (pixelId) => {
+      TIKTOK_PIXELS.map(async (pixel) => {
         const body = {
           event_source: 'web',
-          event_source_id: pixelId,
+          event_source_id: pixel.id,
           data: [eventData],
         }
         const res = await fetch(TIKTOK_EVENTS_API, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Access-Token': TIKTOK_ACCESS_TOKEN,
+            'Access-Token': pixel.token,
           },
           body: JSON.stringify(body),
         })
         const result = await res.json()
         if (result.code !== 0) {
-          console.error(`TikTok Events API error (${pixelId}):`, result)
+          console.error(`TikTok Events API error (${pixel.id}):`, result)
         }
       }),
     )
