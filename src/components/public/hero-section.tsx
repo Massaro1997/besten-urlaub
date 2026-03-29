@@ -1,10 +1,67 @@
+'use client'
+
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { Search } from 'lucide-react'
+import Link from 'next/link'
+import { Search, MapPin } from 'lucide-react'
+
+interface Destination {
+  name: string
+  country: string
+  slug: string
+  category: string
+}
 
 export function HeroSection() {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState<Destination[]>([])
+  const [allDestinations, setAllDestinations] = useState<Destination[]>([])
+  const [showResults, setShowResults] = useState(false)
+  const wrapperRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    fetch('/api/destinazioni')
+      .then((r) => r.json())
+      .then((data) => {
+        setAllDestinations(
+          data.map((d: { name: string; country: string; slug: string; category: string }) => ({
+            name: d.name,
+            country: d.country,
+            slug: d.slug,
+            category: d.category,
+          })),
+        )
+      })
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults([])
+      return
+    }
+    const q = query.toLowerCase()
+    setResults(
+      allDestinations.filter(
+        (d) =>
+          d.name.toLowerCase().includes(q) ||
+          d.country.toLowerCase().includes(q),
+      ).slice(0, 6),
+    )
+  }, [query, allDestinations])
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setShowResults(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   return (
     <section className="relative overflow-hidden py-24 sm:py-32 lg:py-40">
-      {/* Background image */}
       <Image
         src="/santorini.png"
         alt="Urlaubsparadies"
@@ -13,8 +70,6 @@ export function HeroSection() {
         priority
         quality={90}
       />
-
-      {/* Dark overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/50 to-[#0a1a3a]/80" />
 
       <div className="relative max-w-5xl mx-auto px-4 text-center">
@@ -26,14 +81,39 @@ export function HeroSection() {
           Direkt f&uuml;r dich gefunden &mdash; spare bei deinem n&auml;chsten Urlaub
         </p>
 
-        {/* Decorative search bar */}
-        <div className="max-w-md mx-auto mt-8">
+        {/* Search bar */}
+        <div className="max-w-md mx-auto mt-8 relative" ref={wrapperRef}>
           <div className="flex items-center bg-white/95 backdrop-blur-sm rounded-full px-5 py-3.5 shadow-xl shadow-black/20">
             <Search className="w-5 h-5 text-[#0a1a3a]/40 shrink-0" />
-            <span className="ml-3 text-[#0a1a3a]/40 text-sm sm:text-base select-none">
-              Wohin soll es gehen?
-            </span>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onFocus={() => setShowResults(true)}
+              placeholder="Wohin soll es gehen?"
+              className="ml-3 flex-1 bg-transparent text-[#0a1a3a] text-sm sm:text-base outline-none placeholder:text-[#0a1a3a]/40"
+            />
           </div>
+
+          {/* Search results dropdown */}
+          {showResults && results.length > 0 && (
+            <div className="absolute top-full mt-2 w-full bg-white rounded-2xl shadow-2xl shadow-black/15 overflow-hidden z-50">
+              {results.map((dest) => (
+                <Link
+                  key={dest.slug}
+                  href={`/reiseziel/${dest.slug}`}
+                  onClick={() => { setShowResults(false); setQuery('') }}
+                  className="flex items-center gap-3 px-5 py-3.5 hover:bg-[#2e75fa]/5 transition-colors"
+                >
+                  <MapPin className="w-4 h-4 text-[#2e75fa] shrink-0" />
+                  <div className="text-left">
+                    <p className="text-sm font-medium text-[#0a1a3a]">{dest.name}</p>
+                    <p className="text-xs text-[#0a1a3a]/50">{dest.country}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
