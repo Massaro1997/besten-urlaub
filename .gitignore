@@ -48,3 +48,4 @@ scripts/
 .claude/
 
 .vercel
+.env*.local
