@@ -8,8 +8,8 @@ const TIKTOK_USERNAME = 'bestenurlaub'
 // Esempio: '7389234567890123456'
 // L'ID lo trovi nell'URL del video: tiktok.com/@bestenurlaub/video/7389234567890123456
 const TIKTOK_VIDEOS: string[] = [
-  // '7389234567890123456',
-  // '7389234567890123457',
+  '7622735656665533728',
+  '7622739776348704032',
 ]
 
 function TikTokIcon({ className }: { className?: string }) {
