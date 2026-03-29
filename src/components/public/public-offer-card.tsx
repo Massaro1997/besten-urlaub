@@ -1,15 +1,11 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { formatPrice } from '@/lib/utils'
 import { CATEGORY_DE_MAP } from '@/lib/public-constants'
-
-declare global {
-  interface Window {
-    ttq?: { track: (event: string, params?: Record<string, unknown>) => void }
-  }
-}
+import { trackViewContent, trackClickButton, trackCompletePayment } from '@/lib/tiktok-pixel'
 
 const CATEGORY_IMAGES: Record<string, string> = {
   mare: '/maldives.png',
@@ -35,11 +31,31 @@ interface PublicOffer {
 }
 
 export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const tracked = useRef(false)
   const categoryLabel = CATEGORY_DE_MAP[offer.destination.category]
   const image = CATEGORY_IMAGES[offer.destination.category] || '/maldives.png'
 
+  // ViewContent — when card scrolls into view
+  useEffect(() => {
+    const el = cardRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !tracked.current) {
+          tracked.current = true
+          trackViewContent(offer)
+        }
+      },
+      { threshold: 0.5 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [offer])
+
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 group">
+    <div ref={cardRef} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 group">
       {/* Image header */}
       <div className="relative h-40 sm:h-44 overflow-hidden">
         <Image
@@ -51,14 +67,12 @@ export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
-        {/* Category badge */}
         {categoryLabel && (
           <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 text-xs font-semibold text-[#0a1a3a]">
             {categoryLabel}
           </span>
         )}
 
-        {/* Destination name on image */}
         <div className="absolute bottom-3 left-3">
           <p className="text-white font-semibold text-sm drop-shadow">
             {offer.destination.name}, {offer.destination.country}
@@ -68,19 +82,16 @@ export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
 
       {/* Body */}
       <div className="p-4">
-        {/* Title */}
         <h3 className="text-base font-semibold text-[#0a1a3a] line-clamp-2">
           {offer.title}
         </h3>
 
-        {/* Description */}
         {offer.description && (
           <p className="text-sm text-[#0a1a3a]/60 line-clamp-2 mt-1.5">
             {offer.description}
           </p>
         )}
 
-        {/* Bottom: price + CTA */}
         <div className="flex justify-between items-center mt-4 pt-3 border-t border-[#0a1a3a]/8">
           {offer.priceFrom ? (
             <div>
@@ -96,15 +107,8 @@ export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
           <Link
             href={`/angebot/${offer.id}`}
             onClick={() => {
-              if (typeof window !== 'undefined' && window.ttq) {
-                window.ttq.track('CompletePayment', {
-                  content_id: offer.id,
-                  content_name: offer.title,
-                  content_type: 'product',
-                  value: offer.priceFrom || 0,
-                  currency: 'EUR',
-                })
-              }
+              trackClickButton(offer)
+              trackCompletePayment(offer)
             }}
             className="bg-[#ff6b35] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#e55a2b] active:scale-95 transition-all inline-block shadow-sm shadow-[#ff6b35]/25"
           >
