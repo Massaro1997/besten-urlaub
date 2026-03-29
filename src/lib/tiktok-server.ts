@@ -35,13 +35,18 @@ export async function sendTikTokEvent(params: TikTokEventParams) {
     if (params.ip) context.ip = params.ip
     if (params.userAgent) context.user_agent = params.userAgent
 
-    const body = {
-      pixel_code: TIKTOK_PIXEL_ID,
+    const eventData = {
       event: params.event,
       event_id: params.eventId,
-      timestamp: new Date().toISOString(),
+      event_time: Math.floor(Date.now() / 1000),
       context,
       properties,
+    }
+
+    const body = {
+      event_source: 'web',
+      event_source_id: TIKTOK_PIXEL_ID,
+      data: [eventData],
     }
 
     const res = await fetch(TIKTOK_EVENTS_API, {
@@ -50,11 +55,12 @@ export async function sendTikTokEvent(params: TikTokEventParams) {
         'Content-Type': 'application/json',
         'Access-Token': TIKTOK_ACCESS_TOKEN,
       },
-      body: JSON.stringify({ data: [body] }),
+      body: JSON.stringify(body),
     })
 
-    if (!res.ok) {
-      console.error('TikTok Events API error:', res.status, await res.text())
+    const result = await res.json()
+    if (result.code !== 0) {
+      console.error('TikTok Events API error:', result)
     }
   } catch (error) {
     console.error('TikTok Events API failed:', error)
