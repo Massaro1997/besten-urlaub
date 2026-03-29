@@ -73,12 +73,13 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/50 to-[#0a1a3a]/80" />
 
       <div className="relative max-w-5xl mx-auto px-4 text-center">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight drop-shadow-lg">
-          Die besten Urlaubsangebote
+        <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white/60 font-medium mb-4">Dein Urlaub. Dein Preis. Dein Moment.</p>
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight drop-shadow-lg leading-[1.1]">
+          Traumurlaub<br className="hidden sm:block" /> zum besten Preis.
         </h1>
 
-        <p className="text-base sm:text-lg text-white/80 mt-4 max-w-2xl mx-auto drop-shadow">
-          Direkt f&uuml;r dich gefunden &mdash; spare bei deinem n&auml;chsten Urlaub
+        <p className="text-base sm:text-lg text-white/70 mt-5 max-w-xl mx-auto drop-shadow leading-relaxed">
+          Wir finden die Deals, die andere &uuml;bersehen.<br className="hidden sm:block" /> Vergleiche. Buche. Flieg.
         </p>
 
         {/* Search bar */}

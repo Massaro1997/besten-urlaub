@@ -52,7 +52,7 @@ export function TikTokFeed() {
               <TikTokIcon className="w-[18px] h-[18px] text-white" />
             </div>
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-[#0a1a3a]">Unsere Videos</h2>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight">Schon gesehen?</h2>
               <p className="text-xs text-[#0a1a3a]/50">@{TIKTOK_USERNAME}</p>
             </div>
           </div>
@@ -67,14 +67,14 @@ export function TikTokFeed() {
           </a>
         </div>
 
-        {/* Video cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+        {/* Video cards — horizontal scroll */}
+        <div className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4">
           {TIKTOK_VIDEOS.map((video) => (
             <button
               key={video.id}
               type="button"
               onClick={() => setActiveVideo(video.id)}
-              className="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer text-left"
+              className="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer text-left shrink-0 w-[45%] sm:w-[30%] lg:w-[22%] snap-start"
             >
               <Image
                 src={video.cover}
@@ -110,7 +110,7 @@ export function TikTokFeed() {
             href={`https://www.tiktok.com/@${TIKTOK_USERNAME}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-gradient-to-br from-[#0a1a3a] to-[#2e75fa] flex flex-col items-center justify-center gap-3 group"
+            className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-gradient-to-br from-[#0a1a3a] to-[#2e75fa] flex flex-col items-center justify-center gap-3 group shrink-0 w-[45%] sm:w-[30%] lg:w-[22%] snap-start"
           >
             <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/15 group-hover:scale-110 transition-all">
               <TikTokIcon className="w-7 h-7 text-white" />

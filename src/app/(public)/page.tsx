@@ -9,6 +9,7 @@ import { OffersSection } from '@/components/public/offers-section'
 import { DestinationGrid } from '@/components/public/destination-grid'
 import { CtaSection } from '@/components/public/cta-section'
 import { TikTokFeed } from '@/components/public/tiktok-feed'
+import { RatgeberCarousel } from '@/components/public/ratgeber-carousel'
 
 export default async function HomePage() {
   const [offers, popularDestinations] = await Promise.all([
@@ -28,9 +29,9 @@ export default async function HomePage() {
       take: 24,
     }),
     prisma.destination.findMany({
-      where: { slug: { not: null } },
+      where: { slug: { not: null }, offers: { some: {} } },
       include: { _count: { select: { offers: true } } },
-      orderBy: { popularity: 'desc' },
+      orderBy: { offers: { _count: 'desc' } },
       take: 8,
     }),
   ])
@@ -118,12 +119,12 @@ export default async function HomePage() {
       </section>
 
       {/* Aktuelle Angebote */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <h2 className="text-2xl font-bold text-[#0a1a3a]">
-          Aktuelle Angebote
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight">
+          Deals, die nicht lange bleiben.
         </h2>
-        <p className="text-sm text-[#0a1a3a]/60 mt-1">
-          Unsere neuesten Urlaubsschn&auml;ppchen
+        <p className="text-sm text-[#0a1a3a]/50 mt-2 max-w-lg">
+          Handverlesen, preisgepr&uuml;ft, sofort buchbar. Greif zu, bevor es andere tun.
         </p>
 
         <div className="mt-6">
@@ -135,6 +136,9 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <DestinationGrid destinations={typedDestinations} />
       </section>
+
+      {/* Reise-Ratgeber */}
+      <RatgeberCarousel />
 
       {/* TikTok Feed */}
       <TikTokFeed />

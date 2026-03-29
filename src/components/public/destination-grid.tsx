@@ -42,11 +42,11 @@ interface DestinationItem {
 export function DestinationGrid({ destinations }: { destinations: DestinationItem[] }) {
   return (
     <section id="reiseziele">
-      <h2 className="text-2xl font-bold text-[#0a1a3a]">
-        Beliebte Reiseziele
+      <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight">
+        Wohin soll es gehen?
       </h2>
-      <p className="text-sm text-[#0a1a3a]/60 mt-1">
-        Entdecke unsere Top-Destinationen
+      <p className="text-sm text-[#0a1a3a]/50 mt-2">
+        Die Destinationen, die gerade alle wollen.
       </p>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">

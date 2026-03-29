@@ -17,13 +17,13 @@ export function CtaSection() {
       </div>
 
       <div className="relative max-w-3xl mx-auto px-4 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg">
-          Verpasse kein Angebot
+        <p className="text-xs uppercase tracking-[0.2em] text-white/40 font-medium mb-3">Immer einen Schritt voraus</p>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-white drop-shadow-lg tracking-tight">
+          Die besten Deals?<br />Bekommst du zuerst.
         </h2>
 
-        <p className="text-white/80 mt-4 text-base sm:text-lg max-w-xl mx-auto">
-          Folge uns auf TikTok und Instagram f&uuml;r t&auml;gliche
-          Urlaubsschn&auml;ppchen und exklusive Reise-Deals
+        <p className="text-white/60 mt-4 text-base sm:text-lg max-w-md mx-auto leading-relaxed">
+          Folge uns &mdash; und buche, w&auml;hrend andere noch scrollen.
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 mt-10">
