@@ -1,7 +1,15 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { formatPrice } from '@/lib/utils'
 import { CATEGORY_DE_MAP } from '@/lib/public-constants'
+
+declare global {
+  interface Window {
+    ttq?: { track: (event: string, params?: Record<string, unknown>) => void }
+  }
+}
 
 const CATEGORY_IMAGES: Record<string, string> = {
   mare: '/maldives.png',
@@ -87,6 +95,17 @@ export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
 
           <Link
             href={`/angebot/${offer.id}`}
+            onClick={() => {
+              if (typeof window !== 'undefined' && window.ttq) {
+                window.ttq.track('CompletePayment', {
+                  content_id: offer.id,
+                  content_name: offer.title,
+                  content_type: 'product',
+                  value: offer.priceFrom || 0,
+                  currency: 'EUR',
+                })
+              }
+            }}
             className="bg-[#ff6b35] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#e55a2b] active:scale-95 transition-all inline-block shadow-sm shadow-[#ff6b35]/25"
           >
             Zum Angebot

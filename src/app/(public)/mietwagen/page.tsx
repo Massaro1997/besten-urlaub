@@ -36,8 +36,8 @@ export default function MietwagenPage() {
         </div>
       </div>
 
-      {/* Check24 Widget — full width, no padding */}
-      <div className="flex-1">
+      {/* Check24 Widget */}
+      <div className="flex-1 px-0 sm:px-5">
         <div id="c24pp-rentalcar-iframe" data-scrollto="iframe" style={{ width: '100%' }} />
         <Script
           src="https://files.check24.net/widgets/auto/1168044/c24pp-rentalcar-iframe/rentalcar-iframe.js"

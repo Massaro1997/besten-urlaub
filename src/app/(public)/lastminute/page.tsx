@@ -36,8 +36,8 @@ export default function LastMinutePage() {
         </div>
       </div>
 
-      {/* Check24 Widget — full width, no padding */}
-      <div className="flex-1">
+      {/* Check24 Widget */}
+      <div className="flex-1 px-0 sm:px-5">
         <div id="c24pp-package-iframe" data-offer="lastminute" data-scrollto="iframe" data-forward-url="no" style={{ width: '100%' }} />
         <Script
           src="https://files.check24.net/widgets/auto/1168044/c24pp-package-iframe/package-iframe.js"
