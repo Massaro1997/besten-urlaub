@@ -6,9 +6,11 @@ import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
 
 const navLinks = [
+  { label: 'Pauschalreisen', href: '/pauschalreisen' },
   { label: 'Last Minute', href: '/lastminute' },
+  { label: 'All Inclusive', href: '/all-inclusive' },
+  { label: 'Frühbucher', href: '/fruehbucher' },
   { label: 'Mietwagen', href: '/mietwagen' },
-  { label: 'Reiseziele', href: '/#reiseziele' },
 ]
 
 export function PublicHeader() {
