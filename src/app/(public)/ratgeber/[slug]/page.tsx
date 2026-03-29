@@ -131,45 +131,44 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* ---- Article Body ---- */}
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        {article.sections.map((section, idx) => (
-          <div key={idx}>
-            {/* Section */}
-            <section className="mb-10">
-              <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight mb-4">
-                {section.title}
-              </h2>
-              <p className="text-[#0a1a3a] text-base leading-relaxed">
-                {section.content}
-              </p>
-            </section>
-
-            {/* Check24 banner after the configured section index */}
-            {idx === bannerAfterIndex && (
-              <div className="flex justify-center my-10">
-                <div className="bg-white rounded-2xl shadow-sm border border-[#0a1a3a]/8 p-4 inline-block">
-                  <p className="text-[10px] text-[#0a1a3a]/30 uppercase tracking-wider mb-2 text-center">
-                    Anzeige
+      {/* ---- Article Body with Sidebar ---- */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="flex gap-8 lg:gap-12">
+          {/* Main content */}
+          <article className="flex-1 max-w-3xl">
+            {article.sections.map((section, idx) => (
+              <div key={idx}>
+                <section className="mb-10">
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight mb-4">
+                    {section.title}
+                  </h2>
+                  <p className="text-[#0a1a3a] text-base leading-relaxed">
+                    {section.content}
                   </p>
-                  <a
-                    href="https://a.check24.net/misc/click.php?pid=1168044&aid=258&deep=pauschalreisen-vergleich&cat=9"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src="https://a.check24.net/misc/view.php?pid=1168044&aid=258&cat=9"
-                      width={300}
-                      height={250}
-                      alt="Pauschalreisen vergleichen auf Check24"
-                      className="rounded-lg"
-                    />
-                  </a>
-                </div>
+                </section>
+
+                {/* Horizontal banner between sections — mobile + tablet */}
+                {idx === 1 && (
+                  <div className="lg:hidden my-8">
+                    <p className="text-[9px] text-[#0a1a3a]/25 uppercase tracking-wider mb-1.5">Anzeige</p>
+                    <a
+                      href="https://a.check24.net/misc/click.php?pid=1168044&aid=256&deep=pauschalreisen-vergleich&cat=9"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <img
+                        src="https://a.check24.net/misc/view.php?pid=1168044&aid=256&cat=9"
+                        width={728}
+                        height={90}
+                        alt="Check24 Pauschalreisen"
+                        className="w-full rounded-lg"
+                      />
+                    </a>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        ))}
+            ))}
 
         {/* ---- Tips Box ---- */}
         <div className="bg-[#2e75fa]/5 border border-[#2e75fa]/10 rounded-2xl p-6 sm:p-8 my-10">
@@ -191,11 +190,9 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
           </ul>
         </div>
 
-        {/* ---- Offer CTA ---- */}
+        {/* Offer CTA */}
         <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden my-12">
-          {/* Gradient top border */}
           <div className="h-1 bg-gradient-to-r from-[#ff6b35] via-[#ff6b35] to-[#2e75fa]" />
-
           <div className="p-6 sm:p-8">
             <p className="text-xs text-[#0a1a3a]/40 uppercase tracking-wider font-medium mb-1">
               Unser Deal f&uuml;r dich
@@ -205,29 +202,61 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
               <span className="text-[#2e75fa] ml-2">{article.offerPrice}</span>
             </h3>
             <p className="text-sm text-[#0a1a3a]/50 mt-2 mb-5">
-              Flug + Hotel, gepr&uuml;ft und handverlesen. Greif zu, bevor es andere tun.
+              Flug + Hotel. Gepr&uuml;ft. Handverlesen. Greif zu, bevor es andere tun.
             </p>
-
             <Link
               href={article.offerLink}
               className="inline-flex items-center gap-2 bg-[#ff6b35] text-white px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base hover:bg-[#e55a2b] active:scale-95 transition-all shadow-md shadow-[#ff6b35]/20"
             >
               Zum Angebot
-              <svg
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
-                  clipRule="evenodd"
-                />
+              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
               </svg>
             </Link>
           </div>
         </div>
+
+        {/* Horizontal banner at bottom of article */}
+        <div className="my-8">
+          <p className="text-[9px] text-[#0a1a3a]/25 uppercase tracking-wider mb-1.5">Anzeige</p>
+          <a
+            href="https://a.check24.net/misc/click.php?pid=1168044&aid=257&deep=pauschalreisen-vergleich&cat=9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block"
+          >
+            <img
+              src="https://a.check24.net/misc/view.php?pid=1168044&aid=257&cat=9"
+              width={468}
+              height={60}
+              alt="Check24"
+              className="w-full max-w-md rounded-lg"
+            />
+          </a>
+        </div>
       </article>
+
+          {/* Sidebar with vertical banner */}
+          <aside className="hidden lg:block w-[180px] shrink-0 pt-4">
+            <div className="sticky top-20">
+              <p className="text-[9px] text-[#0a1a3a]/25 uppercase tracking-wider mb-1.5">Anzeige</p>
+              <a
+                href="https://a.check24.net/misc/click.php?pid=1168044&aid=260&deep=pauschalreisen-vergleich&cat=9"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="https://a.check24.net/misc/view.php?pid=1168044&aid=260&cat=9"
+                  width={160}
+                  height={600}
+                  alt="Check24 Pauschalreisen"
+                  className="rounded-lg"
+                />
+              </a>
+            </div>
+          </aside>
+        </div>
+      </div>
 
       {/* ---- Related Articles ---- */}
       <section className="bg-white py-12 sm:py-16">

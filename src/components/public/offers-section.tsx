@@ -51,7 +51,7 @@ export function OffersSection({ offers }: { offers: OfferWithDestination[] }) {
               rel="noopener noreferrer"
               className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col"
             >
-              <div className="h-40 sm:h-44 bg-gradient-to-br from-[#003c78] to-[#0071c7] flex items-center justify-center p-6">
+              <div className="h-48 sm:h-56 bg-gradient-to-br from-[#003c78] to-[#0071c7] flex items-center justify-center p-4">
                 <img
                   src="https://a.check24.net/misc/view.php?pid=1168044&aid=258&cat=9"
                   width={300}
