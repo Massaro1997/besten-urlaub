@@ -18,6 +18,7 @@ const navItems = [
   { href: '/dashboard', label: 'Panoramica', icon: LayoutDashboard },
   { href: '/destinazioni', label: 'Destinazioni', icon: MapPin },
   { href: '/offerte', label: 'Offerte', icon: Tag },
+  { href: '/offerte/suggerimenti', label: 'AI Suggerimenti', icon: MapPin },
   { href: '/contenuti', label: 'Contenuti TikTok', icon: Video },
   { href: '/creativi', label: 'Creativi', icon: Palette },
   { href: '/impostazioni', label: 'Impostazioni', icon: Settings },
