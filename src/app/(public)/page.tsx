@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { Plane, Car, Clock } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 import { HeroSection } from '@/components/public/hero-section'
 import { OffersSection } from '@/components/public/offers-section'
@@ -60,6 +62,36 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
+
+      {/* Quick Links */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Link
+            href="/lastminute"
+            className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all flex items-center gap-4 group"
+          >
+            <div className="w-12 h-12 rounded-xl bg-[#ff6b35]/10 flex items-center justify-center shrink-0">
+              <Clock className="w-6 h-6 text-[#ff6b35]" />
+            </div>
+            <div>
+              <p className="font-semibold text-[#0a1a3a] group-hover:text-[#2e75fa] transition-colors">Last Minute Angebote</p>
+              <p className="text-xs text-[#0a1a3a]/50 mt-0.5">Pauschalreisen vergleichen und sparen</p>
+            </div>
+          </Link>
+          <Link
+            href="/mietwagen"
+            className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all flex items-center gap-4 group"
+          >
+            <div className="w-12 h-12 rounded-xl bg-[#2e75fa]/10 flex items-center justify-center shrink-0">
+              <Car className="w-6 h-6 text-[#2e75fa]" />
+            </div>
+            <div>
+              <p className="font-semibold text-[#0a1a3a] group-hover:text-[#2e75fa] transition-colors">Mietwagen vergleichen</p>
+              <p className="text-xs text-[#0a1a3a]/50 mt-0.5">Weltweit den besten Preis finden</p>
+            </div>
+          </Link>
+        </div>
+      </section>
 
       {/* Aktuelle Angebote */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">

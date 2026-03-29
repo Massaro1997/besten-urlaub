@@ -6,8 +6,9 @@ import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
 
 const navLinks = [
+  { label: 'Last Minute', href: '/lastminute' },
+  { label: 'Mietwagen', href: '/mietwagen' },
   { label: 'Reiseziele', href: '/#reiseziele' },
-  { label: 'Ueber uns', href: '/ueber-uns' },
 ]
 
 export function PublicHeader() {
