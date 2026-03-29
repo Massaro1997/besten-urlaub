@@ -127,3 +127,25 @@ a, button, input, select, textarea {
 .dark .status-ripresa { background: #ffd60a1a; color: #ffd60a; }
 .dark .status-montaggio { background: #bf5af21a; color: #bf5af2; }
 .dark .status-pubblicato { background: #30d1581a; color: #30d158; }
+
+/* Parallax effect */
+.parallax-bg {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .parallax-bg {
+    background-attachment: scroll;
+  }
+}
+
+/* Hide scrollbar for category tabs */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

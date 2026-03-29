@@ -4,6 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Besten Urlaub — Die besten Urlaubsangebote",
   description: "Finde die besten Reiseangebote und Urlaubsschnäppchen. Direkt für dich gefunden.",
+  icons: {
+    icon: '/symbol.svg',
+    apple: '/symbol.svg',
+  },
 };
 
 export default function RootLayout({
