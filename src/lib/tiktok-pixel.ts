@@ -29,31 +29,63 @@ function buildContents(offer: OfferData) {
   }
 }
 
-// Step 1: User sees the offer card (scroll into view)
+function generateEventId() {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+}
+
+// Send event both client-side (pixel) and server-side (API)
+function trackEvent(event: string, offer: OfferData) {
+  const eventId = generateEventId()
+
+  // Client-side pixel
+  getTtq()?.track(event, { ...buildContents(offer), event_id: eventId })
+
+  // Server-side via our API (fire and forget)
+  if (typeof window !== 'undefined') {
+    fetch('/api/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event,
+        eventId,
+        contentId: offer.id,
+        contentName: offer.title,
+        value: offer.priceFrom || 0,
+        currency: 'EUR',
+        url: window.location.href,
+      }),
+    }).catch(() => {})
+  }
+}
+
 export function trackViewContent(offer: OfferData) {
-  getTtq()?.track('ViewContent', buildContents(offer))
+  trackEvent('ViewContent', offer)
 }
 
-// Step 2: User clicks "Zum Angebot"
 export function trackClickButton(offer: OfferData) {
-  getTtq()?.track('ClickButton', buildContents(offer))
+  trackEvent('ClickButton', offer)
 }
 
-// Step 3: User adds to cart (= clicks to see the offer detail)
 export function trackAddToCart(offer: OfferData) {
-  getTtq()?.track('AddToCart', buildContents(offer))
+  trackEvent('AddToCart', offer)
 }
 
-// Step 4: User initiates checkout (= lands on /angebot/[id] page with Check24 iframe)
 export function trackInitiateCheckout(offer: OfferData) {
-  getTtq()?.track('InitiateCheckout', buildContents(offer))
+  trackEvent('InitiateCheckout', offer)
 }
 
-// Step 5: User completes payment (= opens Check24 in new tab or interacts with iframe)
 export function trackCompletePayment(offer: OfferData) {
-  getTtq()?.track('CompletePayment', buildContents(offer))
+  trackEvent('CompletePayment', offer)
 }
 
 export function trackSearch(query: string) {
-  getTtq()?.track('Search', { search_string: query })
+  const eventId = generateEventId()
+  getTtq()?.track('Search', { search_string: query, event_id: eventId })
+  if (typeof window !== 'undefined') {
+    fetch('/api/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event: 'Search', eventId, url: window.location.href }),
+    }).catch(() => {})
+  }
 }

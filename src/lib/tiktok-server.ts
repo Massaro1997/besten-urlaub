@@ -1,0 +1,62 @@
+const TIKTOK_PIXEL_ID = 'D74IPBRC77U2583OHQB0'
+const TIKTOK_ACCESS_TOKEN = '2257b1d36d6fb21b6d3d9717621342c223e84918'
+const TIKTOK_EVENTS_API = 'https://business-api.tiktok.com/open_api/v1.3/event/track/'
+
+interface TikTokEventParams {
+  event: string
+  eventId: string
+  url: string
+  contentId?: string
+  contentName?: string
+  value?: number
+  currency?: string
+  ip?: string
+  userAgent?: string
+}
+
+export async function sendTikTokEvent(params: TikTokEventParams) {
+  try {
+    const properties: Record<string, unknown> = {}
+    if (params.contentId) {
+      properties.contents = [
+        {
+          content_id: params.contentId,
+          content_type: 'product',
+          content_name: params.contentName || '',
+        },
+      ]
+    }
+    if (params.value) properties.value = params.value
+    if (params.currency) properties.currency = params.currency
+
+    const context: Record<string, unknown> = {
+      page: { url: params.url },
+    }
+    if (params.ip) context.ip = params.ip
+    if (params.userAgent) context.user_agent = params.userAgent
+
+    const body = {
+      pixel_code: TIKTOK_PIXEL_ID,
+      event: params.event,
+      event_id: params.eventId,
+      timestamp: new Date().toISOString(),
+      context,
+      properties,
+    }
+
+    const res = await fetch(TIKTOK_EVENTS_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Token': TIKTOK_ACCESS_TOKEN,
+      },
+      body: JSON.stringify({ data: [body] }),
+    })
+
+    if (!res.ok) {
+      console.error('TikTok Events API error:', res.status, await res.text())
+    }
+  } catch (error) {
+    console.error('TikTok Events API failed:', error)
+  }
+}
