@@ -1,6 +1,21 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
+const DESTINATION_IMAGES: Record<string, string> = {
+  mallorca: '/destinations/mallorca.png',
+  antalya: '/destinations/antalya.png',
+  creta: '/destinations/creta.png',
+  hurghada: '/destinations/hurghada.png',
+  'sharm-el-sheikh': '/destinations/sharm-el-sheikh.png',
+  sardegna: '/destinations/sardegna.png',
+  sicilia: '/destinations/sicilia.png',
+  canarie: '/destinations/canarie.png',
+  mauritius: '/destinations/mauritius.png',
+  thailandia: '/destinations/thailandia.png',
+  istanbul: '/destinations/istanbul.png',
+  marbella: '/destinations/marbella.png',
+}
+
 const CATEGORY_IMAGES: Record<string, string> = {
   mare: '/maldives.png',
   montagna: '/alps.png',
@@ -32,7 +47,7 @@ export function DestinationGrid({ destinations }: { destinations: DestinationIte
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         {destinations.map((dest) => {
-          const image = CATEGORY_IMAGES[dest.category] || '/maldives.png'
+          const image = DESTINATION_IMAGES[dest.slug] || CATEGORY_IMAGES[dest.category] || '/maldives.png'
 
           return (
             <Link

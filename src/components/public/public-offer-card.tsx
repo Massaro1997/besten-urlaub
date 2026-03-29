@@ -7,6 +7,21 @@ import { formatPrice } from '@/lib/utils'
 import { CATEGORY_DE_MAP } from '@/lib/public-constants'
 import { trackViewContent, trackClickButton, trackAddToCart } from '@/lib/tiktok-pixel'
 
+const DESTINATION_IMAGES: Record<string, string> = {
+  mallorca: '/destinations/mallorca.png',
+  antalya: '/destinations/antalya.png',
+  creta: '/destinations/creta.png',
+  hurghada: '/destinations/hurghada.png',
+  'sharm-el-sheikh': '/destinations/sharm-el-sheikh.png',
+  sardegna: '/destinations/sardegna.png',
+  sicilia: '/destinations/sicilia.png',
+  canarie: '/destinations/canarie.png',
+  mauritius: '/destinations/mauritius.png',
+  thailandia: '/destinations/thailandia.png',
+  istanbul: '/destinations/istanbul.png',
+  marbella: '/destinations/marbella.png',
+}
+
 const CATEGORY_IMAGES: Record<string, string> = {
   mare: '/maldives.png',
   montagna: '/alps.png',
@@ -34,7 +49,7 @@ export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const tracked = useRef(false)
   const categoryLabel = CATEGORY_DE_MAP[offer.destination.category]
-  const image = CATEGORY_IMAGES[offer.destination.category] || '/maldives.png'
+  const image = DESTINATION_IMAGES[offer.destination.slug] || CATEGORY_IMAGES[offer.destination.category] || '/maldives.png'
 
   // ViewContent — when card scrolls into view
   useEffect(() => {

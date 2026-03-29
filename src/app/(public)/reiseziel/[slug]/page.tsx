@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ChevronRight } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 import { PublicOfferCard } from '@/components/public/public-offer-card'
-import { CATEGORY_DE_MAP, CATEGORY_GRADIENTS } from '@/lib/public-constants'
+import { CATEGORY_DE_MAP } from '@/lib/public-constants'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -57,9 +58,8 @@ export default async function DestinationPage({ params }: PageProps) {
     notFound()
   }
 
-  const gradient =
-    CATEGORY_GRADIENTS[destination.category] || 'from-gray-500 to-gray-400'
   const categoryLabel = CATEGORY_DE_MAP[destination.category]
+  const heroImage = `/destinations/${destination.slug}.png`
 
   // Shape each offer to match what PublicOfferCard expects
   const offersForCards = destination.offers.map((offer) => ({
@@ -108,10 +108,18 @@ export default async function DestinationPage({ params }: PageProps) {
       </nav>
 
       {/* ---- Hero banner ---- */}
-      <section
-        className={`bg-gradient-to-br ${gradient} py-14 sm:py-20 px-4`}
-      >
-        <div className="max-w-5xl mx-auto text-center">
+      <section className="relative py-20 sm:py-28 px-4 overflow-hidden">
+        <Image
+          src={heroImage}
+          alt={destination.name}
+          fill
+          className="object-cover"
+          priority
+          quality={85}
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/60 via-[#0a1a3a]/40 to-[#0a1a3a]/70" />
+        <div className="relative max-w-5xl mx-auto text-center">
           {categoryLabel && (
             <span className="inline-block bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-white mb-4">
               {categoryLabel}

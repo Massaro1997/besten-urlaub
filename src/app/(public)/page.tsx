@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Plane, Car, Clock } from 'lucide-react'
+import Image from 'next/image'
+import { Car, Clock } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 import { HeroSection } from '@/components/public/hero-section'
 import { OffersSection } from '@/components/public/offers-section'
@@ -68,26 +69,34 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Link
             href="/lastminute"
-            className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all flex items-center gap-4 group"
+            className="relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all group h-40 sm:h-48 flex items-end"
           >
-            <div className="w-12 h-12 rounded-xl bg-[#ff6b35]/10 flex items-center justify-center shrink-0">
-              <Clock className="w-6 h-6 text-[#ff6b35]" />
-            </div>
-            <div>
-              <p className="font-semibold text-[#0a1a3a] group-hover:text-[#2e75fa] transition-colors">Last Minute Angebote</p>
-              <p className="text-xs text-[#0a1a3a]/50 mt-0.5">Pauschalreisen vergleichen und sparen</p>
+            <Image src="/destinations/lastminute.png" alt="Last Minute" fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="relative p-5 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#ff6b35] flex items-center justify-center shrink-0">
+                <Clock className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <p className="font-semibold text-white text-lg">Last Minute Angebote</p>
+                <p className="text-xs text-white/70">Pauschalreisen vergleichen und sparen</p>
+              </div>
             </div>
           </Link>
           <Link
             href="/mietwagen"
-            className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all flex items-center gap-4 group"
+            className="relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all group h-40 sm:h-48 flex items-end"
           >
-            <div className="w-12 h-12 rounded-xl bg-[#2e75fa]/10 flex items-center justify-center shrink-0">
-              <Car className="w-6 h-6 text-[#2e75fa]" />
-            </div>
-            <div>
-              <p className="font-semibold text-[#0a1a3a] group-hover:text-[#2e75fa] transition-colors">Mietwagen vergleichen</p>
-              <p className="text-xs text-[#0a1a3a]/50 mt-0.5">Weltweit den besten Preis finden</p>
+            <Image src="/destinations/mietwagen.png" alt="Mietwagen" fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="relative p-5 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#2e75fa] flex items-center justify-center shrink-0">
+                <Car className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <p className="font-semibold text-white text-lg">Mietwagen vergleichen</p>
+                <p className="text-xs text-white/70">Weltweit den besten Preis finden</p>
+              </div>
             </div>
           </Link>
         </div>
