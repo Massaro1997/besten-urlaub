@@ -10,47 +10,44 @@ export const metadata: Metadata = {
 
 export default function MietwagenPage() {
   return (
-    <div className="min-h-screen bg-[#f8f9fc]">
-      {/* Header */}
-      <section className="bg-gradient-to-r from-[#0a1a3a] to-[#2e75fa] py-12 sm:py-16">
+    <div className="min-h-screen bg-white">
+      {/* Compact header */}
+      <div className="bg-gradient-to-r from-[#0a1a3a] to-[#2e75fa] py-6 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-white/60 hover:text-white text-sm mb-4 transition-colors">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-white/60 hover:text-white text-sm mb-3 transition-colors">
             <ArrowLeft className="w-4 h-4" />
             Startseite
           </Link>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white">
             Mietwagen vergleichen
           </h1>
-          <p className="text-white/70 mt-2 max-w-2xl">
-            Finde den günstigsten Mietwagen für deinen Urlaub. Weltweit vergleichen und direkt buchen.
+          <p className="text-white/70 mt-1 text-sm sm:text-base">
+            Weltweit den besten Preis finden und direkt buchen
           </p>
         </div>
-      </section>
+      </div>
 
-      {/* Check24 Widget */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div id="c24pp-rentalcar-iframe" data-scrollto="iframe" style={{ width: '100%' }} />
-        <Script
-          src="https://files.check24.net/widgets/auto/1168044/c24pp-rentalcar-iframe/rentalcar-iframe.js"
-          strategy="afterInteractive"
-        />
-      </section>
+      {/* Check24 Widget — directly integrated, no gaps */}
+      <div id="c24pp-rentalcar-iframe" data-scrollto="iframe" style={{ width: '100%' }} />
+      <Script
+        src="https://files.check24.net/widgets/auto/1168044/c24pp-rentalcar-iframe/rentalcar-iframe.js"
+        strategy="afterInteractive"
+      />
 
       {/* Affiliate disclosure */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
-        <div className="bg-white rounded-2xl p-6 border border-[#0a1a3a]/5">
-          <h3 className="text-sm font-semibold text-[#0a1a3a] mb-2">CHECK24.net Partnerprogramm</h3>
-          <p className="text-xs text-[#0a1a3a]/50 leading-relaxed">
+      <div className="border-t border-[#0a1a3a]/5 bg-[#f8f9fc]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+          <p className="text-[10px] text-[#0a1a3a]/40 leading-relaxed">
+            <span className="font-semibold">CHECK24.net Partnerprogramm:</span>{' '}
             Wir nehmen am CHECK24.net Partnerprogramm teil. Auf unseren Seiten werden iFrame-Buchungsmasken
-            und andere Werbemittel eingebunden, an denen wir über Transaktionen, zum Beispiel durch Leads
-            und Sales, eine Werbekostenerstattung erhalten können. Weitere Informationen zur Datennutzung
-            durch CHECK24.net erhalten Sie in der Datenschutzerklärung von{' '}
+            und andere Werbemittel eingebunden, an denen wir über Transaktionen eine Werbekostenerstattung
+            erhalten können. Weitere Informationen:{' '}
             <a href="https://www.check24.net" target="_blank" rel="noopener noreferrer" className="text-[#2e75fa] hover:underline">
               CHECK24.net
-            </a>.
+            </a>
           </p>
         </div>
-      </section>
+      </div>
     </div>
   )
 }
