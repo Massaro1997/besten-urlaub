@@ -39,27 +39,42 @@ export function OffersSection({ offers }: { offers: OfferWithDestination[] }) {
 
       {filteredOffers.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-          {filteredOffers.map((offer, i) => (
-            <span key={offer.id}>
-              <PublicOfferCard offer={offer} />
-              {/* Insert Check24 banner card after 6th offer */}
-              {i === 5 && (
-                <a
-                  href="https://a.check24.net/misc/click.php?pid=1168044&aid=258&deep=pauschalreisen-vergleich&cat=9"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all flex items-center justify-center p-4"
-                >
-                  <img
-                    src="https://a.check24.net/misc/view.php?pid=1168044&aid=258&cat=9"
-                    width={300}
-                    height={250}
-                    alt="Check24 Pauschalreisen"
-                    className="rounded-xl max-w-full h-auto"
-                  />
-                </a>
-              )}
-            </span>
+          {filteredOffers.slice(0, 5).map((offer) => (
+            <PublicOfferCard key={offer.id} offer={offer} />
+          ))}
+
+          {/* Check24 banner styled as a regular offer card */}
+          {filteredOffers.length > 5 && (
+            <a
+              href="https://a.check24.net/misc/click.php?pid=1168044&aid=258&deep=pauschalreisen-vergleich&cat=9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col"
+            >
+              <div className="h-40 sm:h-44 bg-gradient-to-br from-[#003c78] to-[#0071c7] flex items-center justify-center p-6">
+                <img
+                  src="https://a.check24.net/misc/view.php?pid=1168044&aid=258&cat=9"
+                  width={300}
+                  height={250}
+                  alt="Check24"
+                  className="max-h-full w-auto object-contain"
+                />
+              </div>
+              <div className="p-4 flex-1 flex flex-col">
+                <p className="text-xs text-[#0a1a3a]/40 uppercase tracking-wider">Anzeige</p>
+                <h3 className="text-base font-semibold text-[#0a1a3a] mt-1">Pauschalreisen vergleichen</h3>
+                <p className="text-sm text-[#0a1a3a]/60 mt-1.5">Flug + Hotel zum besten Preis auf Check24</p>
+                <div className="flex justify-end items-center mt-4 pt-3 border-t border-[#0a1a3a]/8">
+                  <span className="bg-[#ff6b35] text-white px-5 py-2.5 rounded-xl text-sm font-semibold">
+                    Jetzt vergleichen
+                  </span>
+                </div>
+              </div>
+            </a>
+          )}
+
+          {filteredOffers.slice(5).map((offer) => (
+            <PublicOfferCard key={offer.id} offer={offer} />
           ))}
         </div>
       ) : (
