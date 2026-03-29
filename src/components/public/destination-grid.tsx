@@ -14,15 +14,19 @@ const DESTINATION_IMAGES: Record<string, string> = {
   thailandia: '/destinations/thailandia.png',
   istanbul: '/destinations/istanbul.png',
   marbella: '/destinations/marbella.png',
-}
-
-const CATEGORY_IMAGES: Record<string, string> = {
-  mare: '/maldives.png',
-  montagna: '/alps.png',
-  avventura: '/bali.png',
-  citta: '/santorini.png',
-  crociera: '/maldives.png',
-  wellness: '/alps.png',
+  santorini: '/destinations/santorini.png',
+  'bad-griesbach': '/destinations/bad-griesbach.png',
+  nordkroatien: '/destinations/nordkroatien.png',
+  chalkidiki: '/destinations/chalkidiki.png',
+  'lago-di-garda': '/destinations/lago-di-garda.png',
+  fuessen: '/destinations/fuessen.png',
+  'playa-del-carmen': '/destinations/playa-del-carmen.png',
+  rodi: '/destinations/rodi.png',
+  'mont-saint-michel': '/destinations/mont-saint-michel.png',
+  holland: '/destinations/holland.png',
+  'punta-cana': '/destinations/punta-cana.png',
+  corf: '/destinations/corf.png',
+  zypern: '/destinations/zypern.png',
 }
 
 interface DestinationItem {
