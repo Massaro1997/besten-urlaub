@@ -4,7 +4,7 @@ import { sendTikTokEvent } from '@/lib/tiktok-server'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { event, eventId, contentId, contentName, value, currency, url } = body
+    const { event, eventId, contentId, contentName, value, currency, url, externalId, ttclid } = body
 
     if (!event || !eventId) {
       return NextResponse.json({ error: 'Missing event or eventId' }, { status: 400 })
@@ -23,6 +23,8 @@ export async function POST(request: NextRequest) {
       currency,
       ip,
       userAgent,
+      externalId,
+      ttclid,
     })
 
     return NextResponse.json({ ok: true })

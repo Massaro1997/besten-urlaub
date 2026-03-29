@@ -1,8 +1,14 @@
+import crypto from 'crypto'
+
 const TIKTOK_PIXELS = [
   { id: 'D74IPBRC77U2583OHQB0', token: '2257b1d36d6fb21b6d3d9717621342c223e84918' },
   { id: 'D74KVVJC77U2583OHT0G', token: 'edbeb44e1aba3e2377bd25e914e1d94742a1dc1e' },
 ]
 const TIKTOK_EVENTS_API = 'https://business-api.tiktok.com/open_api/v1.3/event/track/'
+
+function sha256(value: string): string {
+  return crypto.createHash('sha256').update(value.trim().toLowerCase()).digest('hex')
+}
 
 interface TikTokEventParams {
   event: string
@@ -14,6 +20,8 @@ interface TikTokEventParams {
   currency?: string
   ip?: string
   userAgent?: string
+  externalId?: string
+  ttclid?: string
 }
 
 export async function sendTikTokEvent(params: TikTokEventParams) {
@@ -31,8 +39,13 @@ export async function sendTikTokEvent(params: TikTokEventParams) {
     if (params.value) properties.value = params.value
     if (params.currency) properties.currency = params.currency
 
+    const user: Record<string, string> = {}
+    if (params.externalId) user.external_id = sha256(params.externalId)
+    if (params.ttclid) user.ttclid = params.ttclid
+
     const context: Record<string, unknown> = {
       page: { url: params.url },
+      user,
     }
     if (params.ip) context.ip = params.ip
     if (params.userAgent) context.user_agent = params.userAgent
@@ -45,7 +58,6 @@ export async function sendTikTokEvent(params: TikTokEventParams) {
       properties,
     }
 
-    // Send to all pixels with their own access tokens
     await Promise.all(
       TIKTOK_PIXELS.map(async (pixel) => {
         const body = {

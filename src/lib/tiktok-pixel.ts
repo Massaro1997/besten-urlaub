@@ -33,14 +33,38 @@ function generateEventId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
 }
 
-// Send event both client-side (pixel) and server-side (API)
+// Get or create anonymous external ID (cookie-based)
+function getExternalId(): string {
+  if (typeof document === 'undefined') return ''
+  const key = 'bu_eid'
+  const existing = document.cookie.match(new RegExp(`${key}=([^;]+)`))
+  if (existing) return existing[1]
+  const id = `bu_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`
+  document.cookie = `${key}=${id};path=/;max-age=31536000;SameSite=Lax`
+  return id
+}
+
+// Get TikTok click ID from URL (ttclid parameter)
+function getTtclid(): string {
+  if (typeof window === 'undefined') return ''
+  const params = new URLSearchParams(window.location.search)
+  const ttclid = params.get('ttclid') || ''
+  if (ttclid) {
+    // Store it for later use
+    try { sessionStorage.setItem('ttclid', ttclid) } catch {}
+  }
+  return ttclid || (typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('ttclid') || '' : '')
+}
+
 function trackEvent(event: string, offer: OfferData) {
   const eventId = generateEventId()
+  const externalId = getExternalId()
+  const ttclid = getTtclid()
 
   // Client-side pixel
   getTtq()?.track(event, { ...buildContents(offer), event_id: eventId })
 
-  // Server-side via our API (fire and forget)
+  // Server-side via our API with extra matching data
   if (typeof window !== 'undefined') {
     fetch('/api/track', {
       method: 'POST',
@@ -53,6 +77,8 @@ function trackEvent(event: string, offer: OfferData) {
         value: offer.priceFrom || 0,
         currency: 'EUR',
         url: window.location.href,
+        externalId,
+        ttclid,
       }),
     }).catch(() => {})
   }
