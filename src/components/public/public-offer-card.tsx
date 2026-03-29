@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { formatPrice } from '@/lib/utils'
 import { CATEGORY_DE_MAP } from '@/lib/public-constants'
 
@@ -84,14 +85,12 @@ export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
             <span />
           )}
 
-          <a
-            href={offer.affiliateLink}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={`/angebot/${offer.id}`}
             className="bg-[#ff6b35] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#e55a2b] active:scale-95 transition-all inline-block shadow-sm shadow-[#ff6b35]/25"
           >
             Zum Angebot
-          </a>
+          </Link>
         </div>
       </div>
     </div>
