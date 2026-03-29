@@ -51,7 +51,7 @@ export function DestinationGrid({ destinations }: { destinations: DestinationIte
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         {destinations.map((dest) => {
-          const image = DESTINATION_IMAGES[dest.slug] || CATEGORY_IMAGES[dest.category] || '/maldives.png'
+          const image = DESTINATION_IMAGES[dest.slug] || '/maldives.png'
 
           return (
             <Link

@@ -53,7 +53,7 @@ export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const tracked = useRef(false)
   const categoryLabel = CATEGORY_DE_MAP[offer.destination.category]
-  const image = DESTINATION_IMAGES[offer.destination.slug] || CATEGORY_IMAGES[offer.destination.category] || '/maldives.png'
+  const image = DESTINATION_IMAGES[offer.destination.slug] || '/maldives.png'
 
   // ViewContent — when card scrolls into view
   useEffect(() => {
