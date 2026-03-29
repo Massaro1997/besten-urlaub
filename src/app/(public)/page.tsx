@@ -65,40 +65,53 @@ export default async function HomePage() {
       <HeroSection />
 
       {/* Quick Links */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Link
-            href="/lastminute"
-            className="relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all group h-40 sm:h-48 flex items-end"
-          >
-            <Image src="/destinations/lastminute.png" alt="Last Minute" fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <div className="relative p-5 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#ff6b35] flex items-center justify-center shrink-0">
-                <Clock className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <p className="font-semibold text-white text-lg">Last Minute Angebote</p>
-                <p className="text-xs text-white/70">Pauschalreisen vergleichen und sparen</p>
-              </div>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {/* Last Minute */}
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+            <div className="relative h-44 overflow-hidden">
+              <Image src="/destinations/lastminute.png" alt="Last Minute" fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
             </div>
-          </Link>
-          <Link
-            href="/mietwagen"
-            className="relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all group h-40 sm:h-48 flex items-end"
-          >
-            <Image src="/destinations/mietwagen.png" alt="Mietwagen" fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <div className="relative p-5 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#2e75fa] flex items-center justify-center shrink-0">
-                <Car className="w-5 h-5 text-white" />
+            <div className="px-6 pb-6 -mt-6 relative">
+              <div className="flex items-center gap-2 mb-2">
+                <Clock className="w-4 h-4 text-[#ff6b35]" />
+                <span className="text-xs font-semibold text-[#ff6b35] uppercase tracking-wider">Last Minute</span>
               </div>
-              <div>
-                <p className="font-semibold text-white text-lg">Mietwagen vergleichen</p>
-                <p className="text-xs text-white/70">Weltweit den besten Preis finden</p>
-              </div>
+              <h3 className="text-xl font-bold text-[#0a1a3a]">Pauschalreisen vergleichen</h3>
+              <p className="text-sm text-[#0a1a3a]/50 mt-1">Finde die besten Deals und spare bei deinem Traumurlaub</p>
+              <Link
+                href="/lastminute"
+                className="mt-4 inline-flex items-center gap-2 bg-[#ff6b35] text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#e55a2b] active:scale-95 transition-all shadow-md shadow-[#ff6b35]/20"
+              >
+                Jetzt Angebote finden
+                <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4"><path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" /></svg>
+              </Link>
             </div>
-          </Link>
+          </div>
+
+          {/* Mietwagen */}
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+            <div className="relative h-44 overflow-hidden">
+              <Image src="/destinations/mietwagen.png" alt="Mietwagen" fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+            </div>
+            <div className="px-6 pb-6 -mt-6 relative">
+              <div className="flex items-center gap-2 mb-2">
+                <Car className="w-4 h-4 text-[#2e75fa]" />
+                <span className="text-xs font-semibold text-[#2e75fa] uppercase tracking-wider">Mietwagen</span>
+              </div>
+              <h3 className="text-xl font-bold text-[#0a1a3a]">Mietwagen weltweit vergleichen</h3>
+              <p className="text-sm text-[#0a1a3a]/50 mt-1">Finde den besten Preis und starte dein Abenteuer</p>
+              <Link
+                href="/mietwagen"
+                className="mt-4 inline-flex items-center gap-2 bg-[#2e75fa] text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#1a5fe0] active:scale-95 transition-all shadow-md shadow-[#2e75fa]/20"
+              >
+                Jetzt vergleichen
+                <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4"><path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" /></svg>
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
