@@ -73,7 +73,7 @@ export default async function HomePage() {
           {/* Last Minute */}
           <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
             <div className="relative h-44 overflow-hidden">
-              <Image src="/destinations/lastminute.png" alt="Last Minute" fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
+              <Image src="/destinations/lastminute.webp" alt="Last Minute" fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
             </div>
             <div className="px-6 pb-6 -mt-6 relative">
@@ -96,7 +96,7 @@ export default async function HomePage() {
           {/* Mietwagen */}
           <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
             <div className="relative h-44 overflow-hidden">
-              <Image src="/destinations/mietwagen.png" alt="Mietwagen" fill className="object-cover object-center group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
+              <Image src="/destinations/mietwagen.webp" alt="Mietwagen" fill className="object-cover object-center group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
             </div>
             <div className="px-6 pb-6 -mt-6 relative">

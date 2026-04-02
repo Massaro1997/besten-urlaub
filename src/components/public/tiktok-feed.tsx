@@ -6,8 +6,15 @@ import Image from 'next/image'
 const TIKTOK_USERNAME = 'bestenurlaub'
 
 const TIKTOK_VIDEOS = [
-  { id: '7622735656665533728', title: 'Urlaub Mallorca', cover: '/destinations/mallorca.png' },
-  { id: '7622739776348704032', title: 'Urlaub Marbella', cover: '/destinations/marbella.png' },
+  { id: '7624122741901380897', title: 'Urlaub Mauritius', cover: '/destinations/mauritius.webp' },
+  { id: '7623808266220375328', title: 'Urlaub Sansibar', cover: '/destinations/sansibar.webp' },
+  { id: '7623714970265570593', title: 'Urlaub Sansibar', cover: '/destinations/sansibar.webp' },
+  { id: '7623486402080034081', title: 'Urlaub Sansibar', cover: '/destinations/sansibar.webp' },
+  { id: '7623091243106503968', title: 'Urlaub Sardinien', cover: '/destinations/sardegna.webp' },
+  { id: '7623086372936584481', title: 'Urlaub Sardinien', cover: '/destinations/sardegna.webp' },
+  { id: '7623082461425126688', title: 'Urlaub Sardinien', cover: '/destinations/sardegna.webp' },
+  { id: '7622739776348704032', title: 'Urlaub Marbella', cover: '/destinations/marbella.webp' },
+  { id: '7622735656665533728', title: 'Urlaub Mallorca', cover: '/destinations/mallorca.webp' },
 ]
 
 function TikTokIcon({ className }: { className?: string }) {

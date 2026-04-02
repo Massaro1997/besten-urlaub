@@ -61,7 +61,7 @@ export default async function DestinationPage({ params }: PageProps) {
   }
 
   const categoryLabel = CATEGORY_DE_MAP[destination.category]
-  const heroImage = `/destinations/${destination.slug}.png`
+  const heroImage = `/destinations/${destination.slug}.webp`
 
   // Shape each offer to match what PublicOfferCard expects
   const offersForCards = destination.offers.map((offer) => ({

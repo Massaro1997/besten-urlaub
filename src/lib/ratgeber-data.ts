@@ -24,7 +24,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Mallorca: Mehr als Ballermann',
     destination: 'Mallorca',
     country: 'Spanien',
-    heroImage: '/destinations/mallorca.png',
+    heroImage: '/destinations/mallorca.webp',
     metaDescription:
       'Mallorca Urlaub 2026: Die besten Strände, Geheimtipps & günstige Angebote. Entdecke die Baleareninsel jenseits vom Ballermann.',
     intro:
@@ -66,7 +66,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Santorini: Die Insel, die nie enttäuscht',
     destination: 'Santorini',
     country: 'Griechenland',
-    heroImage: '/destinations/santorini.png',
+    heroImage: '/destinations/santorini.webp',
     metaDescription:
       'Santorini Reiseführer 2026: Sonnenuntergänge in Oia, schwarze Strände & die besten Deals für deinen Griechenland-Urlaub.',
     intro:
@@ -109,7 +109,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Bayern Wellness: Entspannung pur',
     destination: 'Bad Griesbach',
     country: 'Deutschland',
-    heroImage: '/destinations/bad-griesbach.png',
+    heroImage: '/destinations/bad-griesbach.webp',
     metaDescription:
       'Bad Griesbach Wellness-Urlaub: Thermalquellen, Spa-Hotels & Erholung in Bayerns Bäderdreieck. Die besten Angebote.',
     intro:
@@ -151,7 +151,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Kroatien Rundreise: Geheimtipps',
     destination: 'Nordkroatien',
     country: 'Kroatien',
-    heroImage: '/destinations/nordkroatien.png',
+    heroImage: '/destinations/nordkroatien.webp',
     metaDescription:
       'Nordkroatien Geheimtipps 2026: Istrien, Kvarner Bucht & Plitvicer Seen. Günstige Rundreise-Angebote für Kroatien.',
     intro:
@@ -194,7 +194,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Chalkidiki: Griechenlands bestgehütetes Geheimnis',
     destination: 'Chalkidiki',
     country: 'Griechenland',
-    heroImage: '/destinations/chalkidiki.png',
+    heroImage: '/destinations/chalkidiki.webp',
     metaDescription:
       'Chalkidiki Urlaub 2026: Türkisblaue Buchten, Pinienwälder & griechische Gastfreundschaft. Günstige Pauschalreisen entdecken.',
     intro:
@@ -236,7 +236,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Gardasee: Dolce Vita am Wasser',
     destination: 'Gardasee',
     country: 'Italien',
-    heroImage: '/destinations/lago-di-garda.png',
+    heroImage: '/destinations/lago-di-garda.webp',
     metaDescription:
       'Gardasee Urlaub 2026: Limone, Sirmione, Riva. die besten Orte, Aktivitäten & günstige Angebote am größten See Italiens.',
     intro:
@@ -278,7 +278,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Sardinien: Die Karibik Europas',
     destination: 'Sardinien',
     country: 'Italien',
-    heroImage: '/destinations/sardegna.png',
+    heroImage: '/destinations/sardegna.webp',
     metaDescription:
       'Sardinien Reiseführer 2026: Costa Smeralda, einsame Buchten & glasklares Meer. Die besten Tipps und günstigen Angebote.',
     intro:
@@ -320,7 +320,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Füssen & Neuschwanstein: Märchenhaft',
     destination: 'Füssen',
     country: 'Deutschland',
-    heroImage: '/destinations/fuessen.png',
+    heroImage: '/destinations/fuessen.webp',
     metaDescription:
       'Füssen & Schloss Neuschwanstein 2026: Märchenschlösser, Alpenseen & Wanderwege. Tipps und günstige Hotel-Angebote.',
     intro:
@@ -362,7 +362,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Mexiko: Karibik-Feeling pur',
     destination: 'Playa del Carmen',
     country: 'Mexiko',
-    heroImage: '/destinations/playa-del-carmen.png',
+    heroImage: '/destinations/playa-del-carmen.webp',
     metaDescription:
       'Playa del Carmen Urlaub 2026: Karibikstrände, Maya-Ruinen & Cenoten. Mexiko günstig erleben mit den besten Deals.',
     intro:
@@ -405,7 +405,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Rhodos: Sonneninsel im Mittelmeer',
     destination: 'Rhodos',
     country: 'Griechenland',
-    heroImage: '/destinations/rodi.png',
+    heroImage: '/destinations/rodi.webp',
     metaDescription:
       'Rhodos Urlaub 2026: Mittelalterliche Altstadt, Traumstrände & günstige All-Inclusive-Angebote für die griechische Sonneninsel.',
     intro:
@@ -447,7 +447,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Mont-Saint-Michel: Magisch',
     destination: 'Mont-Saint-Michel',
     country: 'Frankreich',
-    heroImage: '/destinations/mont-saint-michel.png',
+    heroImage: '/destinations/mont-saint-michel.webp',
     metaDescription:
       'Mont-Saint-Michel Reiseführer 2026: Die magische Klosterinsel in der Normandie. Tipps, Gezeiten-Wanderung & günstige Angebote.',
     intro:
@@ -490,7 +490,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Belek: Luxus an der Türkischen Riviera',
     destination: 'Antalya / Belek',
     country: 'Türkei',
-    heroImage: '/destinations/antalya.png',
+    heroImage: '/destinations/antalya.webp',
     metaDescription:
       'Belek & Antalya Urlaub 2026: 5-Sterne All Inclusive, Traumstrände & günstige Deals an der Türkischen Riviera.',
     intro:
@@ -532,7 +532,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Holland: Tiny House am Meer',
     destination: 'Holland',
     country: 'Niederlande',
-    heroImage: '/destinations/holland.png',
+    heroImage: '/destinations/holland.webp',
     metaDescription:
       'Holland Urlaub 2026: Tiny Houses an der Nordsee, Tulpenfelder & Amsterdam. Günstige Kurztrips in die Niederlande.',
     intro:
@@ -574,7 +574,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Sizilien: Vulkane, Meer & Pasta',
     destination: 'Sizilien',
     country: 'Italien',
-    heroImage: '/destinations/sicilia.png',
+    heroImage: '/destinations/sicilia.webp',
     metaDescription:
       'Sizilien Urlaub 2026: Ätna, Taormina, Strände & die beste Küche Italiens. Günstige Pauschalreisen nach Sizilien.',
     intro:
@@ -617,7 +617,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Dominikanische Republik: Karibik-Traum',
     destination: 'Punta Cana',
     country: 'Dominikanische Republik',
-    heroImage: '/destinations/punta-cana.png',
+    heroImage: '/destinations/punta-cana.webp',
     metaDescription:
       'Punta Cana Urlaub 2026: All-Inclusive Karibik mit Traumstränden, Palmen & besten Preisen. Jetzt günstig buchen.',
     intro:
@@ -660,7 +660,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Marbella: Glamour an der Costa del Sol',
     destination: 'Marbella',
     country: 'Spanien',
-    heroImage: '/destinations/marbella.png',
+    heroImage: '/destinations/marbella.webp',
     metaDescription:
       'Marbella Urlaub 2026: Puerto Banús, Beach Clubs & die besten Deals an der Costa del Sol. Luxus muss nicht teuer sein.',
     intro:
@@ -702,7 +702,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Korfu: Grüne Insel im Ionischen Meer',
     destination: 'Korfu',
     country: 'Griechenland',
-    heroImage: '/destinations/corf.png',
+    heroImage: '/destinations/corf.webp',
     metaDescription:
       'Korfu Urlaub 2026: Die grünste Insel Griechenlands mit venezianischer Altstadt, Traumstränden & günstigen Angeboten.',
     intro:
@@ -745,7 +745,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Zypern: Aphrodites Insel',
     destination: 'Zypern',
     country: 'Zypern',
-    heroImage: '/destinations/zypern.png',
+    heroImage: '/destinations/zypern.webp',
     metaDescription:
       'Zypern Urlaub 2026: Aphrodites Geburtsort, antike Ruinen & Traumstrände. Günstige Pauschalreisen nach Zypern entdecken.',
     intro:
@@ -788,7 +788,7 @@ export const ratgeberArticles: RatgeberArticle[] = [
     title: 'Belek All Inclusive: 5 Sterne zum Sparpreis',
     destination: 'Belek',
     country: 'Türkei',
-    heroImage: '/destinations/antalya.png',
+    heroImage: '/destinations/antalya.webp',
     metaDescription:
       'Belek All Inclusive 2026: 5-Sterne Hotels zum Sparpreis. Aquaparks, Gourmet-Buffets & Traumstrände an der Türkischen Riviera.',
     intro:
