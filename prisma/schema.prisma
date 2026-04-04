@@ -120,6 +120,55 @@ model CompetitorAccount {
   @@index([category])
 }
 
+/// One row per tracked travel destination. Recomputed on every scrape run
+/// by aggregating CompetitorVideo rows whose sourceHashtag matches one of
+/// the destination's hashtags. Gives the dashboard a ready-to-rank view of
+/// "which destinations are trending on TikTok right now".
+model DestinationTrend {
+  id              String   @id @default(cuid())
+  slug            String   @unique // canonical destination id, matches Destination.slug
+  label           String   // display name (e.g. "Sardinien")
+  hashtags        String   // comma-separated list of TikTok hashtags tracked for this destination
+  videoCount      Int      @default(0)
+  totalViews      BigInt   @default(0)
+  totalLikes      BigInt   @default(0)
+  totalComments   BigInt   @default(0)
+  totalSaves      BigInt   @default(0)
+  avgEngagement   Float?
+  // Rolling week-over-week (filled from week 2 onwards)
+  prevWeekViews   BigInt?
+  growthPct       Float?
+  // Bookkeeping
+  lastScrapedAt   DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([totalViews])
+  @@index([growthPct])
+}
+
+/// Sub-location drill-down. When the user clicks a destination (e.g. Vietnam),
+/// we scrape its sub-areas (Hanoi, Halong Bay, Phu Quoc...) and aggregate
+/// separately so the user can see which parts of Vietnam are viral right now.
+model SubLocationTrend {
+  id                 String   @id @default(cuid())
+  destinationSlug    String   // parent destination, e.g. "vietnam"
+  slug               String   // sub-area id within that destination, e.g. "hanoi"
+  label              String
+  hashtags           String
+  videoCount         Int      @default(0)
+  totalViews         BigInt   @default(0)
+  totalLikes         BigInt   @default(0)
+  totalSaves         BigInt   @default(0)
+  avgEngagement      Float?
+  topVideoId         String?  // reference to CompetitorVideo.id for the proof card
+  lastScrapedAt      DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@unique([destinationSlug, slug])
+  @@index([destinationSlug])
+  @@index([totalViews])
+}
+
 /// One row per scraped TikTok video from a competitor. Uses TikTok's own
 /// video id as primary key so re-scraping upserts cleanly without duplicates.
 model CompetitorVideo {
@@ -145,6 +194,8 @@ model CompetitorVideo {
   textLanguage      String?
   // Which hashtag/profile this video was discovered through
   sourceHashtag     String?
+  // Which destination trend this video counts toward (joins to DestinationTrend.slug)
+  destinationSlug   String?
   // Bookkeeping
   firstSeenAt       DateTime @default(now())
   lastScrapedAt     DateTime @default(now())
@@ -156,6 +207,7 @@ model CompetitorVideo {
   @@index([playCount])
   @@index([engagementRate])
   @@index([textLanguage])
+  @@index([destinationSlug])
 }
 
 /// One row per item from our own TikTok account — used for benchmarking

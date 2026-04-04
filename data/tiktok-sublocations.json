@@ -1,0 +1,148 @@
+{
+  "_comment": "Sub-locations for drill-down analysis. For each destination slug (matching tiktok-intel-config.json), we list major sub-areas with their own TikTok hashtags. Click 'Vietnam' in the main dashboard → we scrape these hashtags to show WHICH PART of Vietnam is trending.",
+  "vietnam": [
+    { "slug": "hanoi",           "label": "Hanoi",            "hashtags": ["hanoiurlaub", "hanoireise", "hanoivietnam"] },
+    { "slug": "hochiminh",       "label": "Ho Chi Minh City", "hashtags": ["hochiminhstadt", "saigonvietnam", "hochiminhcity"] },
+    { "slug": "halongbay",       "label": "Halong Bay",       "hashtags": ["halongbay", "halongbayvietnam", "halongbucht"] },
+    { "slug": "phuquoc",         "label": "Phu Quoc",         "hashtags": ["phuquoc", "phuquocurlaub", "phuquocisland"] },
+    { "slug": "hoian",           "label": "Hoi An",           "hashtags": ["hoianvietnam", "hoianaltstadt"] },
+    { "slug": "danang",          "label": "Da Nang",          "hashtags": ["danangvietnam", "danangbeach"] },
+    { "slug": "sapa",            "label": "Sapa",             "hashtags": ["sapavietnam", "sapareisterrassen"] },
+    { "slug": "ninhbinh",        "label": "Ninh Binh",        "hashtags": ["ninhbinhvietnam"] }
+  ],
+  "mexiko": [
+    { "slug": "playa-del-carmen", "label": "Playa del Carmen", "hashtags": ["playadelcarmenurlaub", "playadelcarmen"] },
+    { "slug": "cancun",           "label": "Cancun",           "hashtags": ["cancunurlaub", "cancunmexiko"] },
+    { "slug": "tulum",            "label": "Tulum",            "hashtags": ["tulumurlaub", "tulummexiko"] },
+    { "slug": "mexico-city",      "label": "Mexico City",      "hashtags": ["mexikostadt", "mexicocityurlaub"] },
+    { "slug": "cozumel",          "label": "Cozumel",          "hashtags": ["cozumelmexiko", "cozumelurlaub"] },
+    { "slug": "isla-mujeres",     "label": "Isla Mujeres",     "hashtags": ["islamujeres"] },
+    { "slug": "riviera-maya",     "label": "Riviera Maya",     "hashtags": ["rivieramayaurlaub"] }
+  ],
+  "aegypten": [
+    { "slug": "hurghada",         "label": "Hurghada",         "hashtags": ["hurghadaurlaub", "hurghadaaegypten"] },
+    { "slug": "sharm-el-sheikh",  "label": "Sharm el Sheikh",  "hashtags": ["sharmelsheikhurlaub", "sharmelsheikh"] },
+    { "slug": "marsa-alam",       "label": "Marsa Alam",       "hashtags": ["marsaalam", "marsaalamurlaub"] },
+    { "slug": "kairo",            "label": "Kairo",            "hashtags": ["kairoaegypten", "kairourlaub"] },
+    { "slug": "luxor",            "label": "Luxor",            "hashtags": ["luxoraegypten", "luxorurlaub"] },
+    { "slug": "el-gouna",         "label": "El Gouna",         "hashtags": ["elgouna", "elgounaaegypten"] },
+    { "slug": "makadi-bay",       "label": "Makadi Bay",       "hashtags": ["makadibay"] }
+  ],
+  "antalya": [
+    { "slug": "belek",            "label": "Belek",            "hashtags": ["belekurlaub", "beleklararesort"] },
+    { "slug": "side",             "label": "Side",             "hashtags": ["sideurlaub", "sidetuerkei"] },
+    { "slug": "alanya",           "label": "Alanya",           "hashtags": ["alanyaurlaub", "alanyatuerkei"] },
+    { "slug": "kemer",            "label": "Kemer",            "hashtags": ["kemerurlaub", "kemertuerkei"] },
+    { "slug": "lara",             "label": "Lara Beach",       "hashtags": ["larabeach", "larastrand"] }
+  ],
+  "dubai": [
+    { "slug": "downtown-dubai",   "label": "Downtown Dubai",   "hashtags": ["downtowndubai", "burjkhalifaview"] },
+    { "slug": "palm-jumeirah",    "label": "Palm Jumeirah",    "hashtags": ["palmjumeirah", "atlantisthepalm"] },
+    { "slug": "marina",           "label": "Dubai Marina",     "hashtags": ["dubaimarina"] },
+    { "slug": "jbr",              "label": "JBR Beach",        "hashtags": ["jbrbeachdubai", "jumeirahbeachresidence"] },
+    { "slug": "desert",           "label": "Desert Safari",    "hashtags": ["dubaidesertsafari", "wuestedubai"] },
+    { "slug": "old-dubai",        "label": "Old Dubai / Deira","hashtags": ["deiradubai", "alfahidi"] }
+  ],
+  "mallorca": [
+    { "slug": "palma",            "label": "Palma de Mallorca", "hashtags": ["palmademallorca"] },
+    { "slug": "cala-dor",         "label": "Cala d'Or",         "hashtags": ["caladorurlaub"] },
+    { "slug": "alcudia",          "label": "Alcudia",           "hashtags": ["alcudiamallorca"] },
+    { "slug": "cala-millor",      "label": "Cala Millor",       "hashtags": ["calamillor"] },
+    { "slug": "arenal",           "label": "El Arenal",         "hashtags": ["elarenal", "ballermann6"] },
+    { "slug": "soller",           "label": "Soller",            "hashtags": ["sollermallorca"] },
+    { "slug": "deia",             "label": "Deia",              "hashtags": ["deiamallorca"] }
+  ],
+  "kanaren": [
+    { "slug": "teneriffa",        "label": "Teneriffa",        "hashtags": ["teneriffaurlaub", "teneriffaholiday"] },
+    { "slug": "gran-canaria",     "label": "Gran Canaria",     "hashtags": ["grancanaria", "grancanariaurlaub"] },
+    { "slug": "fuerteventura",    "label": "Fuerteventura",    "hashtags": ["fuerteventuraurlaub"] },
+    { "slug": "lanzarote",        "label": "Lanzarote",        "hashtags": ["lanzaroteurlaub"] },
+    { "slug": "la-palma",         "label": "La Palma",         "hashtags": ["lapalmaurlaub"] },
+    { "slug": "el-hierro",        "label": "El Hierro",        "hashtags": ["elhierro"] }
+  ],
+  "bali": [
+    { "slug": "ubud",             "label": "Ubud",             "hashtags": ["ubudbali", "ubudurlaub"] },
+    { "slug": "canggu",           "label": "Canggu",           "hashtags": ["canggubali"] },
+    { "slug": "seminyak",         "label": "Seminyak",         "hashtags": ["seminyakbali"] },
+    { "slug": "uluwatu",          "label": "Uluwatu",          "hashtags": ["uluwatubali"] },
+    { "slug": "nusa-penida",      "label": "Nusa Penida",      "hashtags": ["nusapenida"] },
+    { "slug": "nusa-dua",         "label": "Nusa Dua",         "hashtags": ["nusaduabali"] }
+  ],
+  "thailand": [
+    { "slug": "phuket",           "label": "Phuket",           "hashtags": ["phuketurlaub", "phuketthailand"] },
+    { "slug": "bangkok",          "label": "Bangkok",          "hashtags": ["bangkokurlaub", "bangkokthailand"] },
+    { "slug": "koh-samui",        "label": "Koh Samui",        "hashtags": ["kohsamui"] },
+    { "slug": "krabi",            "label": "Krabi",            "hashtags": ["krabithailand"] },
+    { "slug": "koh-phangan",      "label": "Koh Phangan",      "hashtags": ["kohphangan"] },
+    { "slug": "chiang-mai",       "label": "Chiang Mai",       "hashtags": ["chiangmai"] }
+  ],
+  "kreta": [
+    { "slug": "chania",           "label": "Chania",           "hashtags": ["chaniakreta", "chaniaurlaub"] },
+    { "slug": "heraklion",        "label": "Heraklion",        "hashtags": ["heraklionkreta"] },
+    { "slug": "rethymno",         "label": "Rethymno",         "hashtags": ["rethymnokreta"] },
+    { "slug": "elafonissi",       "label": "Elafonissi Beach", "hashtags": ["elafonissi", "elafonissibeach"] },
+    { "slug": "balos",            "label": "Balos Beach",      "hashtags": ["balosbeach"] }
+  ],
+  "tuerkei": [
+    { "slug": "istanbul",         "label": "Istanbul",         "hashtags": ["istanbulurlaub", "istanbultuerkei"] },
+    { "slug": "kappadokien",      "label": "Kappadokien",      "hashtags": ["kappadokien", "cappadociaurlaub"] },
+    { "slug": "bodrum",           "label": "Bodrum",           "hashtags": ["bodrumurlaub"] },
+    { "slug": "pamukkale",        "label": "Pamukkale",        "hashtags": ["pamukkale"] },
+    { "slug": "marmaris",         "label": "Marmaris",         "hashtags": ["marmarisurlaub"] }
+  ],
+  "tunesien": [
+    { "slug": "djerba",           "label": "Djerba",           "hashtags": ["djerba", "djerbaurlaub"] },
+    { "slug": "hammamet",         "label": "Hammamet",         "hashtags": ["hammametturlaub"] },
+    { "slug": "sousse",           "label": "Sousse",           "hashtags": ["sousseturlaub"] },
+    { "slug": "tunis",            "label": "Tunis",            "hashtags": ["tunisurlaub"] }
+  ],
+  "marokko": [
+    { "slug": "marrakesch",       "label": "Marrakesch",       "hashtags": ["marrakeschurlaub"] },
+    { "slug": "fes",              "label": "Fès",              "hashtags": ["fesmarokko"] },
+    { "slug": "essaouira",        "label": "Essaouira",        "hashtags": ["essaouira"] },
+    { "slug": "chefchaouen",      "label": "Chefchaouen",      "hashtags": ["chefchaouen"] },
+    { "slug": "agadir",           "label": "Agadir",           "hashtags": ["agadirurlaub"] }
+  ],
+  "punta-cana": [
+    { "slug": "punta-cana-main",  "label": "Punta Cana",       "hashtags": ["puntacanaurlaub"] },
+    { "slug": "bavaro",           "label": "Bavaro Beach",     "hashtags": ["bavarobeach"] },
+    { "slug": "samana",           "label": "Samana",           "hashtags": ["samanadominican"] },
+    { "slug": "santo-domingo",    "label": "Santo Domingo",    "hashtags": ["santodomingo"] }
+  ],
+  "malediven": [
+    { "slug": "male",             "label": "Male",             "hashtags": ["malemaldives"] },
+    { "slug": "maafushi",         "label": "Maafushi",         "hashtags": ["maafushi"] },
+    { "slug": "baa-atoll",        "label": "Baa Atoll",        "hashtags": ["baaatoll"] }
+  ],
+  "seychellen": [
+    { "slug": "mahe",             "label": "Mahé",             "hashtags": ["maheseychellen"] },
+    { "slug": "praslin",          "label": "Praslin",          "hashtags": ["praslinseychellen"] },
+    { "slug": "la-digue",         "label": "La Digue",         "hashtags": ["ladigueseychellen"] }
+  ],
+  "madeira": [
+    { "slug": "funchal",          "label": "Funchal",          "hashtags": ["funchalmadeira"] },
+    { "slug": "porto-moniz",      "label": "Porto Moniz",      "hashtags": ["portomoniz"] }
+  ],
+  "zypern": [
+    { "slug": "paphos",           "label": "Paphos",           "hashtags": ["paphoszypern"] },
+    { "slug": "ayia-napa",        "label": "Ayia Napa",        "hashtags": ["ayianapa"] },
+    { "slug": "limassol",         "label": "Limassol",         "hashtags": ["limassolzypern"] }
+  ],
+  "sansibar": [
+    { "slug": "stone-town",       "label": "Stone Town",       "hashtags": ["stonetownzanzibar"] },
+    { "slug": "nungwi",           "label": "Nungwi",           "hashtags": ["nungwi", "nungwizanzibar"] },
+    { "slug": "kendwa",           "label": "Kendwa",           "hashtags": ["kendwabeach"] },
+    { "slug": "paje",             "label": "Paje",             "hashtags": ["pajebeach"] }
+  ],
+  "mauritius": [
+    { "slug": "flic-en-flac",     "label": "Flic en Flac",     "hashtags": ["flicenflac"] },
+    { "slug": "grand-baie",       "label": "Grand Baie",       "hashtags": ["grandbaie"] },
+    { "slug": "belle-mare",       "label": "Belle Mare",       "hashtags": ["bellemare"] },
+    { "slug": "le-morne",         "label": "Le Morne",         "hashtags": ["lemornemauritius"] }
+  ],
+  "marbella": [
+    { "slug": "puerto-banus",     "label": "Puerto Banus",     "hashtags": ["puertobanus"] },
+    { "slug": "old-town",         "label": "Marbella Altstadt","hashtags": ["marbellaaltstadt"] },
+    { "slug": "golden-mile",      "label": "Golden Mile",      "hashtags": ["marbellagoldenmile"] }
+  ]
+}

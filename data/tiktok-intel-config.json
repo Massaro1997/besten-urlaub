@@ -1,17 +1,37 @@
 {
-  "_comment": "TikTok viral video intelligence config. Tracks viral travel videos by hashtag across all creators (not by specific profiles). Edit to add/remove hashtags or blocklist accounts.",
-  "mode": "hashtags",
-  "hashtags": [
-    "urlaub",
-    "pauschalreise",
-    "urlaubdeals",
-    "traumurlaub",
-    "lastminutereisen",
-    "reisedeals",
-    "guenstigreisen",
-    "mauritiusurlaub",
-    "sansibarurlaub",
-    "mallorcaurlaub"
+  "_comment": "TikTok destination trend tracker. For each destination, we scrape a set of hashtags and aggregate views into a single trend score. The dashboard ranks destinations by total views — telling us which places are trending NOW so we can push matching Check24 offers. Each destination has a canonical slug (also used to match our Offer.destination.slug field) and a list of TikTok hashtags to scrape.",
+  "mode": "destinations",
+  "destinations": [
+    { "slug": "mallorca",         "label": "Mallorca",          "hashtags": ["mallorcaurlaub", "mallorca2026"] },
+    { "slug": "sansibar",         "label": "Sansibar",          "hashtags": ["sansibarurlaub", "zanzibarurlaub"] },
+    { "slug": "mauritius",        "label": "Mauritius",         "hashtags": ["mauritiusurlaub"] },
+    { "slug": "marbella",         "label": "Marbella",          "hashtags": ["marbellaurlaub", "costadelsolurlaub"] },
+    { "slug": "sardegna",         "label": "Sardinien",         "hashtags": ["sardinienurlaub"] },
+    { "slug": "sicilia",          "label": "Sizilien",          "hashtags": ["sizilienurlaub"] },
+    { "slug": "kreta",            "label": "Kreta",             "hashtags": ["kretaurlaub"] },
+    { "slug": "rodi",             "label": "Rhodos",            "hashtags": ["rhodosurlaub"] },
+    { "slug": "korfu",            "label": "Korfu",             "hashtags": ["korfuurlaub"] },
+    { "slug": "santorini",        "label": "Santorini",         "hashtags": ["santoriniurlaub"] },
+    { "slug": "chalkidiki",       "label": "Chalkidiki",        "hashtags": ["chalkidikiurlaub"] },
+    { "slug": "lago-di-garda",    "label": "Gardasee",          "hashtags": ["gardaseeurlaub"] },
+    { "slug": "antalya",          "label": "Antalya",           "hashtags": ["antalyaurlaub", "belekurlaub"] },
+    { "slug": "zypern",           "label": "Zypern",            "hashtags": ["zypernurlaub"] },
+    { "slug": "tuerkei",          "label": "Türkei",            "hashtags": ["tuerkeiurlaub"] },
+    { "slug": "aegypten",         "label": "Ägypten",           "hashtags": ["aegyptenurlaub", "hurghadaurlaub"] },
+    { "slug": "tunesien",         "label": "Tunesien",          "hashtags": ["tunesienurlaub"] },
+    { "slug": "marokko",          "label": "Marokko",           "hashtags": ["marokkourlaub"] },
+    { "slug": "dubai",            "label": "Dubai",             "hashtags": ["dubaiurlaub"] },
+    { "slug": "thailand",         "label": "Thailand",          "hashtags": ["thailandurlaub"] },
+    { "slug": "bali",             "label": "Bali",              "hashtags": ["baliurlaub"] },
+    { "slug": "vietnam",          "label": "Vietnam",           "hashtags": ["vietnamurlaub"] },
+    { "slug": "malediven",        "label": "Malediven",         "hashtags": ["maledivenurlaub"] },
+    { "slug": "seychellen",       "label": "Seychellen",        "hashtags": ["seychellenurlaub"] },
+    { "slug": "kanaren",          "label": "Kanaren",           "hashtags": ["kanarenurlaub", "teneriffaurlaub", "gran canariaurlaub"] },
+    { "slug": "madeira",          "label": "Madeira",           "hashtags": ["madeiraurlaub"] },
+    { "slug": "punta-cana",       "label": "Dom. Republik",     "hashtags": ["dominikanischerepublikurlaub", "puntacanaurlaub"] },
+    { "slug": "mexiko",           "label": "Mexiko",            "hashtags": ["mexikourlaub", "playadelcarmenurlaub"] },
+    { "slug": "kuba",             "label": "Kuba",              "hashtags": ["kubaurlaub"] },
+    { "slug": "kapverden",        "label": "Kapverden",         "hashtags": ["kapverdenurlaub"] }
   ],
   "blocklist": [
     "check24",
@@ -27,7 +47,7 @@
     "dertour"
   ],
   "scrapeSettings": {
-    "maxVideosPerHashtag": 30,
-    "_comment": "30 videos × 10 hashtags = 300 posts per run. Focus on top viral per hashtag, not deep history."
+    "maxVideosPerHashtag": 15,
+    "_comment": "15 videos × ~35 hashtags = ~525 posts per run. First run is the baseline; growth % available starting week 2."
   }
 }
