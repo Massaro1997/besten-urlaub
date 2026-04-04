@@ -1,5 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -25,6 +27,19 @@ export async function generateMetadata({
   }
 }
 
+function isMobileOrInAppBrowser(userAgent: string): boolean {
+  const ua = userAgent.toLowerCase()
+  // Mobile devices
+  if (/android|iphone|ipad|ipod|mobile|webos|blackberry|iemobile|opera mini/.test(ua)) {
+    return true
+  }
+  // In-app browsers (TikTok, Instagram, Facebook, etc.)
+  if (/tiktok|musical_ly|bytedance|instagram|fbav|fban|fb_iab|line|wechat|micromessenger|snapchat/.test(ua)) {
+    return true
+  }
+  return false
+}
+
 export default async function AngebotPage({
   params,
 }: {
@@ -37,6 +52,14 @@ export default async function AngebotPage({
   })
 
   if (!offer) notFound()
+
+  // On mobile and in-app browsers (TikTok, Instagram, etc.), the iframe embed
+  // is unreliable — redirect directly to the affiliate link instead.
+  const h = await headers()
+  const userAgent = h.get('user-agent') || ''
+  if (isMobileOrInAppBrowser(userAgent)) {
+    redirect(offer.affiliateLink)
+  }
 
   const categoryLabel = CATEGORY_DE_MAP[offer.destination.category] || ''
 
