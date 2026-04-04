@@ -37,6 +37,9 @@ model Offer {
   description   String?
   notes         String?
   usedInVideo   Boolean  @default(false)
+  /// When true, the offer is shown in the "Top Deals" section on the homepage
+  /// as a large card. Currently hand-curated (user tells us which 4 to feature).
+  featured      Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

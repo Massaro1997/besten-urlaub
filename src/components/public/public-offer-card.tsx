@@ -50,11 +50,18 @@ interface PublicOffer {
   }
 }
 
-export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
+export function PublicOfferCard({
+  offer,
+  size = 'default',
+}: {
+  offer: PublicOffer
+  size?: 'default' | 'compact'
+}) {
   const cardRef = useRef<HTMLDivElement>(null)
   const tracked = useRef(false)
   const categoryLabel = CATEGORY_DE_MAP[offer.destination.category]
   const image = DESTINATION_IMAGES[offer.destination.slug] || '/maldives.png'
+  const isCompact = size === 'compact'
 
   // ViewContent — when card scrolls into view
   useEffect(() => {
@@ -77,46 +84,46 @@ export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
   return (
     <div ref={cardRef} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 group">
       {/* Image header */}
-      <div className="relative h-40 sm:h-44 overflow-hidden">
+      <div className={`relative overflow-hidden ${isCompact ? 'h-28 sm:h-32' : 'h-40 sm:h-44'}`}>
         <Image
           src={image}
           alt={offer.destination.name}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          sizes={isCompact ? '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw'}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
-        {categoryLabel && (
+        {categoryLabel && !isCompact && (
           <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 text-xs font-semibold text-[#0a1a3a]">
             {categoryLabel}
           </span>
         )}
 
-        <div className="absolute bottom-3 left-3">
-          <p className="text-white font-semibold text-sm drop-shadow">
+        <div className={`absolute ${isCompact ? 'bottom-2 left-2' : 'bottom-3 left-3'}`}>
+          <p className={`text-white font-semibold drop-shadow ${isCompact ? 'text-xs' : 'text-sm'}`}>
             {offer.destination.name}, {offer.destination.country}
           </p>
         </div>
       </div>
 
       {/* Body */}
-      <div className="p-4">
-        <h3 className="text-base font-semibold text-[#0a1a3a] line-clamp-2">
+      <div className={isCompact ? 'p-3' : 'p-4'}>
+        <h3 className={`font-semibold text-[#0a1a3a] line-clamp-2 ${isCompact ? 'text-sm' : 'text-base'}`}>
           {offer.title}
         </h3>
 
-        {offer.description && (
+        {offer.description && !isCompact && (
           <p className="text-sm text-[#0a1a3a]/60 line-clamp-2 mt-1.5">
             {offer.description}
           </p>
         )}
 
-        <div className="flex justify-between items-center mt-4 pt-3 border-t border-[#0a1a3a]/8">
+        <div className={`flex justify-between items-center border-t border-[#0a1a3a]/8 ${isCompact ? 'mt-2 pt-2' : 'mt-4 pt-3'}`}>
           {offer.priceFrom ? (
             <div>
               <span className="text-xs text-[#0a1a3a]/50">ab</span>
-              <span className="text-xl font-bold text-[#2e75fa] ml-1">
+              <span className={`font-bold text-[#2e75fa] ml-1 ${isCompact ? 'text-base' : 'text-xl'}`}>
                 {formatPrice(offer.priceFrom)}
               </span>
             </div>
@@ -130,9 +137,9 @@ export function PublicOfferCard({ offer }: { offer: PublicOffer }) {
               trackClickButton(offer)
               trackAddToCart(offer)
             }}
-            className="bg-[#ff6b35] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#e55a2b] active:scale-95 transition-all inline-block shadow-sm shadow-[#ff6b35]/25"
+            className={`bg-[#ff6b35] text-white rounded-xl font-semibold hover:bg-[#e55a2b] active:scale-95 transition-all inline-block shadow-sm shadow-[#ff6b35]/25 ${isCompact ? 'px-3 py-1.5 text-xs' : 'px-5 py-2.5 text-sm'}`}
           >
-            Zum Angebot
+            {isCompact ? 'Ansehen' : 'Zum Angebot'}
           </Link>
         </div>
       </div>

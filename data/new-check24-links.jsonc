@@ -1,0 +1,39 @@
+// New Check24 affiliate links with valid Tracking-IDs (alphanumeric only).
+// User is regenerating these via the Check24 Linkgenerator one at a time.
+// When all 22 are collected, scripts/apply-new-links.ts will batch-update the DB.
+//
+// Fields:
+//   - offerId:       Prisma Offer.id (from `npx tsx scripts/list-offers.ts`)
+//   - destination:   human label for sanity check
+//   - trackingId:    value set in Check24 Linkgenerator's Tracking-ID field
+//   - affiliateLink: full a.check24.net/misc/click.php URL (use the long form so `tid` is parseable)
+//   - notes:         optional — e.g. if the underlying offer changed (hotel, dates)
+[
+  {
+    "offerId": "cmnbwwwuo0000f8nsqubtz76q",
+    "destination": "Marbella, Spagna",
+    "trackingId": "Marbella001",
+    "affiliateLink": "https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=Marbella001&target_url=https%3A%2F%2Fwww.check24.net%2Fpauschalreisen-vergleich%2F%3Fc24pp_departure_date%3D2026-06-07%26c24pp_return_date%3D2026-06-13%26c24pp_travel_duration%3Dexact%26c24pp_airport%3DDUS%26c24pp_city_id%3D476%26c24pp_region_id%3D568%26c24pp_adult%3D2%26c24pp_childrenCount%3D0%26c24pp_children_0%255Bage%255D%3D-%26c24pp_children_1%255Bage%255D%3D-%26c24pp_children_2%255Bage%255D%3D-%26c24pp_children_3%255Bage%255D%3D-%26pid%3D1168044%26tid%3DMarbella001%23%2Fsuche%2Fangebot%3Fairport%3DDUS%25252CBER%25252CBRE%25252CCGN%25252CDRS%25252CDTM%25252CERF%25252CFDH%25252CFKB%25252CFMM%25252CFMO%25252CFRA%25252CGWT%25252CHAJ%25252CHAM%25252CHHN%25252CKSF%25252CLBC%25252CLEJ%25252CMUC%25252CNRN%25252CNUE%25252CPAD%25252CRLG%25252CSCN%25252CSTR%26areaId%3D568%26areaSort%3Dtopregion%26cityId%3D476%26days%3Dexact%26departureDate%3D2026-06-07%26offerSort%3Ddefault%26pageArea%3Dpackage%26returnDate%3D2026-06-13%26roomAllocation%3DA-A%26sorting%3DcategoryDistribution%26transportType%3Dflight%26hotelId%3D2952558%26hotelListId%3D97c14013-9a54-4f37-b838-03bba239daf1%26isFewo%3D1",
+    "notes": "Offerta cambiata: ora è un Ferienwohnung (isFewo=1), hotelId=2952558. Prezzo/titolo attuale potrebbero essere incoerenti — da rivalutare."
+  },
+  {
+    "offerId": "cmnde2nnz000004lalyz9fvdu",
+    "destination": "Sardegna, Italia",
+    "trackingId": "Sardegna001",
+    "affiliateLink": "https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=Sardegna001&target_url=https%3A%2F%2Fwww.check24.net%2Fpauschalreisen-vergleich%2F%3Fc24pp_departure_date%3D2026-06-01%26c24pp_return_date%3D2026-06-08%26c24pp_travel_duration%3Dexact%26c24pp_airport%3DBLL%252CBRE%252CGWT%252CHAJ%252CHAM%252CLBC%252CRLG%26c24pp_region_id%3D649%26c24pp_adult%3D2%26c24pp_childrenCount%3D0%26c24pp_children_0%255Bage%255D%3D-%26c24pp_children_1%255Bage%255D%3D-%26c24pp_children_2%255Bage%255D%3D-%26c24pp_children_3%255Bage%255D%3D-%26pid%3D1168044%26tid%3DSardegna001%23%2Fsuche%2Fangebot%3Fairport%3DBLL%25252CBRE%25252CGWT%25252CHAJ%25252CHAM%25252CLBC%25252CRLG%25252CBER%25252CCGN%25252CDRS%25252CDTM%25252CDUS%25252CERF%25252CFDH%25252CFKB%25252CFMM%25252CFMO%25252CFRA%25252CHHN%25252CKSF%25252CLEJ%25252CMUC%25252CNRN%25252CNUE%25252CPAD%25252CSCN%25252CSTR%26areaId%3D649%26areaSort%3Dtopregion%26days%3Dexact%26departureDate%3D2026-06-01%26offerSort%3Ddefault%26pageArea%3Dpackage%26returnDate%3D2026-06-08%26roomAllocation%3DA-A%26sorting%3DcategoryDistribution%26transportType%3Dflight%26hotelId%3D2410265%26hotelListId%3Df2b1e36c-657c-436f-ae15-377860b972bc"
+  },
+  {
+    "offerId": "cmnf0yjbv0001eknsi5s9kams",
+    "destination": "Sansibar, Tansania",
+    "trackingId": "Sansibar001",
+    "affiliateLink": "https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=Sansibar001&target_url=https%3A%2F%2Fwww.check24.net%2Fpauschalreisen-vergleich%2F%3Fc24pp_departure_date%3D2026-06-22%26c24pp_return_date%3D2026-07-29%26c24pp_travel_duration%3Dexact%26c24pp_airport%3DBLL%252CBRE%252CGWT%252CHAJ%252CHAM%252CLBC%252CRLG%26c24pp_region_id%3D680%26c24pp_adult%3D2%26c24pp_childrenCount%3D0%26c24pp_children_0%255Bage%255D%3D-%26c24pp_children_1%255Bage%255D%3D-%26c24pp_children_2%255Bage%255D%3D-%26c24pp_children_3%255Bage%255D%3D-%26pid%3D1168044%26tid%3DSansibar001%23%2Fsuche%2Fangebot%3Fairport%3DBLL%25252CBRE%25252CGWT%25252CHAJ%25252CHAM%25252CLBC%25252CRLG%25252CBER%25252CCGN%25252CDRS%25252CDTM%25252CDUS%25252CERF%25252CFDH%25252CFKB%25252CFMM%25252CFMO%25252CFRA%25252CHHN%25252CKSF%25252CLEJ%25252CMUC%25252CNRN%25252CNUE%25252CPAD%25252CSCN%25252CSTR%26areaId%3D680%26areaSort%3Dtopregion%26days%3Dexact%26departureDate%3D2026-06-21%26offerSort%3Ddefault%26pageArea%3Dpackage%26returnDate%3D2026-06-28%26roomAllocation%3DA-A%26sorting%3DcategoryDistribution%26transportType%3Dflight%26hotelId%3D1871034%26hotelListId%3D3f606dad-0708-4c3b-ad30-13fdbcbcdd05",
+    "notes": "c24pp_return_date query param dice 2026-07-29 ma il deep link interno (dopo #) dice departureDate=2026-06-21 / returnDate=2026-06-28. Check24 molto probabilmente ignora il mismatch e usa il deep link interno (7 notti). Da verificare dopo in browser."
+  },
+  {
+    "offerId": "9b090b676a3f48c596ef127d5",
+    "destination": "Mauritius, Mauritius",
+    "trackingId": "Mauritius001",
+    "affiliateLink": "https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=Mauritius001&target_url=https%3A%2F%2Fwww.check24.net%2Fpauschalreisen-vergleich%2F%3Fc24pp_departure_date%3D2026-06-22%26c24pp_return_date%3D2026-07-29%26c24pp_travel_duration%3Dexact%26c24pp_airport%3DBLL%252CBRE%252CGWT%252CHAJ%252CHAM%252CLBC%252CRLG%26c24pp_region_id%3D680%26c24pp_adult%3D2%26c24pp_childrenCount%3D0%26c24pp_children_0%255Bage%255D%3D-%26c24pp_children_1%255Bage%255D%3D-%26c24pp_children_2%255Bage%255D%3D-%26c24pp_children_3%255Bage%255D%3D-%26pid%3D1168044%26tid%3DMauritius001%23%2Fsuche%2Fangebot%3Fairport%3DBLL%25252CBRE%25252CGWT%25252CHAJ%25252CHAM%25252CLBC%25252CRLG%25252CBER%25252CCGN%25252CDRS%25252CDTM%25252CDUS%25252CERF%25252CFDH%25252CFKB%25252CFMM%25252CFMO%25252CFRA%25252CHHN%25252CKSF%25252CLEJ%25252CMUC%25252CNRN%25252CNUE%25252CPAD%25252CSCN%25252CSTR%26areaSort%3Dtopregion%26countryId%3D73%26days%3Dexact%26departureDate%3D2026-05-31%26ds%3Dco%26offerSort%3DofferRanking%26pageArea%3Dpackage%26returnDate%3D2026-06-07%26roomAllocation%3DA-A%26sorting%3DcategoryDistribution%26transportType%3Dflight%26hotelId%3D27882%26hotelListId%3Dd9a6ddba-afcf-4e84-87f4-0b4de677830a",
+    "notes": "Stesso mismatch date del Sansibar: query params esterni puntano a Sansibar region (giugno-luglio) ma il deep link interno dopo il # punta correttamente a countryId=73 (Mauritius) 31.05-07.06.2026, hotelId=27882. Check24 userà il deep link interno."
+  }
+]

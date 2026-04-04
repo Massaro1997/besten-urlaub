@@ -19,7 +19,15 @@ interface OfferWithDestination {
   }
 }
 
-export function OffersSection({ offers }: { offers: OfferWithDestination[] }) {
+export function OffersSection({
+  offers,
+  size = 'default',
+  showCategoryTabs = true,
+}: {
+  offers: OfferWithDestination[]
+  size?: 'default' | 'compact'
+  showCategoryTabs?: boolean
+}) {
   const [activeCategory, setActiveCategory] = useState('alle')
 
   const activeCategoryDef = PUBLIC_CATEGORIES.find((c) => c.value === activeCategory)
@@ -29,18 +37,26 @@ export function OffersSection({ offers }: { offers: OfferWithDestination[] }) {
     ? offers.filter((o) => o.destination.category === filterValue)
     : offers
 
+  const isCompact = size === 'compact'
+  // Featured grid: 1/2/4 (smaller cards, more per row). Default: 1/2/3.
+  const gridCols = isCompact
+    ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4'
+    : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'
+
   return (
     <section>
-      <CategoryTabs
-        categories={PUBLIC_CATEGORIES}
-        activeCategory={activeCategory}
-        onCategoryChange={setActiveCategory}
-      />
+      {showCategoryTabs && (
+        <CategoryTabs
+          categories={PUBLIC_CATEGORIES}
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+        />
+      )}
 
       {filteredOffers.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+        <div className={`${gridCols} ${showCategoryTabs ? 'mt-6' : ''}`}>
           {filteredOffers.map((offer) => (
-            <PublicOfferCard key={offer.id} offer={offer} />
+            <PublicOfferCard key={offer.id} offer={offer} size={size} />
           ))}
         </div>
       ) : (

@@ -12,8 +12,24 @@ import { TikTokFeed } from '@/components/public/tiktok-feed'
 import { RatgeberCarousel } from '@/components/public/ratgeber-carousel'
 
 export default async function HomePage() {
-  const [offers, popularDestinations] = await Promise.all([
+  const [featuredOffers, otherOffers, popularDestinations] = await Promise.all([
     prisma.offer.findMany({
+      where: { featured: true },
+      include: {
+        destination: {
+          select: {
+            id: true,
+            name: true,
+            country: true,
+            category: true,
+            slug: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.offer.findMany({
+      where: { featured: false },
       include: {
         destination: {
           select: {
@@ -37,21 +53,26 @@ export default async function HomePage() {
   ])
 
   // Narrow slug to string for the public components (DB has slug as String?)
-  const typedOffers = offers
+  const toTyped = (o: (typeof featuredOffers)[number]) => ({
+    id: o.id,
+    title: o.title,
+    priceFrom: o.priceFrom,
+    affiliateLink: o.affiliateLink,
+    description: o.description,
+    destination: {
+      name: o.destination.name,
+      country: o.destination.country,
+      category: o.destination.category,
+      slug: o.destination.slug as string,
+    },
+  })
+
+  const typedFeatured = featuredOffers
     .filter((o) => o.destination.slug !== null)
-    .map((o) => ({
-      id: o.id,
-      title: o.title,
-      priceFrom: o.priceFrom,
-      affiliateLink: o.affiliateLink,
-      description: o.description,
-      destination: {
-        name: o.destination.name,
-        country: o.destination.country,
-        category: o.destination.category,
-        slug: o.destination.slug as string,
-      },
-    }))
+    .map(toTyped)
+  const typedOthers = otherOffers
+    .filter((o) => o.destination.slug !== null)
+    .map(toTyped)
 
   const typedDestinations = popularDestinations
     .filter((d) => d.slug !== null)
@@ -118,19 +139,42 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Aktuelle Angebote */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight">
-          Deals, die nicht lange bleiben.
-        </h2>
-        <p className="text-sm text-[#0a1a3a]/50 mt-2 max-w-lg">
-          Handverlesen, preisgepr&uuml;ft, sofort buchbar. Greif zu, bevor es andere tun.
-        </p>
+      {/* Top Deals — featured offers */}
+      {typedFeatured.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+          <div className="flex items-end justify-between gap-4 mb-6">
+            <div>
+              <span className="inline-block text-xs font-semibold uppercase tracking-wider text-[#ff6b35] mb-2">
+                Top Deals
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight">
+                Deals, die nicht lange bleiben.
+              </h2>
+              <p className="text-sm text-[#0a1a3a]/50 mt-2 max-w-lg">
+                Handverlesen, preisgepr&uuml;ft, sofort buchbar. Greif zu, bevor es andere tun.
+              </p>
+            </div>
+          </div>
 
-        <div className="mt-6">
-          <OffersSection offers={typedOffers} />
-        </div>
-      </section>
+          <OffersSection offers={typedFeatured} size="default" showCategoryTabs={false} />
+        </section>
+      )}
+
+      {/* Weitere Angebote — small grid with category filter */}
+      {typedOthers.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-[#0a1a3a]/8">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight">
+            Weitere Angebote
+          </h2>
+          <p className="text-sm text-[#0a1a3a]/50 mt-2 max-w-lg">
+            St&ouml;bere durch unsere gesamte Auswahl an Reisezielen.
+          </p>
+
+          <div className="mt-6">
+            <OffersSection offers={typedOthers} size="compact" />
+          </div>
+        </section>
+      )}
 
       {/* Beliebte Reiseziele */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
