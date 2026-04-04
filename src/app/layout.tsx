@@ -42,6 +42,26 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Travelpayouts website verification */}
+        <script
+          // @ts-expect-error — custom attributes required by Travelpayouts to prevent cache/optimizer plugins from modifying the snippet
+          nowprocket=""
+          data-noptimize="1"
+          data-cfasync="false"
+          data-wpfc-render="false"
+          seraph-accel-crit="1"
+          data-no-defer="1"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                var script = document.createElement("script");
+                script.async = 1;
+                script.src = 'https://tp-em.com/NTE1MTkx.js?t=515191';
+                document.head.appendChild(script);
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="min-h-full">{children}</body>
     </html>
