@@ -1,0 +1,35 @@
+{
+  "_comment": "TikTok competitor intelligence config. Used by scripts/tiktok-intel-scrape.ts. Edit this file to change which accounts are tracked — no code changes needed.",
+  "competitors": [
+    {
+      "username": "urlaubsguru.de",
+      "category": "affiliate",
+      "note": "One of the biggest German travel affiliate channels"
+    },
+    {
+      "username": "tuicom",
+      "category": "brand",
+      "note": "TUI official brand, corporate benchmark"
+    },
+    {
+      "username": "check24",
+      "category": "partner",
+      "note": "Our affiliate partner — useful to see how they promote themselves"
+    },
+    {
+      "username": "holidaycheckde",
+      "category": "aggregator",
+      "note": "Hotel reviews + travel deals aggregator"
+    },
+    {
+      "username": "reisetraum",
+      "category": "creator",
+      "note": "Creator-style travel account"
+    }
+  ],
+  "scrapeSettings": {
+    "maxVideosPerCompetitor": 20,
+    "location": "DE",
+    "_comment": "First validation run: 20 videos × 5 competitors = 100 posts. Bump to 100 later once pipeline is verified."
+  }
+}

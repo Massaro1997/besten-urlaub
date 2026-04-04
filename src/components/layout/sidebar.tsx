@@ -10,6 +10,7 @@ import {
   Video,
   Palette,
   Settings,
+  TrendingUp,
   X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -20,6 +21,7 @@ const navItems = [
   { href: '/offerte', label: 'Offerte', icon: Tag },
   { href: '/offerte/suggerimenti', label: 'AI Suggerimenti', icon: MapPin },
   { href: '/contenuti', label: 'Contenuti TikTok', icon: Video },
+  { href: '/tiktok-intel', label: 'TikTok Intel', icon: TrendingUp },
   { href: '/creativi', label: 'Creativi', icon: Palette },
   { href: '/impostazioni', label: 'Impostazioni', icon: Settings },
 ]

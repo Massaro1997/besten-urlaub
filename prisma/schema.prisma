@@ -96,6 +96,89 @@ model Setting {
   value String
 }
 
+/// One row per competitor TikTok account we track. Updated on every scrape
+/// run — we upsert so that follower count / total videos stay current.
+model CompetitorAccount {
+  id             String   @id @default(cuid())
+  username       String   @unique // TikTok @handle without the @
+  nickname       String?
+  signature      String?  // bio text
+  bioLink        String?
+  category       String?  // "affiliate" | "brand" | "partner" | "aggregator" | "creator"
+  note           String?  // free-text note from config
+  followerCount  Int?
+  followingCount Int?
+  heartCount     Int?     // total likes across all videos
+  videoCount     Int?
+  verified       Boolean? @default(false)
+  lastScrapedAt  DateTime?
+  firstSeenAt    DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  videos CompetitorVideo[]
+
+  @@index([category])
+}
+
+/// One row per scraped TikTok video from a competitor. Uses TikTok's own
+/// video id as primary key so re-scraping upserts cleanly without duplicates.
+model CompetitorVideo {
+  id                String   @id // TikTok video id (e.g. "7623808266220375328")
+  username          String   // denormalized for fast filtering
+  videoUrl          String
+  description       String?  // caption text
+  hashtags          String?  // comma-separated
+  duration          Int?     // seconds
+  createTime        DateTime // video post time on TikTok
+  coverUrl          String?
+  musicTitle        String?
+  musicAuthor       String?
+  playCount         Int      @default(0)
+  diggCount         Int      @default(0) // likes
+  commentCount      Int      @default(0)
+  shareCount        Int      @default(0)
+  collectCount      Int      @default(0) // saves
+  // Derived metrics — recomputed on every scrape
+  engagementRate    Float?   // (likes + comments + shares + saves) / plays
+  saveRate          Float?   // saves / plays
+  // Bookkeeping
+  firstSeenAt       DateTime @default(now())
+  lastScrapedAt     DateTime @default(now())
+
+  account CompetitorAccount @relation(fields: [username], references: [username], onDelete: Cascade)
+
+  @@index([username])
+  @@index([createTime])
+  @@index([playCount])
+  @@index([engagementRate])
+}
+
+/// One row per item from our own TikTok account — used for benchmarking
+/// vs competitors. Same shape as CompetitorVideo minus the account link.
+model OwnTikTokVideo {
+  id             String   @id // TikTok video id
+  videoUrl       String
+  description    String?
+  hashtags       String?
+  duration       Int?
+  createTime     DateTime
+  coverUrl       String?
+  musicTitle     String?
+  musicAuthor    String?
+  playCount      Int      @default(0)
+  diggCount      Int      @default(0)
+  commentCount   Int      @default(0)
+  shareCount     Int      @default(0)
+  collectCount   Int      @default(0)
+  engagementRate Float?
+  saveRate       Float?
+  firstSeenAt    DateTime @default(now())
+  lastScrapedAt  DateTime @default(now())
+
+  @@index([createTime])
+  @@index([playCount])
+}
+
 /// One row per click-out from our site to Check24 (or any affiliate).
 /// The `eventId` is the join key between:
 ///   - TikTok Pixel client/server events
