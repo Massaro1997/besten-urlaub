@@ -4,6 +4,12 @@ import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { TrendingUp, Users, Video, Heart, Eye } from 'lucide-react'
 
+const LANGUAGE_OPTIONS = [
+  { value: 'all', label: 'Tutte le lingue' },
+  { value: 'de', label: '🇩🇪 Solo tedesco' },
+  { value: 'en', label: '🇬🇧 Solo inglese' },
+]
+
 // Small number formatter with German-friendly separators
 function fmt(n: number | null | undefined): string {
   if (n == null) return '—'
@@ -29,23 +35,38 @@ function formatRelativeDate(d: Date): string {
   return `${Math.floor(days / 365)} anni fa`
 }
 
-export default async function TikTokIntelPage() {
+export default async function TikTokIntelPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>
+}) {
+  const params = await searchParams
+  const lang = params.lang || 'all'
+  const langFilter = lang === 'all' ? {} : { textLanguage: lang }
+
   // Pull everything we need in parallel
-  const [accounts, topVideos, recentVideos, totalVideos] = await Promise.all([
-    prisma.competitorAccount.findMany({
-      orderBy: { followerCount: 'desc' },
-      include: { _count: { select: { videos: true } } },
-    }),
-    prisma.competitorVideo.findMany({
-      orderBy: { playCount: 'desc' },
-      take: 20,
-    }),
-    prisma.competitorVideo.findMany({
-      orderBy: { createTime: 'desc' },
-      take: 10,
-    }),
-    prisma.competitorVideo.count(),
-  ])
+  const [accounts, topVideos, recentVideos, totalVideos, langBreakdown] =
+    await Promise.all([
+      prisma.competitorAccount.findMany({
+        orderBy: { followerCount: 'desc' },
+        include: { _count: { select: { videos: true } } },
+      }),
+      prisma.competitorVideo.findMany({
+        where: langFilter,
+        orderBy: { playCount: 'desc' },
+        take: 20,
+      }),
+      prisma.competitorVideo.findMany({
+        where: langFilter,
+        orderBy: { createTime: 'desc' },
+        take: 10,
+      }),
+      prisma.competitorVideo.count({ where: langFilter }),
+      prisma.competitorVideo.groupBy({
+        by: ['textLanguage'],
+        _count: true,
+      }),
+    ])
 
   const totalViews = topVideos.reduce((sum, v) => sum + v.playCount, 0)
   const avgEngagement =
@@ -57,25 +78,46 @@ export default async function TikTokIntelPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
             <TrendingUp className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold">TikTok Competitor Intel</h1>
+            <h1 className="text-xl font-semibold">TikTok Viral Travel Intel</h1>
             <p className="text-sm text-secondary">
-              {accounts.length} competitor · {totalVideos} video · ultimo scrape:{' '}
+              {accounts.length} creator · {totalVideos} video{' '}
+              {lang !== 'all' && `(${lang.toUpperCase()})`} · ultimo scrape:{' '}
               {accounts[0]?.lastScrapedAt
                 ? formatRelativeDate(accounts[0].lastScrapedAt)
                 : 'mai'}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-surface text-sm text-secondary">
-          <span className="font-mono text-xs">
-            pnpm tsx scripts/tiktok-intel-scrape.ts
-          </span>
+
+        {/* Language filter tabs */}
+        <div className="flex items-center gap-1 p-1 bg-surface rounded-xl">
+          {LANGUAGE_OPTIONS.map((opt) => {
+            const count =
+              opt.value === 'all'
+                ? langBreakdown.reduce((s, l) => s + l._count, 0)
+                : langBreakdown.find((l) => l.textLanguage === opt.value)
+                    ?._count || 0
+            const isActive = lang === opt.value
+            return (
+              <Link
+                key={opt.value}
+                href={opt.value === 'all' ? '/tiktok-intel' : `/tiktok-intel?lang=${opt.value}`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  isActive
+                    ? 'bg-white text-foreground shadow-sm'
+                    : 'text-secondary hover:text-foreground'
+                }`}
+              >
+                {opt.label} ({count})
+              </Link>
+            )
+          })}
         </div>
       </div>
 

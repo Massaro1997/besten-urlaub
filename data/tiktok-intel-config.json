@@ -1,35 +1,33 @@
 {
-  "_comment": "TikTok competitor intelligence config. Used by scripts/tiktok-intel-scrape.ts. Edit this file to change which accounts are tracked — no code changes needed.",
-  "competitors": [
-    {
-      "username": "urlaubsguru.de",
-      "category": "affiliate",
-      "note": "One of the biggest German travel affiliate channels"
-    },
-    {
-      "username": "tuicom",
-      "category": "brand",
-      "note": "TUI official brand, corporate benchmark"
-    },
-    {
-      "username": "check24",
-      "category": "partner",
-      "note": "Our affiliate partner — useful to see how they promote themselves"
-    },
-    {
-      "username": "holidaycheckde",
-      "category": "aggregator",
-      "note": "Hotel reviews + travel deals aggregator"
-    },
-    {
-      "username": "reisetraum",
-      "category": "creator",
-      "note": "Creator-style travel account"
-    }
+  "_comment": "TikTok viral video intelligence config. Tracks viral travel videos by hashtag across all creators (not by specific profiles). Edit to add/remove hashtags or blocklist accounts.",
+  "mode": "hashtags",
+  "hashtags": [
+    "urlaub",
+    "pauschalreise",
+    "urlaubdeals",
+    "traumurlaub",
+    "lastminutereisen",
+    "reisedeals",
+    "guenstigreisen",
+    "mauritiusurlaub",
+    "sansibarurlaub",
+    "mallorcaurlaub"
+  ],
+  "blocklist": [
+    "check24",
+    "tuicom",
+    "urlaubsguru.de",
+    "holidaycheckde",
+    "tuifly",
+    "reisewelt",
+    "weg.de",
+    "expediafly_de",
+    "tuiofficial",
+    "fti_touristik",
+    "dertour"
   ],
   "scrapeSettings": {
-    "maxVideosPerCompetitor": 20,
-    "location": "DE",
-    "_comment": "First validation run: 20 videos × 5 competitors = 100 posts. Bump to 100 later once pipeline is verified."
+    "maxVideosPerHashtag": 30,
+    "_comment": "30 videos × 10 hashtags = 300 posts per run. Focus on top viral per hashtag, not deep history."
   }
 }
