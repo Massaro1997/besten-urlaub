@@ -92,3 +92,28 @@ model Setting {
   key   String @id
   value String
 }
+
+/// One row per click-out from our site to Check24 (or any affiliate).
+/// The `eventId` is the join key between:
+///   - TikTok Pixel client/server events
+///   - the subid we attach to the Check24 deep link
+///   - the conversion postback when/if it arrives
+model AffiliateClick {
+  id         String   @id @default(cuid())
+  eventId    String   @unique // ties pixel event <-> subid <-> postback
+  offerId    String?
+  ttclid     String?
+  externalId String?
+  ipHash     String?
+  userAgent  String?
+  referrer   String?
+  landingUrl String?
+  // Conversion fields — filled later by the postback handler
+  converted  Boolean  @default(false)
+  convValue  Float?
+  convAt     DateTime?
+  createdAt  DateTime @default(now())
+
+  @@index([offerId])
+  @@index([createdAt])
+}

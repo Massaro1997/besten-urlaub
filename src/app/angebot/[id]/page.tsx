@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,6 +8,8 @@ import { CATEGORY_DE_MAP } from '@/lib/public-constants'
 import { formatPrice } from '@/lib/utils'
 import { ArrowLeft, Shield } from 'lucide-react'
 import { AngebotTracker } from '@/components/public/angebot-tracker'
+import { AngebotRedirect } from '@/components/public/angebot-redirect'
+import { generateEventId, buildAffiliateLinkWithSubid } from '@/lib/affiliate-link'
 
 export async function generateMetadata({
   params,
@@ -53,12 +54,31 @@ export default async function AngebotPage({
 
   if (!offer) notFound()
 
-  // On mobile and in-app browsers (TikTok, Instagram, etc.), the iframe embed
-  // is unreliable — redirect directly to the affiliate link instead.
+  // Generate a unique event id that ties together: TikTok Pixel client event,
+  // TikTok Events API server event, our AffiliateClick DB row, and the
+  // eventual Check24 conversion postback.
+  const eventId = generateEventId()
+  const affiliateLinkWithSubid = buildAffiliateLinkWithSubid(
+    offer.affiliateLink,
+    eventId,
+  )
+
+  // On mobile and in-app browsers (TikTok, Instagram, Facebook...), the iframe
+  // embed is unreliable — we now render a client-side interstitial that fires
+  // the pixel BEFORE redirecting. This is the 95%+ majority of TikTok traffic,
+  // so it was previously completely invisible to the pixel.
   const h = await headers()
   const userAgent = h.get('user-agent') || ''
   if (isMobileOrInAppBrowser(userAgent)) {
-    redirect(offer.affiliateLink)
+    return (
+      <AngebotRedirect
+        offerId={offer.id}
+        offerTitle={offer.title}
+        priceFrom={offer.priceFrom}
+        affiliateLinkWithSubid={affiliateLinkWithSubid}
+        eventId={eventId}
+      />
+    )
   }
 
   const categoryLabel = CATEGORY_DE_MAP[offer.destination.category] || ''
@@ -119,16 +139,16 @@ export default async function AngebotPage({
               offerId={offer.id}
               offerTitle={offer.title}
               priceFrom={offer.priceFrom}
-              affiliateLink={offer.affiliateLink}
+              affiliateLink={affiliateLinkWithSubid}
             />
           </div>
         </div>
       </div>
 
-      {/* Embedded Check24 iframe */}
+      {/* Embedded Check24 iframe — uses subid-tagged link so conversions can be matched back */}
       <div className="flex-1 relative">
         <iframe
-          src={offer.affiliateLink}
+          src={affiliateLinkWithSubid}
           className="absolute inset-0 w-full h-full border-0"
           title={`${offer.title} — Check24 Buchung`}
           sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"

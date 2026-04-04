@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { trackInitiateCheckout, trackCompletePayment } from '@/lib/tiktok-pixel'
+import { trackInitiateCheckout, trackClickButton } from '@/lib/tiktok-pixel'
 
 interface Props {
   offerId: string
@@ -22,7 +22,9 @@ export function AngebotTracker({ offerId, offerTitle, priceFrom, affiliateLink }
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => {
-        trackCompletePayment({ id: offerId, title: offerTitle, priceFrom })
+        // User is leaving to Check24 — this is a click-out, NOT a purchase.
+        // Real CompletePayment fires from the server-side postback when Check24 confirms a booking.
+        trackClickButton({ id: offerId, title: offerTitle, priceFrom })
       }}
       className="flex items-center gap-1.5 bg-[#ff6b35] text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-[#e55a2b] transition-colors"
     >

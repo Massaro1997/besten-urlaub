@@ -1,9 +1,17 @@
 import crypto from 'crypto'
 
-const TIKTOK_PIXELS = [
-  { id: 'D74IPBRC77U2583OHQB0', token: '2257b1d36d6fb21b6d3d9717621342c223e84918' },
-  { id: 'D74KVVJC77U2583OHT0G', token: 'edbeb44e1aba3e2377bd25e914e1d94742a1dc1e' },
-]
+/**
+ * TikTok Events API server-side integration.
+ *
+ * Credentials are loaded from environment variables — never commit tokens
+ * to the repo. Expected env vars (set in .env.local and Vercel):
+ *
+ *   TIKTOK_PIXEL_ID     — e.g. D74KVVJC77U2583OHT0G
+ *   TIKTOK_ACCESS_TOKEN — server-side access token from Events Manager
+ */
+
+const TIKTOK_PIXEL_ID = process.env.TIKTOK_PIXEL_ID || ''
+const TIKTOK_ACCESS_TOKEN = process.env.TIKTOK_ACCESS_TOKEN || ''
 const TIKTOK_EVENTS_API = 'https://business-api.tiktok.com/open_api/v1.3/event/track/'
 
 function sha256(value: string): string {
@@ -25,6 +33,11 @@ interface TikTokEventParams {
 }
 
 export async function sendTikTokEvent(params: TikTokEventParams) {
+  if (!TIKTOK_PIXEL_ID || !TIKTOK_ACCESS_TOKEN) {
+    console.warn('TikTok Events API: missing TIKTOK_PIXEL_ID or TIKTOK_ACCESS_TOKEN')
+    return
+  }
+
   try {
     const properties: Record<string, unknown> = {}
     if (params.contentId) {
@@ -58,27 +71,24 @@ export async function sendTikTokEvent(params: TikTokEventParams) {
       properties,
     }
 
-    await Promise.all(
-      TIKTOK_PIXELS.map(async (pixel) => {
-        const body = {
-          event_source: 'web',
-          event_source_id: pixel.id,
-          data: [eventData],
-        }
-        const res = await fetch(TIKTOK_EVENTS_API, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Token': pixel.token,
-          },
-          body: JSON.stringify(body),
-        })
-        const result = await res.json()
-        if (result.code !== 0) {
-          console.error(`TikTok Events API error (${pixel.id}):`, result)
-        }
-      }),
-    )
+    const body = {
+      event_source: 'web',
+      event_source_id: TIKTOK_PIXEL_ID,
+      data: [eventData],
+    }
+
+    const res = await fetch(TIKTOK_EVENTS_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Token': TIKTOK_ACCESS_TOKEN,
+      },
+      body: JSON.stringify(body),
+    })
+    const result = await res.json()
+    if (result.code !== 0) {
+      console.error(`TikTok Events API error (${TIKTOK_PIXEL_ID}):`, result)
+    }
   } catch (error) {
     console.error('TikTok Events API failed:', error)
   }

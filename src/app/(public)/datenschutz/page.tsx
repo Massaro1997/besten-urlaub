@@ -382,7 +382,7 @@ export default function DatenschutzPage() {
         <Section number="6" title="TikTok Pixel">
           <p>
             Wir verwenden auf dieser Website den TikTok Pixel (Pixel-ID:
-            D74IPBRC77U2583OHQB0) zur Messung der Wirksamkeit unserer
+            D74KVVJC77U2583OHT0G) zur Messung der Wirksamkeit unserer
             TikTok-Werbung. Der TikTok Pixel ist ein JavaScript-Code-Snippet,
             das auf unserer Website eingebunden ist und Informationen &uuml;ber
             Ihr Nutzungsverhalten an TikTok &uuml;bermittelt.
