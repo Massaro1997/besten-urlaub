@@ -41,7 +41,7 @@ export function OffersSection({
   // Featured grid: 1/2/4 (smaller cards, more per row). Default: 1/2/3.
   const gridCols = isCompact
     ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4'
-    : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'
+    : 'grid grid-cols-1 sm:grid-cols-2 gap-5'
 
   return (
     <section>

@@ -17,8 +17,8 @@ export function LogoMarquee() {
   return (
     <section className="bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-2">
-        <p className="text-sm font-medium text-[#0a1a3a]/40 text-center tracking-wide mb-8">
-          Alle Top Reiseveranstalter im Vergleich
+        <p className="text-xs uppercase tracking-[0.2em] text-[#0a1a3a]/30 text-center font-semibold mb-8">
+          Top Reiseveranstalter im Vergleich
         </p>
       </div>
       <div
