@@ -237,20 +237,22 @@ export function HeroSection() {
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-header {
           background: #2e75fa !important; border: none !important; border-radius: 8px !important;
           padding: 8px !important; margin-bottom: 8px !important; color: white !important;
+          position: relative !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-header a { color: white !important; cursor: pointer !important; }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next {
+          position: absolute !important;
           width: 28px !important; height: 28px !important; top: 50% !important;
           transform: translateY(-50%) !important; border: none !important;
           background: rgba(255,255,255,0.2) !important; border-radius: 6px !important;
-          cursor: pointer !important; display: flex !important;
-          align-items: center !important; justify-content: center !important;
+          cursor: pointer !important;
+          display: flex !important; align-items: center !important; justify-content: center !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev:hover,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next:hover { background: rgba(255,255,255,0.35) !important; }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev { left: 6px !important; }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker-next { right: 6px !important; }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev { left: 6px !important; right: auto !important; }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker-next { right: 6px !important; left: auto !important; }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev span,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next span { display: none !important; }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev::after {
@@ -261,6 +263,7 @@ export function HeroSection() {
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-title {
           color: white !important; font-weight: 700 !important; font-size: 14px !important;
+          text-align: center !important; margin: 0 2.3em !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker th {
           color: #0a1a3a !important; font-size: 11px !important; font-weight: 600 !important;
