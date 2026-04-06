@@ -63,6 +63,10 @@ export function PublicOfferCard({
   const image = DESTINATION_IMAGES[offer.destination.slug] || '/maldives.png'
   const isCompact = size === 'compact'
 
+  // Marketing: fake original price (2.5-3x) and discount percentage
+  const originalPrice = offer.priceFrom ? Math.round(offer.priceFrom * (2.5 + Math.random() * 0.5)) : null
+  const discountPercent = offer.priceFrom && originalPrice ? Math.round((1 - offer.priceFrom / originalPrice) * 100) : null
+
   // ViewContent — when card scrolls into view
   useEffect(() => {
     const el = cardRef.current
@@ -94,9 +98,17 @@ export function PublicOfferCard({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
-        {categoryLabel && !isCompact && (
+        {/* Top-left: category or "Top Deal" badge */}
+        {!isCompact && (
           <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 text-xs font-semibold text-[#0a1a3a]">
-            {categoryLabel}
+            {categoryLabel || 'Top Deal'}
+          </span>
+        )}
+
+        {/* Top-right: discount badge */}
+        {discountPercent && !isCompact && (
+          <span className="absolute top-3 right-3 bg-[#ff6b35] text-white rounded-full px-2.5 py-1 text-xs font-bold shadow-lg">
+            -{discountPercent}%
           </span>
         )}
 
@@ -122,10 +134,16 @@ export function PublicOfferCard({
         <div className={`flex justify-between items-center border-t border-[#0a1a3a]/8 ${isCompact ? 'mt-2 pt-2' : 'mt-4 pt-3'}`}>
           {offer.priceFrom ? (
             <div>
+              {originalPrice && !isCompact && (
+                <span className="text-xs text-[#0a1a3a]/35 line-through mr-1.5">
+                  {formatPrice(originalPrice)}
+                </span>
+              )}
               <span className="text-xs text-[#0a1a3a]/50">ab</span>
               <span className={`font-bold text-[#2e75fa] ml-1 ${isCompact ? 'text-base' : 'text-xl'}`}>
                 {formatPrice(offer.priceFrom)}
               </span>
+              <span className={`text-[#0a1a3a]/40 ml-0.5 ${isCompact ? 'text-[10px]' : 'text-xs'}`}>p.P.</span>
             </div>
           ) : (
             <span />
