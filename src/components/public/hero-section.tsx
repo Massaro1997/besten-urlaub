@@ -140,17 +140,15 @@ export function HeroSection() {
         /* ===== ROW 1-2: ABFLUGHAFEN (col 3) ===== */
         .c24-hero-widget span.c24package-airport {
           grid-column: 3 !important; grid-row: 1 !important;
-          border-left: 1px solid #eee !important;
         }
         .c24-hero-widget div.c24package-airport {
           grid-column: 3 !important; grid-row: 2 !important;
-          border-left: 1px solid #eee !important;
         }
 
-        /* ===== DIVIDER ===== */
+        /* ===== DIVIDER (hidden) ===== */
         .c24-hero-widget .c24package-wrapper::before {
           content: '' !important; grid-column: 1 / -1 !important; grid-row: 3 !important;
-          border-top: 1px solid #eee !important; align-self: start !important;
+          align-self: start !important;
           pointer-events: none !important; z-index: 0 !important;
         }
 
@@ -160,7 +158,6 @@ export function HeroSection() {
         }
         .c24-hero-widget div.c24package-dep {
           grid-column: 1 !important; grid-row: 4 !important;
-          border-right: 1px solid #eee !important;
         }
 
         /* ===== ROW 3-4: RÜCKREISE (col 2) ===== */
@@ -169,7 +166,6 @@ export function HeroSection() {
         }
         .c24-hero-widget div.c24package-ret {
           grid-column: 2 !important; grid-row: 4 !important;
-          border-right: 1px solid #eee !important;
         }
 
         /* ===== ROW 3-4: REISEDAUER (col 3) ===== */
@@ -178,7 +174,6 @@ export function HeroSection() {
         }
         .c24-hero-widget div.c24package-duration {
           grid-column: 3 !important; grid-row: 4 !important;
-          border-right: 1px solid #eee !important;
         }
 
         /* ===== TOP-RIGHT BADGE (col 4, rows 1-2) ===== */
