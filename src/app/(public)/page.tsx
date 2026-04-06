@@ -4,7 +4,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { prisma } from '@/lib/prisma'
 import { HeroSection } from '@/components/public/hero-section'
-import { OffersSection } from '@/components/public/offers-section'
 import { DestinationGrid } from '@/components/public/destination-grid'
 import { CtaSection } from '@/components/public/cta-section'
 import { TikTokFeed } from '@/components/public/tiktok-feed'
@@ -90,37 +89,83 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Top Deals — featured offers (original large cards) */}
+      {/* Urlaubsregionen entdecken */}
       {typedFeatured.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-          <div className="flex items-end justify-between gap-4 mb-6">
-            <div>
-              <span className="inline-block text-xs font-semibold uppercase tracking-wider text-[#ff6b35] mb-2">
-                Top Deals
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight">
-                Deals, die nicht lange bleiben.
-              </h2>
-              <p className="text-sm text-[#0a1a3a]/50 mt-2 max-w-lg">
-                Handverlesen, preisgepr&uuml;ft, sofort buchbar. Greif zu, bevor es andere tun.
-              </p>
-            </div>
+          <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight text-center mb-8">
+            Urlaubsregionen entdecken
+          </h2>
+
+          {/* Row 1: 2 large cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            {typedFeatured.slice(0, 2).map((offer) => (
+              <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-64 sm:h-72">
+                <Image
+                  src={`/destinations/${offer.destination.slug}.webp`}
+                  alt={offer.destination.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/30" />
+                <div className="absolute top-4 left-4">
+                  <p className="text-white font-bold text-lg drop-shadow">
+                    {offer.destination.name}, <span className="font-normal">{offer.destination.country}</span>
+                  </p>
+                  <p className="text-white/80 text-sm drop-shadow">7 Tage, 2 Erw., inkl. Flug</p>
+                </div>
+                {offer.priceFrom && (
+                  <div className="absolute bottom-4 right-4">
+                    <span className="text-white/70 text-sm drop-shadow">ab </span>
+                    <span className="text-white font-extrabold text-2xl drop-shadow">{Math.round(offer.priceFrom)} &euro;</span>
+                  </div>
+                )}
+              </Link>
+            ))}
           </div>
 
-          <OffersSection offers={typedFeatured} size="default" showCategoryTabs={false} />
+          {/* Row 2: 3 smaller cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {typedFeatured.slice(2, 5).map((offer) => (
+              <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-52 sm:h-56">
+                <Image
+                  src={`/destinations/${offer.destination.slug}.webp`}
+                  alt={offer.destination.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/30" />
+                <div className="absolute top-4 left-4">
+                  <p className="text-white font-bold text-base drop-shadow">
+                    {offer.destination.name}, <span className="font-normal">{offer.destination.country}</span>
+                  </p>
+                  <p className="text-white/80 text-xs drop-shadow">6 Tage, 2 Erw., inkl. Flug</p>
+                </div>
+                {offer.priceFrom && (
+                  <div className="absolute bottom-4 right-4">
+                    <span className="text-white/70 text-sm drop-shadow">ab </span>
+                    <span className="text-white font-extrabold text-xl drop-shadow">{Math.round(offer.priceFrom)} &euro;</span>
+                  </div>
+                )}
+              </Link>
+            ))}
+          </div>
         </section>
       )}
 
-      {/* Link to all offers page */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-8">
-        <Link
-          href="/alle-angebote"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[#2e75fa] hover:text-[#1a5fe0] transition-colors"
-        >
-          Alle Angebote ansehen
-          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4"><path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" /></svg>
+      {/* Top Hotel Award Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
+        <Link href="/alle-angebote" className="block rounded-2xl overflow-hidden hover:shadow-xl transition-shadow">
+          <Image
+            src="/Banner Orizzontale Angebot 2.png"
+            alt="Jetzt unsere Top Hotels entdecken — Top Hotel Award 2026"
+            width={1400}
+            height={120}
+            className="w-full h-auto"
+          />
         </Link>
-      </div>
+      </section>
 
       {/* Beliebte Reiseziele */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
