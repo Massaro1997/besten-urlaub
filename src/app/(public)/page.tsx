@@ -167,6 +167,82 @@ export default async function HomePage() {
         </Link>
       </section>
 
+      {/* Urlaubsdeals Banner + Cards */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        {/* Banner */}
+        <Link href="/alle-angebote" className="block rounded-2xl overflow-hidden hover:shadow-lg transition-shadow mb-8">
+          <Image
+            src="/Banner orizzontale Angebot 1.png"
+            alt="Die besten Urlaubsdeals zum Bestpreis sichern — Bis zu 250€ sparen"
+            width={1400}
+            height={100}
+            className="w-full h-auto"
+          />
+        </Link>
+
+        <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight text-center mb-8">
+          Die besten Urlaubsdeals zum Bestpreis sichern
+        </h2>
+
+        {/* 4 cards: 1 promo + 3 destinations */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {/* Promo card */}
+          <Link href="/alle-angebote" className="group relative rounded-2xl overflow-hidden h-64 sm:h-72">
+            <Image
+              src="/destinations/mallorca.webp"
+              alt="Urlaubsdeals"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 640px) 50vw, 25vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#2e75fa]/70 via-[#2e75fa]/40 to-[#2e75fa]/70" />
+            <span className="absolute top-4 left-4 bg-[#ff3333] text-white text-xs font-bold px-3 py-1.5 rounded-full">
+              Bis zu 250 &euro; sparen
+            </span>
+            <div className="absolute bottom-4 left-4 right-4">
+              <p className="text-white font-bold text-base leading-tight">
+                Mit <span className="font-extrabold">Urlaubsdeals</span> in vielen beliebten Hotels sparen!
+              </p>
+            </div>
+          </Link>
+
+          {/* 3 destination cards from remaining featured */}
+          {typedFeatured.slice(5, 8).length > 0
+            ? typedFeatured.slice(5, 8).map((offer) => (
+                <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-64 sm:h-72">
+                  <Image
+                    src={`/destinations/${offer.destination.slug}.webp`}
+                    alt={offer.destination.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <p className="text-white font-bold text-lg drop-shadow">{offer.destination.name}</p>
+                  </div>
+                </Link>
+              ))
+            : /* Fallback static destinations if not enough featured */
+              ['creta', 'hurghada', 'antalya'].map((slug) => (
+                <Link key={slug} href={`/reiseziel/${slug}`} className="group relative rounded-2xl overflow-hidden h-64 sm:h-72">
+                  <Image
+                    src={`/destinations/${slug}.webp`}
+                    alt={slug}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <p className="text-white font-bold text-lg drop-shadow capitalize">{slug}</p>
+                  </div>
+                </Link>
+              ))
+          }
+        </div>
+      </section>
+
       {/* Beliebte Reiseziele */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <DestinationGrid destinations={typedDestinations} />
