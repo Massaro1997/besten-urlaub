@@ -210,10 +210,10 @@ export function HeroSection() {
           border-right: 1px solid #eef0f3 !important;
         }
 
-        /* Button — grid rows 3-4, col 4 */
+        /* Button — col 4, spans ALL rows (full height) */
         .c24-hero-widget div.c24package-full {
           grid-column: 4 !important;
-          grid-row: 3 / 5 !important;
+          grid-row: 1 / 5 !important;
           display: flex !important;
           align-items: stretch !important;
           padding: 0 !important;
