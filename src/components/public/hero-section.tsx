@@ -178,7 +178,7 @@ export function HeroSection() {
 
         /* ===== TOP-RIGHT BADGE (col 4, rows 1-2) ===== */
         .c24-hero-widget .c24package-wrapper::after {
-          content: '\\26A1 Jetzt buchen\\A & bis zu 40% sparen!' !important;
+          content: 'Jetzt buchen\a & bis zu 40% sparen!' !important;
           grid-column: 4 !important; grid-row: 1 / 3 !important;
           display: flex !important; align-items: center !important; justify-content: center !important;
           text-align: center !important;
