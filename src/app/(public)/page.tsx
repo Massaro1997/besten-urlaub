@@ -2,7 +2,6 @@ export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Car, Clock } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 import { HeroSection } from '@/components/public/hero-section'
 import { OffersSection } from '@/components/public/offers-section'
@@ -10,6 +9,7 @@ import { DestinationGrid } from '@/components/public/destination-grid'
 import { CtaSection } from '@/components/public/cta-section'
 import { TikTokFeed } from '@/components/public/tiktok-feed'
 import { RatgeberCarousel } from '@/components/public/ratgeber-carousel'
+import { FaqSection } from '@/components/public/faq-section'
 
 export default async function HomePage() {
   const [featuredOffers, otherOffers, popularDestinations] = await Promise.all([
@@ -88,75 +88,58 @@ export default async function HomePage() {
     <>
       <HeroSection />
 
-      {/* Quick Links */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {/* Last Minute */}
-          <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
-            <div className="relative h-44 overflow-hidden">
-              <Image src="/destinations/lastminute.webp" alt="Last Minute" fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+      {/* Trust Badges */}
+      <section className="bg-white border-b border-[#0a1a3a]/6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
+            <div className="flex items-center gap-2.5">
+              <svg className="w-5 h-5 text-[#0a1a3a]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
+              <span className="text-sm font-medium text-[#0a1a3a]">Flug &amp; Hotel, alles in einem</span>
             </div>
-            <div className="px-6 pb-6 -mt-6 relative">
-              <div className="flex items-center gap-2 mb-2">
-                <Clock className="w-4 h-4 text-[#ff6b35]" />
-                <span className="text-xs font-semibold text-[#ff6b35] uppercase tracking-wider">Last Minute</span>
-              </div>
-              <h3 className="text-xl font-bold text-[#0a1a3a]">Pauschalreisen vergleichen</h3>
-              <p className="text-sm text-[#0a1a3a]/50 mt-1">Finde die besten Deals und spare bei deinem Traumurlaub</p>
-              <Link
-                href="/lastminute"
-                className="mt-4 inline-flex items-center gap-2 bg-[#ff6b35] text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#e55a2b] active:scale-95 transition-all shadow-md shadow-[#ff6b35]/20"
-              >
-                Jetzt Angebote finden
-                <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4"><path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" /></svg>
-              </Link>
+            <div className="flex items-center gap-2.5">
+              <svg className="w-5 h-5 text-[#0a1a3a]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+              <span className="text-sm font-medium text-[#0a1a3a]">Top-Angebote ohne versteckte Kosten</span>
             </div>
-          </div>
-
-          {/* Mietwagen */}
-          <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
-            <div className="relative h-44 overflow-hidden">
-              <Image src="/destinations/mietwagen.webp" alt="Mietwagen" fill className="object-cover object-center group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 50vw" />
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-            </div>
-            <div className="px-6 pb-6 -mt-6 relative">
-              <div className="flex items-center gap-2 mb-2">
-                <Car className="w-4 h-4 text-[#2e75fa]" />
-                <span className="text-xs font-semibold text-[#2e75fa] uppercase tracking-wider">Mietwagen</span>
-              </div>
-              <h3 className="text-xl font-bold text-[#0a1a3a]">Mietwagen weltweit vergleichen</h3>
-              <p className="text-sm text-[#0a1a3a]/50 mt-1">Finde den besten Preis und starte dein Abenteuer</p>
-              <Link
-                href="/mietwagen"
-                className="mt-4 inline-flex items-center gap-2 bg-[#2e75fa] text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#1a5fe0] active:scale-95 transition-all shadow-md shadow-[#2e75fa]/20"
-              >
-                Jetzt vergleichen
-                <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4"><path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" /></svg>
-              </Link>
+            <div className="flex items-center gap-2.5">
+              <svg className="w-5 h-5 text-[#0a1a3a]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></svg>
+              <span className="text-sm font-medium text-[#0a1a3a]">Flexible Optionen von Top-Marken</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Top Deals — featured offers */}
+      {/* Top Deals — Günstige Traumziele */}
       {typedFeatured.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-          <div className="flex items-end justify-between gap-4 mb-6">
-            <div>
-              <span className="inline-block text-xs font-semibold uppercase tracking-wider text-[#ff6b35] mb-2">
-                Top Deals
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight">
-                Deals, die nicht lange bleiben.
-              </h2>
-              <p className="text-sm text-[#0a1a3a]/50 mt-2 max-w-lg">
-                Handverlesen, preisgepr&uuml;ft, sofort buchbar. Greif zu, bevor es andere tun.
-              </p>
-            </div>
-          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight">
+            G&uuml;nstige Traumziele entdecken
+          </h2>
+          <p className="text-sm text-[#0a1a3a]/50 mt-2 max-w-lg mb-8">
+            Anderen Reisenden gefallen diese Pauschalreisen. W&auml;hle aus den beliebtesten Angeboten.
+          </p>
 
-          <OffersSection offers={typedFeatured} size="default" showCategoryTabs={false} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {typedFeatured.slice(0, 4).map((offer) => (
+              <Link key={offer.id} href={`/angebot/${offer.id}`} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all">
+                <div className="relative h-56 overflow-hidden">
+                  <Image
+                    src={`/destinations/${offer.destination.slug}.webp`}
+                    alt={offer.destination.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-lg font-bold text-[#0a1a3a]">{offer.destination.name}</h3>
+                  <p className="text-sm text-[#0a1a3a]/50 mt-1 line-clamp-2">{offer.title}</p>
+                  <div className="mt-4 inline-flex items-center gap-2 bg-[#0a1a3a] text-white px-5 py-2.5 rounded-lg font-semibold text-sm group-hover:bg-[#2e75fa] transition-colors">
+                    Jetzt buchen
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </section>
       )}
 
@@ -186,6 +169,9 @@ export default async function HomePage() {
 
       {/* TikTok Feed */}
       <TikTokFeed />
+
+      {/* FAQ */}
+      <FaqSection />
 
       {/* CTA */}
       <CtaSection />
