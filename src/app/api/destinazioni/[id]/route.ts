@@ -63,6 +63,7 @@ export async function PUT(
         name: parsed.data.name,
         country: parsed.data.country,
         category: parsed.data.category,
+        slug: body.slug ?? undefined,
         imageUrl: parsed.data.imageUrl || null,
         description: parsed.data.description || null,
       },
