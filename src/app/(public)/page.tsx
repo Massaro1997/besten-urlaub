@@ -90,21 +90,63 @@ export default async function HomePage() {
 
       {/* Trust Badges */}
       <section className="bg-white border-b border-[#0a1a3a]/6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
-            <div className="flex items-center gap-2.5">
-              <svg className="w-5 h-5 text-[#0a1a3a]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
-              <span className="text-sm font-medium text-[#0a1a3a]">Flug &amp; Hotel, alles in einem</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Kostenlose Stornierung */}
+            <div className="flex items-start gap-4">
+              <div className="shrink-0 w-14 h-14 rounded-full border-2 border-[#0a1a3a]/15 flex items-center justify-center">
+                <svg className="w-6 h-6 text-[#0a1a3a]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-[#0a1a3a]">Kostenlose Stornierung</h3>
+                <p className="text-sm text-[#0a1a3a]/55 mt-1 leading-relaxed">Viele Angebote bis 24h vor Anreise kostenlos stornieren oder umbuchen.</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2.5">
-              <svg className="w-5 h-5 text-[#0a1a3a]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
-              <span className="text-sm font-medium text-[#0a1a3a]">Top-Angebote ohne versteckte Kosten</span>
+            {/* Bestpreis-Garantie */}
+            <div className="flex items-start gap-4">
+              <div className="shrink-0 w-14 h-14 rounded-full border-2 border-[#0a1a3a]/15 flex items-center justify-center">
+                <svg className="w-6 h-6 text-[#0a1a3a]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-[#0a1a3a]">Bestpreis-Garantie</h3>
+                <p className="text-sm text-[#0a1a3a]/55 mt-1 leading-relaxed">Hier buchen Sie immer zum besten Preis &mdash; garantiert durch unseren Anbietervergleich.</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2.5">
-              <svg className="w-5 h-5 text-[#0a1a3a]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></svg>
-              <span className="text-sm font-medium text-[#0a1a3a]">Flexible Optionen von Top-Marken</span>
+            {/* Rund um die Uhr */}
+            <div className="flex items-start gap-4">
+              <div className="shrink-0 w-14 h-14 rounded-full border-2 border-[#0a1a3a]/15 flex items-center justify-center">
+                <svg className="w-6 h-6 text-[#2e75fa]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" /></svg>
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-[#0a1a3a]">Rund um die Uhr f&uuml;r Sie da</h3>
+                <p className="text-sm text-[#0a1a3a]/55 mt-1 leading-relaxed">Mit Ihren Anliegen, Fragen und Anregungen erreichen Sie uns zu jeder Zeit.</p>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Reiseveranstalter Logos */}
+      <section className="bg-white border-b border-[#0a1a3a]/6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+          <h3 className="text-lg sm:text-xl font-bold text-[#0a1a3a] text-center mb-6">
+            Alle Top Reiseveranstalter im Vergleich
+          </h3>
+          <div className="flex items-center justify-center gap-8 sm:gap-12 flex-wrap">
+            {[
+              { src: '/LOGHI/operatorTuifalse.svg', alt: 'TUI' },
+              { src: '/LOGHI/operatorAurumToursfalse.svg', alt: 'AurumTours' },
+              { src: '/LOGHI/operatorSchauinslandReisenfalse.svg', alt: 'Schauinsland Reisen' },
+              { src: '/LOGHI/operatorDertourfalse.svg', alt: 'DERTOUR' },
+              { src: '/LOGHI/operatorCoralTravelfalse.svg', alt: 'Coral Travel' },
+              { src: '/LOGHI/operatorVtoursfalse.svg', alt: 'vtours' },
+              { src: '/LOGHI/operatorLturfalse.svg', alt: 'ltur' },
+              { src: '/LOGHI/operatorItsfalse.svg', alt: 'ITS' },
+            ].map((logo) => (
+              <Image key={logo.alt} src={logo.src} alt={logo.alt} width={100} height={36} className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
+            ))}
+          </div>
+          <p className="text-xs text-[#0a1a3a]/40 text-center mt-4">Teilnehmende Veranstalter</p>
         </div>
       </section>
 
