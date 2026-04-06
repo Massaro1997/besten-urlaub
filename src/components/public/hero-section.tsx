@@ -254,10 +254,10 @@ export function HeroSection() {
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev span,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next span { display: none !important; }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev::after {
-          content: '\\2039' !important; font-size: 20px !important; color: white !important; font-weight: bold !important;
+          content: '‹' !important; font-size: 20px !important; color: white !important; font-weight: bold !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next::after {
-          content: '\\203A' !important; font-size: 20px !important; color: white !important; font-weight: bold !important;
+          content: '›' !important; font-size: 20px !important; color: white !important; font-weight: bold !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-title {
           color: white !important; font-weight: 700 !important; font-size: 14px !important;
