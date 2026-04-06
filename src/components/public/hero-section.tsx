@@ -128,7 +128,14 @@ export function HeroSection() {
           color: #9ca3af !important;
         }
 
-        /* === Left/Right: native 50/50 layout === */
+        /* === Left/Right: force native 50/50 side-by-side === */
+        .c24-hero-widget div.c24package-left,
+        .c24-hero-widget div.c24package-right {
+          width: 50% !important;
+          display: inline-block !important;
+          vertical-align: top !important;
+          box-sizing: border-box !important;
+        }
         .c24-hero-widget div.c24package-left {
           padding-right: 6px !important;
         }
