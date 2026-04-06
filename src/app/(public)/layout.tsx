@@ -12,11 +12,11 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'Besten Urlaub -- Die besten Urlaubsangebote',
+  title: 'Bester Urlaub -- Die besten Urlaubsangebote',
   description:
     'Finde die besten Reiseangebote und Urlaubsschnaeppchen fuer deinen naechsten Traumurlaub. Direkt fuer dich gefunden.',
   openGraph: {
-    title: 'Besten Urlaub -- Die besten Urlaubsangebote',
+    title: 'Bester Urlaub -- Die besten Urlaubsangebote',
     description:
       'Finde die besten Reiseangebote und Urlaubsschnaeppchen fuer deinen naechsten Traumurlaub.',
     type: 'website',
@@ -30,7 +30,7 @@ export default function PublicLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className={`${poppins.variable} font-[family-name:var(--font-poppins)] flex flex-col min-h-screen bg-[#f8f9fc]`}>
+    <div className={`${poppins.variable} font-[family-name:var(--font-poppins)] flex flex-col min-h-screen bg-[#d1f1fd]`}>
       <PublicHeader />
       <main className="flex-1">{children}</main>
       <PublicFooter />

@@ -41,7 +41,7 @@ export function PublicHeader() {
           <Link href="/" className="shrink-0">
             <Image
               src="/noBgColor.png"
-              alt="Besten Urlaub"
+              alt="Bester Urlaub"
               width={140}
               height={36}
               className="h-9 w-auto"

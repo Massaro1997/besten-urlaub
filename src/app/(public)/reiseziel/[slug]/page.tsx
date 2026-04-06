@@ -22,11 +22,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const dest = await prisma.destination.findUnique({ where: { slug } })
 
   if (!dest) {
-    return { title: 'Reiseziel nicht gefunden | Besten Urlaub' }
+    return { title: 'Reiseziel nicht gefunden | Bester Urlaub' }
   }
 
   return {
-    title: `${dest.name} Urlaub — Angebote | Besten Urlaub`,
+    title: `${dest.name} Urlaub — Angebote | Bester Urlaub`,
     description:
       dest.description || `Die besten Urlaubsangebote f\u00fcr ${dest.name}.`,
     openGraph: {

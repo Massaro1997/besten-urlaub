@@ -48,7 +48,7 @@ export function PublicFooter() {
             <div className="max-w-xs">
               <Image
                 src="/noBgWhite.png"
-                alt="Besten Urlaub"
+                alt="Bester Urlaub"
                 width={150}
                 height={40}
                 className="h-9 w-auto"
@@ -142,7 +142,7 @@ export function PublicFooter() {
         {/* Bottom bar */}
         <div className="border-t border-white/[0.06] py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-[11px] text-white/30">
-            &copy; {new Date().getFullYear()} Besten Urlaub
+            &copy; {new Date().getFullYear()} Bester Urlaub
           </p>
           <p className="text-[11px] text-white/25">
             * Alle Angebote enthalten Affiliate-Links zu Check24

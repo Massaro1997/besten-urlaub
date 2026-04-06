@@ -5,7 +5,7 @@ import { ArrowLeft, CalendarCheck } from 'lucide-react'
 import { Check24Widget } from '@/components/public/check24-widget'
 
 export const metadata: Metadata = {
-  title: 'Frühbucher Angebote | Besten Urlaub',
+  title: 'Frühbucher Angebote | Bester Urlaub',
   description: 'Frühbucher-Rabatte sichern! Jetzt früh buchen und bei deinem nächsten Urlaub sparen.',
 }
 
@@ -21,7 +21,7 @@ export default function FruehbucherPage() {
             </Link>
             <div className="h-5 w-px bg-[#0a1a3a]/10 shrink-0" />
             <div className="flex items-center gap-2">
-              <Image src="/symbol.svg" alt="Besten Urlaub" width={20} height={20} className="shrink-0" />
+              <Image src="/symbol.svg" alt="Bester Urlaub" width={20} height={20} className="shrink-0" />
               <div>
                 <p className="text-sm font-semibold text-[#0a1a3a]">Frühbucher Angebote</p>
                 <p className="text-xs text-[#0a1a3a]/50">Früh buchen, mehr sparen</p>
@@ -39,7 +39,7 @@ export default function FruehbucherPage() {
         <Check24Widget offer="earlybooker" />
       </div>
 
-      <div className="border-t border-[#0a1a3a]/5 bg-[#f8f9fc] shrink-0">
+      <div className="border-t border-[#0a1a3a]/5 bg-[#d1f1fd] shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <p className="text-[10px] text-[#0a1a3a]/40">
             <span className="font-semibold">CHECK24.net Partnerprogramm</span> — Affiliate-Links. <a href="https://www.check24.net" target="_blank" rel="noopener noreferrer" className="text-[#2e75fa] hover:underline">Mehr Info</a>

@@ -55,9 +55,9 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         {/* Logo */}
         <div className="flex items-center justify-between px-5 h-[var(--header-height)] border-b border-border-light">
           <Link href="/" className="flex items-center gap-2.5" onClick={onClose}>
-            <Image src="/symbol.svg" alt="Besten Urlaub" width={32} height={32} className="w-8 h-8" />
+            <Image src="/symbol.svg" alt="Bester Urlaub" width={32} height={32} className="w-8 h-8" />
             <div>
-              <p className="text-sm font-semibold leading-tight">Besten Urlaub</p>
+              <p className="text-sm font-semibold leading-tight">Bester Urlaub</p>
               <p className="text-[10px] text-secondary leading-tight">Check24 Affiliate</p>
             </div>
           </Link>
@@ -99,7 +99,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         {/* Footer */}
         <div className="px-5 py-4 border-t border-border-light">
           <p className="text-[10px] text-secondary/60">
-            Besten Urlaub Dashboard v1.0
+            Bester Urlaub Dashboard v1.0
           </p>
         </div>
       </aside>

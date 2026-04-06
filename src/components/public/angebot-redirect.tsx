@@ -120,7 +120,7 @@ export function AngebotRedirect({
       <div className="text-center max-w-sm">
         <Image
           src="/symbol.svg"
-          alt="Besten Urlaub"
+          alt="Bester Urlaub"
           width={48}
           height={48}
           className="mx-auto mb-4"

@@ -2,15 +2,15 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Impressum | Besten Urlaub',
+  title: 'Impressum | Bester Urlaub',
   description:
-    'Impressum und Angaben gemaess Paragraph 5 TMG fuer Besten Urlaub.',
+    'Impressum und Angaben gemaess Paragraph 5 TMG fuer Bester Urlaub.',
   robots: { index: true, follow: true },
 }
 
 export default function ImpressumPage() {
   return (
-    <div className="bg-[#f8f9fc] py-16 sm:py-24">
+    <div className="bg-[#d1f1fd] py-16 sm:py-24">
       <article className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Badge */}
         <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#2e75fa] bg-[#2e75fa]/10 px-3 py-1 rounded-full mb-6">

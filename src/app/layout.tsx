@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Besten Urlaub — Die besten Urlaubsangebote",
+  title: "Bester Urlaub — Die besten Urlaubsangebote",
   description: "Finde die besten Reiseangebote und Urlaubsschnäppchen. Direkt für dich gefunden.",
   icons: {
     icon: '/symbol.svg',

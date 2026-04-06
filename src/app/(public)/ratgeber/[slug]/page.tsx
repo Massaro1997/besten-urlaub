@@ -18,11 +18,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const article = ratgeberArticles.find((a) => a.slug === slug)
 
   if (!article) {
-    return { title: 'Ratgeber nicht gefunden | Besten Urlaub' }
+    return { title: 'Ratgeber nicht gefunden | Bester Urlaub' }
   }
 
   return {
-    title: `${article.title} | Reise-Ratgeber | Besten Urlaub`,
+    title: `${article.title} | Reise-Ratgeber | Bester Urlaub`,
     description: article.metaDescription,
     openGraph: {
       title: article.title,
@@ -270,7 +270,7 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
               <Link
                 key={rel.slug}
                 href={`/ratgeber/${rel.slug}`}
-                className="group bg-[#f8f9fc] rounded-2xl overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
+                className="group bg-[#d1f1fd] rounded-2xl overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
               >
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <Image

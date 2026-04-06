@@ -2,15 +2,15 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Datenschutz | Besten Urlaub',
+  title: 'Datenschutz | Bester Urlaub',
   description:
-    'Datenschutzerklaerung von Besten Urlaub. Informationen zur Erhebung und Verarbeitung personenbezogener Daten.',
+    'Datenschutzerklaerung von Bester Urlaub. Informationen zur Erhebung und Verarbeitung personenbezogener Daten.',
   robots: { index: true, follow: true },
 }
 
 export default function DatenschutzPage() {
   return (
-    <div className="bg-[#f8f9fc] py-16 sm:py-24">
+    <div className="bg-[#d1f1fd] py-16 sm:py-24">
       <article className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Badge */}
         <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#2e75fa] bg-[#2e75fa]/10 px-3 py-1 rounded-full mb-6">

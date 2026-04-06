@@ -23,7 +23,7 @@ export async function generateMetadata({
   })
   if (!offer) return { title: 'Angebot nicht gefunden' }
   return {
-    title: `${offer.title} | Besten Urlaub`,
+    title: `${offer.title} | Bester Urlaub`,
     description: offer.description || `Urlaubsangebot: ${offer.title} — jetzt buchen auf Check24`,
   }
 }
@@ -102,7 +102,7 @@ export default async function AngebotPage({
             <div className="flex items-center gap-2 min-w-0">
               <Image
                 src="/symbol.svg"
-                alt="Besten Urlaub"
+                alt="Bester Urlaub"
                 width={20}
                 height={20}
                 className="shrink-0"
