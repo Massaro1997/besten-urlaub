@@ -14,10 +14,10 @@ const TABS = [
 
 export function HeroSection() {
   useEffect(() => {
-    if (!document.querySelector('script[src*="c24pp-package-widget97426"]')) {
+    if (!document.querySelector('script[src*="c24pp-package-widget63276"]')) {
       const script = document.createElement('script')
       script.async = true
-      script.src = 'https://files.check24.net/widgets/1168044/c24pp-package-widget97426/packagebillboard.js'
+      script.src = 'https://files.check24.net/widgets/1168044/c24pp-package-widget63276/package.js'
       document.body.appendChild(script)
     }
   }, [])
@@ -48,7 +48,7 @@ export function HeroSection() {
         </h1>
 
         <div className="max-w-5xl c24-hero-widget">
-          <div id="c24pp-package-widget97426" data-target="_self" data-whitelabel="yes"
+          <div id="c24pp-package-widget63276" data-target="_self" data-whitelabel="yes"
             data-form="https://www.besterurlaub.com/pauschalreisen" data-tid="HERO01" />
         </div>
       </div>
