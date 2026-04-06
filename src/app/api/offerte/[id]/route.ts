@@ -59,6 +59,7 @@ export async function PUT(
         affiliateLink: parsed.data.affiliateLink,
         description: parsed.data.description || null,
         notes: parsed.data.notes || null,
+        featured: typeof body.featured === 'boolean' ? body.featured : undefined,
       },
       include: {
         destination: {
