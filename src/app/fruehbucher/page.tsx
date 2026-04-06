@@ -39,7 +39,7 @@ export default function FruehbucherPage() {
         <Check24Widget offer="earlybooker" />
       </div>
 
-      <div className="border-t border-[#0a1a3a]/5 bg-[#d1f1fd] shrink-0">
+      <div className="border-t border-[#0a1a3a]/5 bg-gray-50 shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <p className="text-[10px] text-[#0a1a3a]/40">
             <span className="font-semibold">CHECK24.net Partnerprogramm</span> — Affiliate-Links. <a href="https://www.check24.net" target="_blank" rel="noopener noreferrer" className="text-[#2e75fa] hover:underline">Mehr Info</a>

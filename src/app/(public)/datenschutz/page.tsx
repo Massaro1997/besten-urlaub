@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function DatenschutzPage() {
   return (
-    <div className="bg-[#d1f1fd] py-16 sm:py-24">
+    <div className="bg-white py-16 sm:py-24">
       <article className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Badge */}
         <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#2e75fa] bg-[#2e75fa]/10 px-3 py-1 rounded-full mb-6">

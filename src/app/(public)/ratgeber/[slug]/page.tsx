@@ -270,7 +270,7 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
               <Link
                 key={rel.slug}
                 href={`/ratgeber/${rel.slug}`}
-                className="group bg-[#d1f1fd] rounded-2xl overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
+                className="group bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
               >
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <Image

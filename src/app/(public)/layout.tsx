@@ -30,7 +30,7 @@ export default function PublicLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className={`${poppins.variable} font-[family-name:var(--font-poppins)] flex flex-col min-h-screen bg-[#d1f1fd]`}>
+    <div className={`${poppins.variable} font-[family-name:var(--font-poppins)] flex flex-col min-h-screen bg-white`}>
       <PublicHeader />
       <main className="flex-1">{children}</main>
       <PublicFooter />
