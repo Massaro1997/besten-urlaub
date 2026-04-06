@@ -47,14 +47,14 @@ export function HeroSection() {
           Die besten Urlaubsangebote<br className="hidden sm:block" /> zum besten Preis.
         </h1>
 
-        <div className="max-w-4xl c24-hero-widget">
+        <div className="max-w-5xl c24-hero-widget">
           <div id="c24pp-package-widget63276" data-target="_blank" data-whitelabel="no"
             data-form="https://www.check24.net/pauschalreisen-vergleich/" />
         </div>
       </div>
 
       <style jsx global>{`
-        /* === Outer container: full width, no background image === */
+        /* === Reset outer container === */
         .c24-hero-widget div.c24pp1.c24pp2.c24pp3.c24package {
           width: 100% !important;
           max-width: 100% !important;
@@ -62,46 +62,185 @@ export function HeroSection() {
           min-height: 0 !important;
           background: none !important;
           border: none !important;
-          border-radius: 16px !important;
         }
 
-        /* === Wrapper: clean white card, keep native layout === */
-        .c24-hero-widget div.c24package-wrapper {
-          background: rgba(255,255,255,0.95) !important;
-          border-radius: 16px !important;
-          padding: 20px 24px !important;
-          margin: 0 !important;
-          box-shadow: 0 20px 60px -12px rgba(0,0,0,0.35) !important;
-        }
-
-        /* === Hide logo wrapper but keep layout === */
+        /* === Hide branding === */
         .c24-hero-widget .c24package-logo-wrapper { display: none !important; }
-
-        /* === Title: hide (we have our own h1) === */
         .c24-hero-widget span.c24package-title { display: none !important; }
-
-        /* === Tracking pixel: hidden === */
         .c24-hero-widget img[src*="view.php"] { position: absolute !important; opacity: 0 !important; pointer-events: none !important; }
 
-        /* === Labels: bold dark blue === */
-        .c24-hero-widget span.c24package-dep,
-        .c24-hero-widget span.c24package-duration,
-        .c24-hero-widget span.c24package-ret,
-        .c24-hero-widget span.c24package-airport {
-          font-size: 12px !important;
-          font-weight: 700 !important;
-          color: #003366 !important;
-          margin: 10px 0 5px 0 !important;
+        /* ============================================================
+           WRAPPER: CSS Grid — 4 columns x 2 visual rows
+
+           Visual Row 1: [ Reiseziel (cols 1-3)        | Abflughafen (col 4)  ]
+           Visual Row 2: [ Hinreise (1) | Rückreise (2) | Reisedauer (3) | Button (4) ]
+
+           DOM: location, left(dep+duration), right(ret+airport), full(button)
+           All containers use display:contents so children go into parent grid.
+           Each "field" = label span + input div, stacked in the same cell.
+           ============================================================ */
+        .c24-hero-widget div.c24package-wrapper {
+          display: grid !important;
+          grid-template-columns: 1fr 1fr 1fr auto !important;
+          grid-template-rows: auto auto !important;
+          gap: 0 !important;
+          background: rgba(255,255,255,0.95) !important;
+          border-radius: 16px !important;
+          border: none !important;
+          box-shadow: 0 20px 60px -12px rgba(0,0,0,0.35) !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          overflow: visible !important;
+          color: #0a1a3a !important;
+          text-align: left !important;
         }
+
+        /* All containers become transparent */
+        .c24-hero-widget div.c24package-location,
+        .c24-hero-widget div.c24package-left,
+        .c24-hero-widget div.c24package-right {
+          display: contents !important;
+        }
+
+        /* ========== ROW 1: Reiseziel + Abflughafen ========== */
+
+        /* Reiseziel label */
         .c24-hero-widget div.c24package-location > span {
+          grid-column: 1 / 4 !important;
+          grid-row: 1 !important;
+          padding: 16px 20px 6px 20px !important;
           font-size: 12px !important;
           font-weight: 700 !important;
           color: #003366 !important;
-          margin: 0 0 5px 0 !important;
           display: block !important;
         }
 
-        /* === Inputs and selects: clean bordered === */
+        /* Reiseziel input */
+        .c24-hero-widget input.c24package-location {
+          grid-column: 1 / 4 !important;
+          grid-row: 1 !important;
+          margin: 32px 20px 14px 20px !important;
+          width: auto !important;
+        }
+
+        /* Reiseziel autocomplete dropdown */
+        .c24-hero-widget div.c24package-location > ul.ui-autocomplete {
+          grid-column: 1 / 4 !important;
+          grid-row: 1 !important;
+        }
+
+        /* Abflughafen label */
+        .c24-hero-widget span.c24package-airport {
+          grid-column: 4 !important;
+          grid-row: 1 !important;
+          padding: 16px 20px 6px 16px !important;
+          font-size: 12px !important;
+          font-weight: 700 !important;
+          color: #003366 !important;
+          display: block !important;
+          margin: 0 !important;
+          border-left: 1px solid #eef0f3 !important;
+        }
+
+        /* Abflughafen select */
+        .c24-hero-widget div.c24package-airport {
+          grid-column: 4 !important;
+          grid-row: 1 !important;
+          padding: 32px 20px 14px 16px !important;
+          margin: 0 !important;
+          width: auto !important;
+          border-left: 1px solid #eef0f3 !important;
+        }
+
+        /* Bottom border for entire row 1 */
+        .c24-hero-widget div.c24package-wrapper::before {
+          content: '' !important;
+          grid-column: 1 / -1 !important;
+          grid-row: 1 !important;
+          border-bottom: 1px solid #eef0f3 !important;
+          pointer-events: none !important;
+          align-self: end !important;
+        }
+
+        /* ========== ROW 2: Hinreise + Rückreise + Reisedauer + Button ========== */
+
+        /* Hinreise label */
+        .c24-hero-widget span.c24package-dep {
+          grid-column: 1 !important;
+          grid-row: 2 !important;
+          padding: 14px 12px 6px 20px !important;
+          font-size: 12px !important;
+          font-weight: 700 !important;
+          color: #003366 !important;
+          display: block !important;
+          margin: 0 !important;
+        }
+
+        /* Hinreise input */
+        .c24-hero-widget div.c24package-dep {
+          grid-column: 1 !important;
+          grid-row: 2 !important;
+          padding: 32px 12px 14px 20px !important;
+          margin: 0 !important;
+          width: auto !important;
+          border-right: 1px solid #eef0f3 !important;
+        }
+
+        /* Rückreise label */
+        .c24-hero-widget span.c24package-ret {
+          grid-column: 2 !important;
+          grid-row: 2 !important;
+          padding: 14px 12px 6px 16px !important;
+          font-size: 12px !important;
+          font-weight: 700 !important;
+          color: #003366 !important;
+          display: block !important;
+          margin: 0 !important;
+        }
+
+        /* Rückreise input */
+        .c24-hero-widget div.c24package-ret {
+          grid-column: 2 !important;
+          grid-row: 2 !important;
+          padding: 32px 12px 14px 16px !important;
+          margin: 0 !important;
+          width: auto !important;
+          border-right: 1px solid #eef0f3 !important;
+        }
+
+        /* Reisedauer label */
+        .c24-hero-widget span.c24package-duration {
+          grid-column: 3 !important;
+          grid-row: 2 !important;
+          padding: 14px 12px 6px 16px !important;
+          font-size: 12px !important;
+          font-weight: 700 !important;
+          color: #003366 !important;
+          display: block !important;
+          margin: 0 !important;
+        }
+
+        /* Reisedauer select */
+        .c24-hero-widget div.c24package-duration {
+          grid-column: 3 !important;
+          grid-row: 2 !important;
+          padding: 32px 12px 14px 16px !important;
+          margin: 0 !important;
+          width: auto !important;
+          border-right: 1px solid #eef0f3 !important;
+        }
+
+        /* Button */
+        .c24-hero-widget div.c24package-full {
+          grid-column: 4 !important;
+          grid-row: 2 !important;
+          display: flex !important;
+          align-items: stretch !important;
+          padding: 0 !important;
+          width: auto !important;
+        }
+
+        /* ========== INPUT STYLES ========== */
         .c24-hero-widget input.c24package-location,
         .c24-hero-widget input.c24package-dep,
         .c24-hero-widget select.c24package-duration,
@@ -117,6 +256,7 @@ export function HeroSection() {
           background: white !important;
           box-sizing: border-box !important;
           outline: none !important;
+          display: inline-block !important;
           transition: border-color 0.15s, box-shadow 0.15s !important;
         }
         .c24-hero-widget input:focus,
@@ -128,40 +268,27 @@ export function HeroSection() {
           color: #9ca3af !important;
         }
 
-        /* === Left/Right: force native 50/50 side-by-side === */
-        .c24-hero-widget div.c24package-left,
-        .c24-hero-widget div.c24package-right {
-          width: 50% !important;
-          display: inline-block !important;
-          vertical-align: top !important;
-          box-sizing: border-box !important;
-        }
-        .c24-hero-widget div.c24package-left {
-          padding-right: 6px !important;
-        }
-        .c24-hero-widget div.c24package-right {
-          padding-left: 6px !important;
-        }
-
-        /* === Submit button: blue === */
+        /* ========== BUTTON ========== */
         .c24-hero-widget button.c24package-submit {
           background: #2e75fa !important;
           border: none !important;
-          border-radius: 10px !important;
-          padding: 12px 24px !important;
-          font-size: 15px !important;
+          border-radius: 0 0 15px 0 !important;
+          padding: 16px 36px !important;
+          font-size: 16px !important;
           font-weight: 700 !important;
           color: white !important;
           cursor: pointer !important;
+          white-space: nowrap !important;
           width: 100% !important;
-          margin: 16px 0 0 0 !important;
+          height: 100% !important;
           transition: background 0.15s !important;
+          margin: 0 !important;
         }
         .c24-hero-widget button.c24package-submit:hover {
           background: #1a5fe0 !important;
         }
 
-        /* === Autocomplete dropdown === */
+        /* ========== AUTOCOMPLETE ========== */
         .c24-hero-widget .ui-autocomplete {
           background: white !important;
           border: 1px solid #e5e7eb !important;
@@ -183,7 +310,7 @@ export function HeroSection() {
           border: none !important;
         }
 
-        /* === Datepicker === */
+        /* ========== DATEPICKER ========== */
         .c24pp1.c24pp2.c24pp3 .ui-datepicker {
           z-index: 9999 !important;
           border-radius: 12px !important;
@@ -222,70 +349,75 @@ export function HeroSection() {
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next:hover {
           background: rgba(255,255,255,0.35) !important;
         }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev {
-          left: 6px !important;
-        }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker-next {
-          right: 6px !important;
-        }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev { left: 6px !important; }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker-next { right: 6px !important; }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev span,
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker-next span {
-          display: none !important;
-        }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker-next span { display: none !important; }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev::after {
-          content: '‹' !important;
-          font-size: 20px !important;
-          color: white !important;
-          font-weight: bold !important;
+          content: '‹' !important; font-size: 20px !important; color: white !important; font-weight: bold !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next::after {
-          content: '›' !important;
-          font-size: 20px !important;
-          color: white !important;
-          font-weight: bold !important;
+          content: '›' !important; font-size: 20px !important; color: white !important; font-weight: bold !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-title {
-          color: white !important;
-          font-weight: 700 !important;
-          font-size: 14px !important;
+          color: white !important; font-weight: 700 !important; font-size: 14px !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker th {
-          color: #0a1a3a !important;
-          font-size: 11px !important;
-          font-weight: 600 !important;
-          padding: 6px 4px !important;
+          color: #0a1a3a !important; font-size: 11px !important; font-weight: 600 !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker td a,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker td span {
-          color: #0a1a3a !important;
-          font-size: 13px !important;
-          padding: 6px !important;
-          text-align: center !important;
-          border-radius: 6px !important;
+          color: #0a1a3a !important; font-size: 13px !important; padding: 6px !important;
+          text-align: center !important; border-radius: 6px !important;
         }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker td a:hover {
-          background: #e8f0ff !important;
-        }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker td a:hover { background: #e8f0ff !important; }
         .c24pp1.c24pp2.c24pp3 .ui-state-highlight a,
-        .c24pp1.c24pp2.c24pp3 .ui-state-active a {
-          background: #2e75fa !important;
-          color: white !important;
-        }
-        .c24pp1.c24pp2.c24pp3 .ui-state-disabled span {
-          color: #ccc !important;
-        }
+        .c24pp1.c24pp2.c24pp3 .ui-state-active a { background: #2e75fa !important; color: white !important; }
+        .c24pp1.c24pp2.c24pp3 .ui-state-disabled span { color: #ccc !important; }
 
-        /* === MOBILE === */
-        @media (max-width: 640px) {
+        /* ========== MOBILE: stack vertically ========== */
+        @media (max-width: 768px) {
           .c24-hero-widget div.c24package-wrapper {
-            padding: 16px !important;
+            display: flex !important;
+            flex-direction: column !important;
             border-radius: 14px !important;
+            overflow: hidden !important;
           }
+          .c24-hero-widget div.c24package-location,
           .c24-hero-widget div.c24package-left,
           .c24-hero-widget div.c24package-right {
-            width: 100% !important;
             display: block !important;
+            width: 100% !important;
+            padding: 12px 16px !important;
+            border-bottom: 1px solid #eef0f3 !important;
+          }
+          .c24-hero-widget div.c24package-location > span,
+          .c24-hero-widget span.c24package-dep,
+          .c24-hero-widget span.c24package-ret,
+          .c24-hero-widget span.c24package-duration,
+          .c24-hero-widget span.c24package-airport {
             padding: 0 !important;
+            margin: 0 0 4px 0 !important;
+          }
+          .c24-hero-widget input.c24package-location,
+          .c24-hero-widget div.c24package-dep,
+          .c24-hero-widget div.c24package-ret,
+          .c24-hero-widget div.c24package-duration,
+          .c24-hero-widget div.c24package-airport {
+            padding: 0 !important;
+            margin: 0 0 8px 0 !important;
+            border: none !important;
+          }
+          .c24-hero-widget div.c24package-full {
+            width: 100% !important;
+            padding: 12px 16px !important;
+          }
+          .c24-hero-widget button.c24package-submit {
+            border-radius: 10px !important;
+            padding: 14px 24px !important;
+          }
+          .c24-hero-widget div.c24package-wrapper::before {
+            display: none !important;
           }
         }
       `}</style>
