@@ -27,29 +27,56 @@ export function HeroSection() {
       <Image src="/santorini.png" alt="Urlaubsparadies" fill className="object-cover" priority quality={90} />
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/30 to-[#0a1a3a]/70" />
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 w-full pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28">
-        <div className="flex items-center gap-2 mb-8 sm:mb-10">
-          {TABS.map((tab) => (
-            <Link key={tab.href} href={tab.href}
-              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors ${
-                tab.active
-                  ? 'bg-[#ff6b35] text-white shadow-md shadow-[#ff6b35]/25'
-                  : 'bg-white/15 backdrop-blur-sm text-white hover:bg-white/25 border border-white/20'
-              }`}>
-              <tab.icon className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">{tab.label}</span>
-              <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
-            </Link>
-          ))}
-        </div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28">
+        <div className="flex gap-8 items-start">
+          {/* Left: main content */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-8 sm:mb-10">
+              {TABS.map((tab) => (
+                <Link key={tab.href} href={tab.href}
+                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors ${
+                    tab.active
+                      ? 'bg-[#ff6b35] text-white shadow-md shadow-[#ff6b35]/25'
+                      : 'bg-white/15 backdrop-blur-sm text-white hover:bg-white/25 border border-white/20'
+                  }`}>
+                  <tab.icon className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
+                </Link>
+              ))}
+            </div>
 
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-lg max-w-3xl mb-8 sm:mb-10">
-          Die besten Urlaubsangebote<br className="hidden sm:block" /> zum besten Preis.
-        </h1>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-lg max-w-3xl mb-8 sm:mb-10">
+              Die besten Urlaubsangebote<br className="hidden sm:block" /> zum besten Preis.
+            </h1>
 
-        <div className="max-w-5xl c24-hero-widget">
-          <div id="c24pp-package-widget63276" data-target="_self" data-whitelabel="yes"
-            data-form="https://www.besterurlaub.com/pauschalreisen" data-tid="HERO01" />
+            <div className="max-w-5xl c24-hero-widget">
+              <div id="c24pp-package-widget63276" data-target="_self" data-whitelabel="yes"
+                data-form="https://www.besterurlaub.com/pauschalreisen" data-tid="HERO01" />
+            </div>
+          </div>
+
+          {/* Right: trust badges — desktop only */}
+          <div className="hidden lg:flex flex-col items-center gap-4 shrink-0 pt-12">
+            {/* 24h Stornierung — white circle */}
+            <div className="w-[120px] h-[120px] rounded-full bg-white/95 backdrop-blur-sm shadow-2xl flex flex-col items-center justify-center text-center p-2.5 border border-white/50">
+              <span className="text-[9px] font-bold text-[#0a1a3a]/50 uppercase tracking-wide">Bis zu</span>
+              <span className="text-3xl font-extrabold text-[#0a1a3a] leading-none">24h</span>
+              <span className="text-[8px] font-bold text-[#0a1a3a]/50 uppercase mt-0.5">vor Abflug</span>
+              <span className="text-[10px] font-extrabold text-[#0a1a3a] uppercase tracking-wider">stornieren</span>
+            </div>
+            {/* Bestpreis — navy pill */}
+            <div className="bg-[#0a1a3a]/90 backdrop-blur-sm text-white rounded-full px-5 py-3 shadow-2xl text-center border border-white/10">
+              <span className="text-[9px] font-bold block tracking-widest uppercase">Bestpreis</span>
+              <span className="text-base font-extrabold leading-tight">Garantie</span>
+            </div>
+            {/* 60% Rabatt — red pill */}
+            <div className="bg-[#e52e2e] text-white rounded-full px-5 py-3 shadow-2xl text-center">
+              <span className="text-[9px] font-semibold block">Bis zu</span>
+              <span className="text-xl font-extrabold leading-none">60%</span>
+              <span className="text-[9px] font-semibold block">Rabatt</span>
+            </div>
+          </div>
         </div>
       </div>
 
