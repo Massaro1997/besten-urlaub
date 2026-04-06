@@ -18,6 +18,17 @@ export default function RootLayout({
   return (
     <html lang="de" className="h-full antialiased" suppressHydrationWarning>
       <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZHCHDK62PG" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-ZHCHDK62PG');
+            `,
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `

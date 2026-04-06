@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { prisma } from '@/lib/prisma'
 import { HeroSection } from '@/components/public/hero-section'
 import { DestinationGrid } from '@/components/public/destination-grid'
-import { CtaSection } from '@/components/public/cta-section'
 import { TikTokFeed } from '@/components/public/tiktok-feed'
 import { RatgeberCarousel } from '@/components/public/ratgeber-carousel'
 import { FaqSection } from '@/components/public/faq-section'
@@ -84,7 +83,7 @@ export default async function HomePage() {
             </div>
             <span className="hidden sm:block w-px h-4 bg-white/20" />
             <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-[#2e75fa]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3zm7 11a1 1 0 00-2 0 5 5 0 01-10 0 1 1 0 00-2 0 7 7 0 006 6.92V22H8a1 1 0 000 2h8a1 1 0 000-2h-3v-3.08A7 7 0 0019 12z"/></svg>
+              <svg className="w-4 h-4 text-[#2e75fa]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               <span className="text-xs font-medium text-white/80">Flexible Optionen von Top-Marken</span>
             </div>
           </div>
@@ -261,9 +260,6 @@ export default async function HomePage() {
 
       {/* FAQ */}
       <FaqSection />
-
-      {/* CTA */}
-      <CtaSection />
     </>
   )
 }

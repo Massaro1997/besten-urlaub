@@ -36,117 +36,42 @@ function InstagramIcon({ className }: { className?: string }) {
 
 export function PublicFooter() {
   return (
-    <footer className="bg-[#0a1a3a] relative overflow-hidden">
-      {/* Subtle decorative gradient */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#2e75fa]/5 rounded-full blur-3xl pointer-events-none" />
+    <footer className="bg-[#0a1a3a]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6">
+        {/* Single compact row: Logo | Links | Social */}
+        <div className="py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          {/* Logo */}
+          <Image src="/noBgWhite.png" alt="Bester Urlaub" width={120} height={32} className="h-7 w-auto" />
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-6">
-        {/* Main content */}
-        <div className="pt-14 pb-10 sm:pt-16 sm:pb-12">
-          {/* Top row: Logo + Social */}
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-8 mb-12">
-            <div className="max-w-xs">
-              <Image
-                src="/noBgWhite.png"
-                alt="Bester Urlaub"
-                width={150}
-                height={40}
-                className="h-9 w-auto"
-              />
-              <p className="mt-4 text-[13px] text-white/50 leading-relaxed">
-                Finde die besten Urlaubsangebote und spare bei deinem Traumurlaub. Vergleiche und buche direkt.
-              </p>
-            </div>
+          {/* Links — inline */}
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {destinations.slice(0, 4).map((d) => (
+              <Link key={d.slug} href={`/reiseziel/${d.slug}`} className="text-xs text-white/50 hover:text-white transition-colors">{d.label}</Link>
+            ))}
+            <span className="hidden sm:block w-px h-3 bg-white/10" />
+            {services.map((s) => (
+              <Link key={s.href} href={s.href} className="text-xs text-white/50 hover:text-white transition-colors">{s.label}</Link>
+            ))}
+            <span className="hidden sm:block w-px h-3 bg-white/10" />
+            <Link href="/impressum" className="text-xs text-white/50 hover:text-white transition-colors">Impressum</Link>
+            <Link href="/datenschutz" className="text-xs text-white/50 hover:text-white transition-colors">Datenschutz</Link>
+          </nav>
 
-            {/* Social buttons */}
-            <div className="flex gap-3">
-              <a
-                href="https://www.tiktok.com/@bestenurlaub"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] flex items-center justify-center transition-colors"
-                aria-label="TikTok"
-              >
-                <TikTokIcon className="w-[18px] h-[18px] text-white/70" />
-              </a>
-              <a
-                href="https://www.instagram.com/bestenurlaub"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] flex items-center justify-center transition-colors"
-                aria-label="Instagram"
-              >
-                <InstagramIcon className="w-[18px] h-[18px] text-white/70" />
-              </a>
-            </div>
-          </div>
-
-          {/* Link columns */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-8 gap-x-6 sm:gap-x-12">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white/30 mb-4">
-                Top Reiseziele
-              </p>
-              <ul className="space-y-3">
-                {destinations.map((d) => (
-                  <li key={d.slug}>
-                    <Link
-                      href={`/reiseziel/${d.slug}`}
-                      className="text-[13px] text-white/60 hover:text-white transition-colors"
-                    >
-                      {d.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white/30 mb-4">
-                Services
-              </p>
-              <ul className="space-y-3">
-                {services.map((s) => (
-                  <li key={s.href}>
-                    <Link
-                      href={s.href}
-                      className="text-[13px] text-white/60 hover:text-white transition-colors"
-                    >
-                      {s.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="col-span-2 sm:col-span-1">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white/30 mb-4">
-                Rechtliches
-              </p>
-              <ul className="space-y-3">
-                <li>
-                  <Link href="/impressum" className="text-[13px] text-white/60 hover:text-white transition-colors">
-                    Impressum
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/datenschutz" className="text-[13px] text-white/60 hover:text-white transition-colors">
-                    Datenschutz
-                  </Link>
-                </li>
-              </ul>
-            </div>
+          {/* Social */}
+          <div className="flex items-center gap-2">
+            <a href="https://www.tiktok.com/@bestenurlaub" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/[0.07] hover:bg-white/[0.12] flex items-center justify-center transition-colors" aria-label="TikTok">
+              <TikTokIcon className="w-4 h-4 text-white/60" />
+            </a>
+            <a href="https://www.instagram.com/bestenurlaub" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/[0.07] hover:bg-white/[0.12] flex items-center justify-center transition-colors" aria-label="Instagram">
+              <InstagramIcon className="w-4 h-4 text-white/60" />
+            </a>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/[0.06] py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-[11px] text-white/30">
-            &copy; {new Date().getFullYear()} Bester Urlaub
-          </p>
-          <p className="text-[11px] text-white/25">
-            * Alle Angebote enthalten Affiliate-Links zu Check24
-          </p>
+        <div className="border-t border-white/[0.06] py-4 flex flex-col sm:flex-row items-center justify-between gap-1">
+          <p className="text-[11px] text-white/25">&copy; {new Date().getFullYear()} Bester Urlaub</p>
+          <p className="text-[11px] text-white/20">* Alle Angebote enthalten Affiliate-Links zu Check24</p>
         </div>
       </div>
     </footer>

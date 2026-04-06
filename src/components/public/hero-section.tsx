@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Plane, Hotel, Car, Palmtree } from 'lucide-react'
@@ -13,6 +13,8 @@ const TABS = [
 ]
 
 export function HeroSection() {
+  const [showInfo, setShowInfo] = useState<string | null>(null)
+
   useEffect(() => {
     if (!document.querySelector('script[src*="c24pp-package-widget63276"]')) {
       const script = document.createElement('script')
@@ -27,26 +29,64 @@ export function HeroSection() {
       <Image src="/santorini.png" alt="Urlaubsparadies" fill className="object-cover" priority quality={90} />
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/30 to-[#0a1a3a]/70" />
 
-      {/* Floating trust badges — scattered top-right, desktop only */}
-      {/* 24h Stornierung — white circle, top right */}
-      <div className="hidden lg:flex absolute top-8 right-8 xl:right-16 z-10 w-[105px] h-[105px] rounded-full bg-white/95 backdrop-blur-sm shadow-2xl flex-col items-center justify-center text-center p-2 border border-white/50 rotate-[8deg]">
-        <span className="text-[8px] font-bold text-[#0a1a3a]/50 uppercase tracking-wide">Bis zu</span>
-        <span className="text-2xl font-extrabold text-[#0a1a3a] leading-none">24h</span>
-        <span className="text-[7px] font-bold text-[#0a1a3a]/50 uppercase mt-0.5">vor Abflug</span>
-        <span className="text-[9px] font-extrabold text-[#0a1a3a] uppercase tracking-wider">stornieren</span>
-      </div>
-      {/* Bestpreis Garantie — navy rectangle, below-right */}
-      <div className="hidden lg:flex absolute top-32 right-4 xl:right-10 z-10 bg-[#0a1a3a]/90 backdrop-blur-sm text-white rounded-xl px-4 py-2.5 shadow-2xl text-center border border-white/10 -rotate-[4deg]">
-        <div>
-          <span className="text-[8px] font-bold block tracking-widest uppercase">Bestpreis</span>
-          <span className="text-sm font-extrabold leading-tight">Garantie</span>
+      {/* Trust badges — desktop only, triangle/cluster layout with glossy effect */}
+      <div className="hidden lg:block absolute top-24 xl:top-28 right-4 xl:right-10 z-10">
+        <div className="relative w-[260px] h-[280px] xl:w-[300px] xl:h-[310px]">
+          {/* 24h — white, top-left of cluster with info popup */}
+          <div className="absolute top-0 -left-10 w-[160px] h-[160px] xl:w-[180px] xl:h-[180px]">
+            <div className="relative w-full h-full rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.25)] flex flex-col items-center justify-center text-center pt-0 pb-4">
+              <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
+                <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-white/80 to-transparent" />
+              </div>
+              <span className="relative text-[10px] xl:text-xs font-bold text-[#0a1a3a]/50 uppercase tracking-widest">Bis zu</span>
+              <span className="relative text-4xl xl:text-5xl font-black text-[#0a1a3a] leading-none">24h</span>
+              <span className="relative text-[9px] xl:text-[10px] font-bold text-[#0a1a3a]/50 uppercase tracking-wider mt-0.5">vor Abflug</span>
+              <span className="relative text-[11px] xl:text-sm font-extrabold text-[#ff6b35] uppercase tracking-wide">stornieren</span>
+              {/* Info icon — positioned at bottom edge of circle */}
+              <button
+                onClick={() => setShowInfo(showInfo === '24h' ? null : '24h')}
+                className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#0a1a3a] flex items-center justify-center cursor-pointer hover:bg-[#2e75fa] transition-colors shadow-md"
+              >
+                <span className="text-white text-xs font-bold leading-none">i</span>
+              </button>
+            </div>
+            {/* Info popup */}
+            {showInfo === '24h' && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowInfo(null)} />
+                <div className="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 w-[340px] z-50">
+                  <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0a1a3a] rotate-45 rounded-[2px]" />
+                  <div className="bg-[#0a1a3a] rounded-2xl p-5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] text-left">
+                    <div className="flex items-start justify-between mb-3">
+                      <h4 className="text-[15px] font-bold text-white leading-snug">Bis zu 24h vor Abflug stornieren</h4>
+                      <button onClick={() => setShowInfo(null)} className="text-white/40 hover:text-white ml-3 mt-0.5 transition-colors">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                      </button>
+                    </div>
+                    <p className="text-[13px] text-white/70 leading-relaxed mb-3">Viele Pauschalreisen lassen sich bis kurz vor Anreise kostenlos umbuchen oder stornieren.</p>
+                    <p className="text-[13px] text-white/70 leading-relaxed">Auf Bester Urlaub findest du ganz einfach solche Angebote und kannst die passende Stornierungsfrist wählen. Die genaue Frist wird bei jedem Angebot direkt angezeigt.</p>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+          {/* 60% — orange, top-right of cluster */}
+          <div className="absolute top-2 right-0 xl:right-2 w-[105px] h-[105px] xl:w-[115px] xl:h-[115px] rounded-full shadow-[0_8px_30px_rgba(255,107,53,0.4)] flex flex-col items-center justify-center text-center overflow-hidden" style={{ background: 'linear-gradient(160deg, #ff8c5a 0%, #ff6b35 40%, #e85d2c 100%)' }}>
+            <div className="absolute top-0 left-0 right-0 h-[40%] rounded-t-full bg-gradient-to-b from-white/30 to-transparent pointer-events-none" />
+            <span className="relative text-[9px] font-semibold text-white/90 uppercase">Bis zu</span>
+            <span className="relative text-3xl xl:text-[34px] font-black text-white leading-none">60%</span>
+            <span className="relative text-[10px] xl:text-[11px] font-bold text-white uppercase tracking-wide">Rabatt</span>
+          </div>
+          {/* Bestpreis — navy, bottom-center of cluster */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[105px] h-[105px] xl:w-[115px] xl:h-[115px] rounded-full shadow-[0_8px_30px_rgba(10,26,58,0.4)] flex flex-col items-center justify-center text-center border-2 border-white/15 overflow-hidden" style={{ background: 'linear-gradient(160deg, #1a2e52 0%, #0a1a3a 40%, #06112a 100%)' }}>
+            <div className="absolute top-0 left-0 right-0 h-[40%] rounded-t-full bg-gradient-to-b from-white/15 to-transparent pointer-events-none" />
+            <svg className="relative w-5 h-5 text-[#ff6b35] mb-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+            </svg>
+            <span className="relative text-[9px] font-bold text-white/60 uppercase tracking-widest">Bestpreis</span>
+            <span className="relative text-sm xl:text-[15px] font-extrabold text-white uppercase tracking-wide">Garantie</span>
+          </div>
         </div>
-      </div>
-      {/* 60% Rabatt — red oval, further down */}
-      <div className="hidden lg:flex absolute top-52 right-14 xl:right-24 z-10 bg-[#e52e2e] text-white rounded-full w-[80px] h-[80px] shadow-2xl flex-col items-center justify-center text-center rotate-[5deg]">
-        <span className="text-[7px] font-semibold">Bis zu</span>
-        <span className="text-lg font-extrabold leading-none">60%</span>
-        <span className="text-[7px] font-semibold">Rabatt</span>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28">
@@ -220,18 +260,18 @@ export function HeroSection() {
           padding: 10px 12px !important; width: auto !important;
         }
         .c24-hero-widget button.c24package-submit {
-          background: linear-gradient(135deg, #2e75fa 0%, #1a5fe0 100%) !important;
+          background: linear-gradient(135deg, #ff6b35 0%, #e85d2c 100%) !important;
           border: none !important; border-radius: 12px !important;
           padding: 16px 32px !important; font-size: 15px !important; font-weight: 700 !important;
           color: white !important; cursor: pointer !important; white-space: nowrap !important;
           width: 100% !important; height: 100% !important; margin: 0 !important;
-          box-shadow: 0 4px 15px rgba(46,117,250,0.35) !important;
+          box-shadow: 0 4px 15px rgba(255,107,53,0.35) !important;
           transition: transform 0.15s, box-shadow 0.15s !important;
           letter-spacing: 0.3px !important;
         }
         .c24-hero-widget button.c24package-submit:hover {
           transform: scale(1.03) !important;
-          box-shadow: 0 6px 20px rgba(46,117,250,0.45) !important;
+          box-shadow: 0 6px 20px rgba(255,107,53,0.45) !important;
         }
         .c24-hero-widget button.c24package-submit:active {
           transform: scale(0.98) !important;
