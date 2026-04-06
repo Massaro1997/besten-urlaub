@@ -70,19 +70,17 @@ export function HeroSection() {
         .c24-hero-widget img[src*="view.php"] { position: absolute !important; opacity: 0 !important; pointer-events: none !important; }
 
         /* ============================================================
-           WRAPPER: CSS Grid — 4 columns x 2 visual rows
+           WRAPPER: CSS Grid — 4 columns x 4 rows (label+input per visual row)
 
-           Visual Row 1: [ Reiseziel (cols 1-3)        | Abflughafen (col 4)  ]
+           Visual Row 1: [ Reiseziel (cols 1-2)  | Abflughafen (col 3)  | (empty/btn top) ]
            Visual Row 2: [ Hinreise (1) | Rückreise (2) | Reisedauer (3) | Button (4) ]
 
-           DOM: location, left(dep+duration), right(ret+airport), full(button)
-           All containers use display:contents so children go into parent grid.
-           Each "field" = label span + input div, stacked in the same cell.
+           Grid rows: 1=label-r1, 2=input-r1, 3=label-r2, 4=input-r2
            ============================================================ */
         .c24-hero-widget div.c24package-wrapper {
           display: grid !important;
           grid-template-columns: 1fr 1fr 1fr auto !important;
-          grid-template-rows: auto auto !important;
+          grid-template-rows: auto auto auto auto !important;
           gap: 0 !important;
           background: rgba(255,255,255,0.95) !important;
           border-radius: 16px !important;
@@ -102,138 +100,120 @@ export function HeroSection() {
           display: contents !important;
         }
 
-        /* ========== ROW 1: Reiseziel + Abflughafen ========== */
+        /* ========== VISUAL ROW 1: Reiseziel (cols 1-2) + Abflughafen (col 3) ========== */
 
-        /* Reiseziel label */
+        /* Reiseziel label — grid row 1, cols 1-2 */
         .c24-hero-widget div.c24package-location > span {
-          grid-column: 1 / 4 !important;
+          grid-column: 1 / 3 !important;
           grid-row: 1 !important;
-          padding: 16px 20px 6px 20px !important;
-          font-size: 12px !important;
-          font-weight: 700 !important;
-          color: #003366 !important;
+          padding: 14px 16px 4px 20px !important;
           display: block !important;
         }
 
-        /* Reiseziel input */
+        /* Reiseziel input — grid row 2, cols 1-2 */
         .c24-hero-widget input.c24package-location {
-          grid-column: 1 / 4 !important;
-          grid-row: 1 !important;
-          margin: 32px 20px 14px 20px !important;
+          grid-column: 1 / 3 !important;
+          grid-row: 2 !important;
+          margin: 0 16px 14px 20px !important;
           width: auto !important;
         }
 
         /* Reiseziel autocomplete dropdown */
         .c24-hero-widget div.c24package-location > ul.ui-autocomplete {
-          grid-column: 1 / 4 !important;
-          grid-row: 1 !important;
+          grid-column: 1 / 3 !important;
+          grid-row: 2 !important;
         }
 
-        /* Abflughafen label */
+        /* Abflughafen label — grid row 1, col 3 */
         .c24-hero-widget span.c24package-airport {
-          grid-column: 4 !important;
+          grid-column: 3 !important;
           grid-row: 1 !important;
-          padding: 16px 20px 6px 16px !important;
-          font-size: 12px !important;
-          font-weight: 700 !important;
-          color: #003366 !important;
-          display: block !important;
+          padding: 14px 16px 4px 16px !important;
           margin: 0 !important;
           border-left: 1px solid #eef0f3 !important;
         }
 
-        /* Abflughafen select */
+        /* Abflughafen select — grid row 2, col 3 */
         .c24-hero-widget div.c24package-airport {
-          grid-column: 4 !important;
-          grid-row: 1 !important;
-          padding: 32px 20px 14px 16px !important;
+          grid-column: 3 !important;
+          grid-row: 2 !important;
+          padding: 0 16px 14px 16px !important;
           margin: 0 !important;
           width: auto !important;
           border-left: 1px solid #eef0f3 !important;
         }
 
-        /* Bottom border for entire row 1 */
+        /* Divider between visual row 1 and 2 */
         .c24-hero-widget div.c24package-wrapper::before {
           content: '' !important;
           grid-column: 1 / -1 !important;
-          grid-row: 1 !important;
+          grid-row: 2 !important;
           border-bottom: 1px solid #eef0f3 !important;
           pointer-events: none !important;
           align-self: end !important;
+          z-index: 0 !important;
         }
 
-        /* ========== ROW 2: Hinreise + Rückreise + Reisedauer + Button ========== */
+        /* ========== VISUAL ROW 2: Hinreise + Rückreise + Reisedauer + Button ========== */
 
-        /* Hinreise label */
+        /* Hinreise label — grid row 3, col 1 */
         .c24-hero-widget span.c24package-dep {
           grid-column: 1 !important;
-          grid-row: 2 !important;
-          padding: 14px 12px 6px 20px !important;
-          font-size: 12px !important;
-          font-weight: 700 !important;
-          color: #003366 !important;
-          display: block !important;
+          grid-row: 3 !important;
+          padding: 14px 12px 4px 20px !important;
           margin: 0 !important;
         }
 
-        /* Hinreise input */
+        /* Hinreise input — grid row 4, col 1 */
         .c24-hero-widget div.c24package-dep {
           grid-column: 1 !important;
-          grid-row: 2 !important;
-          padding: 32px 12px 14px 20px !important;
+          grid-row: 4 !important;
+          padding: 0 12px 14px 20px !important;
           margin: 0 !important;
           width: auto !important;
           border-right: 1px solid #eef0f3 !important;
         }
 
-        /* Rückreise label */
+        /* Rückreise label — grid row 3, col 2 */
         .c24-hero-widget span.c24package-ret {
           grid-column: 2 !important;
-          grid-row: 2 !important;
-          padding: 14px 12px 6px 16px !important;
-          font-size: 12px !important;
-          font-weight: 700 !important;
-          color: #003366 !important;
-          display: block !important;
+          grid-row: 3 !important;
+          padding: 14px 12px 4px 16px !important;
           margin: 0 !important;
         }
 
-        /* Rückreise input */
+        /* Rückreise input — grid row 4, col 2 */
         .c24-hero-widget div.c24package-ret {
           grid-column: 2 !important;
-          grid-row: 2 !important;
-          padding: 32px 12px 14px 16px !important;
+          grid-row: 4 !important;
+          padding: 0 12px 14px 16px !important;
           margin: 0 !important;
           width: auto !important;
           border-right: 1px solid #eef0f3 !important;
         }
 
-        /* Reisedauer label */
+        /* Reisedauer label — grid row 3, col 3 */
         .c24-hero-widget span.c24package-duration {
           grid-column: 3 !important;
-          grid-row: 2 !important;
-          padding: 14px 12px 6px 16px !important;
-          font-size: 12px !important;
-          font-weight: 700 !important;
-          color: #003366 !important;
-          display: block !important;
+          grid-row: 3 !important;
+          padding: 14px 12px 4px 16px !important;
           margin: 0 !important;
         }
 
-        /* Reisedauer select */
+        /* Reisedauer select — grid row 4, col 3 */
         .c24-hero-widget div.c24package-duration {
           grid-column: 3 !important;
-          grid-row: 2 !important;
-          padding: 32px 12px 14px 16px !important;
+          grid-row: 4 !important;
+          padding: 0 12px 14px 16px !important;
           margin: 0 !important;
           width: auto !important;
           border-right: 1px solid #eef0f3 !important;
         }
 
-        /* Button */
+        /* Button — grid rows 3-4, col 4 */
         .c24-hero-widget div.c24package-full {
           grid-column: 4 !important;
-          grid-row: 2 !important;
+          grid-row: 3 / 5 !important;
           display: flex !important;
           align-items: stretch !important;
           padding: 0 !important;
