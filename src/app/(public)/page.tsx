@@ -70,22 +70,22 @@ export default async function HomePage() {
     <>
       <HeroSection />
 
-      {/* Trust Badges — clean single row */}
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10 text-sm text-[#0a1a3a]/70">
-            <span className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-[#2e75fa]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-              Kostenlose Stornierung
-            </span>
-            <span className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-[#2e75fa]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-              Bestpreis-Garantie
-            </span>
-            <span className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-[#2e75fa]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-              Rund um die Uhr f&uuml;r Sie da
-            </span>
+      {/* Trust Badges */}
+      <section className="bg-white border-b border-[#0a1a3a]/6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-5 sm:gap-8">
+            <div className="flex items-center gap-3">
+              <svg className="w-6 h-6 text-[#0a1a3a]" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0011.5 2 1.5 1.5 0 0010 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+              <span className="text-sm font-medium text-[#0a1a3a]">Flug &amp; Hotel, alles in einem</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <svg className="w-6 h-6 text-[#0a1a3a]" viewBox="0 0 24 24" fill="currentColor"><path d="M21.41 11.58l-9-9A2 2 0 0011 2H4a2 2 0 00-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42zM5.5 7A1.5 1.5 0 017 5.5 1.5 1.5 0 015.5 7z"/></svg>
+              <span className="text-sm font-medium text-[#0a1a3a]">Top-Angebote ohne versteckte Kosten</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <svg className="w-6 h-6 text-[#0a1a3a]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3zm7 11a1 1 0 00-2 0 5 5 0 01-10 0 1 1 0 00-2 0 7 7 0 006 6.92V22H8a1 1 0 000 2h8a1 1 0 000-2h-3v-3.08A7 7 0 0019 12z"/></svg>
+              <span className="text-sm font-medium text-[#0a1a3a]">Flexible Optionen von Top-Marken</span>
+            </div>
           </div>
         </div>
       </section>
