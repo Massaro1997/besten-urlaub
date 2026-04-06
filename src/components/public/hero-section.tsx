@@ -27,10 +27,30 @@ export function HeroSection() {
       <Image src="/santorini.png" alt="Urlaubsparadies" fill className="object-cover" priority quality={90} />
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/30 to-[#0a1a3a]/70" />
 
+      {/* Floating trust badges — scattered top-right, desktop only */}
+      {/* 24h Stornierung — white circle, top right */}
+      <div className="hidden lg:flex absolute top-8 right-8 xl:right-16 z-10 w-[105px] h-[105px] rounded-full bg-white/95 backdrop-blur-sm shadow-2xl flex-col items-center justify-center text-center p-2 border border-white/50 rotate-[8deg]">
+        <span className="text-[8px] font-bold text-[#0a1a3a]/50 uppercase tracking-wide">Bis zu</span>
+        <span className="text-2xl font-extrabold text-[#0a1a3a] leading-none">24h</span>
+        <span className="text-[7px] font-bold text-[#0a1a3a]/50 uppercase mt-0.5">vor Abflug</span>
+        <span className="text-[9px] font-extrabold text-[#0a1a3a] uppercase tracking-wider">stornieren</span>
+      </div>
+      {/* Bestpreis Garantie — navy rectangle, below-right */}
+      <div className="hidden lg:flex absolute top-32 right-4 xl:right-10 z-10 bg-[#0a1a3a]/90 backdrop-blur-sm text-white rounded-xl px-4 py-2.5 shadow-2xl text-center border border-white/10 -rotate-[4deg]">
+        <div>
+          <span className="text-[8px] font-bold block tracking-widest uppercase">Bestpreis</span>
+          <span className="text-sm font-extrabold leading-tight">Garantie</span>
+        </div>
+      </div>
+      {/* 60% Rabatt — red oval, further down */}
+      <div className="hidden lg:flex absolute top-52 right-14 xl:right-24 z-10 bg-[#e52e2e] text-white rounded-full w-[80px] h-[80px] shadow-2xl flex-col items-center justify-center text-center rotate-[5deg]">
+        <span className="text-[7px] font-semibold">Bis zu</span>
+        <span className="text-lg font-extrabold leading-none">60%</span>
+        <span className="text-[7px] font-semibold">Rabatt</span>
+      </div>
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28">
-        <div className="flex gap-8 items-start">
-          {/* Left: main content */}
-          <div className="flex-1 min-w-0">
+        <div className="lg:max-w-[70%]">
             <div className="flex items-center gap-2 mb-8 sm:mb-10">
               {TABS.map((tab) => (
                 <Link key={tab.href} href={tab.href}
@@ -54,29 +74,6 @@ export function HeroSection() {
               <div id="c24pp-package-widget63276" data-target="_self" data-whitelabel="yes"
                 data-form="https://www.besterurlaub.com/pauschalreisen" data-tid="HERO01" />
             </div>
-          </div>
-
-          {/* Right: trust badges — desktop only */}
-          <div className="hidden lg:flex flex-col items-center gap-4 shrink-0 pt-12">
-            {/* 24h Stornierung — white circle */}
-            <div className="w-[120px] h-[120px] rounded-full bg-white/95 backdrop-blur-sm shadow-2xl flex flex-col items-center justify-center text-center p-2.5 border border-white/50">
-              <span className="text-[9px] font-bold text-[#0a1a3a]/50 uppercase tracking-wide">Bis zu</span>
-              <span className="text-3xl font-extrabold text-[#0a1a3a] leading-none">24h</span>
-              <span className="text-[8px] font-bold text-[#0a1a3a]/50 uppercase mt-0.5">vor Abflug</span>
-              <span className="text-[10px] font-extrabold text-[#0a1a3a] uppercase tracking-wider">stornieren</span>
-            </div>
-            {/* Bestpreis — navy pill */}
-            <div className="bg-[#0a1a3a]/90 backdrop-blur-sm text-white rounded-full px-5 py-3 shadow-2xl text-center border border-white/10">
-              <span className="text-[9px] font-bold block tracking-widest uppercase">Bestpreis</span>
-              <span className="text-base font-extrabold leading-tight">Garantie</span>
-            </div>
-            {/* 60% Rabatt — red pill */}
-            <div className="bg-[#e52e2e] text-white rounded-full px-5 py-3 shadow-2xl text-center">
-              <span className="text-[9px] font-semibold block">Bis zu</span>
-              <span className="text-xl font-extrabold leading-none">60%</span>
-              <span className="text-[9px] font-semibold block">Rabatt</span>
-            </div>
-          </div>
         </div>
       </div>
 
