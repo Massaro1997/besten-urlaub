@@ -16,12 +16,24 @@ export function HeroSection() {
   const [showInfo, setShowInfo] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!document.querySelector('script[src*="c24pp-package-widget63276"]')) {
+    function loadWidget() {
+      const existing = document.querySelector('script[src*="c24pp-package-widget63276"]')
+      if (existing) existing.remove()
       const script = document.createElement('script')
       script.async = true
       script.src = 'https://files.check24.net/widgets/1168044/c24pp-package-widget63276/package.js'
       document.body.appendChild(script)
     }
+
+    loadWidget()
+
+    // Retry if widget didn't render (empty container)
+    const timer = setTimeout(() => {
+      const container = document.getElementById('c24pp-package-widget63276')
+      if (container && container.children.length === 0) loadWidget()
+    }, 3000)
+
+    return () => clearTimeout(timer)
   }, [])
 
   return (
