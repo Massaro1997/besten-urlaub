@@ -13,7 +13,7 @@ import { FaqSection } from '@/components/public/faq-section'
 import { LogoMarquee } from '@/components/public/logo-marquee'
 
 export default async function HomePage() {
-  const [featuredOffers, otherOffers, popularDestinations] = await Promise.all([
+  const [featuredOffers, popularDestinations] = await Promise.all([
     prisma.offer.findMany({
       where: { featured: true },
       include: {
@@ -28,22 +28,6 @@ export default async function HomePage() {
         },
       },
       orderBy: { createdAt: 'desc' },
-    }),
-    prisma.offer.findMany({
-      where: { featured: false },
-      include: {
-        destination: {
-          select: {
-            id: true,
-            name: true,
-            country: true,
-            category: true,
-            slug: true,
-          },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 24,
     }),
     prisma.destination.findMany({
       where: { slug: { not: null }, offers: { some: {} } },
@@ -69,9 +53,6 @@ export default async function HomePage() {
   })
 
   const typedFeatured = featuredOffers
-    .filter((o) => o.destination.slug !== null)
-    .map(toTyped)
-  const typedOthers = otherOffers
     .filter((o) => o.destination.slug !== null)
     .map(toTyped)
 
@@ -130,21 +111,16 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Weitere Angebote — small grid with category filter */}
-      {typedOthers.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-[#0a1a3a]/8">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight">
-            Weitere Angebote
-          </h2>
-          <p className="text-sm text-[#0a1a3a]/50 mt-2 max-w-lg">
-            St&ouml;bere durch unsere gesamte Auswahl an Reisezielen.
-          </p>
-
-          <div className="mt-6">
-            <OffersSection offers={typedOthers} size="compact" />
-          </div>
-        </section>
-      )}
+      {/* Link to all offers page */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-8">
+        <Link
+          href="/alle-angebote"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-[#2e75fa] hover:text-[#1a5fe0] transition-colors"
+        >
+          Alle Angebote ansehen
+          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4"><path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" /></svg>
+        </Link>
+      </div>
 
       {/* Beliebte Reiseziele */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
