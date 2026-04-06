@@ -116,10 +116,19 @@ export function HeroSection() {
         }
 
         /* ===== ROW 1-2: REISEZIEL (cols 1-2) ===== */
-        .c24-hero-widget .c24package-location > span {
+        /* Label "Reiseziel" injected via CSS (widget DOM has no label) */
+        .c24-hero-widget div.c24package-location::before {
+          content: 'Reiseziel' !important;
           grid-column: 1 / 3 !important; grid-row: 1 !important;
+          font-size: 12px !important; font-weight: 700 !important; color: #003366 !important;
+          padding: 12px 16px 4px 16px !important;
+          display: block !important;
         }
-        .c24-hero-widget input[type="text"].c24package-location {
+        /* Hide the hidden accessibility span */
+        .c24-hero-widget .c24package-location > span {
+          display: none !important;
+        }
+        .c24-hero-widget .c24package-location > input.c24package-location {
           grid-column: 1 / 3 !important; grid-row: 2 !important;
           margin: 0 16px 12px 16px !important; width: auto !important;
           display: block !important;
