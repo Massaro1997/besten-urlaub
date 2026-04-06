@@ -89,9 +89,22 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Top Hotel Award Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        <Link href="/alle-angebote" className="block rounded-2xl overflow-hidden hover:shadow-xl transition-shadow">
+          <Image
+            src="/Banner Orizzontale Angebot 2.png"
+            alt="Jetzt unsere Top Hotels entdecken — Top Hotel Award 2026"
+            width={1400}
+            height={120}
+            className="w-full h-auto"
+          />
+        </Link>
+      </section>
+
       {/* Urlaubsregionen entdecken */}
       {typedFeatured.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16">
           <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight text-center mb-8">
             Urlaubsregionen entdecken
           </h2>
@@ -153,19 +166,6 @@ export default async function HomePage() {
           </div>
         </section>
       )}
-
-      {/* Top Hotel Award Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
-        <Link href="/alle-angebote" className="block rounded-2xl overflow-hidden hover:shadow-xl transition-shadow">
-          <Image
-            src="/Banner Orizzontale Angebot 2.png"
-            alt="Jetzt unsere Top Hotels entdecken — Top Hotel Award 2026"
-            width={1400}
-            height={120}
-            className="w-full h-auto"
-          />
-        </Link>
-      </section>
 
       {/* Urlaubsdeals Banner + Cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
