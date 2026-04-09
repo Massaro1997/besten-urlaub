@@ -2,16 +2,13 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-import { Plane, Hotel, Car, Palmtree } from 'lucide-react'
+import { Car, Palmtree } from 'lucide-react'
 
 type TabKey = 'pauschalreisen' | 'mietwagen' | 'lastminute' | 'all-inclusive'
 
 const TABS: { key: TabKey; href: string; label: string; icon: typeof Palmtree; hasWidget: boolean }[] = [
   { key: 'pauschalreisen', href: '/pauschalreisen', label: 'Pauschalreisen', icon: Palmtree, hasWidget: true },
   { key: 'mietwagen', href: '/mietwagen', label: 'Mietwagen', icon: Car, hasWidget: true },
-  { key: 'lastminute', href: '/lastminute', label: 'Last Minute', icon: Plane, hasWidget: false },
-  { key: 'all-inclusive', href: '/all-inclusive', label: 'All Inclusive', icon: Hotel, hasWidget: false },
 ]
 
 const HERO_CONTENT: Record<string, { title: string; subtitle: string }> = {
@@ -80,10 +77,7 @@ export function HeroSection() {
   }, [activeTab, loadMietwagenWidget])
 
   function handleTabClick(tab: typeof TABS[number]) {
-    if (tab.hasWidget) {
-      setActiveTab(tab.key)
-    }
-    // For tabs without a widget (lastminute, all-inclusive), we navigate via the Link
+    setActiveTab(tab.key)
   }
 
   const content = HERO_CONTENT[activeTab] || HERO_CONTENT.pauschalreisen
@@ -155,38 +149,21 @@ export function HeroSection() {
         <div className="lg:max-w-[70%]">
             {/* Tab pills */}
             <div className="flex items-center gap-2 mb-5 sm:mb-10 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
-              {TABS.map((tab) => {
-                const isActive = tab.hasWidget ? activeTab === tab.key : false
-
-                if (tab.hasWidget) {
-                  return (
-                    <button
-                      key={tab.key}
-                      type="button"
-                      onClick={() => handleTabClick(tab)}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap shrink-0 ${
-                        isActive
-                          ? 'bg-[#ff6b35] text-white shadow-md shadow-[#ff6b35]/25'
-                          : 'bg-white/15 backdrop-blur-sm text-white hover:bg-white/25 border border-white/20'
-                      }`}
-                    >
-                      <tab.icon className="w-3.5 h-3.5" />
-                      <span>{tab.label}</span>
-                    </button>
-                  )
-                }
-
-                return (
-                  <Link
-                    key={tab.key}
-                    href={tab.href}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap shrink-0 bg-white/15 backdrop-blur-sm text-white hover:bg-white/25 border border-white/20"
-                  >
-                    <tab.icon className="w-3.5 h-3.5" />
-                    <span>{tab.label}</span>
-                  </Link>
-                )
-              })}
+              {TABS.map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => handleTabClick(tab)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap shrink-0 ${
+                    activeTab === tab.key
+                      ? 'bg-[#ff6b35] text-white shadow-md shadow-[#ff6b35]/25'
+                      : 'bg-white/15 backdrop-blur-sm text-white hover:bg-white/25 border border-white/20'
+                  }`}
+                >
+                  <tab.icon className="w-3.5 h-3.5" />
+                  <span>{tab.label}</span>
+                </button>
+              ))}
             </div>
 
             {/* Dynamic heading */}
