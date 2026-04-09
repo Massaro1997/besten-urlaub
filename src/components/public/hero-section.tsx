@@ -365,11 +365,34 @@ export function HeroSection() {
           background: white !important; border: 1px solid #e5e7eb !important; padding: 12px !important;
           color: #0a1a3a !important;
         }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker * {
-          background: transparent !important;
-        }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker table {
           background: white !important;
+        }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker td {
+          background: white !important;
+        }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker td a,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker td span {
+          background: white !important;
+          color: #0a1a3a !important; font-size: 13px !important; padding: 6px !important;
+          text-align: center !important; border-radius: 6px !important;
+        }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker td a:hover {
+          background: #e8f0ff !important;
+        }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker .ui-state-highlight a,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker .ui-state-active a,
+        .c24pp1.c24pp2.c24pp3 .ui-state-highlight a,
+        .c24pp1.c24pp2.c24pp3 .ui-state-active a {
+          background: #2e75fa !important; color: white !important;
+        }
+        .c24pp1.c24pp2.c24pp3 .ui-state-disabled span,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker .ui-state-disabled span {
+          color: #ccc !important; background: white !important;
+        }
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker th {
+          background: white !important;
+          color: #0a1a3a !important; font-size: 11px !important; font-weight: 600 !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-header {
           background: #2e75fa !important; border: none !important; border-radius: 8px !important;
@@ -402,19 +425,6 @@ export function HeroSection() {
           color: white !important; font-weight: 700 !important; font-size: 14px !important;
           text-align: center !important; margin: 0 2.3em !important;
         }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker th {
-          color: #0a1a3a !important; font-size: 11px !important; font-weight: 600 !important;
-        }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker td a,
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker td span {
-          color: #0a1a3a !important; font-size: 13px !important; padding: 6px !important;
-          text-align: center !important; border-radius: 6px !important;
-        }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker td a:hover { background: #e8f0ff !important; }
-        .c24pp1.c24pp2.c24pp3 .ui-state-highlight a,
-        .c24pp1.c24pp2.c24pp3 .ui-state-active a { background: #2e75fa !important; color: white !important; }
-        .c24pp1.c24pp2.c24pp3 .ui-state-disabled span { color: #ccc !important; }
-
         /* ===== PAUSCHALREISEN MOBILE ===== */
         @media (max-width: 768px) {
           .c24-hero-widget .c24package-wrapper {
