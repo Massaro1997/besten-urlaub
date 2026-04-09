@@ -43,15 +43,15 @@ export function HeroSection() {
       const css = document.createElement('link')
       css.rel = 'stylesheet'
       css.type = 'text/css'
-      css.href = 'https://files.check24.net/widgets/packagebillboard.css'
+      css.href = 'https://files.check24.net/widgets/rentalcarbillboard.css'
       document.head.appendChild(css)
     }
-    // Load billboard JS
-    const existingJs = document.querySelector('script[src*="c24pp-package-widget86191"]')
+    // Load rentalcar billboard JS
+    const existingJs = document.querySelector('script[src*="c24pp-rentalcar-widget78419"]')
     if (existingJs) existingJs.remove()
     const script = document.createElement('script')
     script.async = true
-    script.src = 'https://files.check24.net/widgets/1168044/c24pp-package-widget86191/packagebillboard.js'
+    script.src = 'https://files.check24.net/widgets/1168044/c24pp-rentalcar-widget78419/rentalcarbillboard.js'
     document.body.appendChild(script)
     mietwagenLoaded.current = true
   }, [])
@@ -179,8 +179,8 @@ export function HeroSection() {
 
             {/* Mietwagen widget */}
             <div className={`max-w-5xl c24-mietwagen-widget ${activeTab === 'mietwagen' ? '' : 'hidden'}`}>
-              <div id="c24pp-package-widget86191" data-target="_self" data-whitelabel="yes"
-                data-form="https://www.check24.net/mietwagen-preisvergleich/" style={{ width: '100%', minHeight: 200 }} />
+              <div id="c24pp-rentalcar-widget78419" data-target="_self" data-whitelabel="yes"
+                data-form="https://www.check24.net/mietwagen-preisvergleich/" style={{ width: '100%', minHeight: 100 }} />
             </div>
         </div>
       </div>
@@ -200,12 +200,12 @@ export function HeroSection() {
           display: grid !important;
           grid-template-columns: 1fr 1fr 1fr auto !important;
           grid-template-rows: auto auto auto auto !important;
-          background: white !important;
+          background: #0a1a3a !important;
           border-radius: 16px !important;
           box-shadow: 0 20px 60px -12px rgba(0,0,0,0.35) !important;
           padding: 0 !important; margin: 0 !important;
           overflow: hidden !important;
-          color: #0a1a3a !important; text-align: left !important;
+          color: white !important; text-align: left !important;
         }
 
         /* Dissolve containers */
@@ -221,7 +221,7 @@ export function HeroSection() {
         .c24-hero-widget span.c24package-ret,
         .c24-hero-widget span.c24package-duration,
         .c24-hero-widget span.c24package-airport {
-          font-size: 12px !important; font-weight: 700 !important; color: #003366 !important;
+          font-size: 12px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important;
           padding: 12px 16px 4px 16px !important; margin: 0 !important;
           display: block !important;
         }
@@ -251,7 +251,7 @@ export function HeroSection() {
         .c24-hero-widget div.c24package-location::before {
           content: 'Reiseziel' !important;
           grid-column: 1 / 3 !important; grid-row: 1 !important;
-          font-size: 12px !important; font-weight: 700 !important; color: #003366 !important;
+          font-size: 12px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important;
           padding: 12px 16px 4px 16px !important;
           display: block !important;
         }
@@ -312,7 +312,7 @@ export function HeroSection() {
           grid-column: 4 !important; grid-row: 1 / 3 !important;
           display: flex !important; align-items: center !important; justify-content: center !important;
           text-align: center !important;
-          font-size: 11px !important; font-weight: 600 !important; color: #2e75fa !important;
+          font-size: 11px !important; font-weight: 600 !important; color: #ff6b35 !important;
           padding: 8px 16px !important;
           white-space: pre-line !important;
           line-height: 1.4 !important;
@@ -464,35 +464,36 @@ export function HeroSection() {
           }
         }
 
-        /* ===== MIETWAGEN WIDGET STYLING ===== */
-        .c24-mietwagen-widget div.c24pp1.c24pp2.c24pp3 {
+        /* ===== MIETWAGEN (RENTALCAR) WIDGET STYLING ===== */
+        .c24-mietwagen-widget div.c24pp1.c24pp2.c24pp3.c24rentalcar {
           width: 100% !important; height: auto !important; min-height: 0 !important;
-          background: white !important; border: none !important;
-          border-radius: 16px !important;
-          box-shadow: 0 20px 60px -12px rgba(0,0,0,0.35) !important;
-          overflow: hidden !important;
-          color: #0a1a3a !important;
+          background: none !important; border: none !important;
+          border-radius: 0 !important;
         }
-        .c24-mietwagen-widget .c24package-logo-wrapper { display: none !important; }
-        .c24-mietwagen-widget span.c24package-title { display: none !important; }
+        .c24-mietwagen-widget .c24rentalcar-logo-wrapper { display: none !important; }
+        .c24-mietwagen-widget span.c24rentalcar-title { display: none !important; }
         .c24-mietwagen-widget img[src*="view.php"] { position: absolute !important; opacity: 0 !important; pointer-events: none !important; }
 
-        .c24-mietwagen-widget .c24package-wrapper {
-          background: white !important; border-radius: 16px !important;
-          padding: 16px !important; margin: 0 !important;
-          text-align: left !important;
+        .c24-mietwagen-widget .c24rentalcar-wrapper {
+          background: #0a1a3a !important; border-radius: 16px !important;
+          box-shadow: 0 20px 60px -12px rgba(0,0,0,0.35) !important;
+          padding: 20px !important; margin: 0 !important;
+          text-align: left !important; color: white !important;
         }
 
-        .c24-mietwagen-widget span.c24package-dep,
-        .c24-mietwagen-widget span.c24package-ret,
-        .c24-mietwagen-widget span.c24package-duration,
-        .c24-mietwagen-widget span.c24package-airport,
-        .c24-mietwagen-widget .c24package-location > span {
-          font-size: 12px !important; font-weight: 700 !important; color: #003366 !important;
+        /* Labels */
+        .c24-mietwagen-widget span.c24rentalcar-dep,
+        .c24-mietwagen-widget span.c24rentalcar-ret,
+        .c24-mietwagen-widget span.c24rentalcar-dep-time,
+        .c24-mietwagen-widget span.c24rentalcar-ret-time,
+        .c24-mietwagen-widget .c24rentalcar-dep-location > span,
+        .c24-mietwagen-widget .c24rentalcar-ret-location > span {
+          font-size: 12px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important;
           margin: 0 0 4px 0 !important; padding: 0 !important;
           display: block !important;
         }
 
+        /* Inputs & selects */
         .c24-mietwagen-widget input,
         .c24-mietwagen-widget select {
           border: 1.5px solid #d4d8e0 !important; border-radius: 8px !important;
@@ -505,39 +506,85 @@ export function HeroSection() {
         }
         .c24-mietwagen-widget input::placeholder { color: #9ca3af !important; }
 
-        .c24-mietwagen-widget div.c24package-dep,
-        .c24-mietwagen-widget div.c24package-ret,
-        .c24-mietwagen-widget div.c24package-duration,
-        .c24-mietwagen-widget div.c24package-airport,
-        .c24-mietwagen-widget div.c24package-location {
+        /* Input wrappers */
+        .c24-mietwagen-widget div.c24rentalcar-dep-location,
+        .c24-mietwagen-widget div.c24rentalcar-ret-location {
           margin: 0 0 12px 0 !important; padding: 0 !important;
         }
-        .c24-mietwagen-widget div.c24package-left,
-        .c24-mietwagen-widget div.c24package-right {
-          width: 48% !important; display: inline-block !important; vertical-align: top !important;
+        .c24-mietwagen-widget div.c24rentalcar-ret-location-select {
+          margin: 0 0 12px 0 !important; padding: 4px 0 !important;
+          height: auto !important;
         }
-        .c24-mietwagen-widget div.c24package-left { padding-right: 8px !important; }
-        .c24-mietwagen-widget div.c24package-right { padding-left: 8px !important; }
+        .c24-mietwagen-widget input.c24rentalcar-ret-location-select {
+          width: auto !important; height: auto !important;
+        }
+        .c24-mietwagen-widget label.c24rentalcar-ret-location-select {
+          font-size: 13px !important; font-weight: 600 !important; color: rgba(255,255,255,0.8) !important;
+          margin-left: 6px !important;
+        }
 
-        .c24-mietwagen-widget button.c24package-submit {
+        /* Left/right columns */
+        .c24-mietwagen-widget div.c24rentalcar-left {
+          width: 65% !important; display: inline-block !important; vertical-align: top !important;
+          padding-right: 10px !important;
+        }
+        .c24-mietwagen-widget div.c24rentalcar-right {
+          width: 35% !important; display: inline-block !important; vertical-align: top !important;
+          padding-left: 10px !important;
+        }
+
+        /* Full width rows */
+        .c24-mietwagen-widget div.c24rentalcar-full {
+          width: 100% !important; margin: 0 !important; padding: 0 !important;
+        }
+
+        /* Customer age */
+        .c24-mietwagen-widget span.c24rentalcar-customer-age {
+          font-size: 12px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important;
+          margin: 8px 0 4px 0 !important; display: block !important;
+        }
+
+        /* Submit button */
+        .c24-mietwagen-widget button.c24rentalcar-submit {
           background: linear-gradient(135deg, #ff6b35 0%, #e85d2c 100%) !important;
           border: none !important; border-radius: 12px !important;
           padding: 14px 32px !important; font-size: 15px !important; font-weight: 700 !important;
           color: white !important; cursor: pointer !important;
-          width: 100% !important; margin: 8px 0 0 0 !important;
+          width: 100% !important; margin: 12px 0 0 0 !important;
           box-shadow: 0 4px 15px rgba(255,107,53,0.35) !important;
           transition: transform 0.15s, box-shadow 0.15s !important;
         }
-        .c24-mietwagen-widget button.c24package-submit:hover {
+        .c24-mietwagen-widget button.c24rentalcar-submit:hover {
           transform: scale(1.03) !important;
           box-shadow: 0 6px 20px rgba(255,107,53,0.45) !important;
         }
+        .c24-mietwagen-widget button.c24rentalcar-submit:active {
+          transform: scale(0.98) !important;
+        }
+
+        /* Autocomplete for rentalcar */
+        .c24-mietwagen-widget .ui-autocomplete {
+          background: white !important; border: 1px solid #e5e7eb !important;
+          border-radius: 12px !important; box-shadow: 0 12px 30px -6px rgba(0,0,0,0.15) !important;
+          max-height: 280px !important; overflow-y: auto !important; z-index: 9999 !important;
+        }
+        .c24-mietwagen-widget .ui-autocomplete li.ui-menu-item {
+          padding: 10px 14px !important; font-size: 13px !important;
+          color: #0a1a3a !important; border: none !important;
+        }
+        .c24-mietwagen-widget .ui-autocomplete li:hover,
+        .c24-mietwagen-widget .ui-autocomplete li.ui-state-focus {
+          background: #f0f4ff !important; border: none !important;
+        }
 
         @media (max-width: 768px) {
-          .c24-mietwagen-widget div.c24package-left,
-          .c24-mietwagen-widget div.c24package-right {
+          .c24-mietwagen-widget div.c24rentalcar-left,
+          .c24-mietwagen-widget div.c24rentalcar-right {
             width: 100% !important; display: block !important;
             padding: 0 !important;
+          }
+          .c24-mietwagen-widget .c24rentalcar-wrapper {
+            padding: 16px !important;
           }
         }
       `}</style>
