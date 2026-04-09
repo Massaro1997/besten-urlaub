@@ -1,9 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Image from 'next/image'
-
-// The Window.ttq type is already declared globally by src/lib/tiktok-pixel.ts
 
 interface Props {
   offerId: string
@@ -14,22 +11,16 @@ interface Props {
 }
 
 /**
- * Client-side interstitial: fires AddToCart on the TikTok Pixel
- * (both client-side and server-side via /api/track) then redirects
- * the user to Check24 with the subid attached.
- *
- * This component runs on mobile, desktop, and in-app browsers (TikTok, IG, FB).
- * It is the ONLY place where AddToCart fires for the outbound click — the
- * server-side redirect has been replaced by this so 95% of TikTok traffic
- * (which is mobile) is no longer invisible to the pixel.
+ * Fires TikTok Pixel events (ViewContent + AddToCart + CompletePayment)
+ * on page load. Used inside the iframe page layout — the parent server
+ * component renders the iframe directly, this component just handles tracking.
  */
-export function AngebotRedirect({
+export function AngebotTrackingPixel({
   offerId,
   offerTitle,
   priceFrom,
-  affiliateLinkWithSubid,
   eventId,
-}: Props) {
+}: Omit<Props, 'affiliateLinkWithSubid'>) {
   const fired = useRef(false)
 
   useEffect(() => {
@@ -45,19 +36,7 @@ export function AngebotRedirect({
       },
     ]
 
-    // 1) Client-side pixel — best effort, may be blocked by adblock/ITP
-    try {
-      window.ttq?.track('AddToCart', {
-        contents,
-        value,
-        currency: 'EUR',
-        event_id: eventId,
-      })
-    } catch {
-      // noop
-    }
-
-    // 2) Capture ttclid + cookie-based external id for server-side matching
+    // Capture ttclid + external id
     let ttclid = ''
     let externalId = ''
     try {
@@ -75,26 +54,64 @@ export function AngebotRedirect({
       // noop
     }
 
-    // 3) Server-side Events API — bulletproof, fires regardless of browser state
-    const trackPromise = fetch('/api/track', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        event: 'AddToCart',
-        eventId,
-        contentId: offerId,
-        contentName: offerTitle,
+    // Client-side: fire all events
+    try {
+      window.ttq?.track('ViewContent', {
+        contents,
         value,
         currency: 'EUR',
-        url: window.location.href,
-        externalId,
-        ttclid,
-      }),
-      keepalive: true,
-    }).catch(() => undefined)
+        event_id: eventId,
+      })
+      window.ttq?.track('AddToCart', {
+        contents,
+        value,
+        currency: 'EUR',
+        event_id: `${eventId}-atc`,
+      })
+      window.ttq?.track('CompletePayment', {
+        contents,
+        value,
+        currency: 'EUR',
+        event_id: `${eventId}-cp`,
+      })
+    } catch {
+      // noop
+    }
 
-    // 4) Persist the click to our DB so we can match the postback later
-    const clickPromise = fetch('/api/affiliate-click', {
+    // Server-side: fire all events
+    const trackData = {
+      contentId: offerId,
+      contentName: offerTitle,
+      value,
+      currency: 'EUR',
+      url: window.location.href,
+      externalId,
+      ttclid,
+    }
+
+    fetch('/api/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event: 'ViewContent', eventId, ...trackData }),
+      keepalive: true,
+    }).catch(() => {})
+
+    fetch('/api/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event: 'AddToCart', eventId: `${eventId}-atc`, ...trackData }),
+      keepalive: true,
+    }).catch(() => {})
+
+    fetch('/api/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event: 'CompletePayment', eventId: `${eventId}-cp`, ...trackData }),
+      keepalive: true,
+    }).catch(() => {})
+
+    // Persist click to DB
+    fetch('/api/affiliate-click', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -106,33 +123,8 @@ export function AngebotRedirect({
         landingUrl: window.location.href,
       }),
       keepalive: true,
-    }).catch(() => undefined)
+    }).catch(() => {})
+  }, [offerId, offerTitle, priceFrom, eventId])
 
-    // 5) Redirect after both fire-and-forget calls settle (capped at 600ms).
-    const timeout = new Promise<void>((resolve) => setTimeout(resolve, 600))
-    Promise.race([Promise.all([trackPromise, clickPromise]), timeout]).finally(() => {
-      window.location.replace(affiliateLinkWithSubid)
-    })
-  }, [offerId, offerTitle, priceFrom, affiliateLinkWithSubid, eventId])
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-6">
-      <div className="text-center max-w-sm">
-        <Image
-          src="/symbol.svg"
-          alt="Bester Urlaub"
-          width={48}
-          height={48}
-          className="mx-auto mb-4"
-        />
-        <h1 className="text-lg font-semibold text-[#0a1a3a] mb-1">
-          Weiterleitung zu Check24…
-        </h1>
-        <p className="text-sm text-[#0a1a3a]/60 mb-6 line-clamp-2">
-          {offerTitle}
-        </p>
-        <div className="w-10 h-10 border-4 border-[#0a1a3a]/10 border-t-[#2e75fa] rounded-full animate-spin mx-auto" />
-      </div>
-    </div>
-  )
+  return null
 }

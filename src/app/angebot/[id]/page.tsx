@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
-import { headers } from 'next/headers'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,7 +7,7 @@ import { CATEGORY_DE_MAP } from '@/lib/public-constants'
 import { formatPrice } from '@/lib/utils'
 import { ArrowLeft, Shield } from 'lucide-react'
 import { AngebotTracker } from '@/components/public/angebot-tracker'
-import { AngebotRedirect } from '@/components/public/angebot-redirect'
+import { AngebotTrackingPixel } from '@/components/public/angebot-redirect'
 import { generateEventId, buildAffiliateLinkWithSubid } from '@/lib/affiliate-link'
 
 export async function generateMetadata({
@@ -28,19 +27,6 @@ export async function generateMetadata({
   }
 }
 
-function isMobileOrInAppBrowser(userAgent: string): boolean {
-  const ua = userAgent.toLowerCase()
-  // Mobile devices
-  if (/android|iphone|ipad|ipod|mobile|webos|blackberry|iemobile|opera mini/.test(ua)) {
-    return true
-  }
-  // In-app browsers (TikTok, Instagram, Facebook, etc.)
-  if (/tiktok|musical_ly|bytedance|instagram|fbav|fban|fb_iab|line|wechat|micromessenger|snapchat/.test(ua)) {
-    return true
-  }
-  return false
-}
-
 export default async function AngebotPage({
   params,
 }: {
@@ -54,37 +40,24 @@ export default async function AngebotPage({
 
   if (!offer) notFound()
 
-  // Generate a unique event id that ties together: TikTok Pixel client event,
-  // TikTok Events API server event, our AffiliateClick DB row, and the
-  // eventual Check24 conversion postback.
   const eventId = generateEventId()
   const affiliateLinkWithSubid = buildAffiliateLinkWithSubid(
     offer.affiliateLink,
     eventId,
   )
 
-  // On mobile and in-app browsers (TikTok, Instagram, Facebook...), the iframe
-  // embed is unreliable — we now render a client-side interstitial that fires
-  // the pixel BEFORE redirecting. This is the 95%+ majority of TikTok traffic,
-  // so it was previously completely invisible to the pixel.
-  const h = await headers()
-  const userAgent = h.get('user-agent') || ''
-  if (isMobileOrInAppBrowser(userAgent)) {
-    return (
-      <AngebotRedirect
-        offerId={offer.id}
-        offerTitle={offer.title}
-        priceFrom={offer.priceFrom}
-        affiliateLinkWithSubid={affiliateLinkWithSubid}
-        eventId={eventId}
-      />
-    )
-  }
-
   const categoryLabel = CATEGORY_DE_MAP[offer.destination.category] || ''
 
   return (
     <div className="flex flex-col h-screen">
+      {/* Invisible tracking pixel — fires ViewContent + AddToCart + CompletePayment on load */}
+      <AngebotTrackingPixel
+        offerId={offer.id}
+        offerTitle={offer.title}
+        priceFrom={offer.priceFrom}
+        eventId={eventId}
+      />
+
       {/* Top bar */}
       <div className="bg-white border-b border-[#0a1a3a]/10 px-4 sm:px-6 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
@@ -145,7 +118,7 @@ export default async function AngebotPage({
         </div>
       </div>
 
-      {/* Embedded Check24 iframe — uses subid-tagged link so conversions can be matched back */}
+      {/* Embedded Check24 iframe */}
       <div className="flex-1 relative">
         <iframe
           src={affiliateLinkWithSubid}

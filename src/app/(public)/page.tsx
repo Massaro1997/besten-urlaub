@@ -70,29 +70,45 @@ export default async function HomePage() {
 
       {/* Trust Badges */}
       <section className="bg-[#0a1a3a]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-3">
+          {/* Desktop: inline row */}
+          <div className="hidden sm:flex items-center justify-center gap-8">
             <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-[#2e75fa]" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0011.5 2 1.5 1.5 0 0010 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
-              <span className="text-xs font-medium text-white/80">Flug &amp; Hotel, alles in einem</span>
+              <svg className="w-4 h-4 text-[#2e75fa] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0011.5 2 1.5 1.5 0 0010 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+              <span className="text-xs font-medium text-white/80">Flug &amp; Hotel inklusive</span>
             </div>
-            <span className="hidden sm:block w-px h-4 bg-white/20" />
+            <span className="w-px h-4 bg-white/15" />
             <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-[#2e75fa]" viewBox="0 0 24 24" fill="currentColor"><path d="M21.41 11.58l-9-9A2 2 0 0011 2H4a2 2 0 00-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42zM5.5 7A1.5 1.5 0 017 5.5 1.5 1.5 0 015.5 7z"/></svg>
-              <span className="text-xs font-medium text-white/80">Top-Angebote ohne versteckte Kosten</span>
+              <svg className="w-4 h-4 text-[#2e75fa] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+              <span className="text-xs font-medium text-white/80">Mietwagen dazu buchen</span>
             </div>
-            <span className="hidden sm:block w-px h-4 bg-white/20" />
+            <span className="w-px h-4 bg-white/15" />
             <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-[#2e75fa]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <span className="text-xs font-medium text-white/80">Flexible Optionen von Top-Marken</span>
+              <svg className="w-4 h-4 text-[#2e75fa] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span className="text-xs font-medium text-white/80">Flexible Top-Marken</span>
+            </div>
+          </div>
+          {/* Mobile: 3 compact chips in a row */}
+          <div className="flex sm:hidden items-center justify-center gap-2 py-1">
+            <div className="flex items-center gap-1.5 bg-white/[0.08] rounded-full px-3 py-1.5">
+              <svg className="w-3.5 h-3.5 text-[#ff6b35] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0011.5 2 1.5 1.5 0 0010 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+              <span className="text-[10px] font-semibold text-white/90 whitespace-nowrap">Flug + Hotel</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-white/[0.08] rounded-full px-3 py-1.5">
+              <svg className="w-3.5 h-3.5 text-[#ff6b35] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+              <span className="text-[10px] font-semibold text-white/90 whitespace-nowrap">Mietwagen</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-white/[0.08] rounded-full px-3 py-1.5">
+              <svg className="w-3.5 h-3.5 text-[#ff6b35] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span className="text-[10px] font-semibold text-white/90 whitespace-nowrap">Top-Marken</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Top Hotel Award Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <Link href="/alle-angebote" className="block rounded-2xl overflow-hidden hover:shadow-xl transition-shadow">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-12">
+        <Link href="/alle-angebote" className="block rounded-xl sm:rounded-2xl overflow-hidden hover:shadow-xl transition-shadow">
           <Image
             src="/Banner Orizzontale Angebot 2.png"
             alt="Jetzt unsere Top Hotels entdecken — Top Hotel Award 2026"
@@ -105,15 +121,15 @@ export default async function HomePage() {
 
       {/* Urlaubsregionen entdecken */}
       {typedFeatured.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight text-center mb-8">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-8 sm:pb-16">
+          <h2 className="text-lg sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight text-center mb-5 sm:mb-8">
             Urlaubsregionen entdecken
           </h2>
 
           {/* Row 1: 2 large cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
             {typedFeatured.slice(0, 2).map((offer) => (
-              <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-64 sm:h-72">
+              <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-48 sm:h-72">
                 <Image
                   src={`/destinations/${offer.destination.slug}.webp`}
                   alt={offer.destination.name}
@@ -139,9 +155,9 @@ export default async function HomePage() {
           </div>
 
           {/* Row 2: 3 smaller cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {typedFeatured.slice(2, 5).map((offer) => (
-              <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-52 sm:h-56">
+              <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-40 sm:h-56">
                 <Image
                   src={`/destinations/${offer.destination.slug}.webp`}
                   alt={offer.destination.name}
@@ -169,9 +185,9 @@ export default async function HomePage() {
       )}
 
       {/* Urlaubsdeals Banner + Cards */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Banner */}
-        <Link href="/alle-angebote" className="block rounded-2xl overflow-hidden hover:shadow-lg transition-shadow mb-8">
+        <Link href="/alle-angebote" className="block rounded-xl sm:rounded-2xl overflow-hidden hover:shadow-lg transition-shadow mb-5 sm:mb-8">
           <Image
             src="/Banner orizzontale Angebot 1.png"
             alt="Die besten Urlaubsdeals zum Bestpreis sichern — Bis zu 250€ sparen"
@@ -181,14 +197,14 @@ export default async function HomePage() {
           />
         </Link>
 
-        <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight text-center mb-8">
+        <h2 className="text-lg sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight text-center mb-5 sm:mb-8">
           Die besten Urlaubsdeals zum Bestpreis sichern
         </h2>
 
         {/* 4 cards: 1 promo + 3 destinations */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           {/* Promo card */}
-          <Link href="/alle-angebote" className="group relative rounded-2xl overflow-hidden h-64 sm:h-72">
+          <Link href="/alle-angebote" className="group relative rounded-2xl overflow-hidden h-48 sm:h-72">
             <Image
               src="/destinations/mallorca.webp"
               alt="Urlaubsdeals"
@@ -210,7 +226,7 @@ export default async function HomePage() {
           {/* 3 destination cards from remaining featured */}
           {typedFeatured.slice(5, 8).length > 0
             ? typedFeatured.slice(5, 8).map((offer) => (
-                <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-64 sm:h-72">
+                <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-48 sm:h-72">
                   <Image
                     src={`/destinations/${offer.destination.slug}.webp`}
                     alt={offer.destination.name}
@@ -226,7 +242,7 @@ export default async function HomePage() {
               ))
             : /* Fallback static destinations if not enough featured */
               ['creta', 'hurghada', 'antalya'].map((slug) => (
-                <Link key={slug} href={`/reiseziel/${slug}`} className="group relative rounded-2xl overflow-hidden h-64 sm:h-72">
+                <Link key={slug} href={`/reiseziel/${slug}`} className="group relative rounded-2xl overflow-hidden h-48 sm:h-72">
                   <Image
                     src={`/destinations/${slug}.webp`}
                     alt={slug}
@@ -245,7 +261,7 @@ export default async function HomePage() {
       </section>
 
       {/* Beliebte Reiseziele */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <DestinationGrid destinations={typedDestinations} />
       </section>
 

@@ -1,43 +1,95 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Plane, Hotel, Car, Palmtree } from 'lucide-react'
 
-const TABS = [
-  { href: '/pauschalreisen', label: 'Pauschalreisen', icon: Palmtree, active: true },
-  { href: '/lastminute', label: 'Last Minute', icon: Plane, active: false },
-  { href: '/all-inclusive', label: 'All Inclusive', icon: Hotel, active: false },
-  { href: '/mietwagen', label: 'Mietwagen', icon: Car, active: false },
+type TabKey = 'pauschalreisen' | 'mietwagen' | 'lastminute' | 'all-inclusive'
+
+const TABS: { key: TabKey; href: string; label: string; icon: typeof Palmtree; hasWidget: boolean }[] = [
+  { key: 'pauschalreisen', href: '/pauschalreisen', label: 'Pauschalreisen', icon: Palmtree, hasWidget: true },
+  { key: 'mietwagen', href: '/mietwagen', label: 'Mietwagen', icon: Car, hasWidget: true },
+  { key: 'lastminute', href: '/lastminute', label: 'Last Minute', icon: Plane, hasWidget: false },
+  { key: 'all-inclusive', href: '/all-inclusive', label: 'All Inclusive', icon: Hotel, hasWidget: false },
 ]
 
+const HERO_CONTENT: Record<string, { title: string; subtitle: string }> = {
+  pauschalreisen: { title: 'Die besten Urlaubsangebote', subtitle: 'zum besten Preis.' },
+  mietwagen: { title: 'Mietwagen vergleichen', subtitle: 'und günstig buchen.' },
+}
+
 export function HeroSection() {
+  const [activeTab, setActiveTab] = useState<TabKey>('pauschalreisen')
   const [showInfo, setShowInfo] = useState<string | null>(null)
+  const pauschalLoaded = useRef(false)
+  const mietwagenLoaded = useRef(false)
 
-  useEffect(() => {
-    function loadWidget() {
-      const existing = document.querySelector('script[src*="c24pp-package-widget63276"]')
-      if (existing) existing.remove()
-      const script = document.createElement('script')
-      script.async = true
-      script.src = 'https://files.check24.net/widgets/1168044/c24pp-package-widget63276/package.js'
-      document.body.appendChild(script)
-    }
-
-    loadWidget()
-
-    // Retry if widget didn't render (empty container)
-    const timer = setTimeout(() => {
-      const container = document.getElementById('c24pp-package-widget63276')
-      if (container && container.children.length === 0) loadWidget()
-    }, 3000)
-
-    return () => clearTimeout(timer)
+  // Load pauschalreisen widget
+  const loadPauschalWidget = useCallback(() => {
+    if (pauschalLoaded.current) return
+    const existing = document.querySelector('script[src*="c24pp-package-widget63276"]')
+    if (existing) existing.remove()
+    const script = document.createElement('script')
+    script.async = true
+    script.src = 'https://files.check24.net/widgets/1168044/c24pp-package-widget63276/package.js'
+    document.body.appendChild(script)
+    pauschalLoaded.current = true
   }, [])
 
+  // Load mietwagen widget
+  const loadMietwagenWidget = useCallback(() => {
+    if (mietwagenLoaded.current) return
+    // Load billboard CSS
+    const existingCss = document.querySelector('link[href*="packagebillboard.css"]')
+    if (!existingCss) {
+      const css = document.createElement('link')
+      css.rel = 'stylesheet'
+      css.type = 'text/css'
+      css.href = 'https://files.check24.net/widgets/packagebillboard.css'
+      document.head.appendChild(css)
+    }
+    // Load billboard JS
+    const existingJs = document.querySelector('script[src*="c24pp-package-widget86191"]')
+    if (existingJs) existingJs.remove()
+    const script = document.createElement('script')
+    script.async = true
+    script.src = 'https://files.check24.net/widgets/1168044/c24pp-package-widget86191/packagebillboard.js'
+    document.body.appendChild(script)
+    mietwagenLoaded.current = true
+  }, [])
+
+  useEffect(() => {
+    loadPauschalWidget()
+    // Retry if widget didn't render
+    const timer = setTimeout(() => {
+      const container = document.getElementById('c24pp-package-widget63276')
+      if (container && container.children.length === 0) {
+        pauschalLoaded.current = false
+        loadPauschalWidget()
+      }
+    }, 3000)
+    return () => clearTimeout(timer)
+  }, [loadPauschalWidget])
+
+  // Load mietwagen widget when tab is first activated
+  useEffect(() => {
+    if (activeTab === 'mietwagen') {
+      loadMietwagenWidget()
+    }
+  }, [activeTab, loadMietwagenWidget])
+
+  function handleTabClick(tab: typeof TABS[number]) {
+    if (tab.hasWidget) {
+      setActiveTab(tab.key)
+    }
+    // For tabs without a widget (lastminute, all-inclusive), we navigate via the Link
+  }
+
+  const content = HERO_CONTENT[activeTab] || HERO_CONTENT.pauschalreisen
+
   return (
-    <section className="relative overflow-hidden min-h-[520px] sm:min-h-[600px] lg:min-h-[680px] flex flex-col justify-center">
+    <section className="relative overflow-hidden min-h-0 sm:min-h-[600px] lg:min-h-[680px] flex flex-col justify-center">
       <Image src="/santorini.png" alt="Urlaubsparadies" fill className="object-cover" priority quality={90} />
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/30 to-[#0a1a3a]/70" />
 
@@ -54,7 +106,6 @@ export function HeroSection() {
               <span className="relative text-4xl xl:text-5xl font-black text-[#0a1a3a] leading-none">24h</span>
               <span className="relative text-[9px] xl:text-[10px] font-bold text-[#0a1a3a]/50 uppercase tracking-wider mt-0.5">vor Abflug</span>
               <span className="relative text-[11px] xl:text-sm font-extrabold text-[#ff6b35] uppercase tracking-wide">stornieren</span>
-              {/* Info icon — positioned at bottom edge of circle */}
               <button
                 onClick={() => setShowInfo(showInfo === '24h' ? null : '24h')}
                 className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#0a1a3a] flex items-center justify-center cursor-pointer hover:bg-[#2e75fa] transition-colors shadow-md"
@@ -62,7 +113,6 @@ export function HeroSection() {
                 <span className="text-white text-xs font-bold leading-none">i</span>
               </button>
             </div>
-            {/* Info popup */}
             {showInfo === '24h' && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setShowInfo(null)} />
@@ -101,36 +151,65 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full pt-6 pb-6 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28">
         <div className="lg:max-w-[70%]">
-            <div className="flex items-center gap-2 mb-8 sm:mb-10">
-              {TABS.map((tab) => (
-                <Link key={tab.href} href={tab.href}
-                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors ${
-                    tab.active
-                      ? 'bg-[#ff6b35] text-white shadow-md shadow-[#ff6b35]/25'
-                      : 'bg-white/15 backdrop-blur-sm text-white hover:bg-white/25 border border-white/20'
-                  }`}>
-                  <tab.icon className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                  <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
-                </Link>
-              ))}
+            {/* Tab pills */}
+            <div className="flex items-center gap-2 mb-5 sm:mb-10 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
+              {TABS.map((tab) => {
+                const isActive = tab.hasWidget ? activeTab === tab.key : false
+
+                if (tab.hasWidget) {
+                  return (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      onClick={() => handleTabClick(tab)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap shrink-0 ${
+                        isActive
+                          ? 'bg-[#ff6b35] text-white shadow-md shadow-[#ff6b35]/25'
+                          : 'bg-white/15 backdrop-blur-sm text-white hover:bg-white/25 border border-white/20'
+                      }`}
+                    >
+                      <tab.icon className="w-3.5 h-3.5" />
+                      <span>{tab.label}</span>
+                    </button>
+                  )
+                }
+
+                return (
+                  <Link
+                    key={tab.key}
+                    href={tab.href}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap shrink-0 bg-white/15 backdrop-blur-sm text-white hover:bg-white/25 border border-white/20"
+                  >
+                    <tab.icon className="w-3.5 h-3.5" />
+                    <span>{tab.label}</span>
+                  </Link>
+                )
+              })}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-lg max-w-3xl mb-8 sm:mb-10">
-              Die besten Urlaubsangebote<br className="hidden sm:block" /> zum besten Preis.
+            {/* Dynamic heading */}
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-lg max-w-3xl mb-5 sm:mb-10">
+              {content.title}<br className="hidden sm:block" /> {content.subtitle}
             </h1>
 
-            <div className="max-w-5xl c24-hero-widget">
+            {/* Pauschalreisen widget */}
+            <div className={`max-w-5xl c24-hero-widget ${activeTab === 'pauschalreisen' ? '' : 'hidden'}`}>
               <div id="c24pp-package-widget63276" data-target="_self" data-whitelabel="yes"
                 data-form="https://www.besterurlaub.com/pauschalreisen" data-tid="HERO01" />
+            </div>
+
+            {/* Mietwagen widget */}
+            <div className={`max-w-5xl c24-mietwagen-widget ${activeTab === 'mietwagen' ? '' : 'hidden'}`}>
+              <div id="c24pp-package-widget86191" data-target="_self" data-whitelabel="yes"
+                data-form="https://www.check24.net/mietwagen-preisvergleich/" style={{ width: '100%', minHeight: 200 }} />
             </div>
         </div>
       </div>
 
       <style jsx global>{`
-        /* ===== RESET ===== */
+        /* ===== PAUSCHALREISEN WIDGET RESET ===== */
         .c24-hero-widget div.c24pp1.c24pp2.c24pp3.c24package {
           width: 100% !important; height: auto !important; min-height: 0 !important;
           background: none !important; border: none !important;
@@ -192,7 +271,6 @@ export function HeroSection() {
         }
 
         /* ===== ROW 1-2: REISEZIEL (cols 1-2) ===== */
-        /* Label "Reiseziel" injected via CSS (widget DOM has no label) */
         .c24-hero-widget div.c24package-location::before {
           content: 'Reiseziel' !important;
           grid-column: 1 / 3 !important; grid-row: 1 !important;
@@ -200,7 +278,6 @@ export function HeroSection() {
           padding: 12px 16px 4px 16px !important;
           display: block !important;
         }
-        /* Hide the hidden accessibility span */
         .c24-hero-widget .c24package-location > span {
           display: none !important;
         }
@@ -254,7 +331,7 @@ export function HeroSection() {
 
         /* ===== TOP-RIGHT BADGE (col 4, rows 1-2) ===== */
         .c24-hero-widget .c24package-wrapper::after {
-          content: 'Jetzt buchen\a & bis zu 60% sparen!' !important;
+          content: 'Jetzt buchen\\a & bis zu 60% sparen!' !important;
           grid-column: 4 !important; grid-row: 1 / 3 !important;
           display: flex !important; align-items: center !important; justify-content: center !important;
           text-align: center !important;
@@ -354,42 +431,136 @@ export function HeroSection() {
         .c24pp1.c24pp2.c24pp3 .ui-state-active a { background: #2e75fa !important; color: white !important; }
         .c24pp1.c24pp2.c24pp3 .ui-state-disabled span { color: #ccc !important; }
 
-        /* ===== MOBILE ===== */
+        /* ===== PAUSCHALREISEN MOBILE ===== */
         @media (max-width: 768px) {
           .c24-hero-widget .c24package-wrapper {
             display: flex !important; flex-direction: column !important;
-            border-radius: 14px !important; overflow: hidden !important;
+            border-radius: 16px !important; overflow: hidden !important;
+            gap: 0 !important; padding: 0 !important;
           }
           .c24-hero-widget .c24package-location,
           .c24-hero-widget .c24package-left,
           .c24-hero-widget .c24package-right {
             display: block !important; width: 100% !important;
-            padding: 12px 16px !important; border-bottom: 1px solid #eee !important;
+            padding: 14px 16px !important; border-bottom: 1px solid #f0f0f0 !important;
           }
-          .c24-hero-widget .c24package-location > span,
+          .c24-hero-widget .c24package-location > span {
+            display: none !important;
+          }
+          .c24-hero-widget div.c24package-location::before {
+            grid-column: unset !important; grid-row: unset !important;
+            padding: 0 0 6px 0 !important; display: block !important;
+          }
           .c24-hero-widget span.c24package-dep,
           .c24-hero-widget span.c24package-ret,
           .c24-hero-widget span.c24package-duration,
           .c24-hero-widget span.c24package-airport {
-            padding: 0 !important; margin: 0 0 4px 0 !important;
-            border-left: none !important;
+            padding: 0 0 6px 0 !important; margin: 0 !important;
+            border-left: none !important; font-size: 11px !important;
           }
-          .c24-hero-widget input[type="text"].c24package-location,
+          .c24-hero-widget input[type="text"].c24package-location {
+            margin: 0 !important; width: 100% !important;
+            display: block !important; grid-column: unset !important; grid-row: unset !important;
+          }
           .c24-hero-widget div.c24package-dep,
           .c24-hero-widget div.c24package-ret,
           .c24-hero-widget div.c24package-duration,
           .c24-hero-widget div.c24package-airport {
-            padding: 0 !important; margin: 0 0 8px 0 !important;
+            padding: 0 !important; margin: 0 !important;
             border: none !important; width: 100% !important;
+          }
+          .c24-hero-widget input,
+          .c24-hero-widget select {
+            height: 40px !important; font-size: 14px !important;
+            border-radius: 8px !important;
           }
           .c24-hero-widget .c24package-wrapper::before,
           .c24-hero-widget .c24package-wrapper::after { display: none !important; }
           .c24-hero-widget .c24package-full {
-            width: 100% !important; padding: 12px 16px !important;
+            width: 100% !important; padding: 16px !important;
+            border-bottom: none !important;
           }
           .c24-hero-widget button.c24package-submit {
-            border-radius: 10px !important; padding: 14px 24px !important;
-            height: auto !important;
+            border-radius: 12px !important; padding: 16px 24px !important;
+            height: auto !important; font-size: 16px !important;
+            width: 100% !important;
+          }
+        }
+
+        /* ===== MIETWAGEN WIDGET STYLING ===== */
+        .c24-mietwagen-widget div.c24pp1.c24pp2.c24pp3 {
+          width: 100% !important; height: auto !important; min-height: 0 !important;
+          background: white !important; border: none !important;
+          border-radius: 16px !important;
+          box-shadow: 0 20px 60px -12px rgba(0,0,0,0.35) !important;
+          overflow: hidden !important;
+          color: #0a1a3a !important;
+        }
+        .c24-mietwagen-widget .c24package-logo-wrapper { display: none !important; }
+        .c24-mietwagen-widget span.c24package-title { display: none !important; }
+        .c24-mietwagen-widget img[src*="view.php"] { position: absolute !important; opacity: 0 !important; pointer-events: none !important; }
+
+        .c24-mietwagen-widget .c24package-wrapper {
+          background: white !important; border-radius: 16px !important;
+          padding: 16px !important; margin: 0 !important;
+          text-align: left !important;
+        }
+
+        .c24-mietwagen-widget span.c24package-dep,
+        .c24-mietwagen-widget span.c24package-ret,
+        .c24-mietwagen-widget span.c24package-duration,
+        .c24-mietwagen-widget span.c24package-airport,
+        .c24-mietwagen-widget .c24package-location > span {
+          font-size: 12px !important; font-weight: 700 !important; color: #003366 !important;
+          margin: 0 0 4px 0 !important; padding: 0 !important;
+          display: block !important;
+        }
+
+        .c24-mietwagen-widget input,
+        .c24-mietwagen-widget select {
+          border: 1.5px solid #d4d8e0 !important; border-radius: 8px !important;
+          height: 40px !important; padding: 0 10px !important; font-size: 14px !important;
+          color: #333 !important; background: #fff !important;
+          width: 100% !important; box-sizing: border-box !important; outline: none !important;
+        }
+        .c24-mietwagen-widget input:focus, .c24-mietwagen-widget select:focus {
+          border-color: #2e75fa !important; box-shadow: 0 0 0 2px rgba(46,117,250,0.1) !important;
+        }
+        .c24-mietwagen-widget input::placeholder { color: #9ca3af !important; }
+
+        .c24-mietwagen-widget div.c24package-dep,
+        .c24-mietwagen-widget div.c24package-ret,
+        .c24-mietwagen-widget div.c24package-duration,
+        .c24-mietwagen-widget div.c24package-airport,
+        .c24-mietwagen-widget div.c24package-location {
+          margin: 0 0 12px 0 !important; padding: 0 !important;
+        }
+        .c24-mietwagen-widget div.c24package-left,
+        .c24-mietwagen-widget div.c24package-right {
+          width: 48% !important; display: inline-block !important; vertical-align: top !important;
+        }
+        .c24-mietwagen-widget div.c24package-left { padding-right: 8px !important; }
+        .c24-mietwagen-widget div.c24package-right { padding-left: 8px !important; }
+
+        .c24-mietwagen-widget button.c24package-submit {
+          background: linear-gradient(135deg, #ff6b35 0%, #e85d2c 100%) !important;
+          border: none !important; border-radius: 12px !important;
+          padding: 14px 32px !important; font-size: 15px !important; font-weight: 700 !important;
+          color: white !important; cursor: pointer !important;
+          width: 100% !important; margin: 8px 0 0 0 !important;
+          box-shadow: 0 4px 15px rgba(255,107,53,0.35) !important;
+          transition: transform 0.15s, box-shadow 0.15s !important;
+        }
+        .c24-mietwagen-widget button.c24package-submit:hover {
+          transform: scale(1.03) !important;
+          box-shadow: 0 6px 20px rgba(255,107,53,0.45) !important;
+        }
+
+        @media (max-width: 768px) {
+          .c24-mietwagen-widget div.c24package-left,
+          .c24-mietwagen-widget div.c24package-right {
+            width: 100% !important; display: block !important;
+            padding: 0 !important;
           }
         }
       `}</style>

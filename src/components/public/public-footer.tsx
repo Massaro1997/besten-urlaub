@@ -11,9 +11,12 @@ const destinations = [
 ]
 
 const services = [
+  { label: 'Pauschalreisen', href: '/pauschalreisen' },
   { label: 'Last Minute', href: '/lastminute' },
+  { label: 'All Inclusive', href: '/all-inclusive' },
   { label: 'Mietwagen', href: '/mietwagen' },
   { label: 'Reiseziele', href: '/#reiseziele' },
+  { label: 'Ratgeber', href: '/#ratgeber' },
 ]
 
 function TikTokIcon({ className }: { className?: string }) {
@@ -38,39 +41,106 @@ export function PublicFooter() {
   return (
     <footer className="bg-[#0a1a3a]">
       <div className="max-w-7xl mx-auto px-5 sm:px-6">
-        {/* Single compact row: Logo | Links | Social */}
-        <div className="py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-          {/* Logo */}
-          <Image src="/noBgWhite.png" alt="Bester Urlaub" width={120} height={32} className="h-7 w-auto" />
+        {/* Main footer content */}
+        <div className="pt-10 pb-8">
+          {/* Top row: Logo + Social */}
+          <div className="flex items-center justify-between mb-8">
+            <Link href="/" className="shrink-0">
+              <Image
+                src="/noBgWhite.png"
+                alt="Bester Urlaub"
+                width={130}
+                height={36}
+                className="h-8 w-auto"
+                style={{ maxWidth: '130px' }}
+              />
+            </Link>
+            <div className="flex items-center gap-2.5">
+              <a
+                href="https://www.tiktok.com/@bestenurlaub"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-white/[0.08] hover:bg-white/[0.15] flex items-center justify-center transition-colors"
+                aria-label="TikTok"
+              >
+                <TikTokIcon className="w-4 h-4 text-white/70" />
+              </a>
+              <a
+                href="https://www.instagram.com/bestenurlaub"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-white/[0.08] hover:bg-white/[0.15] flex items-center justify-center transition-colors"
+                aria-label="Instagram"
+              >
+                <InstagramIcon className="w-4 h-4 text-white/70" />
+              </a>
+            </div>
+          </div>
 
-          {/* Links — inline */}
-          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            {destinations.slice(0, 4).map((d) => (
-              <Link key={d.slug} href={`/reiseziel/${d.slug}`} className="text-xs text-white/50 hover:text-white transition-colors">{d.label}</Link>
-            ))}
-            <span className="hidden sm:block w-px h-3 bg-white/10" />
-            {services.map((s) => (
-              <Link key={s.href} href={s.href} className="text-xs text-white/50 hover:text-white transition-colors">{s.label}</Link>
-            ))}
-            <span className="hidden sm:block w-px h-3 bg-white/10" />
-            <Link href="/impressum" className="text-xs text-white/50 hover:text-white transition-colors">Impressum</Link>
-            <Link href="/datenschutz" className="text-xs text-white/50 hover:text-white transition-colors">Datenschutz</Link>
-          </nav>
+          {/* Link columns */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12">
+            {/* Reiseziele */}
+            <div>
+              <h4 className="text-[11px] uppercase tracking-[0.15em] text-white/30 font-semibold mb-3">
+                Reiseziele
+              </h4>
+              <ul className="space-y-2">
+                {destinations.map((d) => (
+                  <li key={d.slug}>
+                    <Link
+                      href={`/reiseziel/${d.slug}`}
+                      className="text-sm text-white/55 hover:text-white transition-colors"
+                    >
+                      {d.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Social */}
-          <div className="flex items-center gap-2">
-            <a href="https://www.tiktok.com/@bestenurlaub" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/[0.07] hover:bg-white/[0.12] flex items-center justify-center transition-colors" aria-label="TikTok">
-              <TikTokIcon className="w-4 h-4 text-white/60" />
-            </a>
-            <a href="https://www.instagram.com/bestenurlaub" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/[0.07] hover:bg-white/[0.12] flex items-center justify-center transition-colors" aria-label="Instagram">
-              <InstagramIcon className="w-4 h-4 text-white/60" />
-            </a>
+            {/* Angebote */}
+            <div>
+              <h4 className="text-[11px] uppercase tracking-[0.15em] text-white/30 font-semibold mb-3">
+                Angebote
+              </h4>
+              <ul className="space-y-2">
+                {services.map((s) => (
+                  <li key={s.href}>
+                    <Link
+                      href={s.href}
+                      className="text-sm text-white/55 hover:text-white transition-colors"
+                    >
+                      {s.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Rechtliches */}
+            <div className="col-span-2 sm:col-span-1">
+              <h4 className="text-[11px] uppercase tracking-[0.15em] text-white/30 font-semibold mb-3">
+                Rechtliches
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/impressum" className="text-sm text-white/55 hover:text-white transition-colors">
+                    Impressum
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/datenschutz" className="text-sm text-white/55 hover:text-white transition-colors">
+                    Datenschutz
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/[0.06] py-4 flex flex-col sm:flex-row items-center justify-between gap-1">
-          <p className="text-[11px] text-white/25">&copy; {new Date().getFullYear()} Bester Urlaub</p>
+        <div className="border-t border-white/[0.08] py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-[11px] text-white/30">&copy; {new Date().getFullYear()} Bester Urlaub</p>
           <p className="text-[11px] text-white/20">* Alle Angebote enthalten Affiliate-Links zu Check24</p>
         </div>
       </div>
