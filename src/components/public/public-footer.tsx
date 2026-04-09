@@ -117,12 +117,21 @@ export function PublicFooter() {
               </ul>
             </div>
 
-            {/* Rechtliches */}
+            {/* Rechtliches & Kontakt */}
             <div className="col-span-2 sm:col-span-1">
               <h4 className="text-[11px] uppercase tracking-[0.15em] text-white/30 font-semibold mb-3">
-                Rechtliches
+                Kontakt & Rechtliches
               </h4>
               <ul className="space-y-2">
+                <li>
+                  <a
+                    href="tel:+4917682405507"
+                    className="flex items-center gap-2 text-sm text-white/55 hover:text-white transition-colors"
+                  >
+                    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg>
+                    0176 824 055 07
+                  </a>
+                </li>
                 <li>
                   <Link href="/impressum" className="text-sm text-white/55 hover:text-white transition-colors">
                     Impressum
