@@ -376,6 +376,7 @@ export function HeroSection() {
           background: white !important;
           color: #0a1a3a !important; font-size: 13px !important; padding: 6px !important;
           text-align: center !important; border-radius: 6px !important;
+          display: block !important; text-decoration: none !important;
         }
         .c24pp1.c24pp2.c24pp3 .ui-datepicker td a:hover {
           background: #e8f0ff !important;
