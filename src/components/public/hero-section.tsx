@@ -76,60 +76,68 @@ export function HeroSection() {
     }
   }, [activeTab, loadMietwagenWidget])
 
-  // Force datepicker to open upward (above the input) for both widgets
+  // Force datepicker to always open ABOVE the input (via rAF loop while visible)
   useEffect(() => {
-    function repositionDatepicker() {
-      const dp = document.getElementById('ui-datepicker-div') as HTMLElement | null
-      if (!dp || dp.style.display === 'none') return
+    let lastInput: HTMLInputElement | null = null
+    let rafId: number | null = null
 
-      // Find the input that triggered the datepicker
-      const activeInput = document.activeElement as HTMLElement | null
-      if (!activeInput || activeInput.tagName !== 'INPUT') return
+    function getDatepicker(): HTMLElement | null {
+      return document.getElementById('ui-datepicker-div') as HTMLElement | null
+    }
 
-      const inputRect = activeInput.getBoundingClientRect()
+    function repositionAbove(input: HTMLInputElement) {
+      const dp = getDatepicker()
+      if (!dp) return
+      const cs = window.getComputedStyle(dp)
+      if (cs.display === 'none') return
+
+      const inputRect = input.getBoundingClientRect()
       const dpHeight = dp.offsetHeight
+      if (dpHeight === 0) return
+
       const scrollY = window.scrollY || window.pageYOffset
+      const scrollX = window.scrollX || window.pageXOffset
 
-      // Position datepicker above the input
+      // Always position ABOVE the input
       const newTop = scrollY + inputRect.top - dpHeight - 8
-      dp.style.top = `${newTop}px`
-      dp.style.left = `${window.scrollX + inputRect.left}px`
+      const newLeft = scrollX + inputRect.left
+
+      // Only update if different (avoid infinite loop)
+      if (dp.style.top !== `${newTop}px`) dp.style.top = `${newTop}px`
+      if (dp.style.left !== `${newLeft}px`) dp.style.left = `${newLeft}px`
     }
 
-    const observer = new MutationObserver((mutations) => {
-      for (const m of mutations) {
-        if (m.type === 'attributes' && m.attributeName === 'style') {
-          const target = m.target as HTMLElement
-          if (target.id === 'ui-datepicker-div' && target.style.display !== 'none') {
-            // Wait a tick for jQuery UI to finish positioning, then override
-            setTimeout(repositionDatepicker, 0)
-          }
-        }
+    function tick() {
+      const dp = getDatepicker()
+      if (dp && dp.style.display !== 'none' && lastInput) {
+        repositionAbove(lastInput)
       }
-    })
-
-    // Observe the datepicker div (it's created by jQuery UI when first opened)
-    function attachObserver() {
-      const dp = document.getElementById('ui-datepicker-div')
-      if (dp) {
-        observer.observe(dp, { attributes: true, attributeFilter: ['style'] })
-        return true
-      }
-      return false
+      rafId = requestAnimationFrame(tick)
     }
 
-    // Try attaching now, and retry if not ready
-    if (!attachObserver()) {
-      const interval = setInterval(() => {
-        if (attachObserver()) clearInterval(interval)
-      }, 500)
-      return () => {
-        clearInterval(interval)
-        observer.disconnect()
+    function onFocusIn(e: FocusEvent) {
+      const target = e.target as HTMLElement
+      if (target.tagName === 'INPUT' && target.classList.contains('hasDatepicker')) {
+        lastInput = target as HTMLInputElement
+        // Reposition on next few frames (jQuery UI positions async)
+        requestAnimationFrame(() => {
+          if (lastInput) repositionAbove(lastInput)
+          requestAnimationFrame(() => {
+            if (lastInput) repositionAbove(lastInput)
+          })
+        })
       }
     }
 
-    return () => observer.disconnect()
+    document.addEventListener('focusin', onFocusIn, true)
+    document.addEventListener('click', onFocusIn as EventListener, true)
+    rafId = requestAnimationFrame(tick)
+
+    return () => {
+      document.removeEventListener('focusin', onFocusIn, true)
+      document.removeEventListener('click', onFocusIn as EventListener, true)
+      if (rafId !== null) cancelAnimationFrame(rafId)
+    }
   }, [])
 
   function handleTabClick(tab: typeof TABS[number]) {
