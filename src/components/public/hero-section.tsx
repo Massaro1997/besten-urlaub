@@ -166,9 +166,10 @@ export function HeroSection() {
       <Image src="/santorini.png" alt="Urlaubsparadies" fill className="object-cover" priority quality={90} />
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/30 to-[#0a1a3a]/70" />
 
-      {/* Trust badges — desktop only, triangle/cluster layout with glossy effect */}
-      <div className="hidden lg:block absolute top-24 xl:top-28 right-4 xl:right-10 z-10">
-        <div className="relative w-[260px] h-[280px] xl:w-[300px] xl:h-[310px]">
+      {/* Trust badges — desktop only, constrained to site layout container */}
+      <div className="hidden lg:block absolute inset-x-0 top-24 xl:top-28 z-10 pointer-events-none">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative h-0">
+          <div className="absolute right-4 xl:right-10 top-0 w-[260px] h-[280px] xl:w-[300px] xl:h-[310px] pointer-events-auto">
           {/* 24h — white, top-left of cluster with info popup */}
           <div className="absolute top-0 -left-10 w-[160px] h-[160px] xl:w-[180px] xl:h-[180px]">
             <div className="relative w-full h-full rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.25)] flex flex-col items-center justify-center text-center pt-0 pb-4">
@@ -220,6 +221,7 @@ export function HeroSection() {
             </svg>
             <span className="relative text-[9px] font-bold text-white/60 uppercase tracking-widest">Bestpreis</span>
             <span className="relative text-sm xl:text-[15px] font-extrabold text-white uppercase tracking-wide">Garantie</span>
+          </div>
           </div>
         </div>
       </div>

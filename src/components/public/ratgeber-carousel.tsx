@@ -40,7 +40,7 @@ export function RatgeberCarousel() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+    <section id="ratgeber" className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 scroll-mt-20">
       {/* Header */}
       <div className="flex items-end justify-between mb-6">
         <div>
