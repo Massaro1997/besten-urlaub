@@ -76,66 +76,81 @@ export function HeroSection() {
     }
   }, [activeTab, loadMietwagenWidget])
 
-  // Force datepicker to always open ABOVE the input (via rAF loop while visible)
+  // Force ALL datepickers to open ABOVE the triggering input (fixed positioning)
   useEffect(() => {
     let lastInput: HTMLInputElement | null = null
     let rafId: number | null = null
 
-    function getDatepicker(): HTMLElement | null {
-      return document.getElementById('ui-datepicker-div') as HTMLElement | null
+    function getVisibleDatepickers(): HTMLElement[] {
+      // jQuery UI global popup (used by package widget)
+      const globalDp = document.getElementById('ui-datepicker-div') as HTMLElement | null
+      // Check24 rentalcar inline datepickers with custom IDs
+      const c24Dps = Array.from(document.querySelectorAll<HTMLElement>('[id^="c24pp-datepicker-"]'))
+
+      const all: HTMLElement[] = []
+      if (globalDp && globalDp.style.display !== 'none') all.push(globalDp)
+      c24Dps.forEach((dp) => {
+        if (window.getComputedStyle(dp).display !== 'none' && dp.offsetHeight > 50) {
+          all.push(dp)
+        }
+      })
+      return all
     }
 
-    function repositionAbove(input: HTMLInputElement) {
-      const dp = getDatepicker()
-      if (!dp) return
-      const cs = window.getComputedStyle(dp)
-      if (cs.display === 'none') return
-
+    function repositionAbove(dp: HTMLElement, input: HTMLInputElement) {
       const inputRect = input.getBoundingClientRect()
       const dpHeight = dp.offsetHeight
       if (dpHeight === 0) return
 
-      const scrollY = window.scrollY || window.pageYOffset
-      const scrollX = window.scrollX || window.pageXOffset
+      // Use fixed positioning so coordinates are viewport-based
+      const newTop = inputRect.top - dpHeight - 8
+      const newLeft = inputRect.left
 
-      // Always position ABOVE the input
-      const newTop = scrollY + inputRect.top - dpHeight - 8
-      const newLeft = scrollX + inputRect.left
-
-      // Only update if different (avoid infinite loop)
+      dp.style.position = 'fixed'
       if (dp.style.top !== `${newTop}px`) dp.style.top = `${newTop}px`
       if (dp.style.left !== `${newLeft}px`) dp.style.left = `${newLeft}px`
+      dp.style.zIndex = '9999'
+    }
+
+    function findAssociatedInput(dp: HTMLElement): HTMLInputElement | null {
+      // For c24pp datepickers, the input is a sibling with matching id pattern
+      if (dp.id.startsWith('c24pp-datepicker-')) {
+        // Walk up and find the closest hasDatepicker input
+        let el: HTMLElement | null = dp.parentElement
+        while (el) {
+          const input = el.querySelector<HTMLInputElement>('input.hasDatepicker')
+          if (input) return input
+          el = el.parentElement
+          if (el?.classList.contains('c24pp1')) break
+        }
+      }
+      // Fallback to last known input
+      return lastInput
     }
 
     function tick() {
-      const dp = getDatepicker()
-      if (dp && dp.style.display !== 'none' && lastInput) {
-        repositionAbove(lastInput)
+      const dps = getVisibleDatepickers()
+      for (const dp of dps) {
+        const input = findAssociatedInput(dp)
+        if (input) repositionAbove(dp, input)
       }
       rafId = requestAnimationFrame(tick)
     }
 
-    function onFocusIn(e: FocusEvent) {
+    function onInputInteract(e: Event) {
       const target = e.target as HTMLElement
       if (target.tagName === 'INPUT' && target.classList.contains('hasDatepicker')) {
         lastInput = target as HTMLInputElement
-        // Reposition on next few frames (jQuery UI positions async)
-        requestAnimationFrame(() => {
-          if (lastInput) repositionAbove(lastInput)
-          requestAnimationFrame(() => {
-            if (lastInput) repositionAbove(lastInput)
-          })
-        })
       }
     }
 
-    document.addEventListener('focusin', onFocusIn, true)
-    document.addEventListener('click', onFocusIn as EventListener, true)
+    document.addEventListener('focusin', onInputInteract, true)
+    document.addEventListener('click', onInputInteract, true)
     rafId = requestAnimationFrame(tick)
 
     return () => {
-      document.removeEventListener('focusin', onFocusIn, true)
-      document.removeEventListener('click', onFocusIn as EventListener, true)
+      document.removeEventListener('focusin', onInputInteract, true)
+      document.removeEventListener('click', onInputInteract, true)
       if (rafId !== null) cancelAnimationFrame(rafId)
     }
   }, [])
