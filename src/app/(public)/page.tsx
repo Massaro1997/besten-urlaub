@@ -106,22 +106,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Top Hotel Award Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-12">
-        <Link href="/alle-angebote" className="block rounded-xl sm:rounded-2xl overflow-hidden hover:shadow-xl transition-shadow">
-          <Image
-            src="/Banner Orizzontale Angebot 2.png"
-            alt="Jetzt unsere Top Hotels entdecken — Top Hotel Award 2026"
-            width={1400}
-            height={120}
-            className="w-full h-auto"
-          />
-        </Link>
-      </section>
-
       {/* Urlaubsregionen entdecken */}
       {typedFeatured.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-8 sm:pb-16">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-8 sm:pb-16">
           <h2 className="text-lg sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight text-center mb-5 sm:mb-8">
             Urlaubsregionen entdecken
           </h2>
@@ -183,6 +170,27 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Top Hotel Award Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-12">
+        <Link href="/alle-angebote" className="block rounded-xl sm:rounded-2xl overflow-hidden hover:shadow-xl transition-shadow">
+          <Image
+            src="/Banner Orizzontale Angebot 2.png"
+            alt="Jetzt unsere Top Hotels entdecken — Top Hotel Award 2026"
+            width={1400}
+            height={120}
+            className="w-full h-auto"
+          />
+        </Link>
+      </section>
+
+      {/* Beliebte Reiseziele */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <DestinationGrid destinations={typedDestinations} />
+      </section>
+
+      {/* Reise-Ratgeber */}
+      <RatgeberCarousel />
 
       {/* Urlaubsdeals Banner + Cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -259,14 +267,6 @@ export default async function HomePage() {
           }
         </div>
       </section>
-
-      {/* Beliebte Reiseziele */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        <DestinationGrid destinations={typedDestinations} />
-      </section>
-
-      {/* Reise-Ratgeber */}
-      <RatgeberCarousel />
 
       {/* Reiseveranstalter Logos */}
       <LogoMarquee />
