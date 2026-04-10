@@ -76,6 +76,62 @@ export function HeroSection() {
     }
   }, [activeTab, loadMietwagenWidget])
 
+  // Force datepicker to open upward (above the input) for both widgets
+  useEffect(() => {
+    function repositionDatepicker() {
+      const dp = document.getElementById('ui-datepicker-div') as HTMLElement | null
+      if (!dp || dp.style.display === 'none') return
+
+      // Find the input that triggered the datepicker
+      const activeInput = document.activeElement as HTMLElement | null
+      if (!activeInput || activeInput.tagName !== 'INPUT') return
+
+      const inputRect = activeInput.getBoundingClientRect()
+      const dpHeight = dp.offsetHeight
+      const scrollY = window.scrollY || window.pageYOffset
+
+      // Position datepicker above the input
+      const newTop = scrollY + inputRect.top - dpHeight - 8
+      dp.style.top = `${newTop}px`
+      dp.style.left = `${window.scrollX + inputRect.left}px`
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'attributes' && m.attributeName === 'style') {
+          const target = m.target as HTMLElement
+          if (target.id === 'ui-datepicker-div' && target.style.display !== 'none') {
+            // Wait a tick for jQuery UI to finish positioning, then override
+            setTimeout(repositionDatepicker, 0)
+          }
+        }
+      }
+    })
+
+    // Observe the datepicker div (it's created by jQuery UI when first opened)
+    function attachObserver() {
+      const dp = document.getElementById('ui-datepicker-div')
+      if (dp) {
+        observer.observe(dp, { attributes: true, attributeFilter: ['style'] })
+        return true
+      }
+      return false
+    }
+
+    // Try attaching now, and retry if not ready
+    if (!attachObserver()) {
+      const interval = setInterval(() => {
+        if (attachObserver()) clearInterval(interval)
+      }, 500)
+      return () => {
+        clearInterval(interval)
+        observer.disconnect()
+      }
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
   function handleTabClick(tab: typeof TABS[number]) {
     setActiveTab(tab.key)
   }
@@ -359,48 +415,36 @@ export function HeroSection() {
         }
 
         /* ===== DATEPICKER ===== */
+        /* ===== GLOBAL DATEPICKER (used by both widgets) ===== */
+        .ui-datepicker,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker {
           z-index: 9999 !important; border-radius: 12px !important;
-          box-shadow: 0 12px 30px -6px rgba(0,0,0,0.15) !important;
-          background: white !important; border: 1px solid #e5e7eb !important; padding: 12px !important;
+          box-shadow: 0 20px 50px -10px rgba(0,0,0,0.25) !important;
+          background: white !important; border: 1px solid #e5e7eb !important;
+          padding: 14px !important;
           color: #0a1a3a !important;
+          width: 280px !important;
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif !important;
         }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker table {
-          background: white !important;
-        }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker td {
-          background: white !important;
-        }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker td a,
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker td span {
-          background: white !important;
-          color: #0a1a3a !important; font-size: 13px !important; padding: 6px !important;
-          text-align: center !important; border-radius: 6px !important;
-          display: block !important; text-decoration: none !important;
-        }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker td a:hover {
-          background: #e8f0ff !important;
-        }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker .ui-state-highlight a,
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker .ui-state-active a,
-        .c24pp1.c24pp2.c24pp3 .ui-state-highlight a,
-        .c24pp1.c24pp2.c24pp3 .ui-state-active a {
-          background: #2e75fa !important; color: white !important;
-        }
-        .c24pp1.c24pp2.c24pp3 .ui-state-disabled span,
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker .ui-state-disabled span {
-          color: #ccc !important; background: white !important;
-        }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker th {
-          background: white !important;
-          color: #0a1a3a !important; font-size: 11px !important; font-weight: 600 !important;
-        }
+
+        /* Header (month/year bar) */
+        .ui-datepicker .ui-datepicker-header,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-header {
           background: #2e75fa !important; border: none !important; border-radius: 8px !important;
-          padding: 8px !important; margin-bottom: 8px !important; color: white !important;
+          padding: 10px 40px !important; margin: 0 0 10px 0 !important;
+          color: white !important;
           position: relative !important;
+          min-height: 36px !important;
+          display: block !important;
         }
-        .c24pp1.c24pp2.c24pp3 .ui-datepicker-header a { color: white !important; cursor: pointer !important; }
+        .ui-datepicker .ui-datepicker-header a,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker-header a {
+          color: white !important; cursor: pointer !important;
+        }
+
+        /* Prev/Next arrows */
+        .ui-datepicker .ui-datepicker-prev,
+        .ui-datepicker .ui-datepicker-next,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next {
           position: absolute !important;
@@ -410,21 +454,107 @@ export function HeroSection() {
           cursor: pointer !important;
           display: flex !important; align-items: center !important; justify-content: center !important;
         }
+        .ui-datepicker .ui-datepicker-prev:hover,
+        .ui-datepicker .ui-datepicker-next:hover,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev:hover,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next:hover { background: rgba(255,255,255,0.35) !important; }
+        .ui-datepicker .ui-datepicker-prev,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev { left: 6px !important; right: auto !important; }
+        .ui-datepicker .ui-datepicker-next,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next { right: 6px !important; left: auto !important; }
+        .ui-datepicker .ui-datepicker-prev span,
+        .ui-datepicker .ui-datepicker-next span,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev span,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next span { display: none !important; }
+        .ui-datepicker .ui-datepicker-prev::after,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev::after {
-          content: '‹' !important; font-size: 20px !important; color: white !important; font-weight: bold !important;
+          content: '‹' !important; font-size: 22px !important; color: white !important; font-weight: bold !important; line-height: 1 !important;
         }
+        .ui-datepicker .ui-datepicker-next::after,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next::after {
-          content: '›' !important; font-size: 20px !important; color: white !important; font-weight: bold !important;
+          content: '›' !important; font-size: 22px !important; color: white !important; font-weight: bold !important; line-height: 1 !important;
         }
+
+        /* Title (month year) */
+        .ui-datepicker .ui-datepicker-title,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-title {
           color: white !important; font-weight: 700 !important; font-size: 14px !important;
-          text-align: center !important; margin: 0 2.3em !important;
+          text-align: center !important; margin: 0 !important; padding: 0 !important;
+          line-height: 16px !important;
+        }
+
+        /* Table */
+        .ui-datepicker table,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker table {
+          background: white !important;
+          width: 100% !important;
+          border-collapse: collapse !important;
+          margin: 0 !important;
+          table-layout: fixed !important;
+        }
+
+        /* Day-of-week headers */
+        .ui-datepicker thead,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker thead {
+          background: white !important;
+        }
+        .ui-datepicker th,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker th {
+          background: white !important;
+          color: #8b95a7 !important; font-size: 11px !important; font-weight: 600 !important;
+          text-align: center !important;
+          padding: 6px 0 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.5px !important;
+          border: none !important;
+        }
+
+        /* Day cells */
+        .ui-datepicker tbody,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker tbody {
+          background: white !important;
+        }
+        .ui-datepicker td,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker td {
+          background: white !important;
+          padding: 2px !important;
+          text-align: center !important;
+          border: none !important;
+        }
+        .ui-datepicker td a,
+        .ui-datepicker td span,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker td a,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker td span {
+          background: white !important;
+          color: #0a1a3a !important; font-size: 13px !important;
+          padding: 8px 0 !important;
+          text-align: center !important; border-radius: 6px !important;
+          display: block !important; text-decoration: none !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+          font-weight: 500 !important;
+          border: none !important;
+        }
+        .ui-datepicker td a:hover,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker td a:hover {
+          background: #e8f0ff !important; color: #2e75fa !important;
+        }
+        .ui-datepicker .ui-state-highlight a,
+        .ui-datepicker .ui-state-active a,
+        .ui-datepicker .ui-state-highlight,
+        .ui-datepicker .ui-state-active,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker .ui-state-highlight a,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker .ui-state-active a,
+        .c24pp1.c24pp2.c24pp3 .ui-state-highlight a,
+        .c24pp1.c24pp2.c24pp3 .ui-state-active a {
+          background: #2e75fa !important; color: white !important; font-weight: 700 !important;
+        }
+        .ui-datepicker .ui-state-disabled span,
+        .ui-datepicker .ui-state-disabled,
+        .c24pp1.c24pp2.c24pp3 .ui-state-disabled span,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker .ui-state-disabled span {
+          color: #ccc !important; background: white !important;
+          cursor: default !important;
         }
         /* ===== PAUSCHALREISEN MOBILE ===== */
         @media (max-width: 768px) {
