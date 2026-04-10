@@ -11,7 +11,7 @@ const navLinks = [
   { label: 'All Inclusive', href: '/all-inclusive' },
   { label: 'Frühbucher', href: '/fruehbucher' },
   { label: 'Mietwagen', href: '/mietwagen' },
-  { label: 'Ratgeber', href: '/#ratgeber' },
+  { label: 'Ratgeber', href: '/ratgeber' },
 ]
 
 const SEARCH_DESTINATIONS = [
