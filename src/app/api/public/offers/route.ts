@@ -21,6 +21,7 @@ export async function GET() {
         priceFrom: o.priceFrom,
         affiliateLink: o.affiliateLink,
         description: o.description,
+        featured: o.featured,
         destination: {
           name: o.destination.name,
           country: o.destination.country,
