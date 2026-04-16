@@ -26,7 +26,7 @@ const SEARCH_DESTINATIONS = [
   { name: 'Sansibar', country: 'Tansania', slug: 'sansibar' },
   { name: 'Sicilia', country: 'Italien', slug: 'sicilia' },
   { name: 'Lago di Garda', country: 'Italien', slug: 'lago-di-garda' },
-  { name: 'Corfù', country: 'Griechenland', slug: 'corf' },
+  { name: 'Korfu', country: 'Griechenland', slug: 'korfu' },
 ]
 
 export function PublicHeader() {

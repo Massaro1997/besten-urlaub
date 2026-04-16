@@ -440,6 +440,17 @@ export function HeroSection() {
         }
 
         /* ===== DATEPICKER ===== */
+        /* Hide stray Check24 rentalcar datepickers that the widget appends to <body>
+           and never removes — they otherwise leak above the navbar (skeleton-looking
+           cards on initial paint) and below the footer (extra 30px white strip). */
+        body > div[id^="c24pp-datepicker-"]:not([style*="display: block"]) {
+          display: none !important;
+        }
+        /* Same for the global jQuery UI datepicker container when not actively shown */
+        body > #ui-datepicker-div:not([style*="display: block"]) {
+          display: none !important;
+        }
+
         /* ===== GLOBAL DATEPICKER (used by both widgets) ===== */
         .ui-datepicker,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker {
