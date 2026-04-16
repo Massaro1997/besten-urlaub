@@ -12,15 +12,32 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'Bester Urlaub -- Die besten Urlaubsangebote',
+  metadataBase: new URL('https://www.bestenurlaub.com'),
+  title: 'Bester Urlaub — Die besten Urlaubsangebote',
   description:
     'Finde die besten Reiseangebote und Urlaubsschnaeppchen fuer deinen naechsten Traumurlaub. Direkt fuer dich gefunden.',
   openGraph: {
-    title: 'Bester Urlaub -- Die besten Urlaubsangebote',
+    title: 'Bester Urlaub — Die besten Urlaubsangebote',
     description:
       'Finde die besten Reiseangebote und Urlaubsschnaeppchen fuer deinen naechsten Traumurlaub.',
     type: 'website',
     locale: 'de_DE',
+    url: 'https://www.bestenurlaub.com',
+    siteName: 'Bester Urlaub',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Bester Urlaub — Traumurlaub zum besten Preis',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bester Urlaub — Die besten Urlaubsangebote',
+    description: 'Finde die besten Reiseangebote fuer deinen naechsten Traumurlaub.',
+    images: ['/og-image.jpg'],
   },
 }
 
