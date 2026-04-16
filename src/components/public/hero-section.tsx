@@ -179,7 +179,7 @@ export function HeroSection() {
               <span className="relative text-[10px] xl:text-xs font-bold text-[#0a1a3a]/50 uppercase tracking-widest">Bis zu</span>
               <span className="relative text-4xl xl:text-5xl font-black text-[#0a1a3a] leading-none">24h</span>
               <span className="relative text-[9px] xl:text-[10px] font-bold text-[#0a1a3a]/50 uppercase tracking-wider mt-0.5">vor Abflug</span>
-              <span className="relative text-[11px] xl:text-sm font-extrabold text-[#ff6b35] uppercase tracking-wide">stornieren</span>
+              <span className="relative text-[11px] xl:text-sm font-extrabold text-[#2e75fa] uppercase tracking-wide">stornieren</span>
               <button
                 onClick={() => setShowInfo(showInfo === '24h' ? null : '24h')}
                 className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#0a1a3a] flex items-center justify-center cursor-pointer hover:bg-[#2e75fa] transition-colors shadow-md"
@@ -206,8 +206,8 @@ export function HeroSection() {
               </>
             )}
           </div>
-          {/* 60% — orange, top-right of cluster */}
-          <div className="absolute top-2 right-0 xl:right-2 w-[105px] h-[105px] xl:w-[115px] xl:h-[115px] rounded-full shadow-[0_8px_30px_rgba(255,107,53,0.4)] flex flex-col items-center justify-center text-center overflow-hidden" style={{ background: 'linear-gradient(160deg, #ff8c5a 0%, #ff6b35 40%, #e85d2c 100%)' }}>
+          {/* 60% — blue, top-right of cluster */}
+          <div className="absolute top-2 right-0 xl:right-2 w-[105px] h-[105px] xl:w-[115px] xl:h-[115px] rounded-full shadow-[0_8px_30px_rgba(46,117,250,0.4)] flex flex-col items-center justify-center text-center overflow-hidden" style={{ background: 'linear-gradient(160deg, #5a92ff 0%, #2e75fa 40%, #1a5fe0 100%)' }}>
             <div className="absolute top-0 left-0 right-0 h-[40%] rounded-t-full bg-gradient-to-b from-white/30 to-transparent pointer-events-none" />
             <span className="relative text-[9px] font-semibold text-white/90 uppercase">Bis zu</span>
             <span className="relative text-3xl xl:text-[34px] font-black text-white leading-none">60%</span>
@@ -216,7 +216,7 @@ export function HeroSection() {
           {/* Bestpreis — navy, bottom-center of cluster */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[105px] h-[105px] xl:w-[115px] xl:h-[115px] rounded-full shadow-[0_8px_30px_rgba(10,26,58,0.4)] flex flex-col items-center justify-center text-center border-2 border-white/15 overflow-hidden" style={{ background: 'linear-gradient(160deg, #1a2e52 0%, #0a1a3a 40%, #06112a 100%)' }}>
             <div className="absolute top-0 left-0 right-0 h-[40%] rounded-t-full bg-gradient-to-b from-white/15 to-transparent pointer-events-none" />
-            <svg className="relative w-5 h-5 text-[#ff6b35] mb-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+            <svg className="relative w-5 h-5 text-[#2e75fa] mb-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
             </svg>
             <span className="relative text-[9px] font-bold text-white/60 uppercase tracking-widest">Bestpreis</span>
@@ -237,7 +237,7 @@ export function HeroSection() {
                   onClick={() => handleTabClick(tab)}
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap shrink-0 ${
                     activeTab === tab.key
-                      ? 'bg-[#ff6b35] text-white shadow-md shadow-[#ff6b35]/25'
+                      ? 'bg-[#2e75fa] text-white shadow-md shadow-[#2e75fa]/25'
                       : 'bg-white/15 backdrop-blur-sm text-white hover:bg-white/25 border border-white/20'
                   }`}
                 >

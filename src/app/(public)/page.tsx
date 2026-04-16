@@ -142,32 +142,64 @@ export default async function HomePage() {
           </div>
 
           {/* Row 2: 3 smaller cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-            {typedFeatured.slice(2, 5).map((offer) => (
-              <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-40 sm:h-56">
-                <Image
-                  src={`/destinations/${offer.destination.slug}.webp`}
-                  alt={offer.destination.name}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/30" />
-                <div className="absolute top-4 left-4">
-                  <p className="text-white font-bold text-base drop-shadow">
-                    {offer.destination.name}, <span className="font-normal">{offer.destination.country}</span>
-                  </p>
-                  <p className="text-white/80 text-xs drop-shadow">6 Tage, 2 Erw., inkl. Flug</p>
-                </div>
-                {offer.priceFrom && (
-                  <div className="absolute bottom-4 right-4">
-                    <span className="text-white/70 text-sm drop-shadow">ab </span>
-                    <span className="text-white font-extrabold text-xl drop-shadow">{Math.round(offer.priceFrom)} &euro;</span>
+          {typedFeatured.length > 2 && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-3 sm:mb-4">
+              {typedFeatured.slice(2, 5).map((offer) => (
+                <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-40 sm:h-56">
+                  <Image
+                    src={`/destinations/${offer.destination.slug}.webp`}
+                    alt={offer.destination.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/30" />
+                  <div className="absolute top-4 left-4">
+                    <p className="text-white font-bold text-base drop-shadow">
+                      {offer.destination.name}, <span className="font-normal">{offer.destination.country}</span>
+                    </p>
+                    <p className="text-white/80 text-xs drop-shadow">6 Tage, 2 Erw., inkl. Flug</p>
                   </div>
-                )}
-              </Link>
-            ))}
-          </div>
+                  {offer.priceFrom && (
+                    <div className="absolute bottom-4 right-4">
+                      <span className="text-white/70 text-sm drop-shadow">ab </span>
+                      <span className="text-white font-extrabold text-xl drop-shadow">{Math.round(offer.priceFrom)} &euro;</span>
+                    </div>
+                  )}
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {/* Row 3+: remaining featured in 4-column grid */}
+          {typedFeatured.length > 5 && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+              {typedFeatured.slice(5).map((offer) => (
+                <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-36 sm:h-48">
+                  <Image
+                    src={`/destinations/${offer.destination.slug}.webp`}
+                    alt={offer.destination.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50" />
+                  <div className="absolute top-3 left-3">
+                    <p className="text-white font-bold text-sm drop-shadow">
+                      {offer.destination.name}
+                    </p>
+                    <p className="text-white/80 text-[10px] drop-shadow">{offer.destination.country}</p>
+                  </div>
+                  {offer.priceFrom && (
+                    <div className="absolute bottom-3 right-3">
+                      <span className="text-white/70 text-[10px] drop-shadow">ab </span>
+                      <span className="text-white font-extrabold text-base drop-shadow">{Math.round(offer.priceFrom)} &euro;</span>
+                    </div>
+                  )}
+                </Link>
+              ))}
+            </div>
+          )}
         </section>
       )}
 
@@ -231,40 +263,25 @@ export default async function HomePage() {
             </div>
           </Link>
 
-          {/* 3 destination cards from remaining featured */}
-          {typedFeatured.slice(5, 8).length > 0
-            ? typedFeatured.slice(5, 8).map((offer) => (
-                <Link key={offer.id} href={`/angebot/${offer.id}`} className="group relative rounded-2xl overflow-hidden h-48 sm:h-72">
-                  <Image
-                    src={`/destinations/${offer.destination.slug}.webp`}
-                    alt={offer.destination.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 50vw, 25vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <p className="text-white font-bold text-lg drop-shadow">{offer.destination.name}</p>
-                  </div>
-                </Link>
-              ))
-            : /* Fallback static destinations if not enough featured */
-              ['creta', 'hurghada', 'antalya'].map((slug) => (
-                <Link key={slug} href={`/reiseziel/${slug}`} className="group relative rounded-2xl overflow-hidden h-48 sm:h-72">
-                  <Image
-                    src={`/destinations/${slug}.webp`}
-                    alt={slug}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 50vw, 25vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <p className="text-white font-bold text-lg drop-shadow capitalize">{slug}</p>
-                  </div>
-                </Link>
-              ))
-          }
+          {/* 3 popular destination cards (non-featured, by offer count) */}
+          {typedDestinations
+            .filter((d) => !typedFeatured.some((f) => f.destination.slug === d.slug))
+            .slice(0, 3)
+            .map((dest) => (
+              <Link key={dest.slug} href={`/reiseziel/${dest.slug}`} className="group relative rounded-2xl overflow-hidden h-48 sm:h-72">
+                <Image
+                  src={`/destinations/${dest.slug}.webp`}
+                  alt={dest.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <div className="absolute bottom-4 left-4">
+                  <p className="text-white font-bold text-lg drop-shadow">{dest.name}</p>
+                </div>
+              </Link>
+            ))}
         </div>
       </section>
 
