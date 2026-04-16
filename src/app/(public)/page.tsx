@@ -110,7 +110,7 @@ export default async function HomePage() {
       {typedFeatured.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-8 sm:pb-16">
           <h2 className="text-lg sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight text-center mb-5 sm:mb-8">
-            Urlaubsregionen entdecken
+            Bester Urlaub
           </h2>
 
           {/* Row 1: 2 large cards */}
