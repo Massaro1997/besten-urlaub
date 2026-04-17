@@ -11,12 +11,14 @@ import {
   Palette,
   Settings,
   TrendingUp,
+  Activity,
   X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
   { href: '/dashboard', label: 'Panoramica', icon: LayoutDashboard },
+  { href: '/tracking', label: 'Tracking', icon: Activity },
   { href: '/destinazioni', label: 'Destinazioni', icon: MapPin },
   { href: '/offerte', label: 'Offerte', icon: Tag },
   { href: '/offerte/suggerimenti', label: 'AI Suggerimenti', icon: MapPin },

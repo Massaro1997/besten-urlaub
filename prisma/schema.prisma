@@ -260,3 +260,19 @@ model AffiliateClick {
   @@index([offerId])
   @@index([createdAt])
 }
+
+/// Daily TikTok Ads spend snapshot — manual input from Ads Manager until Reporting API is wired up.
+/// One row per day (UTC). Lets us compute CPA / ROAS in the tracking dashboard.
+model AdSpend {
+  id          String   @id @default(cuid())
+  date        DateTime @unique // day granularity, UTC midnight
+  spend       Float    // EUR
+  impressions Int      @default(0)
+  clicks      Int      @default(0) // TikTok-reported landing clicks
+  campaign    String?  // optional: campaign name for context
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([date])
+}
