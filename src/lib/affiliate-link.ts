@@ -61,7 +61,10 @@ export function overrideCheck24Params(
     if (overrides.departureDate) inner.searchParams.set('c24pp_departure_date', overrides.departureDate)
     if (overrides.returnDate) inner.searchParams.set('c24pp_return_date', overrides.returnDate)
     if (overrides.nights != null) inner.searchParams.set('c24pp_travel_duration', String(overrides.nights))
-    if (overrides.adults != null) inner.searchParams.set('c24pp_adult', String(overrides.adults))
+    if (overrides.adults != null) {
+      inner.searchParams.set('c24pp_adult', String(overrides.adults))
+      inner.searchParams.set('c24pp_childrenCount', '0')
+    }
 
     // Also update the inner fragment (after #) since Check24 SPA reads from it
     if (inner.hash) {
@@ -71,6 +74,12 @@ export function overrideCheck24Params(
       if (overrides.departureDate) hashQuery.set('departureDate', overrides.departureDate)
       if (overrides.returnDate) hashQuery.set('returnDate', overrides.returnDate)
       if (overrides.nights != null) hashQuery.set('days', String(overrides.nights))
+      if (overrides.adults != null) {
+        // Check24 roomAllocation format: 'A-A' means 2 adults; 'A' × N joined by '-'
+        const alloc = Array(overrides.adults).fill('A').join('-')
+        hashQuery.set('roomAllocation', alloc)
+        hashQuery.set('adults', String(overrides.adults))
+      }
       inner.hash = `${hashPath}?${hashQuery.toString()}`
     }
 
