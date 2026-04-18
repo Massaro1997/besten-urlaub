@@ -1118,40 +1118,71 @@ function AdBanner({ variant = 1 }: { variant?: 1 | 2 | 3 }) {
 
 function PhoneCTA() {
   return (
-    <div style={{
-      position: 'relative', padding: '56px 28px',
-      borderRadius: 24, color: '#fff', overflow: 'hidden',
-      minHeight: 280,
+    <div className="phonecta-wrap" style={{
+      position: 'relative', borderRadius: 24, overflow: 'hidden',
+      background: 'linear-gradient(135deg, #0a1a3a 0%, #0f2454 60%, #0a1a3a 100%)',
+      color: '#fff',
     }}>
-      <Image
-        src="/Pubblicita%CC%80.jpeg"
-        alt=""
-        fill
-        sizes="(max-width: 900px) 100vw, 800px"
-        style={{ objectFit: 'cover', zIndex: 0 }}
-      />
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: 'linear-gradient(110deg, rgba(10,26,58,0.88) 0%, rgba(10,26,58,0.65) 45%, rgba(10,26,58,0.3) 100%)',
-        zIndex: 1, pointerEvents: 'none',
-      }} />
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: 520 }}>
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>Persönliche Beratung</div>
-        <h2 style={{ fontSize: 'clamp(22px, 3.2vw, 30px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 8px', color: '#fff', lineHeight: 1.2 }}>
-          Brauchst du Hilfe bei deiner Buchung?
-        </h2>
-        <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', margin: '0 0 20px', lineHeight: 1.5 }}>
-          Ruf uns direkt an. Kostenlos. Keine Warteschlange.
-        </p>
-        <a href="tel:+4930123456789" style={{
-          display: 'inline-flex', alignItems: 'center', gap: 10,
-          padding: '14px 22px', background: ORANGE, color: '#fff',
-          borderRadius: 9999, textDecoration: 'none', fontSize: 15, fontWeight: 700,
-          boxShadow: '0 4px 15px rgba(255,107,53,0.45)',
-        }}>
-          <Phone size={16} /> Jetzt anrufen
-        </a>
+      <div className="phonecta-grid">
+        <div className="phonecta-text">
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>Persönliche Beratung</div>
+          <h2 style={{ fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 8px', color: '#fff', lineHeight: 1.2 }}>
+            Brauchst du Hilfe bei deiner Buchung?
+          </h2>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', margin: '0 0 20px', lineHeight: 1.5 }}>
+            Ruf uns direkt an. Kostenlos. Keine Warteschlange.
+          </p>
+          <a href="tel:+4930123456789" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            padding: '14px 22px', background: ORANGE, color: '#fff',
+            borderRadius: 9999, textDecoration: 'none', fontSize: 15, fontWeight: 700,
+            boxShadow: '0 4px 15px rgba(255,107,53,0.45)',
+          }}>
+            <Phone size={16} /> Jetzt anrufen
+          </a>
+        </div>
+        <div className="phonecta-img">
+          <Image
+            src="/destinations/santorini.webp"
+            alt=""
+            fill
+            sizes="(max-width: 900px) 100vw, 440px"
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+          />
+        </div>
       </div>
+      <style jsx>{`
+        .phonecta-grid {
+          display: grid;
+          grid-template-columns: 1.1fr 1fr;
+          align-items: stretch;
+          min-height: 260px;
+        }
+        .phonecta-text {
+          padding: 32px 28px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .phonecta-img {
+          position: relative;
+          min-height: 260px;
+        }
+        @media (max-width: 720px) {
+          .phonecta-grid {
+            grid-template-columns: 1fr;
+            min-height: 0;
+          }
+          .phonecta-img {
+            order: -1;
+            aspect-ratio: 16 / 10;
+            min-height: 180px;
+          }
+          .phonecta-text {
+            padding: 24px 22px 28px;
+          }
+        }
+      `}</style>
     </div>
   )
 }
