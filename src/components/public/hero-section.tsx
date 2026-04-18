@@ -244,20 +244,74 @@ export function HeroSection() {
               ))}
             </div>
 
-            {/* Widget bodies (share same card) */}
-            <div className={`c24-hero-widget ${activeTab === 'pauschalreisen' ? '' : 'hidden'}`}>
+            {/* Widget bodies (share same card) — desktop only */}
+            <div className={`hero-widget-desktop c24-hero-widget ${activeTab === 'pauschalreisen' ? '' : 'hidden'}`}>
               <div id="c24pp-package-widget63276" data-target="_self" data-whitelabel="yes"
                 data-form="https://www.besterurlaub.com/pauschalreisen" data-tid="HERO01" />
             </div>
-            <div className={`c24-mietwagen-widget ${activeTab === 'mietwagen' ? '' : 'hidden'}`}>
+            <div className={`hero-widget-desktop c24-mietwagen-widget ${activeTab === 'mietwagen' ? '' : 'hidden'}`}>
               <div id="c24pp-rentalcar-widget78419" data-target="_self" data-whitelabel="yes"
                 data-form="https://www.check24.net/mietwagen-preisvergleich/" style={{ width: '100%', minHeight: 100 }} />
             </div>
+
+            {/* Mobile fallback CTA — send users to generic Check24 search page */}
+            <a
+              href={activeTab === 'mietwagen'
+                ? 'https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=HERO01-Mobile-MW&target_url=https%3A%2F%2Fwww.check24.net%2Fmietwagen-preisvergleich%2F'
+                : 'https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=HERO01-Mobile-PR&target_url=https%3A%2F%2Fwww.check24.net%2Fpauschalreisen-vergleich%2F'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-mobile-cta"
+            >
+              <span className="hero-mobile-cta-label">
+                {activeTab === 'mietwagen' ? 'Mietwagen vergleichen' : 'Pauschalreisen vergleichen'}
+              </span>
+              <span className="hero-mobile-cta-sub">
+                Über 1.000.000 Angebote auf CHECK24
+              </span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)' }}>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
           </div>
         </div>
       </div>
 
       <style jsx global>{`
+        /* ===== MOBILE / DESKTOP SWITCHER ===== */
+        .hero-mobile-cta {
+          display: none;
+        }
+        @media (max-width: 768px) {
+          .hero-widget-desktop {
+            display: none !important;
+          }
+          .hero-mobile-cta {
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            padding: 20px 52px 20px 22px;
+            background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 0;
+            box-shadow: 0 10px 30px rgba(255,107,53,0.4);
+          }
+          .hero-mobile-cta-label {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+          }
+          .hero-mobile-cta-sub {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 3px;
+          }
+        }
+
         /* ===== PAUSCHALREISEN WIDGET RESET ===== */
         .c24-hero-widget div.c24pp1.c24pp2.c24pp3.c24package {
           width: 100% !important; height: auto !important; min-height: 0 !important;

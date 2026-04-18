@@ -899,40 +899,50 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
       <FieldBox
         icon={<PlaneIcon />}
         label="Abflughafen"
-        value={airports.length === 0 ? 'Alle Flughäfen' : airports.length === 1 ? (AIRPORTS.find((a) => a.code === airports[0])?.name || airports[0]) : `${airports.length} ausgewählt`}
-        sub={airports.length > 0 ? airports.join(', ') : 'DE, AT, CH'}
+        value={airports.length === 0 ? 'Alle Flughäfen' : (AIRPORTS.find((a) => a.code === airports[0])?.name || airports[0])}
+        sub={airports.length === 0 ? 'DE, AT, CH' : airports[0]}
         open={openPanel === 'airport'}
         onClick={() => setOpenPanel(openPanel === 'airport' ? null : 'airport')}
       />
       {openPanel === 'airport' && (
-        <div style={{ padding: '14px 16px', border: '1px solid rgba(10,26,58,0.1)', borderRadius: 14, marginTop: -2, background: '#f9fafb' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <span style={{ fontSize: 12, color: 'rgba(10,26,58,0.6)' }}>Mehrfachauswahl möglich</span>
-            {airports.length > 0 && (
-              <button type="button" onClick={() => setAirports([])} style={{ background: 'transparent', border: 'none', color: BLUE, fontSize: 12, fontWeight: 600, cursor: 'pointer', padding: 0 }}>
-                Zurücksetzen
-              </button>
-            )}
+        <div style={{ padding: 16, border: '1px solid rgba(10,26,58,0.1)', borderRadius: 14, marginTop: -2, background: '#fff' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, gap: 10 }}>
+            <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(10,26,58,0.5)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Flughafen wählen</span>
+            <button
+              type="button"
+              onClick={() => { setAirports([]); setOpenPanel(null) }}
+              style={{
+                background: airports.length === 0 ? 'rgba(46,117,250,0.08)' : 'transparent',
+                border: `1px solid ${airports.length === 0 ? BLUE : 'rgba(10,26,58,0.12)'}`,
+                color: airports.length === 0 ? BLUE : 'rgba(10,26,58,0.65)',
+                fontSize: 11, fontWeight: 700,
+                padding: '5px 12px', borderRadius: 9999,
+                cursor: 'pointer', fontFamily: 'inherit',
+              }}
+            >
+              Alle Flughäfen
+            </button>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 6, maxHeight: 240, overflowY: 'auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(112px, 1fr))', gap: 6, maxHeight: 260, overflowY: 'auto', paddingRight: 2 }}>
             {AIRPORTS.map((a) => {
-              const selected = airports.includes(a.code)
+              const selected = airports.length === 1 && airports[0] === a.code
               return (
                 <button
                   key={a.code}
                   type="button"
-                  onClick={() => setAirports((prev) => selected ? prev.filter((c) => c !== a.code) : [...prev, a.code])}
+                  onClick={() => { setAirports([a.code]); setOpenPanel(null) }}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: 8,
+                    display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1,
                     padding: '8px 10px', borderRadius: 10,
-                    border: selected ? `1.5px solid ${BLUE}` : '1px solid rgba(10,26,58,0.12)',
+                    border: selected ? `1.5px solid ${BLUE}` : '1px solid rgba(10,26,58,0.1)',
                     background: selected ? 'rgba(46,117,250,0.06)' : '#fff',
                     cursor: 'pointer', fontSize: 12, fontFamily: 'inherit',
                     textAlign: 'left',
+                    transition: 'all 120ms',
                   }}
                 >
-                  <span style={{ fontWeight: 700, color: selected ? BLUE : NAVY, minWidth: 30 }}>{a.code}</span>
-                  <span style={{ color: 'rgba(10,26,58,0.7)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{a.name}</span>
+                  <span style={{ fontWeight: 800, color: selected ? BLUE : NAVY, fontSize: 13, letterSpacing: '-0.01em' }}>{a.code}</span>
+                  <span style={{ color: 'rgba(10,26,58,0.55)', fontSize: 11, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>{a.name}</span>
                 </button>
               )
             })}
@@ -1176,7 +1186,7 @@ function AdBanner({ variant = 1 }: { variant?: 1 | 2 | 3 | 'pubb' }) {
   const src = variant === 1 ? '/Banner%20orizzontale%20Angebot%201.png'
     : variant === 2 ? '/Banner%20Orizzontale%20Angebot%202.png'
     : variant === 3 ? '/banner%20orizzontale%20Angebot%203.png'
-    : '/Pubblicita%CC%80.jpeg'
+    : '/Pubblicita.jpeg'
   return (
     <a
       href="#booking"
