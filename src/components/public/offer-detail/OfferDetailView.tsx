@@ -138,6 +138,8 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid, related = [] }:
             <Divider />
             <Amenities offer={offer} />
             <Divider />
+            <AdBanner variant={1} />
+            <Divider />
             <LocationMap offer={offer} />
             <Divider />
             <Reviews offer={offer} />
@@ -168,6 +170,8 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid, related = [] }:
           <BookingCard offer={offer} affiliateLink={affiliateLinkWithSubid} />
           <Divider mobile />
           <Amenities offer={offer} />
+          <Divider mobile />
+          <AdBanner variant={1} />
           <Divider mobile />
           <LocationMap offer={offer} />
           <Divider mobile />
@@ -258,21 +262,24 @@ function HeroGallery({ images, active, setActive, offer, isDesktop, onOpenLightb
   if (!isDesktop) {
     return (
       <div style={{ position: 'relative', padding: '12px 0 4px' }}>
-        {/* Top badges row above gallery */}
+        {/* Top badges row above gallery - aligned with content padding */}
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', padding: '0 16px 10px' }}>
           {offer.discount && <Badge color={ORANGE}>-{offer.discount}%</Badge>}
           {offer.limitedText && <Badge color="#ff3333" icon={<Flame size={11} />}>{offer.limitedText}</Badge>}
           {offer.hotelStars && <Badge color="rgba(10,26,58,0.08)" textColor={NAVY}>{'★'.repeat(offer.hotelStars)}</Badge>}
         </div>
-        {/* Scroll-x gallery, snap to cards */}
+        {/* Scroll-x gallery — uses pseudo-spacers to align first/last card with 16px page padding */}
         <div
           style={{
             display: 'flex', gap: 10, overflowX: 'auto', scrollSnapType: 'x mandatory',
-            padding: '0 16px 8px', WebkitOverflowScrolling: 'touch',
+            paddingBottom: 8, WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',
+            scrollPaddingInline: 16,
           }}
           className="scrollbar-hide"
         >
+          {/* Left spacer: gives first card a 16px gap from viewport edge */}
+          <div aria-hidden style={{ flexShrink: 0, width: 16 }} />
           {images.map((src, i) => (
             <button
               key={i}
@@ -282,14 +289,14 @@ function HeroGallery({ images, active, setActive, offer, isDesktop, onOpenLightb
               style={{
                 flexShrink: 0, scrollSnapAlign: 'start',
                 position: 'relative',
-                width: 'min(80vw, 320px)', height: 'min(48vw, 220px)',
-                minHeight: 180,
+                width: 'min(82vw, 340px)', height: 'min(52vw, 230px)',
+                minHeight: 190,
                 borderRadius: 16, overflow: 'hidden', background: '#eee',
                 border: 'none', padding: 0, cursor: 'pointer',
                 boxShadow: '0 2px 8px rgba(10,26,58,0.08)',
               }}
             >
-              <Image src={src} alt="" fill sizes="80vw" style={{ objectFit: 'cover' }} priority={i === 0} />
+              <Image src={src} alt="" fill sizes="82vw" style={{ objectFit: 'cover' }} priority={i === 0} />
               {i === 0 && images.length > 1 && (
                 <div style={{ position: 'absolute', bottom: 10, right: 10, padding: '5px 10px', background: 'rgba(10,26,58,0.75)', color: '#fff', borderRadius: 9999, fontSize: 11, fontWeight: 700, backdropFilter: 'blur(4px)' }}>
                   {images.length} Fotos
@@ -297,6 +304,8 @@ function HeroGallery({ images, active, setActive, offer, isDesktop, onOpenLightb
               )}
             </button>
           ))}
+          {/* Right spacer */}
+          <div aria-hidden style={{ flexShrink: 0, width: 16 }} />
         </div>
       </div>
     )
@@ -1080,23 +1089,65 @@ function Divider({ mobile = false }: { mobile?: boolean }) {
   return <div style={{ height: 1, background: 'rgba(10,26,58,0.08)', margin: mobile ? '28px 0' : '40px 0' }} />
 }
 
+function AdBanner({ variant = 1 }: { variant?: 1 | 2 | 3 }) {
+  const src = variant === 1 ? '/Banner%20orizzontale%20Angebot%201.png'
+    : variant === 2 ? '/Banner%20Orizzontale%20Angebot%202.png'
+    : '/banner%20orizzontale%20Angebot%203.png'
+  return (
+    <a
+      href="#booking"
+      aria-label="Angebot ansehen"
+      title="Angebot ansehen"
+      style={{
+        display: 'block', position: 'relative',
+        width: '100%', aspectRatio: '16 / 5', minHeight: 140,
+        borderRadius: 20, overflow: 'hidden',
+        boxShadow: '0 8px 24px rgba(10,26,58,0.12)',
+      }}
+    >
+      <Image
+        src={src}
+        alt="Aktuelle Angebote"
+        fill
+        sizes="(max-width: 900px) 100vw, 900px"
+        style={{ objectFit: 'cover' }}
+      />
+    </a>
+  )
+}
+
 function PhoneCTA() {
   return (
     <div style={{
-      position: 'relative', padding: '32px 24px',
-      background: 'linear-gradient(135deg, #0a1a3a 0%, #0f2454 60%, #0a1a3a 100%)',
+      position: 'relative', padding: '56px 28px',
       borderRadius: 24, color: '#fff', overflow: 'hidden',
+      minHeight: 280,
     }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 20% 50%, #2e75fa 0%, transparent 50%), radial-gradient(circle at 80% 50%, #ff6b35 0%, transparent 50%)', opacity: 0.08, pointerEvents: 'none' }} />
-      <div style={{ position: 'relative' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: ORANGE, marginBottom: 8 }}>Persönliche Beratung</div>
-        <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 6px', color: '#fff' }}>Brauchst du Hilfe bei deiner Buchung?</h2>
-        <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', margin: '0 0 18px' }}>Ruf uns direkt an. Kostenlos. Keine Warteschlange.</p>
+      <Image
+        src="/Pubblicita%CC%80.jpeg"
+        alt=""
+        fill
+        sizes="(max-width: 900px) 100vw, 800px"
+        style={{ objectFit: 'cover', zIndex: 0 }}
+      />
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(110deg, rgba(10,26,58,0.88) 0%, rgba(10,26,58,0.65) 45%, rgba(10,26,58,0.3) 100%)',
+        zIndex: 1, pointerEvents: 'none',
+      }} />
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: 520 }}>
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>Persönliche Beratung</div>
+        <h2 style={{ fontSize: 'clamp(22px, 3.2vw, 30px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 8px', color: '#fff', lineHeight: 1.2 }}>
+          Brauchst du Hilfe bei deiner Buchung?
+        </h2>
+        <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', margin: '0 0 20px', lineHeight: 1.5 }}>
+          Ruf uns direkt an. Kostenlos. Keine Warteschlange.
+        </p>
         <a href="tel:+4930123456789" style={{
           display: 'inline-flex', alignItems: 'center', gap: 10,
-          padding: '12px 20px', background: ORANGE, color: '#fff',
+          padding: '14px 22px', background: ORANGE, color: '#fff',
           borderRadius: 9999, textDecoration: 'none', fontSize: 15, fontWeight: 700,
-          boxShadow: '0 4px 15px rgba(255,107,53,0.35)',
+          boxShadow: '0 4px 15px rgba(255,107,53,0.45)',
         }}>
           <Phone size={16} /> Jetzt anrufen
         </a>
