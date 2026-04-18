@@ -181,16 +181,14 @@ function Header({ faved, onFav, isDesktop }: { faved: boolean; onFav: () => void
       transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
     }}>
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
             <IconBtn tone={solid ? 'light' : 'glass'}><ArrowLeft size={18} /></IconBtn>
           </Link>
-          {isDesktop && (
-            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 6, textDecoration: 'none' }}>
-              <Image src="/symbol.svg" alt="Bester Urlaub" width={22} height={22} />
-              <span style={{ fontSize: 15, fontWeight: 800, color: NAVY, letterSpacing: '-0.02em' }}>Bester Urlaub</span>
-            </Link>
-          )}
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: 4, textDecoration: 'none', minWidth: 0 }}>
+            <Image src="/symbol.svg" alt="Bester Urlaub" width={22} height={22} style={{ flexShrink: 0 }} />
+            <span style={{ fontSize: isDesktop ? 15 : 14, fontWeight: 800, color: solid ? NAVY : '#fff', letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>Bester Urlaub</span>
+          </Link>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <IconBtn tone={solid ? 'light' : 'glass'}><Share2 size={16} /></IconBtn>
