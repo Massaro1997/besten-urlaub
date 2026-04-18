@@ -1099,8 +1099,8 @@ function AdBanner({ variant = 1 }: { variant?: 1 | 2 | 3 }) {
       aria-label="Angebot ansehen"
       title="Angebot ansehen"
       style={{
-        display: 'block', position: 'relative',
-        width: '100%', aspectRatio: '16 / 5', minHeight: 140,
+        display: 'block',
+        width: '100%',
         borderRadius: 20, overflow: 'hidden',
         boxShadow: '0 8px 24px rgba(10,26,58,0.12)',
       }}
@@ -1108,9 +1108,10 @@ function AdBanner({ variant = 1 }: { variant?: 1 | 2 | 3 }) {
       <Image
         src={src}
         alt="Aktuelle Angebote"
-        fill
+        width={1600}
+        height={500}
         sizes="(max-width: 900px) 100vw, 900px"
-        style={{ objectFit: 'cover' }}
+        style={{ width: '100%', height: 'auto', display: 'block' }}
       />
     </a>
   )
