@@ -138,11 +138,13 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid, related = [] }:
             <Divider />
             <Amenities offer={offer} />
             <Divider />
-            <AdBanner variant={1} />
+            <AdBanner variant={3} />
             <Divider />
             <LocationMap offer={offer} />
             <Divider />
             <Reviews offer={offer} />
+            <Divider />
+            <AdBanner variant="pubb" />
             <Divider />
             <FAQ />
             <Divider />
@@ -171,11 +173,13 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid, related = [] }:
           <Divider mobile />
           <Amenities offer={offer} />
           <Divider mobile />
-          <AdBanner variant={1} />
+          <AdBanner variant={3} />
           <Divider mobile />
           <LocationMap offer={offer} />
           <Divider mobile />
           <Reviews offer={offer} />
+          <Divider mobile />
+          <AdBanner variant="pubb" />
           <Divider mobile />
           <FAQ />
           <Divider mobile />
@@ -1168,10 +1172,11 @@ function Divider({ mobile = false }: { mobile?: boolean }) {
   return <div style={{ height: 1, background: 'rgba(10,26,58,0.08)', margin: mobile ? '28px 0' : '40px 0' }} />
 }
 
-function AdBanner({ variant = 1 }: { variant?: 1 | 2 | 3 }) {
+function AdBanner({ variant = 1 }: { variant?: 1 | 2 | 3 | 'pubb' }) {
   const src = variant === 1 ? '/Banner%20orizzontale%20Angebot%201.png'
     : variant === 2 ? '/Banner%20Orizzontale%20Angebot%202.png'
-    : '/banner%20orizzontale%20Angebot%203.png'
+    : variant === 3 ? '/banner%20orizzontale%20Angebot%203.png'
+    : '/Pubblicita%CC%80.jpeg'
   return (
     <a
       href="#booking"
