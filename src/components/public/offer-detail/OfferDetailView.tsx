@@ -489,10 +489,12 @@ function LocationMap({ offer }: { offer: OfferData }) {
 
 function Reviews({ offer }: { offer: OfferData }) {
   if (!offer.rating || !offer.reviews) return null
+  const avatarBg = 'rgba(10,26,58,0.08)'
+  const avatarColor = NAVY
   const reviews = [
-    { name: 'Lena K.', avatar: 'L', color: '#ffb703', stars: 5, date: 'März 2026', title: 'Besser als gedacht', text: 'Wir waren zu zweit eine Woche dort und können das Hotel nur empfehlen. Pool riesig, Essen gut, Personal super nett.' },
-    { name: 'Markus B.', avatar: 'M', color: BLUE, stars: 5, date: 'Februar 2026', title: 'Perfekt für Familien', text: 'Mit zwei Kindern dort gewesen. Kids-Club top, Zimmer geräumig, wir konnten entspannen.' },
-    { name: 'Sarah W.', avatar: 'S', color: ORANGE, stars: 4, date: 'Januar 2026', title: 'Top Lage', text: 'Lage unschlagbar — Strand in 3 Min. zu Fuß, Zentrum mit dem Bus in 10 Min.' },
+    { name: 'Lena K.', avatar: 'L', stars: 5, date: 'März 2026', title: 'Besser als gedacht', text: 'Wir waren zu zweit eine Woche dort und können das Hotel nur empfehlen. Pool riesig, Essen gut, Personal super nett.' },
+    { name: 'Markus B.', avatar: 'M', stars: 5, date: 'Februar 2026', title: 'Perfekt für Familien', text: 'Mit zwei Kindern dort gewesen. Kids-Club top, Zimmer geräumig, wir konnten entspannen.' },
+    { name: 'Sarah W.', avatar: 'S', stars: 4, date: 'Januar 2026', title: 'Top Lage', text: 'Lage unschlagbar — Strand in 3 Min. zu Fuß, Zentrum mit dem Bus in 10 Min.' },
   ]
   return (
     <div>
@@ -509,7 +511,7 @@ function Reviews({ offer }: { offer: OfferData }) {
         {reviews.map((r, i) => (
           <div key={i} style={{ padding: 18, background: '#fff', borderRadius: 16, border: '1px solid rgba(10,26,58,0.06)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-              <div style={{ width: 36, height: 36, borderRadius: '50%', background: r.color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 14 }}>{r.avatar}</div>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: avatarBg, color: avatarColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 14 }}>{r.avatar}</div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: NAVY }}>{r.name}</div>
                 <div style={{ fontSize: 11, color: 'rgba(10,26,58,0.5)' }}>{r.date}</div>
