@@ -839,7 +839,7 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
         <span style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)' }}>p.P.*</span>
       </div>
       <div style={{ fontSize: 11, color: 'rgba(10,26,58,0.5)', marginBottom: 16, lineHeight: 1.5 }}>
-        *Preis pro Person im Doppelzimmer. Endpreis wird von unserem Partner CHECK24 berechnet und kann je nach Reisedaten, Abflughafen, Zimmerkategorie, Verpflegung und Verfügbarkeit abweichen. Der Vergleichspreis bezieht sich auf den durchschnittlichen Saisonpreis ohne Rabatt.
+        *Preis p.P. im Doppelzimmer. Endpreis auf CHECK24, kann variieren.
       </div>
 
       {/* Reisedaten field */}
