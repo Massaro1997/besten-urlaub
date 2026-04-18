@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Plane } from 'lucide-react'
-import { Check24Widget } from '@/components/public/check24-widget'
+import { PauschalreisenSearchForm } from '@/components/public/pauschalreisen-search-form'
 
 export const metadata: Metadata = {
   title: 'Pauschalreisen vergleichen | Bester Urlaub',
@@ -36,7 +36,7 @@ export default function PauschalreisenPage() {
       </div>
 
       <div className="flex-1 px-0 sm:px-5">
-        <Check24Widget offer="allgemein" />
+        <PauschalreisenSearchForm />
       </div>
 
       <div className="border-t border-[#0a1a3a]/5 bg-gray-50 shrink-0">
