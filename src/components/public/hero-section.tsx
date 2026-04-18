@@ -244,74 +244,20 @@ export function HeroSection() {
               ))}
             </div>
 
-            {/* Widget bodies (share same card) — desktop only */}
-            <div className={`hero-widget-desktop c24-hero-widget ${activeTab === 'pauschalreisen' ? '' : 'hidden'}`}>
+            {/* Widget bodies (share same card) */}
+            <div className={`c24-hero-widget ${activeTab === 'pauschalreisen' ? '' : 'hidden'}`}>
               <div id="c24pp-package-widget63276" data-target="_self" data-whitelabel="yes"
                 data-form="https://www.besterurlaub.com/pauschalreisen" data-tid="HERO01" />
             </div>
-            <div className={`hero-widget-desktop c24-mietwagen-widget ${activeTab === 'mietwagen' ? '' : 'hidden'}`}>
+            <div className={`c24-mietwagen-widget ${activeTab === 'mietwagen' ? '' : 'hidden'}`}>
               <div id="c24pp-rentalcar-widget78419" data-target="_self" data-whitelabel="yes"
                 data-form="https://www.check24.net/mietwagen-preisvergleich/" style={{ width: '100%', minHeight: 100 }} />
             </div>
-
-            {/* Mobile fallback CTA — send users to generic Check24 search page */}
-            <a
-              href={activeTab === 'mietwagen'
-                ? 'https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=HERO01-Mobile-MW&target_url=https%3A%2F%2Fwww.check24.net%2Fmietwagen-preisvergleich%2F'
-                : 'https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=HERO01-Mobile-PR&target_url=https%3A%2F%2Fwww.check24.net%2Fpauschalreisen-vergleich%2F'}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-mobile-cta"
-            >
-              <span className="hero-mobile-cta-label">
-                {activeTab === 'mietwagen' ? 'Mietwagen vergleichen' : 'Pauschalreisen vergleichen'}
-              </span>
-              <span className="hero-mobile-cta-sub">
-                Über 1.000.000 Angebote auf CHECK24
-              </span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)' }}>
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </a>
           </div>
         </div>
       </div>
 
       <style jsx global>{`
-        /* ===== MOBILE / DESKTOP SWITCHER ===== */
-        .hero-mobile-cta {
-          display: none;
-        }
-        @media (max-width: 768px) {
-          .hero-widget-desktop {
-            display: none !important;
-          }
-          .hero-mobile-cta {
-            display: flex !important;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            width: 100%;
-            padding: 20px 52px 20px 22px;
-            background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 100%);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 0;
-            box-shadow: 0 10px 30px rgba(255,107,53,0.4);
-          }
-          .hero-mobile-cta-label {
-            font-size: 16px;
-            font-weight: 800;
-            letter-spacing: -0.01em;
-          }
-          .hero-mobile-cta-sub {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-top: 3px;
-          }
-        }
-
         /* ===== PAUSCHALREISEN WIDGET RESET ===== */
         .c24-hero-widget div.c24pp1.c24pp2.c24pp3.c24package {
           width: 100% !important; height: auto !important; min-height: 0 !important;
@@ -630,59 +576,91 @@ export function HeroSection() {
           color: #ccc !important; background: white !important;
           cursor: default !important;
         }
-        /* ===== PAUSCHALREISEN MOBILE ===== */
+        /* ===== PAUSCHALREISEN MOBILE — override grid + display:contents ===== */
         @media (max-width: 768px) {
           .c24-hero-widget .c24package-wrapper {
-            display: flex !important; flex-direction: column !important;
+            display: block !important;
+            grid-template-columns: unset !important;
+            grid-template-rows: unset !important;
             border-radius: 16px !important; overflow: hidden !important;
-            gap: 0 !important; padding: 0 !important;
+            padding: 14px !important;
+            gap: 0 !important;
           }
+          /* Restore container display (desktop uses contents to dissolve) */
           .c24-hero-widget .c24package-location,
           .c24-hero-widget .c24package-left,
           .c24-hero-widget .c24package-right {
-            display: block !important; width: 100% !important;
-            padding: 14px 16px !important; border-bottom: 1px solid #f0f0f0 !important;
+            display: block !important;
+            width: 100% !important;
           }
-          .c24-hero-widget .c24package-location > span {
-            display: none !important;
-          }
-          .c24-hero-widget div.c24package-location::before {
-            grid-column: unset !important; grid-row: unset !important;
-            padding: 0 0 6px 0 !important; display: block !important;
-          }
+          /* Kill decorative pseudo-elements on mobile */
+          .c24-hero-widget .c24package-wrapper::before,
+          .c24-hero-widget .c24package-wrapper::after { display: none !important; }
+          .c24-hero-widget div.c24package-location::before { display: none !important; }
+
+          /* Labels — single line above each input */
+          .c24-hero-widget .c24package-location > span,
           .c24-hero-widget span.c24package-dep,
           .c24-hero-widget span.c24package-ret,
           .c24-hero-widget span.c24package-duration,
           .c24-hero-widget span.c24package-airport {
-            padding: 0 0 6px 0 !important; margin: 0 !important;
-            border-left: none !important; font-size: 11px !important;
+            display: block !important;
+            grid-column: unset !important; grid-row: unset !important;
+            font-size: 10px !important; font-weight: 700 !important;
+            color: rgba(10,26,58,0.55) !important;
+            text-transform: uppercase !important; letter-spacing: 0.08em !important;
+            padding: 0 0 4px 2px !important; margin: 0 !important;
+            border: none !important;
           }
-          .c24-hero-widget input[type="text"].c24package-location {
-            margin: 0 !important; width: 100% !important;
-            display: block !important; grid-column: unset !important; grid-row: unset !important;
-          }
+
+          /* Row wrappers — vertical stack with spacing */
+          .c24-hero-widget .c24package-location > input.c24package-location,
+          .c24-hero-widget div.c24package-airport,
           .c24-hero-widget div.c24package-dep,
           .c24-hero-widget div.c24package-ret,
-          .c24-hero-widget div.c24package-duration,
-          .c24-hero-widget div.c24package-airport {
-            padding: 0 !important; margin: 0 !important;
-            border: none !important; width: 100% !important;
+          .c24-hero-widget div.c24package-duration {
+            display: block !important;
+            grid-column: unset !important; grid-row: unset !important;
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 0 12px 0 !important;
+            border: none !important;
           }
+
+          /* Input/select base style on mobile */
           .c24-hero-widget input,
           .c24-hero-widget select {
-            height: 40px !important; font-size: 14px !important;
-            border-radius: 8px !important;
+            height: 46px !important;
+            font-size: 15px !important;
+            padding: 0 14px !important;
+            border: 1px solid rgba(10,26,58,0.15) !important;
+            border-radius: 10px !important;
+            background: #fff !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
           }
-          .c24-hero-widget .c24package-wrapper::before,
-          .c24-hero-widget .c24package-wrapper::after { display: none !important; }
+          .c24-hero-widget input:focus,
+          .c24-hero-widget select:focus {
+            border-color: #2e75fa !important;
+            box-shadow: 0 0 0 3px rgba(46,117,250,0.12) !important;
+          }
+
+          /* Submit full-width orange button */
           .c24-hero-widget .c24package-full {
-            width: 100% !important; padding: 16px !important;
-            border-bottom: none !important;
+            grid-column: unset !important; grid-row: unset !important;
+            width: 100% !important;
+            padding: 4px 0 0 0 !important;
+            margin: 0 !important;
+            border: none !important;
           }
           .c24-hero-widget button.c24package-submit {
-            border-radius: 12px !important; padding: 16px 24px !important;
-            height: auto !important; font-size: 16px !important;
-            width: 100% !important;
+            width: 100% !important; height: 52px !important;
+            padding: 0 !important;
+            border-radius: 12px !important;
+            font-size: 16px !important; font-weight: 800 !important;
+            background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 100%) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.35) !important;
           }
         }
 
