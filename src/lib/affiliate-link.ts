@@ -43,6 +43,25 @@ export function buildAffiliateLinkWithSubid(
  * changes dates/travelers in the booking card — we rewrite the url before
  * they click out.
  */
+// Check24 board code mapping (minimum-board filter)
+// 0 = none, 1 = Übernachtung, 2 = Frühstück, 3 = Halbpension, 4 = Halbpension+,
+// 5 = Vollpension, 6 = Vollpension+, 7 = All Inclusive, 8 = AI Plus
+function boardToCode(board: string): string | null {
+  const map: Record<string, string> = {
+    'Frühstück': '2',
+    'Fruehstueck': '2',
+    'BB': '2',
+    'Halbpension': '3',
+    'HP': '3',
+    'Vollpension': '5',
+    'VP': '5',
+    'All Inclusive': '7',
+    'Alles inklusive': '7',
+    'AI': '7',
+  }
+  return map[board] || null
+}
+
 export function overrideCheck24Params(
   baseLink: string,
   overrides: {
@@ -50,6 +69,7 @@ export function overrideCheck24Params(
     returnDate?: string     // ISO yyyy-mm-dd
     nights?: number
     adults?: number
+    board?: string          // 'All Inclusive' | 'Halbpension' | 'Frühstück' ...
   },
 ): string {
   try {
@@ -65,6 +85,13 @@ export function overrideCheck24Params(
       inner.searchParams.set('c24pp_adult', String(overrides.adults))
       inner.searchParams.set('c24pp_childrenCount', '0')
     }
+    if (overrides.board) {
+      const code = boardToCode(overrides.board)
+      if (code) {
+        inner.searchParams.set('c24pp_board_minimum', code)
+        inner.searchParams.set('c24pp_board', code)
+      }
+    }
 
     // Also update the inner fragment (after #) since Check24 SPA reads from it
     if (inner.hash) {
@@ -75,10 +102,16 @@ export function overrideCheck24Params(
       if (overrides.returnDate) hashQuery.set('returnDate', overrides.returnDate)
       if (overrides.nights != null) hashQuery.set('days', String(overrides.nights))
       if (overrides.adults != null) {
-        // Check24 roomAllocation format: 'A-A' means 2 adults; 'A' × N joined by '-'
         const alloc = Array(overrides.adults).fill('A').join('-')
         hashQuery.set('roomAllocation', alloc)
         hashQuery.set('adults', String(overrides.adults))
+      }
+      if (overrides.board) {
+        const code = boardToCode(overrides.board)
+        if (code) {
+          hashQuery.set('boardMinimum', code)
+          hashQuery.set('board', code)
+        }
       }
       inner.hash = `${hashPath}?${hashQuery.toString()}`
     }

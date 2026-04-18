@@ -796,8 +796,9 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
       returnDate: toISO(retDate),
       nights,
       adults,
+      board,
     })
-  }, [affiliateLink, depDate, retDate, nights, adults])
+  }, [affiliateLink, depDate, retDate, nights, adults, board])
 
   return (
     <div data-booking style={{ background: '#fff', border: '1px solid rgba(10,26,58,0.08)', borderRadius: 20, padding: 20, boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
