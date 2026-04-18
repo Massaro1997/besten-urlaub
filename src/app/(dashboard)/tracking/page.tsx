@@ -229,7 +229,7 @@ export default async function TrackingPage() {
                 const src = c.ttclid ? 'TikTok Ad' : c.referrer?.includes('tiktok') ? 'TikTok organic' : c.referrer ? new URL(c.referrer).hostname : 'direct'
                 return (
                   <tr key={c.id} className="border-b border-border-light last:border-0">
-                    <td className="py-2 pr-4 text-secondary tabular-nums whitespace-nowrap">{when.toLocaleString('de-DE', { hour12: false, day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
+                    <td className="py-2 pr-4 text-secondary tabular-nums whitespace-nowrap">{when.toLocaleString('de-DE', { hour12: false, day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })}</td>
                     <td className="py-2 pr-4 truncate max-w-[300px]">{offer?.title || c.offerId || '—'}</td>
                     <td className="py-2 pr-4">
                       <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium ${c.ttclid ? 'bg-[#af52de]/10 text-[#af52de]' : 'bg-surface text-secondary'}`}>{src}</span>
