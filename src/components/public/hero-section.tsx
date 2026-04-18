@@ -12,7 +12,7 @@ const TABS: { key: TabKey; href: string; label: string; icon: typeof Palmtree; h
 ]
 
 const HERO_CONTENT: Record<string, { title: string; subtitle: string }> = {
-  pauschalreisen: { title: 'Die besten Urlaubsangebote', subtitle: 'zum besten Preis.' },
+  pauschalreisen: { title: 'Die bester Urlaubsangebote', subtitle: 'zum bester Preis.' },
   mietwagen: { title: 'Mietwagen vergleichen', subtitle: 'und günstig buchen.' },
 }
 
@@ -162,107 +162,97 @@ export function HeroSection() {
   const content = HERO_CONTENT[activeTab] || HERO_CONTENT.pauschalreisen
 
   return (
-    <section className="relative overflow-hidden min-h-0 sm:min-h-[600px] lg:min-h-[680px] flex flex-col justify-center">
+    <section className="relative overflow-hidden min-h-0 sm:min-h-[620px] lg:min-h-[700px] flex flex-col justify-center">
       <Image src="/santorini.png" alt="Urlaubsparadies" fill className="object-cover" priority quality={90} />
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/30 to-[#0a1a3a]/70" />
 
-      {/* Trust badges — desktop only, constrained to site layout container */}
-      <div className="hidden lg:block absolute inset-x-0 top-24 xl:top-28 z-10 pointer-events-none">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative h-0">
-          <div className="absolute right-4 xl:right-10 top-0 w-[260px] h-[280px] xl:w-[300px] xl:h-[310px] pointer-events-auto">
-          {/* 24h — white, top-left of cluster with info popup */}
-          <div className="absolute top-0 -left-10 w-[160px] h-[160px] xl:w-[180px] xl:h-[180px]">
-            <div className="relative w-full h-full rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.25)] flex flex-col items-center justify-center text-center pt-0 pb-4">
-              <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
-                <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-white/80 to-transparent" />
-              </div>
-              <span className="relative text-[10px] xl:text-xs font-bold text-[#0a1a3a]/50 uppercase tracking-widest">Bis zu</span>
-              <span className="relative text-4xl xl:text-5xl font-black text-[#0a1a3a] leading-none">24h</span>
-              <span className="relative text-[9px] xl:text-[10px] font-bold text-[#0a1a3a]/50 uppercase tracking-wider mt-0.5">vor Abflug</span>
-              <span className="relative text-[11px] xl:text-sm font-extrabold text-[#2e75fa] uppercase tracking-wide">stornieren</span>
-              <button
-                onClick={() => setShowInfo(showInfo === '24h' ? null : '24h')}
-                className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#0a1a3a] flex items-center justify-center cursor-pointer hover:bg-[#2e75fa] transition-colors shadow-md"
-              >
-                <span className="text-white text-xs font-bold leading-none">i</span>
-              </button>
-            </div>
-            {showInfo === '24h' && (
-              <>
-                <div className="fixed inset-0 z-40" onClick={() => setShowInfo(null)} />
-                <div className="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 w-[340px] z-50">
-                  <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0a1a3a] rotate-45 rounded-[2px]" />
-                  <div className="bg-[#0a1a3a] rounded-2xl p-5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] text-left">
-                    <div className="flex items-start justify-between mb-3">
-                      <h4 className="text-[15px] font-bold text-white leading-snug">Bis zu 24h vor Abflug stornieren</h4>
-                      <button onClick={() => setShowInfo(null)} className="text-white/40 hover:text-white ml-3 mt-0.5 transition-colors">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                      </button>
-                    </div>
-                    <p className="text-[13px] text-white/70 leading-relaxed mb-3">Viele Pauschalreisen lassen sich bis kurz vor Anreise kostenlos umbuchen oder stornieren.</p>
-                    <p className="text-[13px] text-white/70 leading-relaxed">Auf Bester Urlaub findest du ganz einfach solche Angebote und kannst die passende Stornierungsfrist wählen. Die genaue Frist wird bei jedem Angebot direkt angezeigt.</p>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-          {/* 60% — blue, top-right of cluster */}
-          <div className="absolute top-2 right-0 xl:right-2 w-[105px] h-[105px] xl:w-[115px] xl:h-[115px] rounded-full shadow-[0_8px_30px_rgba(46,117,250,0.4)] flex flex-col items-center justify-center text-center overflow-hidden" style={{ background: 'linear-gradient(160deg, #5a92ff 0%, #2e75fa 40%, #1a5fe0 100%)' }}>
-            <div className="absolute top-0 left-0 right-0 h-[40%] rounded-t-full bg-gradient-to-b from-white/30 to-transparent pointer-events-none" />
-            <span className="relative text-[9px] font-semibold text-white/90 uppercase">Bis zu</span>
-            <span className="relative text-3xl xl:text-[34px] font-black text-white leading-none">60%</span>
-            <span className="relative text-[10px] xl:text-[11px] font-bold text-white uppercase tracking-wide">Rabatt</span>
-          </div>
-          {/* Bestpreis — navy, bottom-center of cluster */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[105px] h-[105px] xl:w-[115px] xl:h-[115px] rounded-full shadow-[0_8px_30px_rgba(10,26,58,0.4)] flex flex-col items-center justify-center text-center border-2 border-white/15 overflow-hidden" style={{ background: 'linear-gradient(160deg, #1a2e52 0%, #0a1a3a 40%, #06112a 100%)' }}>
-            <div className="absolute top-0 left-0 right-0 h-[40%] rounded-t-full bg-gradient-to-b from-white/15 to-transparent pointer-events-none" />
-            <svg className="relative w-5 h-5 text-[#2e75fa] mb-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-            </svg>
-            <span className="relative text-[9px] font-bold text-white/60 uppercase tracking-widest">Bestpreis</span>
-            <span className="relative text-sm xl:text-[15px] font-extrabold text-white uppercase tracking-wide">Garantie</span>
-          </div>
-          </div>
-        </div>
-      </div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full pt-8 pb-8 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 flex flex-col items-center gap-6 sm:gap-8">
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full pt-6 pb-6 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28">
-        <div className="lg:max-w-[70%]">
-            {/* Tab pills */}
-            <div className="flex items-center gap-2 mb-5 sm:mb-10 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
+        {/* Heading block — centered */}
+        <div className="text-center max-w-4xl lg:max-w-5xl">
+          <div className="text-[11px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-2 sm:mb-3">
+            Bester Urlaub
+          </div>
+          <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] xl:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-lg whitespace-normal">
+            <span className="whitespace-nowrap">{content.title}</span>
+            <br />
+            <span className="opacity-90 whitespace-nowrap">{content.subtitle}</span>
+          </h1>
+        </div>
+
+        {/* Trust chips — pill rounded, centered */}
+        <div className="flex flex-wrap items-center justify-center gap-2 relative">
+          {[
+            { key: '24h', label: 'Bis zu 24h stornieren' },
+            { key: 'bestpreis', label: 'Bestpreis-Garantie' },
+            { key: 'rabatt', label: 'Bis zu 60% Rabatt' },
+          ].map((chip) => (
+            <button
+              key={chip.key}
+              type="button"
+              onClick={() => setShowInfo(showInfo === chip.key ? null : chip.key)}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium text-white bg-white/10 backdrop-blur-sm border border-white/15 hover:bg-white/20 transition-colors"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+              {chip.label}
+            </button>
+          ))}
+          {showInfo === '24h' && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setShowInfo(null)} />
+              <div className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-[320px] z-50">
+                <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0a1a3a] rotate-45 rounded-[2px]" />
+                <div className="bg-[#0a1a3a] rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.3)] text-left">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-sm font-bold text-white leading-snug">Bis zu 24h vor Abflug stornieren</h4>
+                    <button
+                      type="button"
+                      aria-label="Schließen"
+                      onClick={(e) => { e.stopPropagation(); setShowInfo(null) }}
+                      className="text-white/40 hover:text-white ml-3 mt-0.5 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                  </div>
+                  <p className="text-xs text-white/70 leading-relaxed">Viele Pauschalreisen lassen sich bis kurz vor Anreise kostenlos umbuchen oder stornieren. Die genaue Frist wird bei jedem Angebot direkt angezeigt.</p>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Widget card — tabs integrated as header */}
+        <div className="w-full max-w-5xl">
+          <div className="c24-hero-card bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden">
+            {/* Tabs row (inside card) */}
+            <div className="flex border-b border-[rgba(10,26,58,0.06)]">
               {TABS.map((tab) => (
                 <button
                   key={tab.key}
                   type="button"
                   onClick={() => handleTabClick(tab)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap shrink-0 ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-semibold transition-colors ${
                     activeTab === tab.key
-                      ? 'bg-[#2e75fa] text-white shadow-md shadow-[#2e75fa]/25'
-                      : 'bg-white/15 backdrop-blur-sm text-white hover:bg-white/25 border border-white/20'
+                      ? 'text-[#0a1a3a] border-b-2 border-[#ff6b35]'
+                      : 'text-[rgba(10,26,58,0.5)] border-b-2 border-transparent hover:text-[#0a1a3a]'
                   }`}
                 >
-                  <tab.icon className="w-3.5 h-3.5" />
+                  <tab.icon className="w-4 h-4" />
                   <span>{tab.label}</span>
                 </button>
               ))}
             </div>
 
-            {/* Dynamic heading */}
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-lg max-w-3xl mb-5 sm:mb-10">
-              {content.title}<br className="hidden sm:block" /> {content.subtitle}
-            </h1>
-
-            {/* Pauschalreisen widget */}
-            <div className={`max-w-5xl c24-hero-widget ${activeTab === 'pauschalreisen' ? '' : 'hidden'}`}>
+            {/* Widget bodies (share same card) */}
+            <div className={`c24-hero-widget ${activeTab === 'pauschalreisen' ? '' : 'hidden'}`}>
               <div id="c24pp-package-widget63276" data-target="_self" data-whitelabel="yes"
                 data-form="https://www.besterurlaub.com/pauschalreisen" data-tid="HERO01" />
             </div>
-
-            {/* Mietwagen widget */}
-            <div className={`max-w-5xl c24-mietwagen-widget ${activeTab === 'mietwagen' ? '' : 'hidden'}`}>
+            <div className={`c24-mietwagen-widget ${activeTab === 'mietwagen' ? '' : 'hidden'}`}>
               <div id="c24pp-rentalcar-widget78419" data-target="_self" data-whitelabel="yes"
                 data-form="https://www.check24.net/mietwagen-preisvergleich/" style={{ width: '100%', minHeight: 100 }} />
             </div>
+          </div>
         </div>
       </div>
 
@@ -276,14 +266,14 @@ export function HeroSection() {
         .c24-hero-widget span.c24package-title { display: none !important; }
         .c24-hero-widget img[src*="view.php"] { position: absolute !important; opacity: 0 !important; pointer-events: none !important; }
 
-        /* ===== GRID: 4 cols, 4 rows ===== */
+        /* ===== GRID: 4 cols, 4 rows (original layout) ===== */
         .c24-hero-widget .c24package-wrapper {
           display: grid !important;
           grid-template-columns: 1fr 1fr 1fr auto !important;
           grid-template-rows: auto auto auto auto !important;
           background: white !important;
-          border-radius: 16px !important;
-          box-shadow: 0 20px 60px -12px rgba(0,0,0,0.35) !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
           padding: 0 !important; margin: 0 !important;
           overflow: hidden !important;
           color: #0a1a3a !important; text-align: left !important;
@@ -354,13 +344,6 @@ export function HeroSection() {
         }
         .c24-hero-widget div.c24package-airport {
           grid-column: 3 !important; grid-row: 2 !important;
-        }
-
-        /* ===== DIVIDER (hidden) ===== */
-        .c24-hero-widget .c24package-wrapper::before {
-          content: '' !important; grid-column: 1 / -1 !important; grid-row: 3 !important;
-          align-self: start !important;
-          pointer-events: none !important; z-index: 0 !important;
         }
 
         /* ===== ROW 3-4: HINREISE (col 1) ===== */
@@ -649,12 +632,12 @@ export function HeroSection() {
         }
 
         /* ===== MIETWAGEN (RENTALCAR BILLBOARD) WIDGET STYLING ===== */
-        /* Main container — white card like pauschalreisen */
+        /* Main container — inner only; outer card handles radius/shadow */
         .c24-mietwagen-widget div.c24pp1.c24pp2.c24pp3.c24rentalcarbillboard {
           width: 100% !important; height: auto !important; min-height: 0 !important;
           background: white !important; border: none !important;
-          border-radius: 16px !important;
-          box-shadow: 0 20px 60px -12px rgba(0,0,0,0.35) !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
           padding: 20px 24px !important;
           color: #0a1a3a !important; text-align: left !important;
           overflow: visible !important;

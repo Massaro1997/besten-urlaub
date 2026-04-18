@@ -9,6 +9,7 @@ import { ArrowLeft, Shield } from 'lucide-react'
 import { AngebotTracker } from '@/components/public/angebot-tracker'
 import { AngebotTrackingPixel } from '@/components/public/angebot-redirect'
 import { generateEventId, buildAffiliateLinkWithSubid } from '@/lib/affiliate-link'
+import { OfferDetailView } from '@/components/public/offer-detail/OfferDetailView'
 
 export async function generateMetadata({
   params,
@@ -22,7 +23,7 @@ export async function generateMetadata({
   })
   if (!offer) return { title: 'Angebot nicht gefunden' }
   return {
-    title: `${offer.title} | Bester Urlaub`,
+    title: `${offer.hotelName || offer.title} | Bester Urlaub`,
     description: offer.description || `Urlaubsangebot: ${offer.title} — jetzt buchen auf Check24`,
   }
 }
@@ -41,16 +42,62 @@ export default async function AngebotPage({
   if (!offer) notFound()
 
   const eventId = generateEventId()
-  const affiliateLinkWithSubid = buildAffiliateLinkWithSubid(
-    offer.affiliateLink,
-    eventId,
-  )
+  const affiliateLinkWithSubid = buildAffiliateLinkWithSubid(offer.affiliateLink, eventId)
 
+  // New rich landing: shown for featured offers that have scraped hotelName.
+  // Legacy iframe fallback for offers without enriched data.
+  const hasRichData = Boolean(offer.hotelName && offer.featured)
+
+  if (hasRichData) {
+    return (
+      <>
+        <AngebotTrackingPixel
+          offerId={offer.id}
+          offerTitle={offer.title}
+          priceFrom={offer.priceFrom}
+          eventId={eventId}
+        />
+        <OfferDetailView
+          offer={{
+            id: offer.id,
+            title: offer.title,
+            hotelName: offer.hotelName,
+            hotelStars: offer.hotelStars,
+            board: offer.board,
+            nights: offer.nights,
+            adultsCount: offer.adultsCount,
+            departureFrom: offer.departureFrom,
+            dateFrom: offer.dateFrom,
+            dateTo: offer.dateTo,
+            region: offer.region,
+            rating: offer.rating,
+            reviews: offer.reviews,
+            priceFrom: offer.priceFrom,
+            priceStrike: offer.priceStrike,
+            discount: offer.discount,
+            limitedText: offer.limitedText,
+            gallery: offer.gallery || [],
+            amenities: offer.amenities || [],
+            description: offer.description,
+            longDescription: offer.longDescription,
+            destination: {
+              name: offer.destination.name,
+              country: offer.destination.country,
+              slug: offer.destination.slug,
+            },
+            affiliateLink: offer.affiliateLink,
+          }}
+          affiliateLinkWithSubid={affiliateLinkWithSubid}
+        />
+      </>
+    )
+  }
+
+  // Legacy iframe fallback (non-featured offers)
   const categoryLabel = CATEGORY_DE_MAP[offer.destination.category] || ''
 
   return (
     <div className="flex flex-col h-screen">
-      {/* Invisible tracking pixel — fires ViewContent + AddToCart + CompletePayment on load */}
       <AngebotTrackingPixel
         offerId={offer.id}
         offerTitle={offer.title}
@@ -58,51 +105,26 @@ export default async function AngebotPage({
         eventId={eventId}
       />
 
-      {/* Top bar */}
       <div className="bg-white border-b border-[#0a1a3a]/10 px-4 sm:px-6 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
-            <Link
-              href="/"
-              className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60 hover:text-[#2e75fa] transition-colors shrink-0"
-            >
+            <Link href="/" className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60 hover:text-[#2e75fa] transition-colors shrink-0">
               <ArrowLeft className="w-4 h-4" />
               <span className="hidden sm:inline">Zurück</span>
             </Link>
-
             <div className="h-5 w-px bg-[#0a1a3a]/10 shrink-0" />
-
             <div className="flex items-center gap-2 min-w-0">
-              <Image
-                src="/symbol.svg"
-                alt="Bester Urlaub"
-                width={20}
-                height={20}
-                className="shrink-0"
-              />
+              <Image src="/symbol.svg" alt="Bester Urlaub" width={20} height={20} className="shrink-0" />
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-[#0a1a3a] truncate">
-                  {offer.title}
-                </p>
+                <p className="text-sm font-semibold text-[#0a1a3a] truncate">{offer.title}</p>
                 <div className="flex items-center gap-2 text-xs text-[#0a1a3a]/50">
                   <span>{offer.destination.name}, {offer.destination.country}</span>
-                  {categoryLabel && (
-                    <>
-                      <span>·</span>
-                      <span>{categoryLabel}</span>
-                    </>
-                  )}
-                  {offer.priceFrom && (
-                    <>
-                      <span>·</span>
-                      <span className="font-semibold text-[#2e75fa]">ab {formatPrice(offer.priceFrom)}</span>
-                    </>
-                  )}
+                  {categoryLabel && <><span>·</span><span>{categoryLabel}</span></>}
+                  {offer.priceFrom && <><span>·</span><span className="font-semibold text-[#2e75fa]">ab {formatPrice(offer.priceFrom)}</span></>}
                 </div>
               </div>
             </div>
           </div>
-
           <div className="flex items-center gap-2 shrink-0">
             <div className="hidden sm:flex items-center gap-1.5 text-xs text-[#0a1a3a]/40">
               <Shield className="w-3.5 h-3.5" />
@@ -118,7 +140,6 @@ export default async function AngebotPage({
         </div>
       </div>
 
-      {/* Embedded Check24 iframe */}
       <div className="flex-1 relative">
         <iframe
           src={affiliateLinkWithSubid}

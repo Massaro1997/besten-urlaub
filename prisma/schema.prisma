@@ -40,6 +40,27 @@ model Offer {
   /// When true, the offer is shown in the "Top Deals" section on the homepage
   /// as a large card. Currently hand-curated (user tells us which 4 to feature).
   featured      Boolean  @default(false)
+
+  // Rich offer-detail fields (populated via chrome MCP scrape of Check24 hotel page
+  // + user-provided photos). Nullable so existing rows keep working.
+  hotelName     String?
+  hotelStars    Int?     // 3, 4, 5
+  board         String?  // "All Inclusive" / "Halbpension" / "Frühstück"
+  nights        Int?
+  adultsCount   Int?     @default(2)
+  departureFrom String?  // "ab Frankfurt" / "ab mehreren Flughäfen"
+  dateFrom      DateTime?
+  dateTo        DateTime?
+  region        String?  // "Kykladen" / "Costa del Sol"
+  rating        Float?   // 4.7
+  reviews       Int?     // 1284
+  priceStrike   Float?   // original price before discount
+  discount      Int?     // percent
+  limitedText   String?  // "Nur noch 3 Plätze"
+  gallery       String[] @default([])     // paths to /public/offer-images/<slug>/*.jpg
+  amenities     String[] @default([])     // ["Pool", "Strand 200m", "WLAN"]
+  longDescription String?                  // full descriptive paragraph
+
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
