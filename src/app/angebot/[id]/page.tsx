@@ -49,6 +49,16 @@ export default async function AngebotPage({
   const hasRichData = Boolean(offer.hotelName && offer.featured)
 
   if (hasRichData) {
+    const related = await prisma.offer.findMany({
+      where: {
+        featured: true,
+        id: { not: offer.id },
+        hotelName: { not: null },
+      },
+      include: { destination: true },
+      orderBy: { createdAt: 'desc' },
+      take: 4,
+    })
     return (
       <>
         <AngebotTrackingPixel
@@ -88,6 +98,21 @@ export default async function AngebotPage({
             affiliateLink: offer.affiliateLink,
           }}
           affiliateLinkWithSubid={affiliateLinkWithSubid}
+          related={related.map((r) => ({
+            id: r.id,
+            hotelName: r.hotelName,
+            title: r.title,
+            board: r.board,
+            nights: r.nights,
+            priceFrom: r.priceFrom,
+            priceStrike: r.priceStrike,
+            discount: r.discount,
+            destination: {
+              name: r.destination.name,
+              country: r.destination.country,
+              slug: r.destination.slug,
+            },
+          }))}
         />
       </>
     )

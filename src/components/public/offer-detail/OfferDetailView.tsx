@@ -33,6 +33,18 @@ type OfferData = {
   affiliateLink: string
 }
 
+export type RelatedOffer = {
+  id: string
+  hotelName: string | null
+  title: string
+  board: string | null
+  nights: number | null
+  priceFrom: number | null
+  priceStrike: number | null
+  discount: number | null
+  destination: { name: string; country: string | null; slug: string | null }
+}
+
 const NAVY = '#0a1a3a'
 const ORANGE = '#ff6b35'
 const BLUE = '#2e75fa'
@@ -91,7 +103,7 @@ function ratingLabel(r: number | null): string {
   return 'Akzeptabel'
 }
 
-export function OfferDetailView({ offer, affiliateLinkWithSubid }: { offer: OfferData; affiliateLinkWithSubid: string }) {
+export function OfferDetailView({ offer, affiliateLinkWithSubid, related = [] }: { offer: OfferData; affiliateLinkWithSubid: string; related?: RelatedOffer[] }) {
   const [isDesktop, setIsDesktop] = useState(false)
   const [active, setActive] = useState(0)
   const [lightbox, setLightbox] = useState(false)
@@ -127,6 +139,12 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid }: { offer: Offe
             <FAQ />
             <Divider />
             <PhoneCTA />
+            {related.length > 0 && (
+              <>
+                <Divider />
+                <RelatedDeals offers={related} />
+              </>
+            )}
           </div>
           <div>
             <div style={{ position: 'sticky', top: 24 }}>
@@ -152,10 +170,16 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid }: { offer: Offe
           <FAQ />
           <Divider mobile />
           <PhoneCTA />
+          {related.length > 0 && (
+            <>
+              <Divider mobile />
+              <RelatedDeals offers={related} />
+            </>
+          )}
         </div>
       )}
 
-      <TrustBar />
+      <TrustBarNavy />
       <Footer />
 
       {!isDesktop && <StickyMobileCTA offer={offer} affiliateLink={affiliateLinkWithSubid} />}
@@ -1090,24 +1114,104 @@ function StickyMobileCTA({ offer, affiliateLink }: { offer: OfferData; affiliate
   )
 }
 
-function TrustBar() {
-  const items = [
-    { k: '1 Mio+', v: 'zufriedene Reisende' },
-    { k: 'Bestpreis', v: 'Garantie' },
-    { k: '24h', v: 'Kundenservice' },
-    { k: 'Bis -60%', v: 'Frühbucher-Rabatt' },
+function TrustBarNavy() {
+  const items: { icon: React.ReactNode; title: string; sub: string }[] = [
+    { icon: <Shield size={22} strokeWidth={1.75} />, title: 'Bestpreis-Garantie', sub: 'Sonst Differenz zurück' },
+    { icon: <ClockIcon />, title: 'Bis 24h vor Abflug', sub: 'stornierbar' },
+    { icon: <AwardIcon />, title: 'Testsieger 2025', sub: 'DTGV Pauschalreisen' },
   ]
   return (
-    <div style={{ background: '#f5f5f7', padding: '28px 20px' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 20 }}>
-        {items.map((i) => (
-          <div key={i.k} style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 22, fontWeight: 800, color: NAVY, letterSpacing: '-0.02em' }}>{i.k}</div>
-            <div style={{ fontSize: 12, color: 'rgba(10,26,58,0.6)', marginTop: 3 }}>{i.v}</div>
+    <div style={{ background: NAVY, padding: '28px 20px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20, alignItems: 'center' }}>
+        {items.map((it, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ flexShrink: 0, color: ORANGE, display: 'inline-flex' }}>{it.icon}</div>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontSize: 15, fontWeight: 800, color: '#fff', letterSpacing: '-0.01em' }}>{it.title}</div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 2 }}>{it.sub}</div>
+            </div>
           </div>
         ))}
       </div>
     </div>
+  )
+}
+
+function ClockIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  )
+}
+
+function AwardIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="6" />
+      <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+    </svg>
+  )
+}
+
+function RelatedDeals({ offers }: { offers: RelatedOffer[] }) {
+  return (
+    <div>
+      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.25em', textTransform: 'uppercase', color: ORANGE, marginBottom: 6 }}>Auch verfügbar</div>
+      <h2 style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 20px', color: NAVY }}>Ähnliche Schnäppchen</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
+        {offers.map((r) => (
+          <RelatedCard key={r.id} offer={r} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function RelatedCard({ offer }: { offer: RelatedOffer }) {
+  const slug = offer.destination.slug || offer.destination.name.toLowerCase()
+  const img = `/destinations/${slug}.webp`
+  return (
+    <Link href={`/angebot/${offer.id}`} style={{
+      display: 'block', background: '#fff', borderRadius: 20, overflow: 'hidden',
+      border: '1px solid rgba(10,26,58,0.06)', textDecoration: 'none', color: 'inherit',
+      boxShadow: '0 2px 8px rgba(10,26,58,0.06)', transition: 'transform 200ms, box-shadow 200ms',
+    }}>
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '4 / 3', background: '#eee', overflow: 'hidden' }}>
+        <Image src={img} alt={offer.destination.name} fill sizes="(max-width: 768px) 100vw, 400px" style={{ objectFit: 'cover' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,26,58,0.6) 0%, transparent 45%, transparent 100%)', pointerEvents: 'none' }} />
+        {offer.discount && (
+          <div style={{ position: 'absolute', top: 12, left: 12, padding: '5px 10px', background: ORANGE, color: '#fff', borderRadius: 9999, fontSize: 11, fontWeight: 800, boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
+            -{offer.discount}%
+          </div>
+        )}
+        <div style={{ position: 'absolute', left: 14, bottom: 12, color: '#fff', fontSize: 11, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>
+          {offer.destination.name}{offer.destination.country ? `, ${offer.destination.country}` : ''}
+        </div>
+      </div>
+      <div style={{ padding: '14px 16px 16px' }}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: NAVY, letterSpacing: '-0.01em', marginBottom: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {offer.hotelName || offer.title}
+        </div>
+        <div style={{ fontSize: 12, color: 'rgba(10,26,58,0.55)', marginBottom: 12 }}>
+          {offer.nights && `${offer.nights} Nächte`}{offer.board && ` · ${offer.board}`}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap' }}>
+            {offer.priceStrike && (
+              <span style={{ fontSize: 12, color: 'rgba(10,26,58,0.4)', textDecoration: 'line-through' }}>{formatPrice(offer.priceStrike)} €</span>
+            )}
+            <span style={{ fontSize: 11, color: 'rgba(10,26,58,0.55)' }}>ab</span>
+            <span style={{ fontSize: 22, fontWeight: 900, color: BLUE, letterSpacing: '-0.02em' }}>{formatPrice(offer.priceFrom)} €</span>
+            <span style={{ fontSize: 11, color: 'rgba(10,26,58,0.55)' }}>p.P.</span>
+          </div>
+          <span style={{ fontSize: 13, fontWeight: 700, color: BLUE, display: 'inline-flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
+            Ansehen <ChevronRight size={14} />
+          </span>
+        </div>
+      </div>
+    </Link>
   )
 }
 
