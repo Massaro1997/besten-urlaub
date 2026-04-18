@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, Waves, Plane, X, ChevronDown } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, X, ChevronDown } from 'lucide-react'
 import { AngebotTracker } from '@/components/public/angebot-tracker'
 
 type OfferData = {
@@ -450,51 +450,39 @@ function Amenities({ offer }: { offer: OfferData }) {
 }
 
 function LocationMap({ offer }: { offer: OfferData }) {
+  // Build query: hotel name + region + country for best accuracy
+  const parts = [
+    offer.hotelName,
+    offer.region,
+    offer.destination.name,
+    offer.destination.country,
+  ].filter(Boolean).join(', ')
+  const query = encodeURIComponent(parts || offer.destination.name)
+  const mapSrc = `https://maps.google.com/maps?q=${query}&t=&z=13&ie=UTF8&iwloc=&output=embed`
+
   return (
     <div>
-      <SectionTitle eyebrow="Lage" title={offer.region || `${offer.destination.name}, ${offer.destination.country || ''}`} />
+      <SectionTitle eyebrow="Lage" title={offer.region || `${offer.destination.name}${offer.destination.country ? ', ' + offer.destination.country : ''}`} />
       <div style={{
-        position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden',
+        position: 'relative', height: 320, borderRadius: 16, overflow: 'hidden',
         border: '1px solid rgba(10,26,58,0.08)',
-        background: 'linear-gradient(135deg, #cfe8ff 0%, #a8d0f5 40%, #e9f2e0 70%, #d5e5a8 100%)',
+        background: '#eef2f6',
       }}>
-        <svg width="100%" height="100%" viewBox="0 0 400 280" style={{ position: 'absolute', inset: 0 }}>
-          <path d="M0 60 Q 60 80, 110 60 T 220 80 Q 280 110, 340 100 L 400 120 L 400 280 L 0 280 Z" fill="#e8ddb8" opacity="0.9" />
-          <path d="M40 280 Q 80 180, 160 160 T 380 100" stroke="rgba(10,26,58,0.2)" strokeWidth="2" fill="none" strokeDasharray="2 4" />
-          <text x="80" y="35" fontSize="10" fill="rgba(10,26,58,0.5)" fontWeight="600" letterSpacing="1">MEER</text>
-          <text x="250" y="230" fontSize="10" fill="rgba(10,26,58,0.4)" fontWeight="600">Zentrum</text>
-        </svg>
-        <div style={{ position: 'absolute', top: 110, left: 210, transform: 'translate(-50%, -100%)' }}>
-          <div style={{
-            background: ORANGE, color: '#fff',
-            padding: '7px 12px', borderRadius: 9999,
-            fontSize: 12, fontWeight: 800, whiteSpace: 'nowrap',
-            boxShadow: '0 4px 15px rgba(255,107,53,0.4)',
-            display: 'flex', alignItems: 'center', gap: 5,
-          }}>
-            <MapPin size={12} /> {offer.hotelName || 'Hotel'}
-          </div>
-          <div style={{
-            width: 0, height: 0,
-            borderLeft: '6px solid transparent', borderRight: '6px solid transparent',
-            borderTop: `7px solid ${ORANGE}`,
-            margin: '0 auto',
-          }} />
-        </div>
-        {[
-          { top: 60, left: 150, label: 'Strand', icon: <Waves size={10} /> },
-          { top: 215, left: 80, label: 'Flughafen', icon: <Plane size={10} /> },
-        ].map((p, i) => (
-          <div key={i} style={{
-            position: 'absolute', top: p.top, left: p.left, transform: 'translate(-50%, -50%)',
-            background: 'rgba(255,255,255,0.95)', color: NAVY,
-            padding: '4px 9px', borderRadius: 9999,
-            fontSize: 10, fontWeight: 700,
-            boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
-            display: 'flex', alignItems: 'center', gap: 4,
-          }}>{p.icon}{p.label}</div>
-        ))}
+        <iframe
+          title={`Karte ${offer.hotelName || offer.destination.name}`}
+          src={mapSrc}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          style={{ width: '100%', height: '100%', border: 0, display: 'block' }}
+        />
       </div>
+      {offer.hotelName && (
+        <div style={{ marginTop: 10, fontSize: 13, color: 'rgba(10,26,58,0.65)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <MapPin size={14} color={ORANGE} />
+          <span style={{ fontWeight: 600, color: NAVY }}>{offer.hotelName}</span>
+          {offer.region && <span>· {offer.region}</span>}
+        </div>
+      )}
     </div>
   )
 }
