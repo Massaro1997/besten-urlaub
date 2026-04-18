@@ -781,7 +781,8 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
   const [adults, setAdults] = useState<number>(offer.adultsCount || 2)
   const [rooms, setRooms] = useState<number>(1)
   const [board, setBoard] = useState<string>(offer.board || 'All Inclusive')
-  const [openPanel, setOpenPanel] = useState<null | 'dates' | 'guests'>(null)
+  const [airports, setAirports] = useState<string[]>([])
+  const [openPanel, setOpenPanel] = useState<null | 'dates' | 'guests' | 'airport'>(null)
 
   // Recompute return date when dep or nights change
   useEffect(() => {
@@ -803,8 +804,9 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
       nights,
       adults,
       board,
+      airports: airports.length > 0 ? airports : undefined,
     })
-  }, [affiliateLink, depDate, retDate, nights, adults, board])
+  }, [affiliateLink, depDate, retDate, nights, adults, board, airports])
 
   return (
     <div data-booking style={{ background: '#fff', border: '1px solid rgba(10,26,58,0.08)', borderRadius: 20, padding: 20, boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
@@ -886,6 +888,51 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
         <div style={{ padding: '14px 16px', border: '1px solid rgba(10,26,58,0.1)', borderRadius: 14, marginTop: -2, background: '#f9fafb', display: 'grid', gap: 12 }}>
           <CounterRow label="Erwachsene" sub="Ab 18 Jahren" value={adults} min={1} max={6} onChange={setAdults} />
           <CounterRow label="Zimmer" sub="" value={rooms} min={1} max={3} onChange={setRooms} />
+        </div>
+      )}
+
+      {/* Abflughafen field */}
+      <FieldBox
+        icon={<PlaneIcon />}
+        label="Abflughafen"
+        value={airports.length === 0 ? 'Alle Flughäfen' : airports.length === 1 ? (AIRPORTS.find((a) => a.code === airports[0])?.name || airports[0]) : `${airports.length} ausgewählt`}
+        sub={airports.length > 0 ? airports.join(', ') : 'DE, AT, CH'}
+        open={openPanel === 'airport'}
+        onClick={() => setOpenPanel(openPanel === 'airport' ? null : 'airport')}
+      />
+      {openPanel === 'airport' && (
+        <div style={{ padding: '14px 16px', border: '1px solid rgba(10,26,58,0.1)', borderRadius: 14, marginTop: -2, background: '#f9fafb' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <span style={{ fontSize: 12, color: 'rgba(10,26,58,0.6)' }}>Mehrfachauswahl möglich</span>
+            {airports.length > 0 && (
+              <button type="button" onClick={() => setAirports([])} style={{ background: 'transparent', border: 'none', color: BLUE, fontSize: 12, fontWeight: 600, cursor: 'pointer', padding: 0 }}>
+                Zurücksetzen
+              </button>
+            )}
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 6, maxHeight: 240, overflowY: 'auto' }}>
+            {AIRPORTS.map((a) => {
+              const selected = airports.includes(a.code)
+              return (
+                <button
+                  key={a.code}
+                  type="button"
+                  onClick={() => setAirports((prev) => selected ? prev.filter((c) => c !== a.code) : [...prev, a.code])}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 8,
+                    padding: '8px 10px', borderRadius: 10,
+                    border: selected ? `1.5px solid ${BLUE}` : '1px solid rgba(10,26,58,0.12)',
+                    background: selected ? 'rgba(46,117,250,0.06)' : '#fff',
+                    cursor: 'pointer', fontSize: 12, fontFamily: 'inherit',
+                    textAlign: 'left',
+                  }}
+                >
+                  <span style={{ fontWeight: 700, color: selected ? BLUE : NAVY, minWidth: 30 }}>{a.code}</span>
+                  <span style={{ color: 'rgba(10,26,58,0.7)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{a.name}</span>
+                </button>
+              )
+            })}
+          </div>
         </div>
       )}
 
@@ -1044,6 +1091,40 @@ function CalendarIcon() {
       <line x1="16" y1="2" x2="16" y2="6" />
       <line x1="8" y1="2" x2="8" y2="6" />
       <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  )
+}
+
+const AIRPORTS: { code: string; name: string }[] = [
+  { code: 'FRA', name: 'Frankfurt' },
+  { code: 'MUC', name: 'München' },
+  { code: 'DUS', name: 'Düsseldorf' },
+  { code: 'HAM', name: 'Hamburg' },
+  { code: 'BER', name: 'Berlin BER' },
+  { code: 'STR', name: 'Stuttgart' },
+  { code: 'CGN', name: 'Köln/Bonn' },
+  { code: 'HAJ', name: 'Hannover' },
+  { code: 'NUE', name: 'Nürnberg' },
+  { code: 'LEJ', name: 'Leipzig' },
+  { code: 'BRE', name: 'Bremen' },
+  { code: 'DTM', name: 'Dortmund' },
+  { code: 'FMO', name: 'Münster' },
+  { code: 'PAD', name: 'Paderborn' },
+  { code: 'FKB', name: 'Karlsruhe' },
+  { code: 'FMM', name: 'Memmingen' },
+  { code: 'SCN', name: 'Saarbrücken' },
+  { code: 'VIE', name: 'Wien' },
+  { code: 'SZG', name: 'Salzburg' },
+  { code: 'INN', name: 'Innsbruck' },
+  { code: 'ZRH', name: 'Zürich' },
+  { code: 'GVA', name: 'Genf' },
+  { code: 'BSL', name: 'Basel' },
+]
+
+function PlaneIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.8 19.2 16 11l3.5-3.5A2.12 2.12 0 0 0 16.5 4L13 7.5 4.8 5.7a1 1 0 0 0-.9 1.7L8 10.5l-3 3H2l1 1 2.5.5L6 17l1 1v-3l3-3 3.1 3.5a1 1 0 0 0 1.7-.9z" />
     </svg>
   )
 }

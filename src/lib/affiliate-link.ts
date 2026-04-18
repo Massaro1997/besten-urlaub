@@ -70,6 +70,7 @@ export function overrideCheck24Params(
     nights?: number
     adults?: number
     board?: string          // 'All Inclusive' | 'Halbpension' | 'Frühstück' ...
+    airports?: string[]     // IATA codes: ['HAM', 'FRA', ...]
   },
 ): string {
   try {
@@ -92,6 +93,9 @@ export function overrideCheck24Params(
         inner.searchParams.set('c24pp_board', code)
       }
     }
+    if (overrides.airports && overrides.airports.length > 0) {
+      inner.searchParams.set('c24pp_airport', overrides.airports.join(','))
+    }
 
     // Also update the inner fragment (after #) since Check24 SPA reads from it
     if (inner.hash) {
@@ -112,6 +116,9 @@ export function overrideCheck24Params(
           hashQuery.set('boardMinimum', code)
           hashQuery.set('board', code)
         }
+      }
+      if (overrides.airports && overrides.airports.length > 0) {
+        hashQuery.set('airport', overrides.airports.join(','))
       }
       inner.hash = `${hashPath}?${hashQuery.toString()}`
     }
