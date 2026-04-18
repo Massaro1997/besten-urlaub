@@ -120,13 +120,20 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid, related = [] }:
 
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: NAVY, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}>
-      <Header faved={faved} onFav={() => setFaved(!faved)} isDesktop={isDesktop} />
-      <HeroGallery images={images} active={active} setActive={setActive} offer={offer} isDesktop={isDesktop} onOpenLightbox={() => setLightbox(true)} />
+      <Header
+        faved={faved}
+        onFav={() => setFaved(!faved)}
+        isDesktop={isDesktop}
+        shareTitle={`${offer.hotelName || offer.destination.name} · Bester Urlaub`}
+        shareText={offer.title}
+      />
+      {!isDesktop && <HeroGallery images={images} active={active} setActive={setActive} offer={offer} isDesktop={isDesktop} onOpenLightbox={() => setLightbox(true)} />}
 
       {isDesktop ? (
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 24px 60px', display: 'grid', gridTemplateColumns: '1fr 380px', gap: 40 }}>
           <div style={{ minWidth: 0 }}>
-            <TitleBlock offer={offer} mobile={false} />
+            <HeroGallery images={images} active={active} setActive={setActive} offer={offer} isDesktop={isDesktop} onOpenLightbox={() => setLightbox(true)} />
+            <div style={{ marginTop: 24 }}><TitleBlock offer={offer} mobile={false} /></div>
             <div style={{ marginTop: 24 }}><HighlightsBar offer={offer} /></div>
             <div style={{ marginTop: 40 }}><Description offer={offer} /></div>
             <Divider />
@@ -188,7 +195,7 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid, related = [] }:
   )
 }
 
-function Header({ faved, onFav, isDesktop }: { faved: boolean; onFav: () => void; isDesktop: boolean }) {
+function Header({ faved, onFav, isDesktop, shareTitle, shareText }: { faved: boolean; onFav: () => void; isDesktop: boolean; shareTitle: string; shareText: string }) {
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 120)
@@ -215,7 +222,16 @@ function Header({ faved, onFav, isDesktop }: { faved: boolean; onFav: () => void
           </Link>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <IconBtn tone={solid ? 'light' : 'glass'}><Share2 size={16} /></IconBtn>
+          <IconBtn tone={solid ? 'light' : 'glass'} onClick={async () => {
+            if (typeof window === 'undefined') return
+            const url = window.location.href
+            const navAny = navigator as Navigator & { share?: (data: { title?: string; text?: string; url?: string }) => Promise<void> }
+            if (navAny.share) {
+              try { await navAny.share({ title: shareTitle, text: shareText, url }) } catch {}
+            } else {
+              try { await navigator.clipboard.writeText(url); alert('Link kopiert!') } catch {}
+            }
+          }}><Share2 size={16} /></IconBtn>
           <IconBtn tone={solid ? 'light' : 'glass'} onClick={onFav} active={faved}>
             <Heart size={16} color={faved ? '#ff3b30' : 'currentColor'} fill={faved ? '#ff3b30' : 'none'} />
           </IconBtn>
@@ -290,14 +306,14 @@ function HeroGallery({ images, active, setActive, offer, isDesktop, onOpenLightb
   const main = images[0]
   const thumbs = images.slice(1, 5)
   return (
-    <div style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 24px 0' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 8, height: 460, borderRadius: 24, overflow: 'hidden' }}>
+    <div style={{ width: '100%' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 8, height: 420, borderRadius: 20, overflow: 'hidden' }}>
         <button type="button" aria-label="Galerie öffnen" onClick={onOpenLightbox} style={{ position: 'relative', background: '#eee', gridRow: '1 / span 2', border: 'none', padding: 0, cursor: 'pointer' }}>
-          <Image src={main} alt={offer.hotelName || offer.title} fill sizes="800px" style={{ objectFit: 'cover' }} priority />
+          <Image src={main} alt={offer.hotelName || offer.title} fill sizes="(max-width: 900px) 100vw, 600px" style={{ objectFit: 'cover' }} priority />
         </button>
         {thumbs.map((src, i) => (
           <button key={i} type="button" aria-label={`Galerie Foto ${i + 2}`} onClick={onOpenLightbox} style={{ position: 'relative', background: '#eee', border: 'none', padding: 0, cursor: 'pointer' }}>
-            <Image src={src} alt="" fill sizes="400px" style={{ objectFit: 'cover' }} />
+            <Image src={src} alt="" fill sizes="300px" style={{ objectFit: 'cover' }} />
             {i === 3 && images.length > 5 && (
               <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,26,58,0.55)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800 }}>
                 +{images.length - 5} Fotos
