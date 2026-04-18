@@ -627,9 +627,11 @@ export function HeroSection() {
             border: none !important;
           }
 
-          /* Input/select base style on mobile */
+          /* Input/select base style on mobile (including location input) */
           .c24-hero-widget input,
-          .c24-hero-widget select {
+          .c24-hero-widget select,
+          .c24-hero-widget input.c24package-location,
+          .c24-hero-widget input[type="text"].c24package-location {
             height: 46px !important;
             font-size: 15px !important;
             padding: 0 14px !important;
@@ -638,9 +640,11 @@ export function HeroSection() {
             background: #fff !important;
             width: 100% !important;
             box-sizing: border-box !important;
+            outline: none !important;
           }
           .c24-hero-widget input:focus,
-          .c24-hero-widget select:focus {
+          .c24-hero-widget select:focus,
+          .c24-hero-widget input.c24package-location:focus {
             border-color: #2e75fa !important;
             box-shadow: 0 0 0 3px rgba(46,117,250,0.12) !important;
           }
