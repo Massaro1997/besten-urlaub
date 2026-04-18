@@ -220,33 +220,45 @@ function IconBtn({ children, onClick, tone = 'light', active = false }: { childr
 function HeroGallery({ images, active, setActive, offer, isDesktop, onOpenLightbox }: { images: string[]; active: number; setActive: (i: number) => void; offer: OfferData; isDesktop: boolean; onOpenLightbox: () => void }) {
   if (!isDesktop) {
     return (
-      <div style={{ position: 'relative' }}>
-        <button type="button" aria-label="Galerie öffnen" onClick={onOpenLightbox} style={{
-          position: 'relative', width: '100%', height: 'min(56vh, 420px)', minHeight: 300, background: '#eee', overflow: 'hidden',
-          border: 'none', padding: 0, cursor: 'pointer', display: 'block',
-        }}>
+      <div style={{ position: 'relative', padding: '12px 0 4px' }}>
+        {/* Top badges row above gallery */}
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', padding: '0 16px 10px' }}>
+          {offer.discount && <Badge color={ORANGE}>-{offer.discount}%</Badge>}
+          {offer.limitedText && <Badge color="#ff3333" icon={<Flame size={11} />}>{offer.limitedText}</Badge>}
+          {offer.hotelStars && <Badge color="rgba(10,26,58,0.08)" textColor={NAVY}>{'★'.repeat(offer.hotelStars)}</Badge>}
+        </div>
+        {/* Scroll-x gallery, snap to cards */}
+        <div
+          style={{
+            display: 'flex', gap: 10, overflowX: 'auto', scrollSnapType: 'x mandatory',
+            padding: '0 16px 8px', WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+          }}
+          className="scrollbar-hide"
+        >
           {images.map((src, i) => (
-            <div key={i} style={{ position: 'absolute', inset: 0, opacity: active === i ? 1 : 0, transition: 'opacity 400ms' }}>
-              <Image src={src} alt="" fill sizes="100vw" style={{ objectFit: 'cover' }} />
-            </div>
-          ))}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,26,58,0.75) 0%, rgba(10,26,58,0.15) 35%, rgba(10,26,58,0.2) 100%)', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', top: 72, left: 16, right: 16, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-            {offer.discount && <Badge color={ORANGE}>-{offer.discount}%</Badge>}
-            {offer.limitedText && <Badge color="#ff3333" icon={<Flame size={11} />}>{offer.limitedText}</Badge>}
-            {offer.hotelStars && <Badge color="rgba(255,255,255,0.95)" textColor={NAVY}>{'★'.repeat(offer.hotelStars)}</Badge>}
-          </div>
-          <div style={{ position: 'absolute', bottom: 16, right: 16, padding: '6px 10px', background: 'rgba(0,0,0,0.5)', color: '#fff', borderRadius: 9999, fontSize: 11, fontWeight: 600 }}>
-            {active + 1} / {images.length}
-          </div>
-        </button>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 5, padding: '12px 0 4px' }}>
-          {images.map((_, i) => (
-            <button key={i} type="button" aria-label={`Foto ${i + 1}`} onClick={() => setActive(i)} style={{
-              width: active === i ? 22 : 7, height: 7, borderRadius: 9999,
-              background: active === i ? NAVY : 'rgba(10,26,58,0.25)',
-              border: 'none', cursor: 'pointer', transition: 'all 200ms',
-            }} />
+            <button
+              key={i}
+              type="button"
+              aria-label={`Foto ${i + 1} öffnen`}
+              onClick={() => { setActive(i); onOpenLightbox() }}
+              style={{
+                flexShrink: 0, scrollSnapAlign: 'start',
+                position: 'relative',
+                width: 'min(80vw, 320px)', height: 'min(48vw, 220px)',
+                minHeight: 180,
+                borderRadius: 16, overflow: 'hidden', background: '#eee',
+                border: 'none', padding: 0, cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(10,26,58,0.08)',
+              }}
+            >
+              <Image src={src} alt="" fill sizes="80vw" style={{ objectFit: 'cover' }} priority={i === 0} />
+              {i === 0 && images.length > 1 && (
+                <div style={{ position: 'absolute', bottom: 10, right: 10, padding: '5px 10px', background: 'rgba(10,26,58,0.75)', color: '#fff', borderRadius: 9999, fontSize: 11, fontWeight: 700, backdropFilter: 'blur(4px)' }}>
+                  {images.length} Fotos
+                </div>
+              )}
+            </button>
           ))}
         </div>
       </div>
