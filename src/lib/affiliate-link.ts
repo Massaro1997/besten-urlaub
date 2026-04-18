@@ -18,15 +18,6 @@ export function generateEventId(): string {
 
 /**
  * Appends a subid + utm parameters to a Check24 affiliate link.
- *
- * Check24's affiliate system accepts arbitrary query params and reflects
- * them back in conversion reports under `subid` (sometimes `deepId`,
- * `partnerId2`, or `sub_id` depending on the program). We send all three
- * aliases to maximize compatibility — Check24 will simply ignore the ones
- * it doesn't use.
- *
- * If Check24 rejects extra params for a specific link, falls back to the
- * original link silently (no error).
  */
 export function buildAffiliateLinkWithSubid(
   baseLink: string,
@@ -34,18 +25,57 @@ export function buildAffiliateLinkWithSubid(
 ): string {
   try {
     const url = new URL(baseLink)
-    // Multiple aliases — Check24 partner programs use different names.
     url.searchParams.set('subid', eventId)
     url.searchParams.set('sub_id', eventId)
     url.searchParams.set('deepId', eventId)
-    // Generic UTM for our own analytics if Check24 preserves them.
-    if (!url.searchParams.has('utm_source')) {
-      url.searchParams.set('utm_source', 'bestenurlaub')
-    }
-    if (!url.searchParams.has('utm_medium')) {
-      url.searchParams.set('utm_medium', 'affiliate')
-    }
+    if (!url.searchParams.has('utm_source')) url.searchParams.set('utm_source', 'bestenurlaub')
+    if (!url.searchParams.has('utm_medium')) url.searchParams.set('utm_medium', 'affiliate')
     return url.toString()
+  } catch {
+    return baseLink
+  }
+}
+
+/**
+ * Rebuild a Check24 affiliate link by overriding the inner target_url query
+ * parameters (c24pp_departure_date, c24pp_return_date, c24pp_travel_duration,
+ * c24pp_adult, and also the fragment hotelId params). Useful when the user
+ * changes dates/travelers in the booking card — we rewrite the url before
+ * they click out.
+ */
+export function overrideCheck24Params(
+  baseLink: string,
+  overrides: {
+    departureDate?: string  // ISO yyyy-mm-dd
+    returnDate?: string     // ISO yyyy-mm-dd
+    nights?: number
+    adults?: number
+  },
+): string {
+  try {
+    const outer = new URL(baseLink)
+    const targetUrl = outer.searchParams.get('target_url') || ''
+    if (!targetUrl) return baseLink
+    const inner = new URL(decodeURIComponent(targetUrl))
+
+    if (overrides.departureDate) inner.searchParams.set('c24pp_departure_date', overrides.departureDate)
+    if (overrides.returnDate) inner.searchParams.set('c24pp_return_date', overrides.returnDate)
+    if (overrides.nights != null) inner.searchParams.set('c24pp_travel_duration', String(overrides.nights))
+    if (overrides.adults != null) inner.searchParams.set('c24pp_adult', String(overrides.adults))
+
+    // Also update the inner fragment (after #) since Check24 SPA reads from it
+    if (inner.hash) {
+      const parts = inner.hash.split('?')
+      const hashPath = parts[0]
+      const hashQuery = new URLSearchParams(parts[1] || '')
+      if (overrides.departureDate) hashQuery.set('departureDate', overrides.departureDate)
+      if (overrides.returnDate) hashQuery.set('returnDate', overrides.returnDate)
+      if (overrides.nights != null) hashQuery.set('days', String(overrides.nights))
+      inner.hash = `${hashPath}?${hashQuery.toString()}`
+    }
+
+    outer.searchParams.set('target_url', inner.toString())
+    return outer.toString()
   } catch {
     return baseLink
   }

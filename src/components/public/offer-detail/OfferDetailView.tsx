@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, X, ChevronDown, Plane, Moon, Utensils, Shield } from 'lucide-react'
 import { AngebotTracker } from '@/components/public/angebot-tracker'
+import { overrideCheck24Params } from '@/lib/affiliate-link'
 
 type OfferData = {
   id: string
@@ -619,9 +620,46 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
     const ma = monthDE[a.getUTCMonth()]
     return `${da}. ${ma} bis ${db}. ${mb} ${yb}`
   }
+
+  function toISO(d: Date | null): string {
+    if (!d) return ''
+    return d.toISOString().slice(0, 10)
+  }
+
+  function fromISO(s: string): Date {
+    return new Date(s + 'T00:00:00Z')
+  }
+
+  // Live state (seeded from DB)
+  const [depDate, setDepDate] = useState<Date | null>(offer.dateFrom)
+  const [retDate, setRetDate] = useState<Date | null>(offer.dateTo)
+  const [nights, setNights] = useState<number>(offer.nights || 7)
+  const [adults, setAdults] = useState<number>(offer.adultsCount || 2)
+  const [rooms, setRooms] = useState<number>(1)
+  const [board, setBoard] = useState<string>(offer.board || 'All Inclusive')
+  const [openPanel, setOpenPanel] = useState<null | 'dates' | 'guests'>(null)
+
+  // Recompute return date when dep or nights change
+  useEffect(() => {
+    if (depDate) {
+      const r = new Date(depDate.getTime())
+      r.setUTCDate(r.getUTCDate() + nights)
+      setRetDate(r)
+    }
+  }, [depDate, nights])
+
   const pricePerPerson = offer.priceFrom || 0
-  const adults = offer.adultsCount || 2
   const total = pricePerPerson * adults
+
+  // Rebuild affiliate link on every state change
+  const finalLink = useMemo(() => {
+    return overrideCheck24Params(affiliateLink, {
+      departureDate: toISO(depDate),
+      returnDate: toISO(retDate),
+      nights,
+      adults,
+    })
+  }, [affiliateLink, depDate, retDate, nights, adults])
 
   return (
     <div data-booking style={{ background: '#fff', border: '1px solid rgba(10,26,58,0.08)', borderRadius: 20, padding: 20, boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
@@ -645,30 +683,73 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 18 }}>
         <span style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)' }}>ab</span>
         <span style={{ fontSize: 'clamp(32px, 8vw, 44px)', fontWeight: 900, color: BLUE, letterSpacing: '-0.03em', lineHeight: 1 }}>
-          {formatPrice(offer.priceFrom)} €
+          {formatPrice(pricePerPerson)} €
         </span>
         <span style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)' }}>p.P.</span>
       </div>
 
       {/* Reisedaten field */}
-      {offer.dateFrom && offer.dateTo && (
-        <FieldBox icon={<CalendarIcon />} label="Reisedaten" value={shortRange(offer.dateFrom, offer.dateTo)} sub={offer.nights ? `${offer.nights} Nächte` : undefined} />
-      )}
-
-      {/* Reisende field */}
-      <FieldBox icon={<UsersIcon />} label="Reisende" value={`${adults} Erwachsene`} sub="1 Zimmer" />
-
-      {/* Verpflegung pills */}
-      {offer.board && (
-        <div style={{ marginTop: 16 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(10,26,58,0.5)', marginBottom: 8 }}>Verpflegung</div>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <VerpflegungPill label={offer.board} active />
-            {offer.board !== 'All Inclusive' && <VerpflegungPill label="All Inclusive" extra="+120 €" />}
-            {offer.board !== 'Halbpension' && <VerpflegungPill label="Halbpension" />}
+      <FieldBox
+        icon={<CalendarIcon />}
+        label="Reisedaten"
+        value={depDate && retDate ? shortRange(depDate, retDate) : 'Datum wählen'}
+        sub={`${nights} Nächte`}
+        open={openPanel === 'dates'}
+        onClick={() => setOpenPanel(openPanel === 'dates' ? null : 'dates')}
+      />
+      {openPanel === 'dates' && (
+        <div style={{ padding: '14px 16px', border: '1px solid rgba(10,26,58,0.1)', borderRadius: 14, marginTop: -2, background: '#f9fafb' }}>
+          <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: 'rgba(10,26,58,0.6)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Abflug</label>
+          <input
+            type="date"
+            aria-label="Abflugdatum"
+            value={toISO(depDate)}
+            min={toISO(new Date())}
+            onChange={(e) => setDepDate(fromISO(e.target.value))}
+            style={{ width: '100%', padding: '10px 12px', border: '1px solid rgba(10,26,58,0.15)', borderRadius: 10, fontSize: 14, color: NAVY, fontFamily: 'inherit' }}
+          />
+          <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: 'rgba(10,26,58,0.6)', margin: '14px 0 6px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Dauer: {nights} Nächte</label>
+          <input
+            type="range"
+            aria-label="Dauer der Reise in Nächten"
+            min={3}
+            max={21}
+            step={1}
+            value={nights}
+            onChange={(e) => setNights(parseInt(e.target.value, 10))}
+            style={{ width: '100%', accentColor: BLUE }}
+          />
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'rgba(10,26,58,0.5)', marginTop: 2 }}>
+            <span>3</span><span>7</span><span>14</span><span>21</span>
           </div>
         </div>
       )}
+
+      {/* Reisende field */}
+      <FieldBox
+        icon={<UsersIcon />}
+        label="Reisende"
+        value={`${adults} ${adults === 1 ? 'Erwachsener' : 'Erwachsene'}`}
+        sub={`${rooms} ${rooms === 1 ? 'Zimmer' : 'Zimmer'}`}
+        open={openPanel === 'guests'}
+        onClick={() => setOpenPanel(openPanel === 'guests' ? null : 'guests')}
+      />
+      {openPanel === 'guests' && (
+        <div style={{ padding: '14px 16px', border: '1px solid rgba(10,26,58,0.1)', borderRadius: 14, marginTop: -2, background: '#f9fafb', display: 'grid', gap: 12 }}>
+          <CounterRow label="Erwachsene" sub="Ab 18 Jahren" value={adults} min={1} max={6} onChange={setAdults} />
+          <CounterRow label="Zimmer" sub="" value={rooms} min={1} max={3} onChange={setRooms} />
+        </div>
+      )}
+
+      {/* Verpflegung pills */}
+      <div style={{ marginTop: 16 }}>
+        <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(10,26,58,0.5)', marginBottom: 8 }}>Verpflegung</div>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          {['All Inclusive', 'Halbpension', 'Frühstück'].map((b) => (
+            <VerpflegungPill key={b} label={b} active={board === b} onClick={() => setBoard(b)} />
+          ))}
+        </div>
+      </div>
 
       {/* Total breakdown */}
       <div style={{ marginTop: 18, padding: '14px 16px', background: '#f5f5f7', borderRadius: 14 }}>
@@ -692,8 +773,8 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
         <AngebotTracker
           offerId={offer.id}
           offerTitle={offer.title}
-          priceFrom={offer.priceFrom}
-          affiliateLink={affiliateLink}
+          priceFrom={pricePerPerson}
+          affiliateLink={finalLink}
         />
       </div>
 
@@ -707,33 +788,75 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
   )
 }
 
-function FieldBox({ icon, label, value, sub }: { icon: React.ReactNode; label: string; value: string; sub?: string }) {
+function CounterRow({ label, sub, value, min, max, onChange }: { label: string; sub: string; value: number; min: number; max: number; onChange: (v: number) => void }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', border: '1px solid rgba(10,26,58,0.1)', borderRadius: 14, marginTop: 10 }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+      <div style={{ minWidth: 0 }}>
+        <div style={{ fontSize: 14, fontWeight: 700, color: NAVY }}>{label}</div>
+        {sub && <div style={{ fontSize: 11, color: 'rgba(10,26,58,0.5)' }}>{sub}</div>}
+      </div>
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+        <button type="button" aria-label={`${label} verringern`} onClick={() => value > min && onChange(value - 1)} disabled={value <= min} style={{
+          width: 30, height: 30, borderRadius: 9999, border: '1px solid rgba(10,26,58,0.15)',
+          background: '#fff', color: value <= min ? 'rgba(10,26,58,0.25)' : NAVY,
+          cursor: value <= min ? 'not-allowed' : 'pointer', fontSize: 16, fontWeight: 700,
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        }}>−</button>
+        <span style={{ minWidth: 20, textAlign: 'center', fontWeight: 700, color: NAVY }}>{value}</span>
+        <button type="button" aria-label={`${label} erhöhen`} onClick={() => value < max && onChange(value + 1)} disabled={value >= max} style={{
+          width: 30, height: 30, borderRadius: 9999, border: '1px solid rgba(10,26,58,0.15)',
+          background: '#fff', color: value >= max ? 'rgba(10,26,58,0.25)' : NAVY,
+          cursor: value >= max ? 'not-allowed' : 'pointer', fontSize: 16, fontWeight: 700,
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        }}>+</button>
+      </div>
+    </div>
+  )
+}
+
+function FieldBox({ icon, label, value, sub, open, onClick }: { icon: React.ReactNode; label: string; value: string; sub?: string; open?: boolean; onClick?: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        width: '100%', display: 'flex', alignItems: 'center', gap: 12,
+        padding: '12px 14px', border: `1px solid ${open ? 'rgba(46,117,250,0.5)' : 'rgba(10,26,58,0.1)'}`,
+        borderRadius: 14, marginTop: 10, background: '#fff',
+        cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
+        transition: 'border-color 200ms',
+      }}
+    >
       <div style={{ flexShrink: 0, color: 'rgba(10,26,58,0.55)', display: 'inline-flex' }}>{icon}</div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(10,26,58,0.55)' }}>{label}</div>
         <div style={{ fontSize: 14, fontWeight: 700, color: NAVY, marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</div>
       </div>
       {sub && <div style={{ flexShrink: 0, fontSize: 12, color: 'rgba(10,26,58,0.55)' }}>{sub}</div>}
-      <ChevronDown size={16} color="rgba(10,26,58,0.4)" style={{ flexShrink: 0 }} />
-    </div>
+      <ChevronDown size={16} color="rgba(10,26,58,0.4)" style={{ flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 200ms' }} />
+    </button>
   )
 }
 
-function VerpflegungPill({ label, extra, active }: { label: string; extra?: string; active?: boolean }) {
+function VerpflegungPill({ label, extra, active, onClick }: { label: string; extra?: string; active?: boolean; onClick?: () => void }) {
   return (
-    <span style={{
-      display: 'inline-flex', alignItems: 'center', gap: 4,
-      padding: '7px 13px', borderRadius: 9999,
-      border: active ? `1.5px solid ${BLUE}` : '1px solid rgba(10,26,58,0.15)',
-      color: active ? BLUE : NAVY,
-      fontSize: 13, fontWeight: 600,
-      background: '#fff',
-    }}>
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 4,
+        padding: '7px 13px', borderRadius: 9999,
+        border: active ? `1.5px solid ${BLUE}` : '1px solid rgba(10,26,58,0.15)',
+        color: active ? BLUE : NAVY,
+        fontSize: 13, fontWeight: 600,
+        background: '#fff',
+        cursor: 'pointer', fontFamily: 'inherit',
+        transition: 'all 150ms',
+      }}
+    >
       {label}
       {extra && <span style={{ color: 'rgba(10,26,58,0.5)', fontWeight: 500, fontSize: 12 }}>{extra}</span>}
-    </span>
+    </button>
   )
 }
 
