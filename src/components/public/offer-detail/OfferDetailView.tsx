@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, X, ChevronDown } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, X, ChevronDown, Plane, Moon, Utensils, Shield } from 'lucide-react'
 import { AngebotTracker } from '@/components/public/angebot-tracker'
 
 type OfferData = {
@@ -137,7 +137,7 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid }: { offer: Offe
       ) : (
         <div style={{ padding: '20px 16px 120px' }}>
           <TitleBlock offer={offer} mobile />
-          <div style={{ marginTop: 16 }}><HighlightsBar offer={offer} /></div>
+          <div style={{ marginTop: 16 }}><HighlightsBarMobile offer={offer} /></div>
           <div style={{ marginTop: 28 }}><Description offer={offer} /></div>
           <Divider mobile />
           <BookingCard offer={offer} affiliateLink={affiliateLinkWithSubid} />
@@ -394,23 +394,68 @@ function Chip({ children, icon }: { children: React.ReactNode; icon?: React.Reac
 }
 
 function HighlightsBar({ offer }: { offer: OfferData }) {
-  const items = [
-    offer.nights != null && { k: 'Nächte', v: String(offer.nights) },
-    offer.board && { k: 'Verpflegung', v: offer.board },
-    offer.adultsCount != null && { k: 'Reisende', v: `${offer.adultsCount} Erw.` },
-    offer.rating && { k: 'Bewertung', v: `${offer.rating.toFixed(1)} ${ratingLabel(offer.rating)}` },
-  ].filter(Boolean) as { k: string; v: string }[]
+  const items: { icon: React.ReactNode; title: string; sub: string }[] = []
+
+  if (offer.departureFrom) {
+    items.push({ icon: <Plane size={22} strokeWidth={1.75} />, title: 'Hin-/Rückflug', sub: offer.departureFrom })
+  } else {
+    items.push({ icon: <Plane size={22} strokeWidth={1.75} />, title: 'Hin-/Rückflug', sub: 'inklusive' })
+  }
+
+  if (offer.nights != null) {
+    items.push({ icon: <Moon size={22} strokeWidth={1.75} />, title: `${offer.nights} Nächte`, sub: `${offer.adultsCount || 2} Erw. · Doppelzimmer` })
+  }
+
+  if (offer.board) {
+    items.push({ icon: <Utensils size={22} strokeWidth={1.75} />, title: offer.board, sub: 'inklusive' })
+  }
+
+  items.push({ icon: <Shield size={22} strokeWidth={1.75} />, title: 'Stornierbar', sub: 'bis 24h vor Abflug' })
 
   return (
     <div style={{
-      padding: '14px 16px',
-      background: '#f5f5f7', borderRadius: 16,
-      display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 12,
+      display: 'grid', gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))`,
+      border: '1px solid rgba(10,26,58,0.08)', borderRadius: 16,
+      overflow: 'hidden', background: '#fff',
     }}>
-      {items.map((it) => (
-        <div key={it.k} style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(10,26,58,0.5)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.k}</div>
-          <div style={{ fontSize: 14, fontWeight: 700, color: NAVY, marginTop: 3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.v}</div>
+      {items.map((it, i) => (
+        <div key={i} style={{
+          padding: '18px 18px 20px',
+          borderRight: i < items.length - 1 ? '1px solid rgba(10,26,58,0.08)' : 'none',
+          minWidth: 0,
+        }}>
+          <div style={{ color: BLUE, marginBottom: 12 }}>{it.icon}</div>
+          <div style={{ fontSize: 15, fontWeight: 800, color: NAVY, letterSpacing: '-0.01em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.title}</div>
+          <div style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)', marginTop: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.sub}</div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function HighlightsBarMobile({ offer }: { offer: OfferData }) {
+  const items: { icon: React.ReactNode; title: string; sub: string }[] = []
+  items.push({ icon: <Plane size={18} strokeWidth={1.75} />, title: 'Flug', sub: offer.departureFrom || 'inkl.' })
+  if (offer.nights != null) items.push({ icon: <Moon size={18} strokeWidth={1.75} />, title: `${offer.nights} Nächte`, sub: `${offer.adultsCount || 2} Erw.` })
+  if (offer.board) items.push({ icon: <Utensils size={18} strokeWidth={1.75} />, title: offer.board, sub: 'inkl.' })
+  items.push({ icon: <Shield size={18} strokeWidth={1.75} />, title: 'Storno', sub: '24h' })
+
+  return (
+    <div style={{
+      display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)',
+      border: '1px solid rgba(10,26,58,0.08)', borderRadius: 16,
+      overflow: 'hidden', background: '#fff',
+    }}>
+      {items.map((it, i) => (
+        <div key={i} style={{
+          padding: '14px 14px 16px',
+          borderRight: i % 2 === 0 ? '1px solid rgba(10,26,58,0.08)' : 'none',
+          borderBottom: i < 2 ? '1px solid rgba(10,26,58,0.08)' : 'none',
+          minWidth: 0,
+        }}>
+          <div style={{ color: BLUE, marginBottom: 8 }}>{it.icon}</div>
+          <div style={{ fontSize: 13, fontWeight: 800, color: NAVY, letterSpacing: '-0.01em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.title}</div>
+          <div style={{ fontSize: 12, color: 'rgba(10,26,58,0.55)', marginTop: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.sub}</div>
         </div>
       ))}
     </div>
