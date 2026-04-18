@@ -783,10 +783,10 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
         <span style={{ fontSize: 'clamp(32px, 8vw, 44px)', fontWeight: 900, color: BLUE, letterSpacing: '-0.03em', lineHeight: 1 }}>
           {formatPrice(pricePerPerson)} €
         </span>
-        <span style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)' }}>p.P.</span>
+        <span style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)' }}>p.P.*</span>
       </div>
-      <div style={{ fontSize: 11, color: 'rgba(10,26,58,0.5)', marginBottom: 16, lineHeight: 1.4 }}>
-        Endpreis wird von CHECK24 auf Basis deiner Auswahl berechnet.
+      <div style={{ fontSize: 11, color: 'rgba(10,26,58,0.5)', marginBottom: 16, lineHeight: 1.5 }}>
+        *Preis pro Person im Doppelzimmer. Endpreis wird von unserem Partner CHECK24 berechnet und kann je nach Reisedaten, Abflughafen, Zimmerkategorie, Verpflegung und Verfügbarkeit abweichen. Der Vergleichspreis bezieht sich auf den durchschnittlichen Saisonpreis ohne Rabatt.
       </div>
 
       {/* Reisedaten field */}
@@ -1114,10 +1114,15 @@ function TrustBar() {
 function Footer() {
   return (
     <footer style={{ background: NAVY, color: 'rgba(255,255,255,0.7)', padding: '36px 20px 24px' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', textAlign: 'center' }}>
-        <div style={{ fontSize: 16, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: 8 }}>Bester Urlaub</div>
-        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
-          © 2026 · Partner von CHECK24 · AGB · Datenschutz
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 20 }}>
+          <div style={{ fontSize: 16, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: 8 }}>Bester Urlaub</div>
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
+            © 2026 · Partner von CHECK24 · AGB · Datenschutz
+          </div>
+        </div>
+        <div style={{ fontSize: 11, lineHeight: 1.55, color: 'rgba(255,255,255,0.45)', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 16, textAlign: 'left' }}>
+          *Alle Preisangaben sind unverbindlich und werden von unserem Partner CHECK24 zur Verfügung gestellt. Der finale Preis kann je nach gewählten Reisedaten, Abflughafen, Anzahl der Reisenden, Zimmerkategorie, Verpflegungsart und Verfügbarkeit abweichen. Die Vergleichspreise beziehen sich auf den durchschnittlichen Saisonpreis ohne Rabatt. Die Buchung erfolgt ausschließlich über CHECK24. Bester Urlaub ist kein Reiseveranstalter und tritt ausschließlich als Vermittler auf. Alle Bewertungen stammen von verifizierten CHECK24-Kunden. Fotos sind beispielhaft und können vom tatsächlichen Hotelangebot abweichen.
         </div>
       </div>
     </footer>
