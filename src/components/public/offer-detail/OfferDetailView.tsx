@@ -199,13 +199,11 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid, related = [] }:
 }
 
 function Header({ faved, onFav, isDesktop, shareTitle, shareText }: { faved: boolean; onFav: () => void; isDesktop: boolean; shareTitle: string; shareText: string }) {
-  const [scrolled, setScrolled] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 120)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  const solid = isDesktop || scrolled
+  // Always show a solid white header so the logo and 'Bester Urlaub' text
+  // stay readable (gallery starts immediately below, there's no dark hero
+  // image behind the bar to warrant a transparent glass style).
+  const solid = true
+  void isDesktop
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 50,
@@ -1121,66 +1119,58 @@ function PhoneCTA() {
   return (
     <div className="phonecta-wrap" style={{
       position: 'relative', borderRadius: 24, overflow: 'hidden',
-      background: 'linear-gradient(135deg, #0a1a3a 0%, #0f2454 60%, #0a1a3a 100%)',
+      background: '#0a1a3a',
       color: '#fff',
+      minHeight: 280,
     }}>
-      <div className="phonecta-grid">
-        <div className="phonecta-text">
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>Persönliche Beratung</div>
-          <h2 style={{ fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 8px', color: '#fff', lineHeight: 1.2 }}>
-            Brauchst du Hilfe bei deiner Buchung?
-          </h2>
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', margin: '0 0 20px', lineHeight: 1.5 }}>
-            Ruf uns direkt an. Kostenlos. Keine Warteschlange.
-          </p>
-          <a href="tel:+4930123456789" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 10,
-            padding: '14px 22px', background: ORANGE, color: '#fff',
-            borderRadius: 9999, textDecoration: 'none', fontSize: 15, fontWeight: 700,
-            boxShadow: '0 4px 15px rgba(255,107,53,0.45)',
-          }}>
-            <Phone size={16} /> Jetzt anrufen
-          </a>
-        </div>
-        <div className="phonecta-img">
-          <Image
-            src="/destinations/santorini.webp"
-            alt=""
-            fill
-            sizes="(max-width: 900px) 100vw, 440px"
-            style={{ objectFit: 'cover', objectPosition: 'center' }}
-          />
-        </div>
+      {/* Full-bleed background photo */}
+      <Image
+        src="/destinations/santorini.webp"
+        alt=""
+        fill
+        sizes="(max-width: 900px) 100vw, 1000px"
+        style={{ objectFit: 'cover', objectPosition: 'right center', zIndex: 0 }}
+      />
+      {/* Gradient fade from navy-left to transparent-right so the photo fades behind text */}
+      <div className="phonecta-fade" />
+      <div className="phonecta-content">
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>Persönliche Beratung</div>
+        <h2 style={{ fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 8px', color: '#fff', lineHeight: 1.2, textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
+          Brauchst du Hilfe bei deiner Buchung?
+        </h2>
+        <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.88)', margin: '0 0 20px', lineHeight: 1.5, textShadow: '0 1px 6px rgba(0,0,0,0.3)' }}>
+          Ruf uns direkt an. Kostenlos. Keine Warteschlange.
+        </p>
+        <a href="tel:+4930123456789" style={{
+          display: 'inline-flex', alignItems: 'center', gap: 10,
+          padding: '14px 22px', background: ORANGE, color: '#fff',
+          borderRadius: 9999, textDecoration: 'none', fontSize: 15, fontWeight: 700,
+          boxShadow: '0 4px 15px rgba(255,107,53,0.45)',
+        }}>
+          <Phone size={16} /> Jetzt anrufen
+        </a>
       </div>
       <style jsx>{`
-        .phonecta-grid {
-          display: grid;
-          grid-template-columns: 1.1fr 1fr;
-          align-items: stretch;
-          min-height: 260px;
+        .phonecta-fade {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+          background: linear-gradient(90deg, rgba(10,26,58,0.95) 0%, rgba(10,26,58,0.8) 30%, rgba(10,26,58,0.45) 55%, rgba(10,26,58,0.15) 80%, rgba(10,26,58,0.05) 100%);
         }
-        .phonecta-text {
-          padding: 32px 28px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-        .phonecta-img {
+        .phonecta-content {
           position: relative;
-          min-height: 260px;
+          z-index: 2;
+          padding: 40px 32px;
+          max-width: 540px;
         }
         @media (max-width: 720px) {
-          .phonecta-grid {
-            grid-template-columns: 1fr;
-            min-height: 0;
+          .phonecta-fade {
+            background: linear-gradient(180deg, rgba(10,26,58,0.15) 0%, rgba(10,26,58,0.55) 35%, rgba(10,26,58,0.9) 70%, rgba(10,26,58,0.96) 100%);
           }
-          .phonecta-img {
-            order: -1;
-            aspect-ratio: 16 / 10;
-            min-height: 180px;
-          }
-          .phonecta-text {
-            padding: 24px 22px 28px;
+          .phonecta-content {
+            padding: 150px 22px 28px;
+            max-width: none;
           }
         }
       `}</style>
