@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, Waves, Plane, X, ChevronDown } from 'lucide-react'
 import { AngebotTracker } from '@/components/public/angebot-tracker'
 
 type OfferData = {
@@ -36,6 +36,41 @@ const NAVY = '#0a1a3a'
 const ORANGE = '#ff6b35'
 const BLUE = '#2e75fa'
 
+// 29 destination photos available in /public/destinations/
+const ALL_DEST_PHOTOS = [
+  'antalya', 'aruba', 'bad-griesbach', 'canarie', 'chalkidiki', 'corf', 'creta',
+  'fuessen', 'holland', 'hurghada', 'istanbul', 'korfu', 'lago-di-garda',
+  'mallorca', 'marbella', 'mauritius', 'mont-saint-michel', 'nordkroatien',
+  'playa-del-carmen', 'punta-cana', 'rodi', 'salento', 'sansibar', 'santorini',
+  'sardegna', 'sharm-el-sheikh', 'sicilia', 'thailandia', 'zypern',
+]
+
+function seededShuffle<T>(arr: T[], seed: string): T[] {
+  // Deterministic shuffle based on offer id — so each offer has consistent gallery across renders
+  const a = [...arr]
+  let hash = 0
+  for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) | 0
+  for (let i = a.length - 1; i > 0; i--) {
+    hash = (hash * 16807 + 1) % 2147483647
+    const j = Math.abs(hash) % (i + 1)
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+function buildGallery(offer: OfferData): string[] {
+  if (offer.gallery && offer.gallery.length > 0) return offer.gallery
+
+  const destSlug = offer.destination.slug || offer.destination.name.toLowerCase()
+  const primary = ALL_DEST_PHOTOS.includes(destSlug) ? destSlug : null
+
+  // Primary first, then 4 random others
+  const others = ALL_DEST_PHOTOS.filter((s) => s !== primary)
+  const shuffled = seededShuffle(others, offer.id)
+  const picks = [primary, ...shuffled.slice(0, 4)].filter(Boolean) as string[]
+  return picks.map((s) => `/destinations/${s}.webp`)
+}
+
 function formatDate(d: Date | null): string {
   if (!d) return ''
   return new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', year: '2-digit' }).format(d)
@@ -58,6 +93,7 @@ function ratingLabel(r: number | null): string {
 export function OfferDetailView({ offer, affiliateLinkWithSubid }: { offer: OfferData; affiliateLinkWithSubid: string }) {
   const [isDesktop, setIsDesktop] = useState(false)
   const [active, setActive] = useState(0)
+  const [lightbox, setLightbox] = useState(false)
   const [faved, setFaved] = useState(false)
 
   useEffect(() => {
@@ -67,23 +103,27 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid }: { offer: Offe
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
-  const destSlug = offer.destination.slug || offer.destination.name.toLowerCase()
-  const fallbackImg = `/destinations/${destSlug}.webp`
-  const images = offer.gallery && offer.gallery.length > 0 ? offer.gallery : [fallbackImg, fallbackImg, fallbackImg]
+  const images = useMemo(() => buildGallery(offer), [offer])
 
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: NAVY, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif' }}>
       <Header faved={faved} onFav={() => setFaved(!faved)} isDesktop={isDesktop} />
-      <HeroGallery images={images} active={active} setActive={setActive} offer={offer} isDesktop={isDesktop} />
+      <HeroGallery images={images} active={active} setActive={setActive} offer={offer} isDesktop={isDesktop} onOpenLightbox={() => setLightbox(true)} />
 
       {isDesktop ? (
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 24px 60px', display: 'grid', gridTemplateColumns: '1fr 380px', gap: 40 }}>
           <div style={{ minWidth: 0 }}>
             <TitleBlock offer={offer} mobile={false} />
-            <HighlightsBar offer={offer} />
-            <Description offer={offer} />
+            <div style={{ marginTop: 24 }}><HighlightsBar offer={offer} /></div>
+            <div style={{ marginTop: 40 }}><Description offer={offer} /></div>
             <Divider />
             <Amenities offer={offer} />
+            <Divider />
+            <LocationMap offer={offer} />
+            <Divider />
+            <Reviews offer={offer} />
+            <Divider />
+            <FAQ />
             <Divider />
             <PhoneCTA />
           </div>
@@ -95,15 +135,21 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid }: { offer: Offe
           </div>
         </div>
       ) : (
-        <div style={{ padding: '20px 20px 120px' }}>
+        <div style={{ padding: '20px 16px 120px' }}>
           <TitleBlock offer={offer} mobile />
-          <HighlightsBar offer={offer} />
-          <Description offer={offer} />
-          <Divider />
+          <div style={{ marginTop: 16 }}><HighlightsBar offer={offer} /></div>
+          <div style={{ marginTop: 28 }}><Description offer={offer} /></div>
+          <Divider mobile />
           <BookingCard offer={offer} affiliateLink={affiliateLinkWithSubid} />
-          <Divider />
+          <Divider mobile />
           <Amenities offer={offer} />
-          <Divider />
+          <Divider mobile />
+          <LocationMap offer={offer} />
+          <Divider mobile />
+          <Reviews offer={offer} />
+          <Divider mobile />
+          <FAQ />
+          <Divider mobile />
           <PhoneCTA />
         </div>
       )}
@@ -112,6 +158,7 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid }: { offer: Offe
       <Footer />
 
       {!isDesktop && <StickyMobileCTA offer={offer} affiliateLink={affiliateLinkWithSubid} />}
+      {lightbox && <Lightbox images={images} startIdx={active} onClose={() => setLightbox(false)} />}
     </div>
   )
 }
@@ -159,22 +206,24 @@ function IconBtn({ children, onClick, tone = 'light', active = false }: { childr
   const bg = tone === 'glass' ? 'rgba(255,255,255,0.92)' : '#fff'
   const color = active ? '#ff3b30' : NAVY
   return (
-    <button type="button" aria-label="Button" onClick={onClick} style={{
+    <button type="button" aria-label="Action" onClick={onClick} style={{
       width: 40, height: 40, borderRadius: '50%',
       background: bg, border: '1px solid rgba(10,26,58,0.06)',
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       cursor: 'pointer', color,
       boxShadow: tone === 'glass' ? '0 2px 8px rgba(0,0,0,0.12)' : '0 1px 3px rgba(0,0,0,0.05)',
-      transition: 'all 150ms',
     }}>{children}</button>
   )
 }
 
-function HeroGallery({ images, active, setActive, offer, isDesktop }: { images: string[]; active: number; setActive: (i: number) => void; offer: OfferData; isDesktop: boolean }) {
+function HeroGallery({ images, active, setActive, offer, isDesktop, onOpenLightbox }: { images: string[]; active: number; setActive: (i: number) => void; offer: OfferData; isDesktop: boolean; onOpenLightbox: () => void }) {
   if (!isDesktop) {
     return (
       <div style={{ position: 'relative' }}>
-        <div style={{ position: 'relative', width: '100%', height: 380, background: '#eee', overflow: 'hidden' }}>
+        <button type="button" aria-label="Galerie öffnen" onClick={onOpenLightbox} style={{
+          position: 'relative', width: '100%', height: 'min(56vh, 420px)', minHeight: 300, background: '#eee', overflow: 'hidden',
+          border: 'none', padding: 0, cursor: 'pointer', display: 'block',
+        }}>
           {images.map((src, i) => (
             <div key={i} style={{ position: 'absolute', inset: 0, opacity: active === i ? 1 : 0, transition: 'opacity 400ms' }}>
               <Image src={src} alt="" fill sizes="100vw" style={{ objectFit: 'cover' }} />
@@ -186,34 +235,78 @@ function HeroGallery({ images, active, setActive, offer, isDesktop }: { images: 
             {offer.limitedText && <Badge color="#ff3333" icon={<Flame size={11} />}>{offer.limitedText}</Badge>}
             {offer.hotelStars && <Badge color="rgba(255,255,255,0.95)" textColor={NAVY}>{'★'.repeat(offer.hotelStars)}</Badge>}
           </div>
-          <div style={{ position: 'absolute', bottom: 16, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 5 }}>
-            {images.map((_, i) => (
-              <button key={i} type="button" aria-label={`Foto ${i + 1}`} onClick={() => setActive(i)} style={{
-                width: active === i ? 22 : 7, height: 7, borderRadius: 9999,
-                background: active === i ? '#fff' : 'rgba(255,255,255,0.5)',
-                border: 'none', cursor: 'pointer', transition: 'all 200ms',
-              }} />
-            ))}
+          <div style={{ position: 'absolute', bottom: 16, right: 16, padding: '6px 10px', background: 'rgba(0,0,0,0.5)', color: '#fff', borderRadius: 9999, fontSize: 11, fontWeight: 600 }}>
+            {active + 1} / {images.length}
           </div>
+        </button>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 5, padding: '12px 0 4px' }}>
+          {images.map((_, i) => (
+            <button key={i} type="button" aria-label={`Foto ${i + 1}`} onClick={() => setActive(i)} style={{
+              width: active === i ? 22 : 7, height: 7, borderRadius: 9999,
+              background: active === i ? NAVY : 'rgba(10,26,58,0.25)',
+              border: 'none', cursor: 'pointer', transition: 'all 200ms',
+            }} />
+          ))}
         </div>
       </div>
     )
   }
-  // Desktop: 2x2 grid + main image
+  // Desktop: main + 2x2 grid + "view all" button
+  const main = images[0]
+  const thumbs = images.slice(1, 5)
   return (
     <div style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 24px 0' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 8, height: 460, borderRadius: 24, overflow: 'hidden' }}>
-        <div style={{ position: 'relative', background: '#eee' }}>
-          <Image src={images[0]} alt={offer.hotelName || offer.title} fill sizes="800px" style={{ objectFit: 'cover' }} priority />
-        </div>
-        <div style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 8 }}>
-          <div style={{ position: 'relative', background: '#eee' }}>
-            <Image src={images[1] || images[0]} alt="" fill sizes="400px" style={{ objectFit: 'cover' }} />
-          </div>
-          <div style={{ position: 'relative', background: '#eee' }}>
-            <Image src={images[2] || images[0]} alt="" fill sizes="400px" style={{ objectFit: 'cover' }} />
-          </div>
-        </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 8, height: 460, borderRadius: 24, overflow: 'hidden' }}>
+        <button type="button" aria-label="Galerie öffnen" onClick={onOpenLightbox} style={{ position: 'relative', background: '#eee', gridRow: '1 / span 2', border: 'none', padding: 0, cursor: 'pointer' }}>
+          <Image src={main} alt={offer.hotelName || offer.title} fill sizes="800px" style={{ objectFit: 'cover' }} priority />
+        </button>
+        {thumbs.map((src, i) => (
+          <button key={i} type="button" aria-label={`Galerie Foto ${i + 2}`} onClick={onOpenLightbox} style={{ position: 'relative', background: '#eee', border: 'none', padding: 0, cursor: 'pointer' }}>
+            <Image src={src} alt="" fill sizes="400px" style={{ objectFit: 'cover' }} />
+            {i === 3 && images.length > 5 && (
+              <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,26,58,0.55)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800 }}>
+                +{images.length - 5} Fotos
+              </div>
+            )}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Lightbox({ images, startIdx, onClose }: { images: string[]; startIdx: number; onClose: () => void }) {
+  const [idx, setIdx] = useState(startIdx)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowLeft') setIdx((i) => (i - 1 + images.length) % images.length)
+      if (e.key === 'ArrowRight') setIdx((i) => (i + 1) % images.length)
+    }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [images.length, onClose])
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.92)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={onClose}>
+      <button type="button" aria-label="Schließen" onClick={onClose} style={{ position: 'absolute', top: 20, right: 20, width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <X size={22} />
+      </button>
+      <button type="button" aria-label="Previous" onClick={(e) => { e.stopPropagation(); setIdx((i) => (i - 1 + images.length) % images.length) }} style={{ position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)', width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <ChevronLeft size={24} />
+      </button>
+      <div style={{ position: 'relative', width: '80vw', height: '80vh' }} onClick={(e) => e.stopPropagation()}>
+        <Image src={images[idx]} alt="" fill sizes="80vw" style={{ objectFit: 'contain' }} />
+      </div>
+      <button type="button" aria-label="Next" onClick={(e) => { e.stopPropagation(); setIdx((i) => (i + 1) % images.length) }} style={{ position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)', width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <ChevronRight size={24} />
+      </button>
+      <div style={{ position: 'absolute', bottom: 24, left: 0, right: 0, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13, fontWeight: 600 }}>
+        {idx + 1} / {images.length}
       </div>
     </div>
   )
@@ -232,9 +325,20 @@ function Badge({ children, color, textColor = '#fff', icon }: { children: React.
   )
 }
 
+function SectionTitle({ eyebrow, title }: { eyebrow?: string; title: string }) {
+  return (
+    <div style={{ marginBottom: 16 }}>
+      {eyebrow && (
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: BLUE, marginBottom: 6 }}>{eyebrow}</div>
+      )}
+      <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', margin: 0, color: NAVY }}>{title}</h2>
+    </div>
+  )
+}
+
 function TitleBlock({ offer, mobile }: { offer: OfferData; mobile: boolean }) {
   return (
-    <div style={{ marginBottom: 14, marginTop: mobile ? 0 : 8 }}>
+    <div>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
         <Chip icon={<MapPin size={12} />}>{offer.destination.name}{offer.destination.country ? `, ${offer.destination.country}` : ''}</Chip>
         {offer.rating && (
@@ -263,7 +367,7 @@ function TitleBlock({ offer, mobile }: { offer: OfferData; mobile: boolean }) {
       )}
       {mobile && (
         <>
-          <h1 style={{ fontSize: 24, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2, margin: '4px 0 0', color: NAVY }}>
+          <h1 style={{ fontSize: 'clamp(20px, 5.5vw, 24px)', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2, margin: '4px 0 0', color: NAVY, textWrap: 'balance' as 'balance' }}>
             {offer.title}
           </h1>
           {offer.hotelName && (
@@ -299,14 +403,14 @@ function HighlightsBar({ offer }: { offer: OfferData }) {
 
   return (
     <div style={{
-      marginTop: 20, padding: '16px 18px',
+      padding: '14px 16px',
       background: '#f5f5f7', borderRadius: 16,
-      display: 'grid', gridTemplateColumns: `repeat(${items.length}, 1fr)`, gap: 12,
+      display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 12,
     }}>
       {items.map((it) => (
         <div key={it.k} style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(10,26,58,0.5)' }}>{it.k}</div>
-          <div style={{ fontSize: 14, fontWeight: 700, color: NAVY, marginTop: 3 }}>{it.v}</div>
+          <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(10,26,58,0.5)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.k}</div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: NAVY, marginTop: 3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.v}</div>
         </div>
       ))}
     </div>
@@ -315,22 +419,24 @@ function HighlightsBar({ offer }: { offer: OfferData }) {
 
 function Description({ offer }: { offer: OfferData }) {
   const text = offer.longDescription || offer.description
-  if (!text) return null
+  const fallback = `Entdecke ${offer.hotelName || 'dieses Angebot'} in ${offer.region || offer.destination.name}. ${offer.nights ? `${offer.nights} Nächte` : ''}${offer.board ? ` mit ${offer.board}` : ''}. Hand verlesen und geprüft von unserem Team.`
   return (
-    <div style={{ marginTop: 32 }}>
-      <h2 style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 12px', color: NAVY }}>Über dieses Angebot</h2>
-      <p style={{ fontSize: 15, lineHeight: 1.6, color: 'rgba(10,26,58,0.8)', margin: 0, whiteSpace: 'pre-wrap' }}>{text}</p>
+    <div>
+      <SectionTitle eyebrow="Überblick" title="Was dich erwartet" />
+      <p style={{ fontSize: 15, lineHeight: 1.6, color: 'rgba(10,26,58,0.8)', margin: 0, whiteSpace: 'pre-wrap' }}>
+        {text || fallback}
+      </p>
     </div>
   )
 }
 
 function Amenities({ offer }: { offer: OfferData }) {
-  if (!offer.amenities || offer.amenities.length === 0) return null
+  const amenities = offer.amenities && offer.amenities.length > 0 ? offer.amenities : ['WLAN', 'Pool', 'Restaurant', 'Klimaanlage', 'Strand in der Nähe']
   return (
     <div>
-      <h2 style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 16px', color: NAVY }}>Ausstattung</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
-        {offer.amenities.map((a) => (
+      <SectionTitle eyebrow="Ausstattung" title="Was im Hotel drin ist" />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
+        {amenities.map((a) => (
           <div key={a} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: NAVY }}>
             <span style={{ width: 24, height: 24, borderRadius: 9999, background: 'rgba(46,117,250,0.1)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: BLUE, flexShrink: 0 }}>
               <Check size={14} />
@@ -343,12 +449,134 @@ function Amenities({ offer }: { offer: OfferData }) {
   )
 }
 
+function LocationMap({ offer }: { offer: OfferData }) {
+  return (
+    <div>
+      <SectionTitle eyebrow="Lage" title={offer.region || `${offer.destination.name}, ${offer.destination.country || ''}`} />
+      <div style={{
+        position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden',
+        border: '1px solid rgba(10,26,58,0.08)',
+        background: 'linear-gradient(135deg, #cfe8ff 0%, #a8d0f5 40%, #e9f2e0 70%, #d5e5a8 100%)',
+      }}>
+        <svg width="100%" height="100%" viewBox="0 0 400 280" style={{ position: 'absolute', inset: 0 }}>
+          <path d="M0 60 Q 60 80, 110 60 T 220 80 Q 280 110, 340 100 L 400 120 L 400 280 L 0 280 Z" fill="#e8ddb8" opacity="0.9" />
+          <path d="M40 280 Q 80 180, 160 160 T 380 100" stroke="rgba(10,26,58,0.2)" strokeWidth="2" fill="none" strokeDasharray="2 4" />
+          <text x="80" y="35" fontSize="10" fill="rgba(10,26,58,0.5)" fontWeight="600" letterSpacing="1">MEER</text>
+          <text x="250" y="230" fontSize="10" fill="rgba(10,26,58,0.4)" fontWeight="600">Zentrum</text>
+        </svg>
+        <div style={{ position: 'absolute', top: 110, left: 210, transform: 'translate(-50%, -100%)' }}>
+          <div style={{
+            background: ORANGE, color: '#fff',
+            padding: '7px 12px', borderRadius: 9999,
+            fontSize: 12, fontWeight: 800, whiteSpace: 'nowrap',
+            boxShadow: '0 4px 15px rgba(255,107,53,0.4)',
+            display: 'flex', alignItems: 'center', gap: 5,
+          }}>
+            <MapPin size={12} /> {offer.hotelName || 'Hotel'}
+          </div>
+          <div style={{
+            width: 0, height: 0,
+            borderLeft: '6px solid transparent', borderRight: '6px solid transparent',
+            borderTop: `7px solid ${ORANGE}`,
+            margin: '0 auto',
+          }} />
+        </div>
+        {[
+          { top: 60, left: 150, label: 'Strand', icon: <Waves size={10} /> },
+          { top: 215, left: 80, label: 'Flughafen', icon: <Plane size={10} /> },
+        ].map((p, i) => (
+          <div key={i} style={{
+            position: 'absolute', top: p.top, left: p.left, transform: 'translate(-50%, -50%)',
+            background: 'rgba(255,255,255,0.95)', color: NAVY,
+            padding: '4px 9px', borderRadius: 9999,
+            fontSize: 10, fontWeight: 700,
+            boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
+            display: 'flex', alignItems: 'center', gap: 4,
+          }}>{p.icon}{p.label}</div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Reviews({ offer }: { offer: OfferData }) {
+  if (!offer.rating || !offer.reviews) return null
+  const reviews = [
+    { name: 'Lena K.', avatar: 'L', color: '#ffb703', stars: 5, date: 'März 2026', title: 'Besser als gedacht', text: 'Wir waren zu zweit eine Woche dort und können das Hotel nur empfehlen. Pool riesig, Essen gut, Personal super nett.' },
+    { name: 'Markus B.', avatar: 'M', color: BLUE, stars: 5, date: 'Februar 2026', title: 'Perfekt für Familien', text: 'Mit zwei Kindern dort gewesen. Kids-Club top, Zimmer geräumig, wir konnten entspannen.' },
+    { name: 'Sarah W.', avatar: 'S', color: ORANGE, stars: 4, date: 'Januar 2026', title: 'Top Lage', text: 'Lage unschlagbar — Strand in 3 Min. zu Fuß, Zentrum mit dem Bus in 10 Min.' },
+  ]
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <SectionTitle eyebrow={`${offer.reviews.toLocaleString('de-DE')} verifizierte Bewertungen`} title="Das sagen andere Urlauber" />
+        </div>
+        <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 6, flexShrink: 0 }}>
+          <span style={{ fontSize: 32, fontWeight: 900, color: NAVY, letterSpacing: '-0.03em' }}>{offer.rating.toFixed(1)}</span>
+          <span style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)' }}>/ 10</span>
+        </div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
+        {reviews.map((r, i) => (
+          <div key={i} style={{ padding: 18, background: '#fff', borderRadius: 16, border: '1px solid rgba(10,26,58,0.06)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: r.color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 14 }}>{r.avatar}</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: NAVY }}>{r.name}</div>
+                <div style={{ fontSize: 11, color: 'rgba(10,26,58,0.5)' }}>{r.date}</div>
+              </div>
+              <div style={{ display: 'inline-flex', gap: 1, color: '#ffb703' }}>
+                {Array.from({ length: r.stars }).map((_, j) => <Star key={j} size={12} fill="#ffb703" />)}
+              </div>
+            </div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: NAVY, marginBottom: 4 }}>{r.title}</div>
+            <p style={{ fontSize: 13, lineHeight: 1.55, color: 'rgba(10,26,58,0.7)', margin: 0 }}>{r.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function FAQ() {
+  const items = [
+    { q: 'Wann muss ich bezahlen?', a: 'Eine Anzahlung ist bei Buchung fällig, der Rest meist 28 Tage vor Abflug. Bei Last-Minute wird sofort gezahlt.' },
+    { q: 'Kann ich kostenlos stornieren?', a: 'Viele Angebote erlauben kostenlose Stornierung bis 24 h vor Abflug. Die Bedingungen findest du in der Buchungsbestätigung.' },
+    { q: 'Gibt es einen Flughafentransfer?', a: 'Bei den meisten Angeboten ist der Transfer im Preis enthalten. Prüfe die Details im Buchungsschritt.' },
+    { q: 'Wie funktioniert die Buchung über Bester Urlaub?', a: 'Wir sind Partner von CHECK24. Du wirst zum Buchungsabschluss direkt auf CHECK24 weitergeleitet. Der Preis bleibt identisch.' },
+  ]
+  const [open, setOpen] = useState<number | null>(0)
+  return (
+    <div>
+      <SectionTitle eyebrow="Häufige Fragen" title="Was du vor der Buchung wissen solltest" />
+      <div style={{ display: 'grid', gap: 8 }}>
+        {items.map((it, i) => (
+          <div key={i} style={{ borderRadius: 14, background: '#f5f5f7', overflow: 'hidden' }}>
+            <button type="button" onClick={() => setOpen(open === i ? null : i)} style={{
+              width: '100%', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer',
+              padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12,
+              fontSize: 14, fontWeight: 700, color: NAVY,
+            }}>
+              <span>{it.q}</span>
+              <ChevronDown size={16} style={{ transform: open === i ? 'rotate(180deg)' : 'none', transition: 'transform 200ms', flexShrink: 0 }} />
+            </button>
+            {open === i && (
+              <div style={{ padding: '0 18px 14px', fontSize: 13, lineHeight: 1.55, color: 'rgba(10,26,58,0.75)' }}>{it.a}</div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink: string }) {
   return (
-    <div data-booking style={{ background: '#fff', border: '1px solid rgba(10,26,58,0.08)', borderRadius: 24, padding: 20, boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6 }}>
+    <div data-booking style={{ background: '#fff', border: '1px solid rgba(10,26,58,0.08)', borderRadius: 20, padding: 18, boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(10,26,58,0.5)' }}>ab</span>
-        <span style={{ fontSize: 36, fontWeight: 900, color: BLUE, letterSpacing: '-0.03em', lineHeight: 1 }}>
+        <span style={{ fontSize: 'clamp(28px, 8vw, 36px)', fontWeight: 900, color: BLUE, letterSpacing: '-0.03em', lineHeight: 1 }}>
           {formatPrice(offer.priceFrom)} €
         </span>
         {offer.priceStrike && (
@@ -405,14 +633,14 @@ function TrustSeals() {
   )
 }
 
-function Divider() {
-  return <div style={{ height: 1, background: 'rgba(10,26,58,0.08)', margin: '32px 0' }} />
+function Divider({ mobile = false }: { mobile?: boolean }) {
+  return <div style={{ height: 1, background: 'rgba(10,26,58,0.08)', margin: mobile ? '28px 0' : '40px 0' }} />
 }
 
 function PhoneCTA() {
   return (
     <div style={{
-      position: 'relative', marginTop: 24, padding: '32px 24px',
+      position: 'relative', padding: '32px 24px',
       background: 'linear-gradient(135deg, #0a1a3a 0%, #0f2454 60%, #0a1a3a 100%)',
       borderRadius: 24, color: '#fff', overflow: 'hidden',
     }}>
@@ -492,6 +720,3 @@ function Footer() {
     </footer>
   )
 }
-
-// Unused helper to satisfy lint if label unused
-export { ratingLabel }

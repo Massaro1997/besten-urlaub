@@ -169,32 +169,33 @@ export function HeroSection() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full pt-8 pb-8 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 flex flex-col items-center gap-6 sm:gap-8">
 
         {/* Heading block — centered */}
-        <div className="text-center max-w-4xl lg:max-w-5xl">
-          <div className="text-[11px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-2 sm:mb-3">
+        <div className="text-center max-w-4xl lg:max-w-5xl w-full">
+          <div className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-1.5 sm:mb-3">
             Bester Urlaub
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] xl:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-lg whitespace-normal">
-            <span className="whitespace-nowrap">{content.title}</span>
-            <br />
-            <span className="opacity-90 whitespace-nowrap">{content.subtitle}</span>
+          <h1 className="text-[22px] sm:text-4xl lg:text-[3.25rem] xl:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.15] sm:leading-[1.1] drop-shadow-lg whitespace-normal px-1">
+            <span className="block sm:inline sm:whitespace-nowrap">{content.title}</span>
+            <br className="hidden sm:block" />
+            <span className="block sm:inline opacity-90 sm:whitespace-nowrap">{content.subtitle}</span>
           </h1>
         </div>
 
-        {/* Trust chips — pill rounded, centered */}
-        <div className="flex flex-wrap items-center justify-center gap-2 relative">
+        {/* Trust chips — pill rounded, centered, 1 row on mobile */}
+        <div className="flex flex-nowrap sm:flex-wrap items-center justify-center gap-1.5 sm:gap-2 relative overflow-x-auto sm:overflow-visible max-w-full px-1 scrollbar-hide">
           {[
-            { key: '24h', label: 'Bis zu 24h stornieren' },
-            { key: 'bestpreis', label: 'Bestpreis-Garantie' },
-            { key: 'rabatt', label: 'Bis zu 60% Rabatt' },
+            { key: '24h', labelFull: 'Bis zu 24h stornieren', labelShort: '24h Storno' },
+            { key: 'bestpreis', labelFull: 'Bestpreis-Garantie', labelShort: 'Bestpreis' },
+            { key: 'rabatt', labelFull: 'Bis zu 60% Rabatt', labelShort: '-60%' },
           ].map((chip) => (
             <button
               key={chip.key}
               type="button"
               onClick={() => setShowInfo(showInfo === chip.key ? null : chip.key)}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium text-white bg-white/10 backdrop-blur-sm border border-white/15 hover:bg-white/20 transition-colors"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-medium text-white bg-white/10 backdrop-blur-sm border border-white/15 hover:bg-white/20 transition-colors whitespace-nowrap shrink-0"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-              {chip.label}
+              <span className="sm:hidden">{chip.labelShort}</span>
+              <span className="hidden sm:inline">{chip.labelFull}</span>
             </button>
           ))}
           {showInfo === '24h' && (
