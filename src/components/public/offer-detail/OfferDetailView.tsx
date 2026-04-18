@@ -157,7 +157,7 @@ export function OfferDetailView({ offer, affiliateLinkWithSubid, related = [] }:
             )}
           </div>
           <div>
-            <div style={{ position: 'sticky', top: 24 }}>
+            <div style={{ position: 'sticky', top: 88 }}>
               <BookingCard offer={offer} affiliateLink={affiliateLinkWithSubid} />
               <TrustSeals />
             </div>
