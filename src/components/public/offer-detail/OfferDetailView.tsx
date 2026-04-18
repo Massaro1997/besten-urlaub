@@ -607,44 +607,155 @@ function FAQ() {
 }
 
 function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink: string }) {
+  const monthDE = ['Jan', 'Feb', 'März', 'Apr', 'Mai', 'Juni', 'Juli', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
+  function shortRange(a: Date | null, b: Date | null): string {
+    if (!a || !b) return ''
+    const da = a.getUTCDate()
+    const db = b.getUTCDate()
+    const mb = monthDE[b.getUTCMonth()]
+    const yb = b.getUTCFullYear()
+    const sameMonth = a.getUTCMonth() === b.getUTCMonth()
+    if (sameMonth) return `${da}. bis ${db}. ${mb} ${yb}`
+    const ma = monthDE[a.getUTCMonth()]
+    return `${da}. ${ma} bis ${db}. ${mb} ${yb}`
+  }
+  const pricePerPerson = offer.priceFrom || 0
+  const adults = offer.adultsCount || 2
+  const total = pricePerPerson * adults
+
   return (
-    <div data-booking style={{ background: '#fff', border: '1px solid rgba(10,26,58,0.08)', borderRadius: 20, padding: 18, boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(10,26,58,0.5)' }}>ab</span>
-        <span style={{ fontSize: 'clamp(28px, 8vw, 36px)', fontWeight: 900, color: BLUE, letterSpacing: '-0.03em', lineHeight: 1 }}>
-          {formatPrice(offer.priceFrom)} €
-        </span>
-        {offer.priceStrike && (
+    <div data-booking style={{ background: '#fff', border: '1px solid rgba(10,26,58,0.08)', borderRadius: 20, padding: 20, boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}>
+      {/* Top row: strike price + rating */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 6 }}>
+        {offer.priceStrike ? (
           <span style={{ fontSize: 14, color: 'rgba(10,26,58,0.4)', textDecoration: 'line-through' }}>
             {formatPrice(offer.priceStrike)} €
           </span>
+        ) : <span />}
+        {offer.rating && (
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 14, fontWeight: 700, color: NAVY }}>
+            <Star size={14} fill="#ffb703" color="#ffb703" />
+            <span>{offer.rating.toFixed(1)}</span>
+            {offer.reviews && <span style={{ color: 'rgba(10,26,58,0.45)', fontWeight: 500 }}>({offer.reviews.toLocaleString('de-DE')})</span>}
+          </div>
         )}
       </div>
-      <div style={{ fontSize: 12, color: 'rgba(10,26,58,0.6)', marginBottom: 14 }}>
-        {offer.nights && `${offer.nights} Nächte`}{offer.board && ` · ${offer.board}`}{offer.adultsCount && ` · ${offer.adultsCount} Erw.`}
+
+      {/* Big price */}
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 18 }}>
+        <span style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)' }}>ab</span>
+        <span style={{ fontSize: 'clamp(32px, 8vw, 44px)', fontWeight: 900, color: BLUE, letterSpacing: '-0.03em', lineHeight: 1 }}>
+          {formatPrice(offer.priceFrom)} €
+        </span>
+        <span style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)' }}>p.P.</span>
       </div>
 
-      <div style={{ display: 'grid', gap: 8, marginBottom: 16, fontSize: 13 }}>
-        {offer.dateFrom && offer.dateTo && (
-          <Row label="Reisezeitraum" value={`${formatDate(offer.dateFrom)} – ${formatDate(offer.dateTo)}`} />
-        )}
-        {offer.departureFrom && <Row label="Abflug" value={offer.departureFrom} />}
+      {/* Reisedaten field */}
+      {offer.dateFrom && offer.dateTo && (
+        <FieldBox icon={<CalendarIcon />} label="Reisedaten" value={shortRange(offer.dateFrom, offer.dateTo)} sub={offer.nights ? `${offer.nights} Nächte` : undefined} />
+      )}
+
+      {/* Reisende field */}
+      <FieldBox icon={<UsersIcon />} label="Reisende" value={`${adults} Erwachsene`} sub="1 Zimmer" />
+
+      {/* Verpflegung pills */}
+      {offer.board && (
+        <div style={{ marginTop: 16 }}>
+          <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(10,26,58,0.5)', marginBottom: 8 }}>Verpflegung</div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <VerpflegungPill label={offer.board} active />
+            {offer.board !== 'All Inclusive' && <VerpflegungPill label="All Inclusive" extra="+120 €" />}
+            {offer.board !== 'Halbpension' && <VerpflegungPill label="Halbpension" />}
+          </div>
+        </div>
+      )}
+
+      {/* Total breakdown */}
+      <div style={{ marginTop: 18, padding: '14px 16px', background: '#f5f5f7', borderRadius: 14 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: NAVY, marginBottom: 6 }}>
+          <span>{formatPrice(pricePerPerson)} € × {adults} {adults === 1 ? 'Erwachsener' : 'Erwachsene'}</span>
+          <span>{formatPrice(total)} €</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'rgba(10,26,58,0.55)', marginBottom: 10 }}>
+          <span>Steuern und Gebühren</span>
+          <span>inkl.</span>
+        </div>
+        <div style={{ height: 1, background: 'rgba(10,26,58,0.08)', marginBottom: 10 }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+          <span style={{ fontSize: 15, fontWeight: 800, color: NAVY }}>Gesamt</span>
+          <span style={{ fontSize: 20, fontWeight: 900, color: BLUE, letterSpacing: '-0.02em' }}>{formatPrice(total)} €</span>
+        </div>
       </div>
 
-      <AngebotTracker
-        offerId={offer.id}
-        offerTitle={offer.title}
-        priceFrom={offer.priceFrom}
-        affiliateLink={affiliateLink}
-      />
+      {/* CTA */}
+      <div style={{ marginTop: 16 }}>
+        <AngebotTracker
+          offerId={offer.id}
+          offerTitle={offer.title}
+          priceFrom={offer.priceFrom}
+          affiliateLink={affiliateLink}
+        />
+      </div>
 
-      <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, fontSize: 11, color: 'rgba(10,26,58,0.5)' }}>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 11, color: 'rgba(10,26,58,0.5)' }}>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         </svg>
-        Sichere Buchung über CHECK24
+        Sicher buchen bei unserem Partner CHECK24
       </div>
     </div>
+  )
+}
+
+function FieldBox({ icon, label, value, sub }: { icon: React.ReactNode; label: string; value: string; sub?: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', border: '1px solid rgba(10,26,58,0.1)', borderRadius: 14, marginTop: 10 }}>
+      <div style={{ flexShrink: 0, color: 'rgba(10,26,58,0.55)', display: 'inline-flex' }}>{icon}</div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(10,26,58,0.55)' }}>{label}</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: NAVY, marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</div>
+      </div>
+      {sub && <div style={{ flexShrink: 0, fontSize: 12, color: 'rgba(10,26,58,0.55)' }}>{sub}</div>}
+      <ChevronDown size={16} color="rgba(10,26,58,0.4)" style={{ flexShrink: 0 }} />
+    </div>
+  )
+}
+
+function VerpflegungPill({ label, extra, active }: { label: string; extra?: string; active?: boolean }) {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 4,
+      padding: '7px 13px', borderRadius: 9999,
+      border: active ? `1.5px solid ${BLUE}` : '1px solid rgba(10,26,58,0.15)',
+      color: active ? BLUE : NAVY,
+      fontSize: 13, fontWeight: 600,
+      background: '#fff',
+    }}>
+      {label}
+      {extra && <span style={{ color: 'rgba(10,26,58,0.5)', fontWeight: 500, fontSize: 12 }}>{extra}</span>}
+    </span>
+  )
+}
+
+function CalendarIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  )
+}
+
+function UsersIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
   )
 }
 
@@ -661,7 +772,11 @@ function TrustSeals() {
   return (
     <div style={{ marginTop: 20, padding: 18, background: '#f5f5f7', borderRadius: 16 }}>
       <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(10,26,58,0.5)', marginBottom: 14 }}>Ausgezeichnet</div>
-      <div style={{ fontSize: 12, lineHeight: 1.5, color: 'rgba(10,26,58,0.7)' }}>
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+        <Image src="/pauschalreise-testsieger-dtgv2025.jpg" alt="DTGV Testsieger 2025" width={120} height={70} style={{ height: 60, width: 'auto', borderRadius: 8, objectFit: 'contain' }} unoptimized />
+        <Image src="/siegel-tuev-kundenzufriedenheit-10-2024.jpg" alt="TÜV Kundenzufriedenheit 2024" width={120} height={70} style={{ height: 60, width: 'auto', borderRadius: 8, objectFit: 'contain' }} unoptimized />
+      </div>
+      <div style={{ marginTop: 12, fontSize: 12, lineHeight: 1.5, color: 'rgba(10,26,58,0.65)' }}>
         Testsieger Pauschalreisen 2025 · TÜV Kundenzufriedenheit 2024 · 1 Mio+ Kunden
       </div>
     </div>
