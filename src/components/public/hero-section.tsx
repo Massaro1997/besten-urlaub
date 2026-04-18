@@ -162,15 +162,18 @@ export function HeroSection() {
   const content = HERO_CONTENT[activeTab] || HERO_CONTENT.pauschalreisen
 
   return (
-    <section className="relative overflow-hidden min-h-0 sm:min-h-[620px] lg:min-h-[700px] flex flex-col justify-center">
-      <Image src="/santorini.png" alt="Urlaubsparadies" fill className="object-cover" priority quality={90} />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/30 to-[#0a1a3a]/70" />
+    <section className="relative overflow-hidden min-h-0 sm:min-h-[620px] lg:min-h-[700px] flex flex-col justify-center bg-[#0a1a3a]">
+      {/* Hero photo desktop only; mobile uses solid navy for faster paint */}
+      <div className="hidden sm:block absolute inset-0">
+        <Image src="/santorini.png" alt="" fill className="object-cover" priority quality={75} sizes="(max-width: 640px) 0vw, 100vw" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/30 to-[#0a1a3a]/70" />
+      </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full pt-8 pb-8 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 flex flex-col items-center gap-6 sm:gap-8">
 
         {/* Heading block — centered */}
-        <div className="text-center max-w-4xl lg:max-w-5xl w-full">
-          <div className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-1.5 sm:mb-3">
+        <div className="text-center max-w-4xl lg:max-w-5xl w-full order-1">
+          <div className="hidden sm:block text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-3">
             Bester Urlaub
           </div>
           <h1 className="text-[22px] sm:text-4xl lg:text-[3.25rem] xl:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.15] sm:leading-[1.1] drop-shadow-lg whitespace-normal px-1">
@@ -180,8 +183,8 @@ export function HeroSection() {
           </h1>
         </div>
 
-        {/* Trust chips — pill rounded, centered, 1 row on mobile */}
-        <div className="flex flex-nowrap sm:flex-wrap items-center justify-center gap-1.5 sm:gap-2 relative overflow-x-auto sm:overflow-visible max-w-full px-1 scrollbar-hide">
+        {/* Trust chips — on desktop stays above widget (order-2), on mobile moves below widget (order-3) */}
+        <div className="flex flex-nowrap sm:flex-wrap items-center justify-center gap-1.5 sm:gap-2 relative overflow-x-auto sm:overflow-visible max-w-full px-1 scrollbar-hide order-3 sm:order-2">
           {[
             { key: '24h', labelFull: 'Bis zu 24h stornieren', labelShort: '24h Storno' },
             { key: 'bestpreis', labelFull: 'Bestpreis-Garantie', labelShort: 'Bestpreis' },
@@ -222,8 +225,8 @@ export function HeroSection() {
           )}
         </div>
 
-        {/* Widget card — tabs integrated as header */}
-        <div className="w-full max-w-5xl">
+        {/* Widget card — tabs integrated as header; on mobile appears above chips */}
+        <div className="w-full max-w-5xl order-2 sm:order-3">
           <div className="c24-hero-card bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden">
             {/* Tabs row (inside card) */}
             <div className="flex border-b border-[rgba(10,26,58,0.06)]">
