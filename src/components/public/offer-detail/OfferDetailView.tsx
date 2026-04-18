@@ -3,9 +3,9 @@
 import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, X, ChevronDown, Plane, Moon, Utensils, Shield } from 'lucide-react'
-import { AngebotTracker } from '@/components/public/angebot-tracker'
+import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, X, ChevronDown, Plane, Moon, Utensils, Shield, Waves, Wifi, Dumbbell, Users, Car, Sparkles, TreePalm, Baby, Wine, Mountain } from 'lucide-react'
 import { overrideCheck24Params } from '@/lib/affiliate-link'
+import { trackInitiateCheckout, trackCompletePayment } from '@/lib/tiktok-pixel'
 
 type OfferData = {
   id: string
@@ -476,18 +476,106 @@ function Description({ offer }: { offer: OfferData }) {
   )
 }
 
+type AmenityCard = { icon: React.ReactNode; title: string; sub: string }
+
+function getAmenityCards(offer: OfferData): AmenityCard[] {
+  const dest = offer.destination.slug || offer.destination.name.toLowerCase()
+
+  // Per-offer curated list (6 items each, matching real hotel feel)
+  const byOffer: Record<string, AmenityCard[]> = {
+    'cmnf0yjbv0001eknsi5s9kams': [ // Sansibar - Sunshine Bay Hotel
+      { icon: <Waves size={22} strokeWidth={1.75} />, title: 'Strandzugang', sub: 'Direkt am Strand' },
+      { icon: <Wifi size={22} strokeWidth={1.75} />, title: 'Kostenloses WLAN', sub: 'Auf dem gesamten Areal' },
+      { icon: <Utensils size={22} strokeWidth={1.75} />, title: 'Restaurant', sub: 'Buffet, lokale Küche' },
+      { icon: <Sparkles size={22} strokeWidth={1.75} />, title: 'Wellness & Pool', sub: 'Sauna, Massagen' },
+      { icon: <Plane size={22} strokeWidth={1.75} />, title: 'Flughafentransfer', sub: 'Inklusive' },
+      { icon: <TreePalm size={22} strokeWidth={1.75} />, title: 'Gartenanlage', sub: 'Tropische Vegetation' },
+    ],
+    '9b090b676a3f48c596ef127d5': [ // Mauritius - Mon Choisy
+      { icon: <Waves size={22} strokeWidth={1.75} />, title: 'Strandzugang', sub: '500 m zum Strand' },
+      { icon: <Wifi size={22} strokeWidth={1.75} />, title: 'Kostenloses WLAN', sub: 'Im ganzen Hotel' },
+      { icon: <Utensils size={22} strokeWidth={1.75} />, title: 'Restaurant', sub: 'Kreolische Küche' },
+      { icon: <Sparkles size={22} strokeWidth={1.75} />, title: 'Pool', sub: 'Mit Sonnenterrasse' },
+      { icon: <Plane size={22} strokeWidth={1.75} />, title: 'Flughafentransfer', sub: 'Auf Anfrage' },
+      { icon: <Car size={22} strokeWidth={1.75} />, title: 'Parkplatz', sub: 'Kostenfrei vor Ort' },
+    ],
+    'cmo1qt65k0001z4ns28nmglfl': [ // Aruba - Barcelo
+      { icon: <Waves size={22} strokeWidth={1.75} />, title: 'Direkte Strandlage', sub: 'Palm Beach' },
+      { icon: <Wifi size={22} strokeWidth={1.75} />, title: 'Kostenloses WLAN', sub: 'Auf dem gesamten Areal' },
+      { icon: <Utensils size={22} strokeWidth={1.75} />, title: '4 Restaurants', sub: 'Buffet, à la carte' },
+      { icon: <Sparkles size={22} strokeWidth={1.75} />, title: 'Spa & Fitness', sub: 'Sauna, Pool, Gym' },
+      { icon: <Wine size={22} strokeWidth={1.75} />, title: 'All Inclusive Plus', sub: 'Inkl. Premium Drinks' },
+      { icon: <Baby size={22} strokeWidth={1.75} />, title: 'Kids-Club', sub: '4 bis 12 Jahre' },
+    ],
+    'cmo1du2rk0001k4ns36e5h81f': [ // Korfu - Harmony Apartments
+      { icon: <Waves size={22} strokeWidth={1.75} />, title: 'Strandnähe', sub: 'Wenige Gehminuten' },
+      { icon: <Wifi size={22} strokeWidth={1.75} />, title: 'Kostenloses WLAN', sub: 'In jeder Wohnung' },
+      { icon: <Utensils size={22} strokeWidth={1.75} />, title: 'Küchenzeile', sub: 'Voll ausgestattet' },
+      { icon: <Sparkles size={22} strokeWidth={1.75} />, title: 'Pool & Garten', sub: 'Gemeinschaftlich' },
+      { icon: <Car size={22} strokeWidth={1.75} />, title: 'Parkplatz', sub: 'Kostenfrei' },
+      { icon: <TreePalm size={22} strokeWidth={1.75} />, title: 'Balkon', sub: 'Mit Meerblick' },
+    ],
+    'cmnnceyg7000004kvguivkddf': [ // Salento - Il Mondo Dei Sogni
+      { icon: <Waves size={22} strokeWidth={1.75} />, title: 'Strandnähe', sub: '2 km nach Torre Lapillo' },
+      { icon: <Wifi size={22} strokeWidth={1.75} />, title: 'Kostenloses WLAN', sub: 'Im Hauptgebäude' },
+      { icon: <Utensils size={22} strokeWidth={1.75} />, title: 'Agriturismo-Küche', sub: 'Regional, Bio' },
+      { icon: <Sparkles size={22} strokeWidth={1.75} />, title: 'Pool', sub: 'Außenpool' },
+      { icon: <Car size={22} strokeWidth={1.75} />, title: 'Parkplatz', sub: 'Kostenfrei' },
+      { icon: <TreePalm size={22} strokeWidth={1.75} />, title: 'Gartenanlage', sub: 'Olivenhaine' },
+    ],
+    'cmnde2nnz000004lalyz9fvdu': [ // Sardegna - Sa Domm'e Galleria
+      { icon: <Mountain size={22} strokeWidth={1.75} />, title: 'Bergblick', sub: 'Im Ogliastra-Gebirge' },
+      { icon: <Wifi size={22} strokeWidth={1.75} />, title: 'Kostenloses WLAN', sub: 'In den öffentlichen Bereichen' },
+      { icon: <Utensils size={22} strokeWidth={1.75} />, title: 'Restaurant', sub: 'Sardische Spezialitäten' },
+      { icon: <Car size={22} strokeWidth={1.75} />, title: 'Parkplatz', sub: 'Kostenfrei' },
+      { icon: <Sparkles size={22} strokeWidth={1.75} />, title: 'Klimaanlage', sub: 'In allen Zimmern' },
+      { icon: <Waves size={22} strokeWidth={1.75} />, title: 'Strandzugang', sub: 'Über Wanderweg' },
+    ],
+    'cmnbwwwuo0000f8nsqubtz76q': [ // Marbella - Antilope
+      { icon: <Waves size={22} strokeWidth={1.75} />, title: 'Strandnähe', sub: '10 Min. zum Strand' },
+      { icon: <Wifi size={22} strokeWidth={1.75} />, title: 'Kostenloses WLAN', sub: 'Im ganzen Haus' },
+      { icon: <Sparkles size={22} strokeWidth={1.75} />, title: 'Klimaanlage', sub: 'In allen Zimmern' },
+      { icon: <Utensils size={22} strokeWidth={1.75} />, title: 'Frühstück', sub: 'Kontinental, inklusive' },
+      { icon: <Car size={22} strokeWidth={1.75} />, title: 'Parkplatz', sub: 'In der Nähe' },
+      { icon: <TreePalm size={22} strokeWidth={1.75} />, title: 'Terrasse', sub: 'Mit Stadtblick' },
+    ],
+  }
+
+  if (byOffer[offer.id]) return byOffer[offer.id]
+
+  // Fallback generic set when offer is not curated
+  const generic: AmenityCard[] = [
+    { icon: <Wifi size={22} strokeWidth={1.75} />, title: 'Kostenloses WLAN', sub: 'Im ganzen Hotel' },
+    { icon: <Sparkles size={22} strokeWidth={1.75} />, title: 'Pool', sub: 'Außenpool' },
+    { icon: <Utensils size={22} strokeWidth={1.75} />, title: 'Restaurant', sub: 'Vor Ort' },
+    { icon: <Car size={22} strokeWidth={1.75} />, title: 'Parkplatz', sub: 'Kostenfrei' },
+  ]
+  const suffix = dest ? ` in der Nähe` : ''
+  return generic.concat([
+    { icon: <Waves size={22} strokeWidth={1.75} />, title: 'Strand', sub: `Strand${suffix}` },
+  ])
+}
+
 function Amenities({ offer }: { offer: OfferData }) {
-  const amenities = offer.amenities && offer.amenities.length > 0 ? offer.amenities : ['WLAN', 'Pool', 'Restaurant', 'Klimaanlage', 'Strand in der Nähe']
+  const cards = getAmenityCards(offer)
   return (
     <div>
-      <SectionTitle eyebrow="Ausstattung" title="Was im Hotel drin ist" />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
-        {amenities.map((a) => (
-          <div key={a} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: NAVY }}>
-            <span style={{ width: 24, height: 24, borderRadius: 9999, background: 'rgba(46,117,250,0.1)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: BLUE, flexShrink: 0 }}>
-              <Check size={14} />
-            </span>
-            {a}
+      <h2 style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 20px', color: NAVY }}>Hotel-Ausstattung</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18 }}>
+        {cards.map((a, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, minWidth: 0 }}>
+            <div style={{
+              flexShrink: 0,
+              width: 44, height: 44, borderRadius: 12,
+              background: 'rgba(46,117,250,0.08)', color: BLUE,
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              {a.icon}
+            </div>
+            <div style={{ minWidth: 0, paddingTop: 2 }}>
+              <div style={{ fontSize: 15, fontWeight: 800, color: NAVY, letterSpacing: '-0.01em', lineHeight: 1.25 }}>{a.title}</div>
+              <div style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)', marginTop: 2, lineHeight: 1.4 }}>{a.sub}</div>
+            </div>
           </div>
         ))}
       </div>
@@ -680,12 +768,15 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
       </div>
 
       {/* Big price */}
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 18 }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
         <span style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)' }}>ab</span>
         <span style={{ fontSize: 'clamp(32px, 8vw, 44px)', fontWeight: 900, color: BLUE, letterSpacing: '-0.03em', lineHeight: 1 }}>
           {formatPrice(pricePerPerson)} €
         </span>
         <span style={{ fontSize: 13, color: 'rgba(10,26,58,0.55)' }}>p.P.</span>
+      </div>
+      <div style={{ fontSize: 11, color: 'rgba(10,26,58,0.5)', marginBottom: 16, lineHeight: 1.4 }}>
+        Endpreis wird von CHECK24 auf Basis deiner Auswahl berechnet.
       </div>
 
       {/* Reisedaten field */}
@@ -769,14 +860,12 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
       </div>
 
       {/* CTA */}
-      <div style={{ marginTop: 16 }}>
-        <AngebotTracker
-          offerId={offer.id}
-          offerTitle={offer.title}
-          priceFrom={pricePerPerson}
-          affiliateLink={finalLink}
-        />
-      </div>
+      <BookingCTA
+        offerId={offer.id}
+        offerTitle={offer.title}
+        priceFrom={pricePerPerson}
+        affiliateLink={finalLink}
+      />
 
       <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 11, color: 'rgba(10,26,58,0.5)' }}>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -785,6 +874,37 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
         Sicher buchen bei unserem Partner CHECK24
       </div>
     </div>
+  )
+}
+
+function BookingCTA({ offerId, offerTitle, priceFrom, affiliateLink }: { offerId: string; offerTitle: string; priceFrom: number | null; affiliateLink: string }) {
+  useEffect(() => {
+    trackInitiateCheckout({ id: offerId, title: offerTitle, priceFrom })
+  }, [offerId, offerTitle, priceFrom])
+
+  return (
+    <a
+      href={affiliateLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => trackCompletePayment({ id: offerId, title: offerTitle, priceFrom })}
+      style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+        width: '100%', marginTop: 16,
+        padding: '16px 22px',
+        background: ORANGE, color: '#fff',
+        borderRadius: 12, textDecoration: 'none',
+        fontSize: 17, fontWeight: 800, letterSpacing: '-0.01em',
+        boxShadow: '0 4px 15px rgba(255,107,53,0.35)',
+        transition: 'transform 150ms, background 150ms, box-shadow 150ms',
+      }}
+      onMouseDown={(e) => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.98)' }}
+      onMouseUp={(e) => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
+    >
+      Jetzt buchen
+      <span style={{ fontSize: 18, lineHeight: 1 }}>→</span>
+    </a>
   )
 }
 
