@@ -1137,10 +1137,10 @@ function TrustBarNavy() {
     { icon: <AwardIcon />, title: 'Testsieger 2025', sub: 'DTGV Pauschalreisen' },
   ]
   return (
-    <div style={{ background: NAVY, padding: '28px 20px' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20, alignItems: 'center' }}>
+    <div style={{ background: NAVY, padding: '32px 20px' }}>
+      <div className="trustbar-grid" style={{ maxWidth: 1080, margin: '0 auto' }}>
         {items.map((it, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div key={i} className="trustbar-item">
             <div style={{ flexShrink: 0, color: ORANGE, display: 'inline-flex' }}>{it.icon}</div>
             <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 15, fontWeight: 800, color: '#fff', letterSpacing: '-0.01em' }}>{it.title}</div>
@@ -1149,6 +1149,32 @@ function TrustBarNavy() {
           </div>
         ))}
       </div>
+      <style jsx>{`
+        .trustbar-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          justify-items: center;
+        }
+        .trustbar-item {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          min-width: 0;
+        }
+        @media (max-width: 720px) {
+          .trustbar-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+            justify-items: start;
+            padding: 0 8px;
+          }
+          .trustbar-item {
+            width: 100%;
+            justify-content: flex-start;
+          }
+        }
+      `}</style>
     </div>
   )
 }
