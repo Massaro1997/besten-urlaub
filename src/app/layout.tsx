@@ -18,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="de" className="h-full antialiased" suppressHydrationWarning>
       <head>
+        <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=78eb497d" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZHCHDK62PG" />
         <script
           dangerouslySetInnerHTML={{
