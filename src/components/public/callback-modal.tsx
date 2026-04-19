@@ -13,7 +13,7 @@ interface Props {
 
 const STORAGE_KEY = 'bu_callback_shown'
 
-export function CallbackModal({ offerId, offerTitle, delayMs = 30000 }: Props) {
+export function CallbackModal({ offerId, offerTitle, delayMs = 8000 }: Props) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -58,26 +58,31 @@ export function CallbackModal({ offerId, offerTitle, delayMs = 30000 }: Props) {
           <X className="w-4 h-4" />
         </button>
 
-        {/* Hero image */}
-        <div className="relative w-full aspect-[4/3] bg-[#0a1a3a]/5">
+        {/* Hero image — paradise destination */}
+        <div className="relative w-full aspect-[5/3] bg-[#0a1a3a]/5">
           <Image
-            src="/callback-consultant.jpg"
-            alt="Unsere Reiseberaterin"
+            src="/destinations/mauritius.webp"
+            alt="Traumurlaub"
             fill
             className="object-cover"
             sizes="(max-width: 640px) 100vw, 384px"
             priority
           />
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 p-5">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-white/80 font-semibold drop-shadow">
+              Exklusiv für dich
+            </p>
+            <h3 className="text-2xl font-extrabold text-white leading-tight tracking-tight drop-shadow-lg">
+              Dein Traumurlaub wartet
+            </h3>
+          </div>
         </div>
 
-        <div className="px-6 pb-6 pt-2">
+        <div className="px-6 pb-6 pt-5">
           <div className="mb-4">
-            <h3 className="text-xl font-bold text-[#0a1a3a] leading-tight">
-              Brauchst du Hilfe?
-            </h3>
-            <p className="text-sm text-[#0a1a3a]/60 mt-1">
-              Lass uns deine Nummer da. Wir rufen dich zurück und finden dein perfektes Angebot.
+            <p className="text-sm text-[#0a1a3a]/70 leading-snug">
+              Lass uns deinen Kontakt da. Wir finden dein perfektes Angebot und melden uns persönlich.
             </p>
           </div>
 
