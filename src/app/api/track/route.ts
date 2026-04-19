@@ -3,6 +3,11 @@ import { sendTikTokEvent } from '@/lib/tiktok-server'
 
 export async function POST(request: NextRequest) {
   try {
+    // Skip internal traffic (cookie set via ?no-track=1)
+    if (request.cookies.get('bu_no_track')?.value === '1') {
+      return NextResponse.json({ ok: true, skipped: 'internal' })
+    }
+
     const body = await request.json()
     const { event, eventId, contentId, contentName, value, currency, url, externalId, ttclid, email, phone } = body
 
