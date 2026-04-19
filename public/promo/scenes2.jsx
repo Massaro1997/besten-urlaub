@@ -7,9 +7,9 @@
 // ══════════════════════════════════════════════════════════════════════════
 function Scene2_Reel() {
   const destinations = [
-    { src: 'assets/mallorca.webp',  name: 'Mallorca',   country: 'Spanien',    vibe: 'All Inclusive · 7 Nächte' },
-    { src: 'assets/santorini.webp', name: 'Santorini',  country: 'Griechenland', vibe: 'Caldera-Blick · 5 Nächte' },
-    { src: 'assets/sansibar.webp',  name: 'Sansibar',   country: 'Tansania',   vibe: 'Traumstrand · 10 Nächte' },
+    { src: '/promo/assets/mallorca.webp',  name: 'Mallorca',   country: 'Spanien',    vibe: 'All Inclusive · 7 Nächte' },
+    { src: '/promo/assets/santorini.webp', name: 'Santorini',  country: 'Griechenland', vibe: 'Caldera-Blick · 5 Nächte' },
+    { src: '/promo/assets/sansibar.webp',  name: 'Sansibar',   country: 'Tansania',   vibe: 'Traumstrand · 10 Nächte' },
   ];
   const DUR = 1.9; // each card on screen
   const START = 2.8;
@@ -280,7 +280,7 @@ function Scene3_Deal() {
                 position: 'relative', height: 560,
                 overflow: 'hidden',
               }}>
-                <img src="assets/santorini.webp" alt="" style={{
+                <img src="/promo/assets/santorini.webp" alt="" style={{
                   width: '100%', height: '100%', objectFit: 'cover',
                   transform: `scale(${1.02 + (localTime / duration) * 0.05})`,
                 }} />

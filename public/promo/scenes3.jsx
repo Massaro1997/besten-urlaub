@@ -177,7 +177,7 @@ function Scene5_CTA() {
               opacity: logoT,
             }}>
               <img
-                src="assets/logo-white.png"
+                src="/promo/assets/logo-white.png"
                 alt="Bester Urlaub"
                 style={{
                   width: '100%',
@@ -271,12 +271,12 @@ function Scene5_CTA() {
 function PhotoMosaic({ t }) {
   // Six tiles that slowly pan upward
   const photos = [
-    'assets/mallorca.webp',
-    'assets/santorini.webp',
-    'assets/sansibar.webp',
-    'assets/antalya.webp',
-    'assets/hurghada.webp',
-    'assets/thailandia.webp',
+    '/promo/assets/mallorca.webp',
+    '/promo/assets/santorini.webp',
+    '/promo/assets/sansibar.webp',
+    '/promo/assets/antalya.webp',
+    '/promo/assets/hurghada.webp',
+    '/promo/assets/thailandia.webp',
   ];
   const shift = -t * 120;
   return (
@@ -358,7 +358,7 @@ function TikTokChrome() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             overflow: 'hidden',
           }}>
-            <img src="assets/symbol.svg" alt="" style={{ width: '70%', height: '70%', objectFit: 'contain' }} />
+            <img src="/promo/assets/symbol.svg" alt="" style={{ width: '70%', height: '70%', objectFit: 'contain' }} />
           </div>
           <div style={{
             position: 'absolute', bottom: -14, left: '50%', transform: 'translateX(-50%)',
