@@ -1,5 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { TrackedPhoneLink } from './tracked-phone-link'
+import { NewsletterForm } from './newsletter-form'
 
 const destinations = [
   { label: 'Mallorca', slug: 'mallorca' },
@@ -77,6 +79,17 @@ export function PublicFooter() {
             </div>
           </div>
 
+          {/* Newsletter */}
+          <div className="mb-10 pb-8 border-b border-white/[0.08]">
+            <h4 className="text-[11px] uppercase tracking-[0.15em] text-white/30 font-semibold mb-2">
+              Newsletter
+            </h4>
+            <p className="text-sm text-white/55 mb-3">
+              Erhalte die besten Urlaubsangebote direkt per E-Mail.
+            </p>
+            <NewsletterForm />
+          </div>
+
           {/* Link columns */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12">
             {/* Reiseziele */}
@@ -124,12 +137,22 @@ export function PublicFooter() {
               </h4>
               <ul className="space-y-2">
                 <li>
-                  <a
+                  <TrackedPhoneLink
                     href="tel:+4917682405507"
+                    source="footer"
                     className="flex items-center gap-2 text-sm text-white/55 hover:text-white transition-colors"
                   >
                     <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg>
                     0176 824 055 07
+                  </TrackedPhoneLink>
+                </li>
+                <li>
+                  <a
+                    href="mailto:info@besterurlaub.com"
+                    className="flex items-center gap-2 text-sm text-white/55 hover:text-white transition-colors"
+                  >
+                    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    info@besterurlaub.com
                   </a>
                 </li>
                 <li>

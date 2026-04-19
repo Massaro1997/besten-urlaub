@@ -1,4 +1,5 @@
 import { Phone } from 'lucide-react'
+import { TrackedPhoneLink } from './tracked-phone-link'
 
 const PHONE_NUMBER = '+4917682405507'
 const PHONE_DISPLAY = '+49 176 8240 5507'
@@ -29,8 +30,9 @@ export function PhoneCtaSection() {
         </p>
 
         {/* Big phone number */}
-        <a
+        <TrackedPhoneLink
           href={`tel:${PHONE_NUMBER}`}
+          source="phone-cta-section"
           className="group inline-flex items-center gap-3 sm:gap-5 bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 rounded-2xl sm:rounded-3xl px-5 sm:px-10 py-5 sm:py-7 transition-all hover:scale-[1.02] active:scale-[0.98]"
         >
           <div className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#e85d2c] shadow-[0_8px_30px_rgba(255,107,53,0.4)] shrink-0">
@@ -44,7 +46,7 @@ export function PhoneCtaSection() {
               {PHONE_DISPLAY}
             </div>
           </div>
-        </a>
+        </TrackedPhoneLink>
 
         <p className="text-white/40 text-xs sm:text-sm mt-6 sm:mt-8">
           Mo–Fr 9:00 – 19:00 Uhr · Sa 10:00 – 16:00 Uhr

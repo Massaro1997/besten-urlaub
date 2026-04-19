@@ -170,10 +170,10 @@ export default function DatenschutzPage() {
           <p>
             E-Mail:{' '}
             <a
-              href="mailto:ufficio.massaro@gmail.com"
+              href="mailto:info@besterurlaub.com"
               className="text-[#2e75fa] hover:underline"
             >
-              ufficio.massaro@gmail.com
+              info@besterurlaub.com
             </a>
           </p>
           <p className="mt-3">
@@ -506,10 +506,10 @@ export default function DatenschutzPage() {
             Zur Aus&uuml;bung Ihrer Rechte k&ouml;nnen Sie sich jederzeit an uns
             unter{' '}
             <a
-              href="mailto:ufficio.massaro@gmail.com"
+              href="mailto:info@besterurlaub.com"
               className="text-[#2e75fa] hover:underline"
             >
-              ufficio.massaro@gmail.com
+              info@besterurlaub.com
             </a>{' '}
             wenden.
           </p>

@@ -40,10 +40,10 @@ export default function ImpressumPage() {
           <p>
             <strong>E-Mail:</strong>{' '}
             <a
-              href="mailto:ufficio.massaro@gmail.com"
+              href="mailto:info@besterurlaub.com"
               className="text-[#2e75fa] hover:underline"
             >
-              ufficio.massaro@gmail.com
+              info@besterurlaub.com
             </a>
           </p>
         </Section>

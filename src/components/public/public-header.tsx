@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu, X, Search, Phone } from 'lucide-react'
+import { trackLead } from '@/lib/tiktok-pixel'
 
 const navLinks = [
   { label: 'Pauschalreisen', href: '/pauschalreisen' },
@@ -172,6 +173,7 @@ export function PublicHeader() {
             {/* Contact button */}
             <a
               href="tel:+4917682405507"
+              onClick={() => trackLead('header-desktop')}
               className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full text-[#0a1a3a]/70 hover:bg-[#2e75fa]/5 hover:text-[#2e75fa] transition-colors"
               aria-label="Anrufen"
             >
@@ -213,6 +215,7 @@ export function PublicHeader() {
             <div className="border-t border-[#0a1a3a]/6 mt-2 pt-2">
               <a
                 href="tel:+4917682405507"
+                onClick={() => trackLead('header-mobile')}
                 className="flex items-center gap-2 text-sm font-medium text-[#2e75fa] px-3 py-2.5 rounded-lg hover:bg-[#2e75fa]/5 transition-colors"
               >
                 <Phone className="w-4 h-4" />

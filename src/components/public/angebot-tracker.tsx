@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { trackInitiateCheckout, trackClickButton } from '@/lib/tiktok-pixel'
+import { trackInitiateCheckout, trackClickButton, trackAddToCart } from '@/lib/tiktok-pixel'
 
 interface Props {
   offerId: string
@@ -11,9 +11,12 @@ interface Props {
 }
 
 export function AngebotTracker({ offerId, offerTitle, priceFrom, affiliateLink }: Props) {
-  // InitiateCheckout — fires when user lands on the /angebot/ page
+  // AddToCart + InitiateCheckout — fire when user lands on /angebot/ page.
+  // AddToCart represents strong intent (dwell on detail page), InitiateCheckout represents active booking consideration.
   useEffect(() => {
-    trackInitiateCheckout({ id: offerId, title: offerTitle, priceFrom })
+    const offer = { id: offerId, title: offerTitle, priceFrom }
+    trackAddToCart(offer)
+    trackInitiateCheckout(offer)
   }, [offerId, offerTitle, priceFrom])
 
   return (

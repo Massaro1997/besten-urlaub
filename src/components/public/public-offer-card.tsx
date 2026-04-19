@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { formatPrice } from '@/lib/utils'
 import { CATEGORY_DE_MAP } from '@/lib/public-constants'
-import { trackViewContent, trackClickButton, trackAddToCart } from '@/lib/tiktok-pixel'
+import { trackViewContent, trackClickButton } from '@/lib/tiktok-pixel'
 
 const DESTINATION_IMAGES: Record<string, string> = {
   mallorca: '/destinations/mallorca.webp',
@@ -151,10 +151,7 @@ export function PublicOfferCard({
 
           <Link
             href={`/angebot/${offer.id}`}
-            onClick={() => {
-              trackClickButton(offer)
-              trackAddToCart(offer)
-            }}
+            onClick={() => trackClickButton(offer)}
             className={`bg-[#ff6b35] text-white rounded-xl font-semibold hover:bg-[#e55a2b] active:scale-95 transition-all inline-block shadow-sm shadow-[#ff6b35]/25 ${isCompact ? 'px-3 py-1.5 text-xs' : 'px-5 py-2.5 text-sm'}`}
           >
             {isCompact ? 'Ansehen' : 'Zum Angebot'}

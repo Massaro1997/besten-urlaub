@@ -16,7 +16,7 @@ function getTtq() {
 }
 
 function buildContents(offer: OfferData) {
-  return {
+  const payload: Record<string, unknown> = {
     contents: [
       {
         content_id: offer.id,
@@ -24,9 +24,10 @@ function buildContents(offer: OfferData) {
         content_name: offer.title,
       },
     ],
-    value: offer.priceFrom || 0,
     currency: 'EUR',
   }
+  if (offer.priceFrom) payload.value = offer.priceFrom
+  return payload
 }
 
 function generateEventId() {
@@ -74,7 +75,7 @@ function trackEvent(event: string, offer: OfferData) {
         eventId,
         contentId: offer.id,
         contentName: offer.title,
-        value: offer.priceFrom || 0,
+        value: offer.priceFrom || undefined,
         currency: 'EUR',
         url: window.location.href,
         externalId,
@@ -102,6 +103,31 @@ export function trackInitiateCheckout(offer: OfferData) {
 
 export function trackCompletePayment(offer: OfferData) {
   trackEvent('CompletePayment', offer)
+}
+
+export function trackClickOutbound(offer: OfferData) {
+  trackEvent('ClickOutbound', offer)
+}
+
+export function trackLead(source: string) {
+  const eventId = generateEventId()
+  const externalId = getExternalId()
+  const ttclid = getTtclid()
+  getTtq()?.track('Lead', { event_id: eventId, description: source })
+  if (typeof window !== 'undefined') {
+    fetch('/api/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event: 'Lead',
+        eventId,
+        contentName: source,
+        url: window.location.href,
+        externalId,
+        ttclid,
+      }),
+    }).catch(() => {})
+  }
 }
 
 export function trackSearch(query: string) {

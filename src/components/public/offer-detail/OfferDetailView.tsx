@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, X, ChevronDown, Plane, Moon, Utensils, Shield, Waves, Wifi, Dumbbell, Users, Car, Sparkles, TreePalm, Baby, Wine, Mountain } from 'lucide-react'
 import { overrideCheck24Params } from '@/lib/affiliate-link'
-import { trackInitiateCheckout, trackCompletePayment } from '@/lib/tiktok-pixel'
+import { trackCompletePayment, trackClickOutbound, trackLead } from '@/lib/tiktok-pixel'
 
 type OfferData = {
   id: string
@@ -996,16 +996,16 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
 }
 
 function BookingCTA({ offerId, offerTitle, priceFrom, affiliateLink }: { offerId: string; offerTitle: string; priceFrom: number | null; affiliateLink: string }) {
-  useEffect(() => {
-    trackInitiateCheckout({ id: offerId, title: offerTitle, priceFrom })
-  }, [offerId, offerTitle, priceFrom])
-
   return (
     <a
       href={affiliateLink}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={() => trackCompletePayment({ id: offerId, title: offerTitle, priceFrom })}
+      onClick={() => {
+        const offer = { id: offerId, title: offerTitle, priceFrom }
+        trackCompletePayment(offer)
+        trackClickOutbound(offer)
+      }}
       style={{
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
         width: '100%', marginTop: 16,
@@ -1237,7 +1237,7 @@ function PhoneCTA() {
         <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.88)', margin: '0 0 20px', lineHeight: 1.5, textShadow: '0 1px 6px rgba(0,0,0,0.3)' }}>
           Ruf uns direkt an. Kostenlos. Keine Warteschlange.
         </p>
-        <a href="tel:+4930123456789" style={{
+        <a href="tel:+4930123456789" onClick={() => trackLead('offer-detail')} style={{
           display: 'inline-flex', alignItems: 'center', gap: 10,
           padding: '14px 22px', background: ORANGE, color: '#fff',
           borderRadius: 9999, textDecoration: 'none', fontSize: 15, fontWeight: 700,

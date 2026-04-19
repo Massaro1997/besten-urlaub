@@ -68,11 +68,11 @@ export function AngebotTrackingPixel({
         currency: 'EUR',
         event_id: `${eventId}-atc`,
       })
-      window.ttq?.track('CompletePayment', {
+      window.ttq?.track('InitiateCheckout', {
         contents,
         value,
         currency: 'EUR',
-        event_id: `${eventId}-cp`,
+        event_id: `${eventId}-ic`,
       })
     } catch {
       // noop
@@ -106,7 +106,7 @@ export function AngebotTrackingPixel({
     fetch('/api/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ event: 'CompletePayment', eventId: `${eventId}-cp`, ...trackData }),
+      body: JSON.stringify({ event: 'InitiateCheckout', eventId: `${eventId}-ic`, ...trackData }),
       keepalive: true,
     }).catch(() => {})
 

@@ -18,6 +18,12 @@ function sha256(value: string): string {
   return crypto.createHash('sha256').update(value.trim().toLowerCase()).digest('hex')
 }
 
+function normalizePhone(value: string): string {
+  // E.164: strip everything except leading + and digits
+  const cleaned = value.replace(/[^\d+]/g, '')
+  return cleaned.startsWith('+') ? cleaned : `+${cleaned}`
+}
+
 interface TikTokEventParams {
   event: string
   eventId: string
@@ -30,6 +36,9 @@ interface TikTokEventParams {
   userAgent?: string
   externalId?: string
   ttclid?: string
+  ttp?: string
+  email?: string
+  phone?: string
 }
 
 export async function sendTikTokEvent(params: TikTokEventParams) {
@@ -55,6 +64,9 @@ export async function sendTikTokEvent(params: TikTokEventParams) {
     const user: Record<string, string> = {}
     if (params.externalId) user.external_id = sha256(params.externalId)
     if (params.ttclid) user.ttclid = params.ttclid
+    if (params.ttp) user.ttp = params.ttp
+    if (params.email) user.email = sha256(params.email)
+    if (params.phone) user.phone_number = sha256(normalizePhone(params.phone))
 
     const context: Record<string, unknown> = {
       page: { url: params.url },
