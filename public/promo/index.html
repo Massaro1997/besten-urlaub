@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Bester Urlaub — TikTok Ad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #0a0a0a; overflow: hidden; }
+  #root { position: absolute; inset: 0; }
+  body.export #root { background: #0a1a3a; }
+  body.export [data-playback-bar] { display: none !important; }
+</style>
+</head>
+<body>
+<div id="root" data-video-root data-screen-label="t=0.0s"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="animations.jsx"></script>
+<script type="text/babel" src="scenes.jsx"></script>
+<script type="text/babel" src="scenes2.jsx"></script>
+<script type="text/babel" src="scenes3.jsx"></script>
+
+<script type="text/babel">
+const DURATION = 20;
+
+// URL flags
+const qs = new URLSearchParams(window.location.search);
+const SHOW_CHROME = qs.get('chrome') === '1';   // TikTok overlay on by default OFF
+const EXPORT_MODE = qs.get('export') === '1';   // hide playback bar (recording)
+
+if (EXPORT_MODE) document.body.classList.add('export');
+
+function Video() {
+  return (
+    <Stage width={1080} height={1920} duration={DURATION} background="#0a1a3a" persistKey="bu-tiktok-ad">
+      <ScreenLabel />
+
+      {/* Scene content */}
+      <Scene1_Desk />
+      <Scene2_Reel />
+      <Scene3_Deal />
+      <Scene4_Trust />
+      <Scene5_CTA />
+
+      {SHOW_CHROME && <ProgressBar duration={DURATION} />}
+      {SHOW_CHROME && <TikTokChrome />}
+    </Stage>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Video />);
+</script>
+</body>
+</html>
