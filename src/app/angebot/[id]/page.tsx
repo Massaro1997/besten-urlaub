@@ -8,6 +8,7 @@ import { formatPrice } from '@/lib/utils'
 import { ArrowLeft, Shield } from 'lucide-react'
 import { AngebotTracker } from '@/components/public/angebot-tracker'
 import { AngebotTrackingPixel } from '@/components/public/angebot-redirect'
+import { CallbackModal } from '@/components/public/callback-modal'
 import { generateEventId, buildAffiliateLinkWithSubid } from '@/lib/affiliate-link'
 import { OfferDetailView } from '@/components/public/offer-detail/OfferDetailView'
 
@@ -67,6 +68,7 @@ export default async function AngebotPage({
           priceFrom={offer.priceFrom}
           eventId={eventId}
         />
+        <CallbackModal offerId={offer.id} offerTitle={offer.title} />
         <OfferDetailView
           offer={{
             id: offer.id,
@@ -129,6 +131,7 @@ export default async function AngebotPage({
         priceFrom={offer.priceFrom}
         eventId={eventId}
       />
+      <CallbackModal offerId={offer.id} offerTitle={offer.title} />
 
       <div className="bg-white border-b border-[#0a1a3a]/10 px-4 sm:px-6 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
