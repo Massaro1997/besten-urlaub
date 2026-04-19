@@ -3,7 +3,65 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { X } from 'lucide-react'
-import { CallbackForm } from './callback-form'
+import { trackLead } from '@/lib/tiktok-pixel'
+
+function EmailOnlyForm({ source }: { source: string }) {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const val = email.trim().toLowerCase()
+    if (!val.includes('@')) return
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: val, source }),
+      })
+      if (!res.ok) throw new Error('failed')
+      try { localStorage.setItem('bu_email', val) } catch {}
+      trackLead(source, { email: val })
+      setStatus('ok')
+    } catch {
+      setStatus('err')
+    }
+  }
+
+  if (status === 'ok') {
+    return (
+      <div className="rounded-xl bg-[#34c759]/10 border border-[#34c759]/30 p-4 text-center">
+        <p className="text-sm font-bold text-[#0a1a3a]">Perfekt. Check dein Postfach.</p>
+        <p className="text-xs text-[#0a1a3a]/60 mt-1">Die erste Deal-Mail kommt in wenigen Minuten.</p>
+      </div>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-2.5">
+      <input
+        type="email"
+        required
+        autoFocus
+        placeholder="deine@email.de"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-full px-4 py-3 rounded-xl border-2 border-[#0a1a3a]/10 text-[15px] focus:outline-none focus:border-[#ff6b35] transition-colors"
+      />
+      <button
+        type="submit"
+        disabled={status === 'sending'}
+        className="w-full px-4 py-3.5 rounded-xl bg-[#ff6b35] hover:bg-[#e85d2c] disabled:opacity-50 text-white text-[15px] font-extrabold transition-colors shadow-lg shadow-[#ff6b35]/30"
+      >
+        {status === 'sending' ? '...' : 'Deals sichern →'}
+      </button>
+      {status === 'err' && (
+        <p className="text-xs text-red-600 text-center">Fehler. Bitte nochmal versuchen.</p>
+      )}
+    </form>
+  )
+}
 
 interface Props {
   offerId?: string
@@ -14,7 +72,7 @@ interface Props {
 
 const STORAGE_KEY = 'bu_callback_shown'
 
-export function CallbackModal({ offerId, offerTitle, source = 'callback-modal', delayMs = 8000 }: Props) {
+export function CallbackModal({ source = 'callback-modal', delayMs = 4000 }: Props) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -69,29 +127,27 @@ export function CallbackModal({ offerId, offerTitle, source = 'callback-modal', 
             sizes="(max-width: 640px) 100vw, 384px"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-5">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-white/80 font-semibold drop-shadow">
-              Exklusiv für dich
-            </p>
-            <h3 className="text-2xl font-extrabold text-white leading-tight tracking-tight drop-shadow-lg">
-              Dein Traumurlaub wartet
+            <span className="inline-block bg-[#ff6b35] text-white text-[10px] uppercase tracking-[0.2em] font-bold px-2.5 py-1 rounded-full mb-2">
+              Nur für kurze Zeit
+            </span>
+            <h3 className="text-[26px] font-extrabold text-white leading-[1.05] tracking-tight drop-shadow-lg">
+              Spare bis zu <span className="text-[#ff6b35]">1.000 €</span> auf deinem nächsten Urlaub
             </h3>
           </div>
         </div>
 
         <div className="px-6 pb-6 pt-5">
-          <div className="mb-4">
-            <p className="text-sm text-[#0a1a3a]/70 leading-snug">
-              Lass uns deinen Kontakt da. Wir finden dein perfektes Angebot und melden uns persönlich.
-            </p>
-          </div>
+          <p className="text-[15px] text-[#0a1a3a]/75 leading-snug mb-4">
+            Unsere besten Deals landen direkt in deinem Postfach. Keine Anrufe. Kein Spam. Nur echte Schnäppchen, bevor sie ausverkauft sind.
+          </p>
 
-          <CallbackForm
-            offerId={offerId}
-            offerTitle={offerTitle}
-            source={source}
-          />
+          <EmailOnlyForm source={source} />
+
+          <p className="text-[11px] text-[#0a1a3a]/45 text-center mt-3">
+            Jederzeit abbestellbar. Über 12.000 Reisende vertrauen uns.
+          </p>
         </div>
       </div>
 
