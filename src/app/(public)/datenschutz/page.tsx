@@ -419,6 +419,63 @@ export default function DatenschutzPage() {
         </Section>
 
         {/* ------------------------------------------------------------ */}
+        {/* 6b. Lucky Orange                                              */}
+        {/* ------------------------------------------------------------ */}
+        <Section number="6b" title="Lucky Orange (Session Recording & Heatmaps)">
+          <p>
+            Wir verwenden auf dieser Website Lucky Orange, einen Analyse-Dienst
+            der Lucky Orange LLC, 8280 Ward Parkway, Kansas City, MO 64114, USA
+            (Site-ID: 78eb497d). Lucky Orange zeichnet Ihre Interaktionen mit
+            der Website auf, um die Nutzerfreundlichkeit zu verbessern.
+          </p>
+          <p className="mt-3">
+            Dabei k&ouml;nnen folgende Daten erfasst werden:
+          </p>
+          <ul className="list-disc ml-6 mt-2 space-y-1">
+            <li>Mausbewegungen, Klicks und Scrollverhalten</li>
+            <li>besuchte Seiten und Verweildauer</li>
+            <li>Ger&auml;te- und Browser-Informationen</li>
+            <li>gek&uuml;rzte IP-Adresse</li>
+            <li>Referrer-URL</li>
+          </ul>
+          <p className="mt-3">
+            Eingaben in Formularfeldern werden standardm&auml;&szlig;ig
+            maskiert. Passwortfelder und sensible Daten werden nicht
+            aufgezeichnet. Die gesammelten Daten werden pseudonymisiert und
+            dienen ausschlie&szlig;lich der Optimierung unserer Website.
+          </p>
+          <p className="mt-3">
+            Die Rechtsgrundlage ist Art. 6 Abs. 1 lit.&thinsp;f DSGVO
+            (berechtigtes Interesse an der Analyse und Verbesserung unserer
+            Website). Die Daten werden auf Servern in den USA verarbeitet.
+          </p>
+          <p className="mt-3">
+            Weitere Informationen zum Datenschutz bei Lucky Orange finden Sie
+            unter:{' '}
+            <a
+              href="https://www.luckyorange.com/privacy.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#2e75fa] hover:underline break-all"
+            >
+              https://www.luckyorange.com/privacy.php
+            </a>
+          </p>
+          <p className="mt-3">
+            Sie k&ouml;nnen der Aufzeichnung durch Lucky Orange widersprechen
+            unter:{' '}
+            <a
+              href="https://www.luckyorange.com/visitor-opt-out.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#2e75fa] hover:underline break-all"
+            >
+              https://www.luckyorange.com/visitor-opt-out.php
+            </a>
+          </p>
+        </Section>
+
+        {/* ------------------------------------------------------------ */}
         {/* 7. Eingebettete Inhalte                                       */}
         {/* ------------------------------------------------------------ */}
         <Section number="7" title="Eingebettete Inhalte (TikTok Videos)">
