@@ -11,6 +11,7 @@ import { FaqSection } from '@/components/public/faq-section'
 import { LogoMarquee } from '@/components/public/logo-marquee'
 import { TrackedOfferLink } from '@/components/public/tracked-offer-link'
 import { PhoneCtaSection } from '@/components/public/phone-cta-section'
+import { CallbackModal } from '@/components/public/callback-modal'
 import { extractOfferDates, formatOfferDateRange } from '@/lib/offer-dates'
 
 export default async function HomePage() {
@@ -69,6 +70,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <CallbackModal source="homepage" />
       <HeroSection />
 
       {/* Trust Badges */}

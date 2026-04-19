@@ -8,12 +8,13 @@ import { CallbackForm } from './callback-form'
 interface Props {
   offerId?: string
   offerTitle?: string
+  source?: string
   delayMs?: number
 }
 
 const STORAGE_KEY = 'bu_callback_shown'
 
-export function CallbackModal({ offerId, offerTitle, delayMs = 8000 }: Props) {
+export function CallbackModal({ offerId, offerTitle, source = 'callback-modal', delayMs = 8000 }: Props) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -89,7 +90,7 @@ export function CallbackModal({ offerId, offerTitle, delayMs = 8000 }: Props) {
           <CallbackForm
             offerId={offerId}
             offerTitle={offerTitle}
-            source="callback-modal"
+            source={source}
           />
         </div>
       </div>
