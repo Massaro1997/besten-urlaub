@@ -57,15 +57,36 @@ function getTtclid(): string {
   return ttclid || (typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('ttclid') || '' : '')
 }
 
+function getStoredContact() {
+  if (typeof window === 'undefined') return { email: '', phone: '' }
+  try {
+    return {
+      email: localStorage.getItem('bu_email') || '',
+      phone: localStorage.getItem('bu_phone') || '',
+    }
+  } catch {
+    return { email: '', phone: '' }
+  }
+}
+
 function trackEvent(event: string, offer: OfferData) {
   const eventId = generateEventId()
   const externalId = getExternalId()
   const ttclid = getTtclid()
+  const { email, phone } = getStoredContact()
 
-  // Client-side pixel
-  getTtq()?.track(event, { ...buildContents(offer), event_id: eventId })
+  // Client-side pixel — include match params so TikTok can identify user
+  const pixelParams: Record<string, unknown> = {
+    ...buildContents(offer),
+    event_id: eventId,
+  }
+  if (externalId) pixelParams.external_id = externalId
+  if (ttclid) pixelParams.ttclid = ttclid
+  if (email) pixelParams.email = email
+  if (phone) pixelParams.phone_number = phone
+  getTtq()?.track(event, pixelParams)
 
-  // Server-side via our API with extra matching data
+  // Server-side via our API with extra matching data (IP/UA added server-side)
   if (typeof window !== 'undefined') {
     fetch('/api/track', {
       method: 'POST',
@@ -80,6 +101,8 @@ function trackEvent(event: string, offer: OfferData) {
         url: window.location.href,
         externalId,
         ttclid,
+        email: email || undefined,
+        phone: phone || undefined,
       }),
     }).catch(() => {})
   }
@@ -109,11 +132,21 @@ export function trackClickOutbound(offer: OfferData) {
   trackEvent('ClickOutbound', offer)
 }
 
-export function trackLead(source: string) {
+export function trackLead(source: string, contact?: { email?: string; phone?: string }) {
   const eventId = generateEventId()
   const externalId = getExternalId()
   const ttclid = getTtclid()
-  getTtq()?.track('Lead', { event_id: eventId, description: source })
+  const stored = getStoredContact()
+  const email = contact?.email || stored.email
+  const phone = contact?.phone || stored.phone
+
+  const pixelParams: Record<string, unknown> = { event_id: eventId, description: source }
+  if (externalId) pixelParams.external_id = externalId
+  if (ttclid) pixelParams.ttclid = ttclid
+  if (email) pixelParams.email = email
+  if (phone) pixelParams.phone_number = phone
+  getTtq()?.track('Lead', pixelParams)
+
   if (typeof window !== 'undefined') {
     fetch('/api/track', {
       method: 'POST',
@@ -125,6 +158,8 @@ export function trackLead(source: string) {
         url: window.location.href,
         externalId,
         ttclid,
+        email: email || undefined,
+        phone: phone || undefined,
       }),
     }).catch(() => {})
   }

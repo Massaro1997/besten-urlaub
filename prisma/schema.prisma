@@ -282,6 +282,26 @@ model AffiliateClick {
   @@index([createdAt])
 }
 
+/// Captured leads (newsletter, phone-form, contact). Source of truth for follow-up.
+model Lead {
+  id         String   @id @default(cuid())
+  email      String
+  phone      String?
+  name       String?
+  source     String   // e.g. newsletter-footer, phone-click, contact-form
+  ttclid     String?
+  externalId String?
+  userAgent  String?
+  ip         String?
+  referrer   String?
+  url        String?
+  createdAt  DateTime @default(now())
+
+  @@index([email])
+  @@index([createdAt])
+  @@index([source])
+}
+
 /// Daily TikTok Ads spend snapshot — manual input from Ads Manager until Reporting API is wired up.
 /// One row per day (UTC). Lets us compute CPA / ROAS in the tracking dashboard.
 model AdSpend {

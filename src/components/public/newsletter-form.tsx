@@ -18,6 +18,8 @@ export function NewsletterForm() {
         body: JSON.stringify({ email, source: 'newsletter-footer' }),
       })
       if (!res.ok) throw new Error('failed')
+      // Persist email so subsequent pixel events include it (EMQ boost)
+      try { localStorage.setItem('bu_email', email.trim().toLowerCase()) } catch {}
       trackLead('newsletter-footer')
       setStatus('ok')
       setEmail('')

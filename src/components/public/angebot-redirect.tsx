@@ -36,9 +36,11 @@ export function AngebotTrackingPixel({
       },
     ]
 
-    // Capture ttclid + external id
+    // Capture ttclid + external id + stored contact
     let ttclid = ''
     let externalId = ''
+    let email = ''
+    let phone = ''
     try {
       const params = new URLSearchParams(window.location.search)
       ttclid = params.get('ttclid') || sessionStorage.getItem('ttclid') || ''
@@ -50,9 +52,18 @@ export function AngebotTrackingPixel({
         externalId = `bu_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`
         document.cookie = `bu_eid=${externalId};path=/;max-age=31536000;SameSite=Lax`
       }
+      email = localStorage.getItem('bu_email') || ''
+      phone = localStorage.getItem('bu_phone') || ''
     } catch {
       // noop
     }
+
+    // Build match params for client-side pixel (EMQ boost)
+    const matchParams: Record<string, unknown> = {}
+    if (externalId) matchParams.external_id = externalId
+    if (ttclid) matchParams.ttclid = ttclid
+    if (email) matchParams.email = email
+    if (phone) matchParams.phone_number = phone
 
     // Client-side: fire all events
     try {
@@ -61,18 +72,21 @@ export function AngebotTrackingPixel({
         value,
         currency: 'EUR',
         event_id: eventId,
+        ...matchParams,
       })
       window.ttq?.track('AddToCart', {
         contents,
         value,
         currency: 'EUR',
         event_id: `${eventId}-atc`,
+        ...matchParams,
       })
       window.ttq?.track('InitiateCheckout', {
         contents,
         value,
         currency: 'EUR',
         event_id: `${eventId}-ic`,
+        ...matchParams,
       })
     } catch {
       // noop
@@ -87,6 +101,8 @@ export function AngebotTrackingPixel({
       url: window.location.href,
       externalId,
       ttclid,
+      email: email || undefined,
+      phone: phone || undefined,
     }
 
     fetch('/api/track', {
