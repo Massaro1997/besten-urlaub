@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, X, ChevronDown, Plane, Moon, Utensils, Shield, Waves, Wifi, Dumbbell, Users, Car, Sparkles, TreePalm, Baby, Wine, Mountain } from 'lucide-react'
 import { overrideCheck24Params } from '@/lib/affiliate-link'
-import { trackCompletePayment, trackClickOutbound, trackLead } from '@/lib/tiktok-pixel'
+import { trackClickOutbound, trackLead } from '@/lib/tiktok-pixel'
 
 type OfferData = {
   id: string
@@ -1003,7 +1003,8 @@ function BookingCTA({ offerId, offerTitle, priceFrom, affiliateLink }: { offerId
       rel="noopener noreferrer"
       onClick={() => {
         const offer = { id: offerId, title: offerTitle, priceFrom }
-        trackCompletePayment(offer)
+        // CompletePayment is now fired server-side from /api/postback when
+        // Awin confirms a real booking — no fake conversions client-side.
         trackClickOutbound(offer)
       }}
       style={{

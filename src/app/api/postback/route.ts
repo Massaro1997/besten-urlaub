@@ -23,9 +23,21 @@ import { sendTikTokEvent } from '@/lib/tiktok-server'
 async function handlePostback(request: NextRequest) {
   const params = request.nextUrl.searchParams
 
-  // Check24 sends the subid we attached to the affiliate link
-  const subid = params.get('subid') || params.get('sub_id') || params.get('deepId') || ''
-  const revenue = parseFloat(params.get('revenue') || params.get('amount') || '0')
+  // Subid variants: Awin uses `clickref`, Check24 uses `subid`/`sub_id`/`deepId`
+  const subid =
+    params.get('clickref') ||
+    params.get('subid') ||
+    params.get('sub_id') ||
+    params.get('deepId') ||
+    ''
+  // Amount variants: Awin uses `saleAmount`/`commission`, Check24 uses `revenue`/`amount`
+  const revenue = parseFloat(
+    params.get('saleAmount') ||
+      params.get('revenue') ||
+      params.get('amount') ||
+      params.get('commission') ||
+      '0',
+  )
   const currency = params.get('currency') || 'EUR'
 
   // Optional: secret token to prevent fake postbacks
