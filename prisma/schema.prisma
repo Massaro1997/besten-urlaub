@@ -282,6 +282,29 @@ model AffiliateClick {
   @@index([createdAt])
 }
 
+/// Raw sales synced from Check24 Partner API (JSON polling every 10 min).
+/// Mirror the full feed — even cancelled + unmatched — so we can compute
+/// historic revenue, by-product splits, and catch attribution gaps.
+model Check24Sale {
+  id             String   @id            // Check24 sale id
+  subid          String?                  // tracking_id from Check24 (our eventId when present)
+  product        String                   // "Pauschalreise" / "Mietwagen" / ...
+  status         String                   // "paid" / "cancelled" / ...
+  revenue        Float?                   // base_amount_net — booking value
+  commission     Float?                   // amount_net — our cut
+  currency       String   @default("EUR")
+  createdAtC24   DateTime                 // "created" from Check24
+  matched        Boolean  @default(false) // true if subid resolves to an AffiliateClick
+  firedToTiktok  Boolean  @default(false) // true after we fired CompletePayment
+  raw            Json?                    // full row for debugging
+  syncedAt       DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([createdAtC24])
+  @@index([status])
+  @@index([subid])
+}
+
 /// Captured leads (newsletter, phone-form, contact). Source of truth for follow-up.
 model Lead {
   id         String   @id @default(cuid())

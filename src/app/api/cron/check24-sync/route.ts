@@ -35,39 +35,71 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'fetch_failed', message: String(e) }, { status: 500 })
   }
 
+  let persisted = 0
   let matched = 0
   let fired = 0
   const unmatched: string[] = []
 
   for (const sale of sales) {
-    if (!sale.subid) continue
+    if (!sale.id) continue
 
-    // Find the click row
-    const click = await prisma.affiliateClick.findUnique({
-      where: { eventId: sale.subid },
+    // 1. Persist/upsert Check24 sale row
+    const click = sale.subid
+      ? await prisma.affiliateClick.findUnique({ where: { eventId: sale.subid } })
+      : null
+    const isMatched = Boolean(click)
+
+    const created = sale.timestamp ? new Date(sale.timestamp.replace(' ', 'T')) : new Date()
+
+    const existing = await prisma.check24Sale.findUnique({ where: { id: sale.id } })
+
+    await prisma.check24Sale.upsert({
+      where: { id: sale.id },
+      create: {
+        id: sale.id,
+        subid: sale.subid || null,
+        product: sale.product,
+        status: sale.status || 'unknown',
+        revenue: sale.revenue || null,
+        commission: sale.commission || null,
+        currency: sale.currency || 'EUR',
+        createdAtC24: created,
+        matched: isMatched,
+        firedToTiktok: false,
+        raw: sale.raw as never,
+      },
+      update: {
+        status: sale.status || 'unknown',
+        revenue: sale.revenue || null,
+        commission: sale.commission || null,
+        matched: isMatched,
+        raw: sale.raw as never,
+      },
     })
+    persisted++
+
+    // 2. If matched and not yet fired and not cancelled, fire TikTok CompletePayment
     if (!click) {
-      unmatched.push(sale.subid)
+      if (sale.subid) unmatched.push(sale.subid)
       continue
     }
 
-    // Skip if already processed (idempotent)
-    if (click.converted && click.convValue === (sale.revenue || null)) continue
+    // Already fired + no status change? skip
+    if (existing?.firedToTiktok && existing.status === sale.status) continue
 
-    // Update click row
+    // Update click row (mark converted)
     await prisma.affiliateClick.update({
       where: { eventId: sale.subid },
       data: {
-        converted: true,
+        converted: sale.status === 'paid',
         convValue: sale.revenue || null,
-        convAt: new Date(sale.timestamp || Date.now()),
+        convAt: created,
       },
     })
     matched++
 
-    // Fire CompletePayment only for new conversions (not already converted)
-    // Skip cancelled sales
-    if (sale.status === 'cancelled') continue
+    // Skip firing for cancelled
+    if (sale.status !== 'paid') continue
 
     await sendTikTokEvent({
       event: 'CompletePayment',
@@ -80,12 +112,18 @@ export async function GET(request: NextRequest) {
       ttclid: click.ttclid || undefined,
       userAgent: click.userAgent || undefined,
     })
+
+    await prisma.check24Sale.update({
+      where: { id: sale.id },
+      data: { firedToTiktok: true },
+    })
     fired++
   }
 
   return NextResponse.json({
     ok: true,
     polled: sales.length,
+    persisted,
     matched,
     fired,
     unmatched: unmatched.slice(0, 20),

@@ -14,6 +14,7 @@ import {
   Activity,
   Mail,
   Globe,
+  Euro,
   X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -23,6 +24,7 @@ const navItems = [
   { href: '/tracking', label: 'Tracking', icon: Activity },
   { href: '/leads', label: 'Leads', icon: Mail },
   { href: '/analytics', label: 'Analytics', icon: Globe },
+  { href: '/sales', label: 'Sales Check24', icon: Euro },
   { href: '/destinazioni', label: 'Destinazioni', icon: MapPin },
   { href: '/offerte', label: 'Offerte', icon: Tag },
   { href: '/offerte/suggerimenti', label: 'AI Suggerimenti', icon: MapPin },

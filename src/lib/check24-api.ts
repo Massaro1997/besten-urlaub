@@ -21,12 +21,14 @@
  */
 
 export interface Check24Sale {
-  subid: string            // maps to our AffiliateClick.eventId
-  revenue?: number         // in EUR
-  commission?: number      // what we actually earn
-  currency?: string        // EUR default
-  status?: 'pending' | 'confirmed' | 'cancelled'
-  timestamp?: string       // ISO
+  id: string                // Check24 sale unique id
+  subid: string             // maps to our AffiliateClick.eventId (from tracking_id)
+  product: string           // "Pauschalreise" | "Mietwagen" | etc
+  revenue?: number          // booking value (base_amount_net)
+  commission?: number       // our commission (amount_net)
+  currency?: string         // EUR default
+  status?: 'paid' | 'cancelled' | 'pending'
+  timestamp?: string        // ISO
   raw?: Record<string, unknown>
 }
 
@@ -85,12 +87,14 @@ function normalize(row: Record<string, unknown>): Check24Sale {
     return undefined
   }
   return {
-    subid: String(get(['subid', 'sub_id', 'tid', 'partner_sub']) ?? ''),
-    revenue: toNum(get(['revenue', 'amount', 'sale_amount', 'umsatz'])),
-    commission: toNum(get(['commission', 'provision', 'payout'])),
+    id: String(get(['id', 'sale_id']) ?? ''),
+    subid: String(get(['tracking_id', 'subid', 'sub_id', 'tid', 'partner_sub']) ?? ''),
+    product: String(get(['product_name', 'product']) ?? ''),
+    revenue: toNum(get(['base_amount_net', 'revenue', 'amount', 'sale_amount', 'umsatz'])),
+    commission: toNum(get(['amount_net', 'commission', 'provision', 'payout'])),
     currency: (get(['currency', 'waehrung']) as string) || 'EUR',
-    status: (get(['status', 'state']) as Check24Sale['status']) || undefined,
-    timestamp: (get(['timestamp', 'created_at', 'date', 'datum']) as string) || undefined,
+    status: (get(['paymentstatus', 'status', 'state']) as Check24Sale['status']) || undefined,
+    timestamp: (get(['created', 'timestamp', 'created_at', 'date', 'datum']) as string) || undefined,
     raw: row,
   }
 }
