@@ -109,16 +109,48 @@ export function HeroSection() {
     function repositionAbove(dp: HTMLElement, input: HTMLInputElement) {
       const inputRect = input.getBoundingClientRect()
       const dpHeight = dp.offsetHeight
+      const dpWidth = dp.offsetWidth
       if (dpHeight === 0) return
 
-      // Use fixed positioning so coordinates are viewport-based
-      const newTop = inputRect.top - dpHeight - 8
-      const newLeft = inputRect.left
+      const vh = window.innerHeight
+      const vw = window.innerWidth
+      const isMobile = vw < 640
+      const pad = 8
 
+      // Fixed positioning so coordinates are viewport-based
       dp.style.position = 'fixed'
-      if (dp.style.top !== `${newTop}px`) dp.style.top = `${newTop}px`
-      if (dp.style.left !== `${newLeft}px`) dp.style.left = `${newLeft}px`
       dp.style.zIndex = '9999'
+
+      // Mobile: always center on viewport, cap height so month header stays visible
+      if (isMobile) {
+        const maxH = vh - 32
+        dp.style.maxHeight = `${maxH}px`
+        dp.style.overflowY = 'auto'
+        const top = Math.max(pad, (vh - Math.min(dpHeight, maxH)) / 2)
+        const left = Math.max(pad, (vw - dpWidth) / 2)
+        if (dp.style.top !== `${top}px`) dp.style.top = `${top}px`
+        if (dp.style.left !== `${left}px`) dp.style.left = `${left}px`
+        return
+      }
+
+      // Desktop: prefer above input, fall back below if no room, clamp to viewport
+      const spaceAbove = inputRect.top - pad
+      const spaceBelow = vh - inputRect.bottom - pad
+      let top: number
+      if (spaceAbove >= dpHeight) {
+        top = inputRect.top - dpHeight - pad
+      } else if (spaceBelow >= dpHeight) {
+        top = inputRect.bottom + pad
+      } else {
+        // Neither fits — pin to viewport top, let datepicker scroll its own content
+        top = pad
+        dp.style.maxHeight = `${vh - pad * 2}px`
+        dp.style.overflowY = 'auto'
+      }
+      const left = Math.min(Math.max(pad, inputRect.left), vw - dpWidth - pad)
+
+      if (dp.style.top !== `${top}px`) dp.style.top = `${top}px`
+      if (dp.style.left !== `${left}px`) dp.style.left = `${left}px`
     }
 
     function findAssociatedInput(dp: HTMLElement): HTMLInputElement | null {
