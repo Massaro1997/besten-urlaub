@@ -12,8 +12,8 @@ const TABS: { key: TabKey; href: string; label: string; icon: typeof Palmtree; h
 ]
 
 const HERO_CONTENT: Record<string, { title: string; subtitle: string }> = {
-  pauschalreisen: { title: 'Die bester Urlaubsangebote', subtitle: 'zum bester Preis.' },
-  mietwagen: { title: 'Mietwagen vergleichen', subtitle: 'und günstig buchen.' },
+  pauschalreisen: { title: 'Dein Traumurlaub wartet.', subtitle: 'Bis zu 60% günstiger.' },
+  mietwagen: { title: 'Den perfekten Mietwagen.', subtitle: 'Zum besten Preis.' },
 }
 
 export function HeroSection() {
@@ -261,22 +261,28 @@ export function HeroSection() {
           </h1>
         </div>
 
-        {/* Trust chips — on desktop stays above widget (order-2), on mobile moves below widget (order-3) */}
-        <div className="flex flex-nowrap sm:flex-wrap items-center justify-center gap-1.5 sm:gap-2 relative overflow-x-auto sm:overflow-visible max-w-full px-1 scrollbar-hide order-3 sm:order-2">
+        {/* Trust row — clean iconized badges, no pill "dots" */}
+        <div className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-2 max-w-full px-2 order-3 sm:order-2 relative">
           {[
-            { key: '24h', labelFull: 'Bis zu 24h stornieren', labelShort: '24h Storno' },
-            { key: 'bestpreis', labelFull: 'Bestpreis-Garantie', labelShort: 'Bestpreis' },
-            { key: 'rabatt', labelFull: 'Bis zu 60% Rabatt', labelShort: '-60%' },
+            { key: '24h', labelFull: 'Bis zu 24h stornierbar', labelShort: '24h stornierbar', icon: (
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 2M12 3a9 9 0 100 18 9 9 0 000-18z"/></svg>
+            ) },
+            { key: 'bestpreis', labelFull: 'Bestpreis Garantie', labelShort: 'Bestpreis', icon: (
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/></svg>
+            ) },
+            { key: 'rabatt', labelFull: 'Bis zu 60% Rabatt', labelShort: '60% Rabatt', icon: (
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h6l12 12-6 6L3 9V3zM7.5 7.5h.01"/></svg>
+            ) },
           ].map((chip) => (
             <button
               key={chip.key}
               type="button"
               onClick={() => setShowInfo(showInfo === chip.key ? null : chip.key)}
-              className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-medium text-white bg-white/10 backdrop-blur-sm border border-white/15 hover:bg-white/20 transition-colors whitespace-nowrap shrink-0"
+              className="group inline-flex items-center gap-1.5 sm:gap-2 text-white/85 hover:text-white transition-colors whitespace-nowrap"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-              <span className="sm:hidden">{chip.labelShort}</span>
-              <span className="hidden sm:inline">{chip.labelFull}</span>
+              <span className="text-[#ff6b35]">{chip.icon}</span>
+              <span className="text-[12px] sm:text-[13px] font-semibold tracking-tight sm:hidden">{chip.labelShort}</span>
+              <span className="hidden sm:inline text-[13px] font-semibold tracking-tight">{chip.labelFull}</span>
             </button>
           ))}
           {showInfo === '24h' && (
@@ -305,50 +311,98 @@ export function HeroSection() {
 
         {/* Widget card — tabs integrated as header; on mobile appears above chips */}
         <div className="w-full max-w-5xl order-2 sm:order-3">
-          {/* Mobile: direct CTA buttons to Check24 (no embedded widget, which had UX issues) */}
+          {/* Mobile: two direct CTAs to Check24 with marketing hooks */}
           <div className="sm:hidden flex flex-col gap-3">
+            {/* Pauschalreisen — primary */}
             <a
-              href="https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=mobile-hero-pauschal&target_url=https%3A%2F%2Fwww.check24.net%2Fpauschalreisen-vergleich%2F%3Fpid%3D1168044%26tid%3Dmobile-hero-pauschal"
+              href="https://p1168044s0m.urlaub.check24.net/?tid1=mobile-hero-pauschal&deviceoutput=mobile"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative overflow-hidden bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] p-5 flex items-center justify-between active:scale-[0.98] transition-transform"
+              className="relative bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden active:scale-[0.98] transition-transform"
             >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-11 h-11 rounded-full bg-[#ff6b35]/10 flex items-center justify-center shrink-0">
-                  <Palmtree className="w-5 h-5 text-[#ff6b35]" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[16px] font-bold text-[#0a1a3a] leading-tight">Pauschalreisen</p>
-                  <p className="text-[12px] text-[#0a1a3a]/55 mt-0.5">Flug + Hotel vergleichen</p>
-                </div>
+              {/* Corner discount badge */}
+              <div className="absolute top-0 right-0 bg-[#ff6b35] text-white px-3 py-1.5 rounded-bl-xl text-[11px] font-extrabold tracking-wide shadow-lg shadow-[#ff6b35]/30">
+                BIS ZU 60% SPAREN
               </div>
-              <div className="w-9 h-9 rounded-full bg-[#ff6b35] flex items-center justify-center shrink-0 shadow-md shadow-[#ff6b35]/30 group-active:scale-90 transition-transform">
-                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
+
+              <div className="p-5 pt-[52px]">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ff6b35] to-[#e55a2b] flex items-center justify-center shrink-0 shadow-md shadow-[#ff6b35]/30">
+                    <Palmtree className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[18px] font-extrabold text-[#0a1a3a] leading-tight tracking-tight">Pauschalreisen</p>
+                    <p className="text-[13px] text-[#0a1a3a]/60 mt-0.5 leading-snug">Flug + Hotel im Paket. Fertig.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-[#0a1a3a]/5">
+                  <div className="flex items-center gap-3 text-[11px] text-[#0a1a3a]/55 font-medium">
+                    <span className="inline-flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#34c759]" />
+                      ab 199 €
+                    </span>
+                    <span>·</span>
+                    <span>Live-Preise</span>
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#ff6b35] text-white text-[13px] font-bold shadow-md shadow-[#ff6b35]/30">
+                    Jetzt sparen
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </a>
+
+            {/* Mietwagen — secondary */}
             <a
-              href="https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=mobile-hero-mietwagen&target_url=https%3A%2F%2Fwww.check24.net%2Fmietwagen-preisvergleich%2F%3Fpid%3D1168044%26tid%3Dmobile-hero-mietwagen"
+              href="https://p1168044s0.mietwagen.check24.net/?tid1=mobile-hero-mietwagen&tid2=223"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative overflow-hidden bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] p-5 flex items-center justify-between active:scale-[0.98] transition-transform"
+              className="relative bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden active:scale-[0.98] transition-transform"
             >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-11 h-11 rounded-full bg-[#2e75fa]/10 flex items-center justify-center shrink-0">
-                  <Car className="w-5 h-5 text-[#2e75fa]" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[16px] font-bold text-[#0a1a3a] leading-tight">Mietwagen</p>
-                  <p className="text-[12px] text-[#0a1a3a]/55 mt-0.5">Günstig weltweit buchen</p>
-                </div>
+              <div className="absolute top-0 right-0 bg-[#2e75fa] text-white px-3 py-1.5 rounded-bl-xl text-[11px] font-extrabold tracking-wide shadow-lg shadow-[#2e75fa]/30">
+                TÄGLICH AB 9 €
               </div>
-              <div className="w-9 h-9 rounded-full bg-[#2e75fa] flex items-center justify-center shrink-0 shadow-md shadow-[#2e75fa]/30 group-active:scale-90 transition-transform">
-                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
+
+              <div className="p-5 pt-[52px]">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#2e75fa] to-[#1e5ccf] flex items-center justify-center shrink-0 shadow-md shadow-[#2e75fa]/30">
+                    <Car className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[18px] font-extrabold text-[#0a1a3a] leading-tight tracking-tight">Mietwagen</p>
+                    <p className="text-[13px] text-[#0a1a3a]/60 mt-0.5 leading-snug">Über 700 Vermieter. Sofort buchbar.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-[#0a1a3a]/5">
+                  <div className="flex items-center gap-3 text-[11px] text-[#0a1a3a]/55 font-medium">
+                    <span className="inline-flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#34c759]" />
+                      Kostenlos stornierbar
+                    </span>
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#2e75fa] text-white text-[13px] font-bold shadow-md shadow-[#2e75fa]/30">
+                    Vergleichen
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </a>
+
+            {/* Social proof strip below */}
+            <div className="flex items-center justify-center gap-2 mt-1 text-[11px] text-white/75">
+              <span className="flex -space-x-1.5">
+                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#e55a2b] border-2 border-[#0a1a3a]" />
+                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-[#2e75fa] to-[#1e5ccf] border-2 border-[#0a1a3a]" />
+                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-[#34c759] to-[#2aa34a] border-2 border-[#0a1a3a]" />
+              </span>
+              <span className="font-semibold">Über 12.000 Urlauber vertrauen uns</span>
+            </div>
           </div>
 
           {/* Desktop card (hidden on mobile now) */}
