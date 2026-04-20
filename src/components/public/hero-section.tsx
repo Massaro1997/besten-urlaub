@@ -85,6 +85,26 @@ export function HeroSection() {
     }
   }, [activeTab, loadMietwagenWidget])
 
+  // Suppress mobile keyboard on datepicker inputs — user types dates via calendar UI only
+  useEffect(() => {
+    function lockInput(el: HTMLInputElement) {
+      if (el.dataset.buLocked === '1') return
+      el.readOnly = true
+      el.setAttribute('inputmode', 'none')
+      el.setAttribute('autocomplete', 'off')
+      el.dataset.buLocked = '1'
+    }
+
+    function scan() {
+      document.querySelectorAll<HTMLInputElement>('input.hasDatepicker').forEach(lockInput)
+    }
+
+    scan()
+    const observer = new MutationObserver(scan)
+    observer.observe(document.body, { childList: true, subtree: true })
+    return () => observer.disconnect()
+  }, [])
+
   // Force ALL datepickers to open ABOVE the triggering input (fixed positioning)
   useEffect(() => {
     let lastInput: HTMLInputElement | null = null
