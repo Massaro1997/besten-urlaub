@@ -85,7 +85,7 @@ export function HeroSection() {
     }
   }, [activeTab, loadMietwagenWidget])
 
-  // Suppress mobile keyboard on datepicker inputs — user types dates via calendar UI only
+  // Suppress mobile keyboard on datepicker inputs + extend yearRange
   useEffect(() => {
     function lockInput(el: HTMLInputElement) {
       if (el.dataset.buLocked === '1') return
@@ -93,6 +93,17 @@ export function HeroSection() {
       el.setAttribute('inputmode', 'none')
       el.setAttribute('autocomplete', 'off')
       el.dataset.buLocked = '1'
+
+      // Widget ships with a narrow yearRange — widen it so user sees current + next 2 years
+      const $ = (window as unknown as { jQuery?: (el: HTMLElement) => { datepicker: (op: string, k: string, v: unknown) => void; hasClass: (c: string) => boolean } }).jQuery
+      if ($ && $(el).hasClass('hasDatepicker')) {
+        try {
+          const now = new Date().getFullYear()
+          $(el).datepicker('option', 'yearRange', `${now}:${now + 2}`)
+          $(el).datepicker('option', 'changeYear', true)
+          $(el).datepicker('option', 'changeMonth', true)
+        } catch {}
+      }
     }
 
     function scan() {
@@ -102,7 +113,13 @@ export function HeroSection() {
     scan()
     const observer = new MutationObserver(scan)
     observer.observe(document.body, { childList: true, subtree: true })
-    return () => observer.disconnect()
+    // Rescan every second for 15s to catch widget late-init
+    const interval = setInterval(scan, 1000)
+    setTimeout(() => clearInterval(interval), 15000)
+    return () => {
+      observer.disconnect()
+      clearInterval(interval)
+    }
   }, [])
 
   // Force ALL datepickers to open ABOVE the triggering input (fixed positioning)
