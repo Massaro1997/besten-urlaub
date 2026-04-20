@@ -249,10 +249,21 @@ export function HeroSection() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full pt-8 pb-8 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 flex flex-col items-center gap-6 sm:gap-8">
 
-        {/* Heading block — centered */}
+        {/* Heading block — centered. Mobile: big logo on top + heading below. */}
         <div className="text-center max-w-4xl lg:max-w-5xl w-full order-1">
+          {/* Mobile only: big centered logo */}
+          <div className="sm:hidden flex justify-center mb-5">
+            <Image
+              src="/noBgWhite.png"
+              alt="Bester Urlaub"
+              width={260}
+              height={70}
+              priority
+              className="h-14 w-auto drop-shadow-lg"
+            />
+          </div>
           <div className="hidden sm:block text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-3">
-            Bester Urlaub
+            Urlaubs-Pakete · Handverlesen
           </div>
           <h1 className="text-[22px] sm:text-4xl lg:text-[3.25rem] xl:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.15] sm:leading-[1.1] drop-shadow-lg whitespace-normal px-1">
             <span className="block sm:inline sm:whitespace-nowrap">{content.title}</span>
@@ -313,39 +324,45 @@ export function HeroSection() {
         <div className="w-full max-w-5xl order-2 sm:order-3">
           {/* Mobile: two direct CTAs to Check24 with marketing hooks */}
           <div className="sm:hidden flex flex-col gap-3">
-            {/* Pauschalreisen — primary */}
+            {/* Pauschalreisen — primary with destination photo background */}
             <a
               href="https://p1168044s0m.urlaub.check24.net/?tid1=mobile-hero-pauschal&deviceoutput=mobile"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden active:scale-[0.98] transition-transform"
+              className="group relative rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.45)] overflow-hidden active:scale-[0.98] transition-transform min-h-[180px] flex flex-col justify-end"
             >
+              {/* Bg photo */}
+              <Image
+                src="/destinations/mauritius.webp"
+                alt=""
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 0"
+                priority
+              />
+              {/* Gradient scrim */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/20" />
+
               {/* Corner discount badge */}
-              <div className="absolute top-0 right-0 bg-[#ff6b35] text-white px-3 py-1.5 rounded-bl-xl text-[11px] font-extrabold tracking-wide shadow-lg shadow-[#ff6b35]/30">
+              <div className="absolute top-0 right-0 bg-[#ff6b35] text-white px-3 py-1.5 rounded-bl-xl text-[11px] font-extrabold tracking-wide shadow-lg shadow-[#ff6b35]/40 z-10">
                 BIS ZU 60% SPAREN
               </div>
 
-              <div className="p-5 pt-[52px]">
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ff6b35] to-[#e55a2b] flex items-center justify-center shrink-0 shadow-md shadow-[#ff6b35]/30">
-                    <Palmtree className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[18px] font-extrabold text-[#0a1a3a] leading-tight tracking-tight">Pauschalreisen</p>
-                    <p className="text-[13px] text-[#0a1a3a]/60 mt-0.5 leading-snug">Flug + Hotel im Paket. Fertig.</p>
-                  </div>
-                </div>
+              {/* Text content */}
+              <div className="relative p-5 pt-16">
+                <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-[#ff6b35] drop-shadow mb-1">Pauschalreisen</p>
+                <p className="text-[22px] font-extrabold text-white leading-tight tracking-tight drop-shadow-lg">Dein Traumurlaub.<br/>Alles inklusive.</p>
 
-                <div className="flex items-center justify-between pt-3 border-t border-[#0a1a3a]/5">
-                  <div className="flex items-center gap-3 text-[11px] text-[#0a1a3a]/55 font-medium">
-                    <span className="inline-flex items-center gap-1">
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center gap-2 text-[12px] text-white/85 font-semibold">
+                    <span className="inline-flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#34c759]" />
                       ab 199 €
                     </span>
-                    <span>·</span>
+                    <span className="text-white/40">·</span>
                     <span>Live-Preise</span>
                   </div>
-                  <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#ff6b35] text-white text-[13px] font-bold shadow-md shadow-[#ff6b35]/30">
+                  <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#ff6b35] text-white text-[13px] font-bold shadow-lg shadow-[#ff6b35]/40">
                     Jetzt sparen
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -355,36 +372,38 @@ export function HeroSection() {
               </div>
             </a>
 
-            {/* Mietwagen — secondary */}
+            {/* Mietwagen — secondary with car photo background */}
             <a
               href="https://p1168044s0.mietwagen.check24.net/?tid1=mobile-hero-mietwagen&tid2=223"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden active:scale-[0.98] transition-transform"
+              className="group relative rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.45)] overflow-hidden active:scale-[0.98] transition-transform min-h-[180px] flex flex-col justify-end"
             >
-              <div className="absolute top-0 right-0 bg-[#2e75fa] text-white px-3 py-1.5 rounded-bl-xl text-[11px] font-extrabold tracking-wide shadow-lg shadow-[#2e75fa]/30">
+              <Image
+                src="/destinations/mietwagen.webp"
+                alt=""
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 0"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/20" />
+
+              <div className="absolute top-0 right-0 bg-[#2e75fa] text-white px-3 py-1.5 rounded-bl-xl text-[11px] font-extrabold tracking-wide shadow-lg shadow-[#2e75fa]/40 z-10">
                 TÄGLICH AB 9 €
               </div>
 
-              <div className="p-5 pt-[52px]">
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#2e75fa] to-[#1e5ccf] flex items-center justify-center shrink-0 shadow-md shadow-[#2e75fa]/30">
-                    <Car className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[18px] font-extrabold text-[#0a1a3a] leading-tight tracking-tight">Mietwagen</p>
-                    <p className="text-[13px] text-[#0a1a3a]/60 mt-0.5 leading-snug">Über 700 Vermieter. Sofort buchbar.</p>
-                  </div>
-                </div>
+              <div className="relative p-5 pt-16">
+                <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-[#2e75fa] drop-shadow mb-1">Mietwagen</p>
+                <p className="text-[22px] font-extrabold text-white leading-tight tracking-tight drop-shadow-lg">Einsteigen.<br/>Losfahren.</p>
 
-                <div className="flex items-center justify-between pt-3 border-t border-[#0a1a3a]/5">
-                  <div className="flex items-center gap-3 text-[11px] text-[#0a1a3a]/55 font-medium">
-                    <span className="inline-flex items-center gap-1">
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center gap-2 text-[12px] text-white/85 font-semibold">
+                    <span className="inline-flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#34c759]" />
                       Kostenlos stornierbar
                     </span>
                   </div>
-                  <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#2e75fa] text-white text-[13px] font-bold shadow-md shadow-[#2e75fa]/30">
+                  <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#2e75fa] text-white text-[13px] font-bold shadow-lg shadow-[#2e75fa]/40">
                     Vergleichen
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -394,14 +413,16 @@ export function HeroSection() {
               </div>
             </a>
 
-            {/* Social proof strip below */}
-            <div className="flex items-center justify-center gap-2 mt-1 text-[11px] text-white/75">
-              <span className="flex -space-x-1.5">
-                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#e55a2b] border-2 border-[#0a1a3a]" />
-                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-[#2e75fa] to-[#1e5ccf] border-2 border-[#0a1a3a]" />
-                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-[#34c759] to-[#2aa34a] border-2 border-[#0a1a3a]" />
+            {/* Social proof strip with real photos */}
+            <div className="flex items-center justify-center gap-2.5 mt-1 text-[12px] text-white/80">
+              <span className="flex -space-x-2">
+                <Image src="/avatars/avatar-1.jpg" alt="" width={24} height={24} className="w-6 h-6 rounded-full border-2 border-[#0a1a3a] object-cover" />
+                <Image src="/avatars/avatar-2.jpg" alt="" width={24} height={24} className="w-6 h-6 rounded-full border-2 border-[#0a1a3a] object-cover" />
+                <Image src="/avatars/avatar-3.jpg" alt="" width={24} height={24} className="w-6 h-6 rounded-full border-2 border-[#0a1a3a] object-cover" />
               </span>
-              <span className="font-semibold">Über 12.000 Urlauber vertrauen uns</span>
+              <span>
+                <span className="font-bold text-white">12.000+</span> glückliche Urlauber
+              </span>
             </div>
           </div>
 

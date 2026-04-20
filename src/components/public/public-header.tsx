@@ -38,10 +38,15 @@ export function PublicHeader() {
   const searchRef = useRef<HTMLDivElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
+  const [mobileVisible, setMobileVisible] = useState(false)
+
   useEffect(() => {
     function onScroll() {
-      setScrolled(window.scrollY > 8)
+      const y = window.scrollY
+      setScrolled(y > 8)
+      setMobileVisible(y > window.innerHeight * 0.4)
     }
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -72,11 +77,11 @@ export function PublicHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-shadow duration-200 ${
-        scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm'
-          : 'bg-white'
-      }`}
+      className={`sticky top-0 z-50 w-full transition-all duration-300
+        sm:translate-y-0 sm:opacity-100
+        ${mobileVisible ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none sm:pointer-events-auto'}
+        ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-white'}
+      `}
       style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.06)' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
