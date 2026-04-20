@@ -1,12 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
-import { CATEGORY_DE_MAP } from '@/lib/public-constants'
-import { formatPrice } from '@/lib/utils'
-import { ArrowLeft, Shield } from 'lucide-react'
-import { AngebotTracker } from '@/components/public/angebot-tracker'
 import { AngebotTrackingPixel } from '@/components/public/angebot-redirect'
 import { CallbackModal } from '@/components/public/callback-modal'
 import { generateEventId, buildAffiliateLinkWithSubid } from '@/lib/affiliate-link'
@@ -45,86 +39,21 @@ export default async function AngebotPage({
   const eventId = generateEventId()
   const affiliateLinkWithSubid = buildAffiliateLinkWithSubid(offer.affiliateLink, eventId)
 
-  // New rich landing: shown for featured offers that have scraped hotelName.
-  // Legacy iframe fallback for offers without enriched data.
-  const hasRichData = Boolean(offer.hotelName && offer.featured)
-
-  if (hasRichData) {
-    const related = await prisma.offer.findMany({
-      where: {
-        featured: true,
-        id: { not: offer.id },
-        hotelName: { not: null },
-      },
-      include: { destination: true },
-      orderBy: { createdAt: 'desc' },
-      take: 4,
-    })
-    return (
-      <>
-        <AngebotTrackingPixel
-          offerId={offer.id}
-          offerTitle={offer.title}
-          priceFrom={offer.priceFrom}
-          eventId={eventId}
-        />
-        <CallbackModal offerId={offer.id} offerTitle={offer.title} />
-        <OfferDetailView
-          offer={{
-            id: offer.id,
-            title: offer.title,
-            hotelName: offer.hotelName,
-            hotelStars: offer.hotelStars,
-            board: offer.board,
-            nights: offer.nights,
-            adultsCount: offer.adultsCount,
-            departureFrom: offer.departureFrom,
-            dateFrom: offer.dateFrom,
-            dateTo: offer.dateTo,
-            region: offer.region,
-            rating: offer.rating,
-            reviews: offer.reviews,
-            priceFrom: offer.priceFrom,
-            priceStrike: offer.priceStrike,
-            discount: offer.discount,
-            limitedText: offer.limitedText,
-            gallery: offer.gallery || [],
-            amenities: offer.amenities || [],
-            description: offer.description,
-            longDescription: offer.longDescription,
-            destination: {
-              name: offer.destination.name,
-              country: offer.destination.country,
-              slug: offer.destination.slug,
-            },
-            affiliateLink: offer.affiliateLink,
-          }}
-          affiliateLinkWithSubid={affiliateLinkWithSubid}
-          related={related.map((r) => ({
-            id: r.id,
-            hotelName: r.hotelName,
-            title: r.title,
-            board: r.board,
-            nights: r.nights,
-            priceFrom: r.priceFrom,
-            priceStrike: r.priceStrike,
-            discount: r.discount,
-            destination: {
-              name: r.destination.name,
-              country: r.destination.country,
-              slug: r.destination.slug,
-            },
-          }))}
-        />
-      </>
-    )
-  }
-
-  // Legacy iframe fallback (non-featured offers)
-  const categoryLabel = CATEGORY_DE_MAP[offer.destination.category] || ''
+  // All offers now use the rich landing view (no more Check24 iframe embed).
+  // Iframe was bounced by X-Frame-Options on Check24 and burned affiliate attribution.
+  const related = await prisma.offer.findMany({
+    where: {
+      featured: true,
+      id: { not: offer.id },
+      hotelName: { not: null },
+    },
+    include: { destination: true },
+    orderBy: { createdAt: 'desc' },
+    take: 4,
+  })
 
   return (
-    <div className="flex flex-col h-screen">
+    <>
       <AngebotTrackingPixel
         offerId={offer.id}
         offerTitle={offer.title}
@@ -132,52 +61,53 @@ export default async function AngebotPage({
         eventId={eventId}
       />
       <CallbackModal offerId={offer.id} offerTitle={offer.title} />
-
-      <div className="bg-white border-b border-[#0a1a3a]/10 px-4 sm:px-6 py-3">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 min-w-0">
-            <Link href="/" className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60 hover:text-[#2e75fa] transition-colors shrink-0">
-              <ArrowLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Zurück</span>
-            </Link>
-            <div className="h-5 w-px bg-[#0a1a3a]/10 shrink-0" />
-            <div className="flex items-center gap-2 min-w-0">
-              <Image src="/symbol.svg" alt="Bester Urlaub" width={20} height={20} className="shrink-0" />
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-[#0a1a3a] truncate">{offer.title}</p>
-                <div className="flex items-center gap-2 text-xs text-[#0a1a3a]/50">
-                  <span>{offer.destination.name}, {offer.destination.country}</span>
-                  {categoryLabel && <><span>·</span><span>{categoryLabel}</span></>}
-                  {offer.priceFrom && <><span>·</span><span className="font-semibold text-[#2e75fa]">ab {formatPrice(offer.priceFrom)}</span></>}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="hidden sm:flex items-center gap-1.5 text-xs text-[#0a1a3a]/40">
-              <Shield className="w-3.5 h-3.5" />
-              <span>Buchung über Check24</span>
-            </div>
-            <AngebotTracker
-              offerId={offer.id}
-              offerTitle={offer.title}
-              priceFrom={offer.priceFrom}
-              affiliateLink={affiliateLinkWithSubid}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="flex-1 relative">
-        <iframe
-          src={affiliateLinkWithSubid}
-          className="absolute inset-0 w-full h-full border-0"
-          title={`${offer.title} — Check24 Buchung`}
-          sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
-          referrerPolicy="no-referrer-when-downgrade"
-          loading="eager"
-        />
-      </div>
-    </div>
+      <OfferDetailView
+        offer={{
+          id: offer.id,
+          title: offer.title,
+          hotelName: offer.hotelName,
+          hotelStars: offer.hotelStars,
+          board: offer.board,
+          nights: offer.nights,
+          adultsCount: offer.adultsCount,
+          departureFrom: offer.departureFrom,
+          dateFrom: offer.dateFrom,
+          dateTo: offer.dateTo,
+          region: offer.region,
+          rating: offer.rating,
+          reviews: offer.reviews,
+          priceFrom: offer.priceFrom,
+          priceStrike: offer.priceStrike,
+          discount: offer.discount,
+          limitedText: offer.limitedText,
+          gallery: offer.gallery || [],
+          amenities: offer.amenities || [],
+          description: offer.description,
+          longDescription: offer.longDescription,
+          destination: {
+            name: offer.destination.name,
+            country: offer.destination.country,
+            slug: offer.destination.slug,
+          },
+          affiliateLink: offer.affiliateLink,
+        }}
+        affiliateLinkWithSubid={affiliateLinkWithSubid}
+        related={related.map((r) => ({
+          id: r.id,
+          hotelName: r.hotelName,
+          title: r.title,
+          board: r.board,
+          nights: r.nights,
+          priceFrom: r.priceFrom,
+          priceStrike: r.priceStrike,
+          discount: r.discount,
+          destination: {
+            name: r.destination.name,
+            country: r.destination.country,
+            slug: r.destination.slug,
+          },
+        }))}
+      />
+    </>
   )
 }
