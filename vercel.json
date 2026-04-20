@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/cron/awin-sync",
+      "path": "/api/cron/check24-sync",
       "schedule": "0 6 * * *"
     }
   ]

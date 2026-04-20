@@ -25,7 +25,6 @@ const navItems = [
   { href: '/leads', label: 'Leads', icon: Mail },
   { href: '/analytics', label: 'Analytics', icon: Globe },
   { href: '/sales', label: 'Sales Check24', icon: Euro },
-  { href: '/awin', label: 'Awin', icon: Euro },
   { href: '/destinazioni', label: 'Destinazioni', icon: MapPin },
   { href: '/offerte', label: 'Offerte', icon: Tag },
   { href: '/offerte/suggerimenti', label: 'AI Suggerimenti', icon: MapPin },
