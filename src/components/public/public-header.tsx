@@ -77,9 +77,9 @@ export function PublicHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300
-        sm:translate-y-0 sm:opacity-100
-        ${mobileVisible ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none sm:pointer-events-auto'}
+      className={`fixed sm:sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300
+        sm:translate-y-0 sm:opacity-100 sm:pointer-events-auto sm:block
+        ${mobileVisible ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'}
         ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-white'}
       `}
       style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.06)' }}
