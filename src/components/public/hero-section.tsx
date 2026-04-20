@@ -349,25 +349,21 @@ export function HeroSection() {
               </div>
 
               {/* Text content */}
-              <div className="relative p-5 pt-16">
-                <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-[#ff6b35] drop-shadow mb-1">Pauschalreisen</p>
-                <p className="text-[22px] font-extrabold text-white leading-tight tracking-tight drop-shadow-lg">Dein Traumurlaub.<br/>Alles inklusive.</p>
+              <div className="relative p-4 pt-14">
+                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#ff6b35] drop-shadow mb-1">Pauschalreisen</p>
+                <p className="text-[20px] font-extrabold text-white leading-[1.1] tracking-tight drop-shadow-lg">Dein Traumurlaub.<br/>Alles inklusive.</p>
 
-                <div className="flex items-center justify-between mt-4">
-                  <div className="flex items-center gap-2 text-[12px] text-white/85 font-semibold">
-                    <span className="inline-flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#34c759]" />
-                      ab 199 €
-                    </span>
-                    <span className="text-white/40">·</span>
-                    <span>Live-Preise</span>
-                  </div>
-                  <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#ff6b35] text-white text-[13px] font-bold shadow-lg shadow-[#ff6b35]/40">
-                    Jetzt sparen
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <div className="flex items-center justify-between gap-3 mt-3">
+                  <span className="inline-flex items-center gap-1.5 text-[11px] text-white/85 font-semibold whitespace-nowrap">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#34c759] shrink-0" />
+                    ab 199 €
+                  </span>
+                  <span className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-[#ff6b35] text-white text-[12px] font-bold shadow-md shadow-[#ff6b35]/40 whitespace-nowrap shrink-0">
+                    Sparen
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
-                  </div>
+                  </span>
                 </div>
               </div>
             </a>
@@ -383,7 +379,7 @@ export function HeroSection() {
                 src="/destinations/mietwagen.webp"
                 alt=""
                 fill
-                className="object-cover"
+                className="object-cover object-[center_25%]"
                 sizes="(max-width: 640px) 100vw, 0"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/20" />
@@ -392,23 +388,21 @@ export function HeroSection() {
                 TÄGLICH AB 9 €
               </div>
 
-              <div className="relative p-5 pt-16">
-                <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-[#2e75fa] drop-shadow mb-1">Mietwagen</p>
-                <p className="text-[22px] font-extrabold text-white leading-tight tracking-tight drop-shadow-lg">Einsteigen.<br/>Losfahren.</p>
+              <div className="relative p-4 pt-14">
+                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#2e75fa] drop-shadow mb-1">Mietwagen</p>
+                <p className="text-[20px] font-extrabold text-white leading-[1.1] tracking-tight drop-shadow-lg">Einsteigen.<br/>Losfahren.</p>
 
-                <div className="flex items-center justify-between mt-4">
-                  <div className="flex items-center gap-2 text-[12px] text-white/85 font-semibold">
-                    <span className="inline-flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#34c759]" />
-                      Kostenlos stornierbar
-                    </span>
-                  </div>
-                  <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#2e75fa] text-white text-[13px] font-bold shadow-lg shadow-[#2e75fa]/40">
+                <div className="flex items-center justify-between gap-3 mt-3">
+                  <span className="inline-flex items-center gap-1.5 text-[11px] text-white/85 font-semibold whitespace-nowrap">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#34c759] shrink-0" />
+                    Frei stornierbar
+                  </span>
+                  <span className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-[#2e75fa] text-white text-[12px] font-bold shadow-md shadow-[#2e75fa]/40 whitespace-nowrap shrink-0">
                     Vergleichen
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
-                  </div>
+                  </span>
                 </div>
               </div>
             </a>

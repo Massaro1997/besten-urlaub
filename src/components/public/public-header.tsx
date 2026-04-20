@@ -126,7 +126,9 @@ export function PublicHeader() {
 
               {/* Search dropdown */}
               {searchOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] w-[320px] sm:w-[380px] bg-white rounded-2xl shadow-[0_12px_40px_-8px_rgba(0,0,0,0.15)] border border-[#0a1a3a]/5 overflow-hidden z-50">
+                <>
+                  <div className="fixed inset-0 z-40 sm:hidden bg-black/20 backdrop-blur-[2px]" onClick={() => setSearchOpen(false)} />
+                <div className="fixed sm:absolute left-3 right-3 top-[64px] sm:left-auto sm:right-0 sm:top-[calc(100%+8px)] sm:w-[380px] bg-white rounded-2xl shadow-[0_12px_40px_-8px_rgba(0,0,0,0.25)] border border-[#0a1a3a]/5 overflow-hidden z-50">
                   <div className="p-3">
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#0a1a3a]/30" />
@@ -172,6 +174,7 @@ export function PublicHeader() {
                     )}
                   </div>
                 </div>
+                </>
               )}
             </div>
 
