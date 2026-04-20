@@ -573,10 +573,10 @@ export function HeroSection() {
         .ui-datepicker .ui-datepicker-header,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-header {
           background: transparent !important; border: none !important; border-radius: 0 !important;
-          padding: 4px 44px 14px !important; margin: 0 0 10px 0 !important;
+          padding: 2px 40px 10px !important; margin: 0 0 6px 0 !important;
           color: #0a1a3a !important;
           position: relative !important;
-          min-height: 40px !important;
+          min-height: 36px !important;
           display: block !important;
           border-bottom: 1px solid rgba(10,26,58,0.06) !important;
         }
@@ -585,18 +585,19 @@ export function HeroSection() {
           color: #0a1a3a !important; cursor: pointer !important;
         }
 
-        /* Prev/Next arrows */
+        /* Prev/Next arrows — fully round, clear hit target */
         .ui-datepicker .ui-datepicker-prev,
         .ui-datepicker .ui-datepicker-next,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-next {
           position: absolute !important;
-          width: 36px !important; height: 36px !important; top: 0 !important;
+          width: 34px !important; height: 34px !important; top: 1px !important;
           transform: none !important; border: none !important;
-          background: rgba(10,26,58,0.04) !important; border-radius: 10px !important;
+          background: rgba(10,26,58,0.05) !important;
+          border-radius: 50% !important;
           cursor: pointer !important;
           display: flex !important; align-items: center !important; justify-content: center !important;
-          transition: background 120ms, transform 120ms !important;
+          transition: background 150ms, transform 100ms !important;
         }
         .ui-datepicker .ui-datepicker-prev:hover,
         .ui-datepicker .ui-datepicker-next:hover,
@@ -649,13 +650,23 @@ export function HeroSection() {
           border-right-color: #ffffff !important; border-top-color: #ffffff !important;
         }
 
-        /* Title (month year) */
+        /* Title (month year) — tighter tracking, compact */
         .ui-datepicker .ui-datepicker-title,
         .c24pp1.c24pp2.c24pp3 .ui-datepicker-title {
-          color: #0a1a3a !important; font-weight: 700 !important; font-size: 15px !important;
-          text-align: center !important; margin: 0 !important; padding: 8px 0 !important;
+          color: #0a1a3a !important; font-weight: 700 !important; font-size: 14px !important;
+          text-align: center !important; margin: 0 !important; padding: 7px 0 !important;
           line-height: 20px !important;
-          letter-spacing: -0.01em !important;
+          letter-spacing: -0.02em !important;
+        }
+        .ui-datepicker .ui-datepicker-title select,
+        .c24pp1.c24pp2.c24pp3 .ui-datepicker-title select {
+          font-size: 14px !important; font-weight: 700 !important;
+          letter-spacing: -0.02em !important;
+          color: #0a1a3a !important;
+          border: none !important; background: transparent !important;
+          padding: 0 2px !important; margin: 0 !important;
+          cursor: pointer !important;
+          appearance: none !important;
         }
 
         /* Table */
