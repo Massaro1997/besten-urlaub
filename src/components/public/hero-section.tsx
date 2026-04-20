@@ -305,40 +305,53 @@ export function HeroSection() {
 
         {/* Widget card — tabs integrated as header; on mobile appears above chips */}
         <div className="w-full max-w-5xl order-2 sm:order-3">
-          {/* Mobile trigger — card sits above backdrop, tap opens fullscreen */}
-          <div
-            onClick={() => setFullscreen(true)}
-            className={`c24-hero-card-mobile-trigger sm:hidden bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden cursor-pointer ${fullscreen ? 'invisible' : ''}`}
-          >
-            <div className="flex border-b border-[rgba(10,26,58,0.06)]">
-              {TABS.map((tab) => (
-                <div
-                  key={tab.key}
-                  className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-semibold ${
-                    activeTab === tab.key
-                      ? 'text-[#0a1a3a] border-b-2 border-[#ff6b35]'
-                      : 'text-[rgba(10,26,58,0.5)] border-b-2 border-transparent'
-                  }`}
-                >
-                  <tab.icon className="w-4 h-4" />
-                  <span>{tab.label}</span>
+          {/* Mobile: direct CTA buttons to Check24 (no embedded widget, which had UX issues) */}
+          <div className="sm:hidden flex flex-col gap-3">
+            <a
+              href="https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=mobile-hero-pauschal&target_url=https%3A%2F%2Fwww.check24.net%2Fpauschalreisen-vergleich%2F%3Fpid%3D1168044%26tid%3Dmobile-hero-pauschal"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] p-5 flex items-center justify-between active:scale-[0.98] transition-transform"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-11 h-11 rounded-full bg-[#ff6b35]/10 flex items-center justify-center shrink-0">
+                  <Palmtree className="w-5 h-5 text-[#ff6b35]" />
                 </div>
-              ))}
-            </div>
-            <div className="px-5 py-6 flex items-center justify-between">
-              <div>
-                <p className="text-[15px] font-semibold text-[#0a1a3a]">Reise finden</p>
-                <p className="text-xs text-[#0a1a3a]/55 mt-0.5">Tippe zum Suchen</p>
+                <div className="min-w-0">
+                  <p className="text-[16px] font-bold text-[#0a1a3a] leading-tight">Pauschalreisen</p>
+                  <p className="text-[12px] text-[#0a1a3a]/55 mt-0.5">Flug + Hotel vergleichen</p>
+                </div>
               </div>
-              <div className="w-10 h-10 rounded-full bg-[#ff6b35] flex items-center justify-center shrink-0">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
+              <div className="w-9 h-9 rounded-full bg-[#ff6b35] flex items-center justify-center shrink-0 shadow-md shadow-[#ff6b35]/30 group-active:scale-90 transition-transform">
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </div>
+            </a>
+            <a
+              href="https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=mobile-hero-mietwagen&target_url=https%3A%2F%2Fwww.check24.net%2Fmietwagen-preisvergleich%2F%3Fpid%3D1168044%26tid%3Dmobile-hero-mietwagen"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] p-5 flex items-center justify-between active:scale-[0.98] transition-transform"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-11 h-11 rounded-full bg-[#2e75fa]/10 flex items-center justify-center shrink-0">
+                  <Car className="w-5 h-5 text-[#2e75fa]" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[16px] font-bold text-[#0a1a3a] leading-tight">Mietwagen</p>
+                  <p className="text-[12px] text-[#0a1a3a]/55 mt-0.5">Günstig weltweit buchen</p>
+                </div>
+              </div>
+              <div className="w-9 h-9 rounded-full bg-[#2e75fa] flex items-center justify-center shrink-0 shadow-md shadow-[#2e75fa]/30 group-active:scale-90 transition-transform">
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
           </div>
 
-          {/* Desktop card + mobile fullscreen overlay container */}
+          {/* Desktop card (hidden on mobile now) */}
           <div
             className={`c24-hero-card bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden
               ${fullscreen ? 'fixed inset-0 z-[110] rounded-none flex flex-col' : 'hidden sm:block'}
