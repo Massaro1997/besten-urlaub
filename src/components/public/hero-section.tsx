@@ -19,6 +19,7 @@ const HERO_CONTENT: Record<string, { title: string; subtitle: string }> = {
 export function HeroSection() {
   const [activeTab, setActiveTab] = useState<TabKey>('pauschalreisen')
   const [showInfo, setShowInfo] = useState<string | null>(null)
+  const [fullscreen, setFullscreen] = useState(false)
   const pauschalLoaded = useRef(false)
   const mietwagenLoaded = useRef(false)
 
@@ -55,6 +56,14 @@ export function HeroSection() {
     document.body.appendChild(script)
     mietwagenLoaded.current = true
   }, [])
+
+  // Lock body scroll when fullscreen mobile
+  useEffect(() => {
+    if (!fullscreen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
+  }, [fullscreen])
 
   useEffect(() => {
     loadPauschalWidget()
@@ -227,9 +236,47 @@ export function HeroSection() {
 
         {/* Widget card — tabs integrated as header; on mobile appears above chips */}
         <div className="w-full max-w-5xl order-2 sm:order-3">
-          <div className="c24-hero-card bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden">
-            {/* Tabs row (inside card) */}
+          {/* Mobile trigger — card sits above backdrop, tap opens fullscreen */}
+          <div
+            onClick={() => setFullscreen(true)}
+            className={`c24-hero-card-mobile-trigger sm:hidden bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden cursor-pointer ${fullscreen ? 'invisible' : ''}`}
+          >
             <div className="flex border-b border-[rgba(10,26,58,0.06)]">
+              {TABS.map((tab) => (
+                <div
+                  key={tab.key}
+                  className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-semibold ${
+                    activeTab === tab.key
+                      ? 'text-[#0a1a3a] border-b-2 border-[#ff6b35]'
+                      : 'text-[rgba(10,26,58,0.5)] border-b-2 border-transparent'
+                  }`}
+                >
+                  <tab.icon className="w-4 h-4" />
+                  <span>{tab.label}</span>
+                </div>
+              ))}
+            </div>
+            <div className="px-5 py-6 flex items-center justify-between">
+              <div>
+                <p className="text-[15px] font-semibold text-[#0a1a3a]">Reise finden</p>
+                <p className="text-xs text-[#0a1a3a]/55 mt-0.5">Tippe zum Suchen</p>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-[#ff6b35] flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop card + mobile fullscreen overlay container */}
+          <div
+            className={`c24-hero-card bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.35)] overflow-hidden
+              ${fullscreen ? 'fixed inset-0 z-[110] rounded-none flex flex-col' : 'hidden sm:block'}
+            `}
+          >
+            {/* Tabs row (inside card) */}
+            <div className="flex border-b border-[rgba(10,26,58,0.06)] shrink-0">
               {TABS.map((tab) => (
                 <button
                   key={tab.key}
@@ -245,15 +292,27 @@ export function HeroSection() {
                   <span>{tab.label}</span>
                 </button>
               ))}
+              {fullscreen && (
+                <button
+                  type="button"
+                  aria-label="Schliessen"
+                  onClick={() => setFullscreen(false)}
+                  className="shrink-0 w-12 flex items-center justify-center text-[#0a1a3a]/55 hover:text-[#0a1a3a]"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
             </div>
 
-            {/* Widget bodies (share same card) */}
-            <div className={`c24-hero-widget ${activeTab === 'pauschalreisen' ? '' : 'hidden'}`}>
-              <div id="c24pp-package-widget63276" data-target="_self" data-whitelabel="yes"
-                data-form="https://www.besterurlaub.com/pauschalreisen" data-tid="HERO01" />
+            {/* Widget bodies (share same card) — submit directly to Check24 in a new tab, no intermediate page */}
+            <div className={`c24-hero-widget ${fullscreen ? 'flex-1 overflow-y-auto' : ''} ${activeTab === 'pauschalreisen' ? '' : 'hidden'}`}>
+              <div id="c24pp-package-widget63276" data-target="_blank" data-whitelabel="yes"
+                data-form="https://www.check24.net/pauschalreisen-vergleich/" data-tid="HERO01" />
             </div>
-            <div className={`c24-mietwagen-widget ${activeTab === 'mietwagen' ? '' : 'hidden'}`}>
-              <div id="c24pp-rentalcar-widget78419" data-target="_self" data-whitelabel="yes"
+            <div className={`c24-mietwagen-widget ${fullscreen ? 'flex-1 overflow-y-auto' : ''} ${activeTab === 'mietwagen' ? '' : 'hidden'}`}>
+              <div id="c24pp-rentalcar-widget78419" data-target="_blank" data-whitelabel="yes"
                 data-form="https://www.check24.net/mietwagen-preisvergleich/" style={{ width: '100%', minHeight: 100 }} />
             </div>
           </div>
