@@ -16,8 +16,57 @@ export function generateEventId(): string {
   return `${ts}-${rand}`
 }
 
+const AWIN_AFFID = '2837966'
+const AWIN_CHECK24_MID = '9364'
+
 /**
- * Appends a subid + utm parameters to a Check24 affiliate link.
+ * Wrap a Check24 target URL (or any target) into an Awin affiliate deeplink.
+ * Awin passes `clickref` back to us in the postback — we use it as our subid.
+ *
+ *   https://www.awin1.com/cread.php?awinmid=9364&awinaffid=2837966&clickref=<eventId>&ued=<encoded target>
+ */
+export function buildAwinLink(targetUrl: string, eventId: string): string {
+  const params = new URLSearchParams()
+  params.set('awinmid', AWIN_CHECK24_MID)
+  params.set('awinaffid', AWIN_AFFID)
+  params.set('clickref', eventId)
+  params.set('ued', targetUrl)
+  return `https://www.awin1.com/cread.php?${params.toString()}`
+}
+
+/**
+ * Detects if a stored affiliate link is an Awin wrapper.
+ */
+export function isAwinLink(link: string): boolean {
+  return /awin1\.com\/(c|aw)read|awinaffid=/i.test(link)
+}
+
+/**
+ * Extracts the inner Check24 target URL from any affiliate wrapper
+ * (Awin `ued`, or Check24 `a.check24.net/misc/click.php?target_url=`).
+ * Returns null if the input is already a direct Check24 URL.
+ */
+export function extractCheck24Target(link: string): string | null {
+  try {
+    const url = new URL(link)
+    if (url.hostname.includes('awin1.com')) {
+      const ued = url.searchParams.get('ued')
+      return ued ? decodeURIComponent(ued) : null
+    }
+    if (url.hostname.includes('a.check24.net')) {
+      const target = url.searchParams.get('target_url')
+      return target ? decodeURIComponent(target) : null
+    }
+    return null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Appends a subid to an affiliate link.
+ * For Awin links → overwrites `clickref`.
+ * For legacy direct Check24 links → sets `subid` / `sub_id` / `deepId` on the wrapper URL.
  */
 export function buildAffiliateLinkWithSubid(
   baseLink: string,
@@ -25,6 +74,14 @@ export function buildAffiliateLinkWithSubid(
 ): string {
   try {
     const url = new URL(baseLink)
+
+    // Awin wrapper — overwrite clickref
+    if (url.hostname.includes('awin1.com')) {
+      url.searchParams.set('clickref', eventId)
+      return url.toString()
+    }
+
+    // Legacy Check24 direct
     url.searchParams.set('subid', eventId)
     url.searchParams.set('sub_id', eventId)
     url.searchParams.set('deepId', eventId)

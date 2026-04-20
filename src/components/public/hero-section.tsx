@@ -326,7 +326,7 @@ export function HeroSection() {
           <div className="sm:hidden flex flex-col gap-3">
             {/* Pauschalreisen — primary with destination photo background */}
             <a
-              href="https://p1168044s0m.urlaub.check24.net/?tid1=mobile-hero-pauschal&deviceoutput=mobile"
+              href="https://www.awin1.com/cread.php?awinmid=9364&awinaffid=2837966&clickref=mobile-hero-pauschal&ued=https%3A%2F%2Fp1168044s0m.urlaub.check24.net%2F%3Ftid1%3Dmobile-hero-pauschal%26deviceoutput%3Dmobile"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.45)] overflow-hidden active:scale-[0.98] transition-transform min-h-[180px] flex flex-col justify-end"
@@ -370,7 +370,7 @@ export function HeroSection() {
 
             {/* Mietwagen — secondary with car photo background */}
             <a
-              href="https://p1168044s0.mietwagen.check24.net/?tid1=mobile-hero-mietwagen&tid2=223"
+              href="https://www.awin1.com/cread.php?awinmid=9364&awinaffid=2837966&clickref=mobile-hero-mietwagen&ued=https%3A%2F%2Fp1168044s0.mietwagen.check24.net%2F%3Ftid1%3Dmobile-hero-mietwagen%26tid2%3D223"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.45)] overflow-hidden active:scale-[0.98] transition-transform min-h-[180px] flex flex-col justify-end"
