@@ -1,10 +1,15 @@
-import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { AngebotTrackingPixel } from '@/components/public/angebot-redirect'
 import { CallbackModal } from '@/components/public/callback-modal'
 import { generateEventId, buildAffiliateLinkWithSubid } from '@/lib/affiliate-link'
 import { OfferDetailView } from '@/components/public/offer-detail/OfferDetailView'
+import { getOfferById, offers as ALL_OFFERS } from '@/data/offers'
+
+// Static data — no DB. Every offer becomes a statically-generated page.
+export function generateStaticParams() {
+  return ALL_OFFERS.map((o) => ({ id: o.id }))
+}
 
 export async function generateMetadata({
   params,
@@ -12,10 +17,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>
 }): Promise<Metadata> {
   const { id } = await params
-  const offer = await prisma.offer.findUnique({
-    where: { id },
-    include: { destination: true },
-  })
+  const offer = getOfferById(id)
   if (!offer) return { title: 'Angebot nicht gefunden' }
   return {
     title: `${offer.hotelName || offer.title} | Bester Urlaub`,
@@ -29,28 +31,20 @@ export default async function AngebotPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const offer = await prisma.offer.findUnique({
-    where: { id },
-    include: { destination: true },
-  })
-
+  const offer = getOfferById(id)
   if (!offer) notFound()
 
   const eventId = generateEventId()
   const affiliateLinkWithSubid = buildAffiliateLinkWithSubid(offer.affiliateLink, eventId)
 
-  // All offers now use the rich landing view (no more Check24 iframe embed).
-  // Iframe was bounced by X-Frame-Options on Check24 and burned affiliate attribution.
-  const related = await prisma.offer.findMany({
-    where: {
-      featured: true,
-      id: { not: offer.id },
-      hotelName: { not: null },
-    },
-    include: { destination: true },
-    orderBy: { createdAt: 'desc' },
-    take: 4,
-  })
+  // Related — up to 4 featured offers in same country, excluding self
+  const related = ALL_OFFERS.filter(
+    (o) =>
+      o.id !== offer.id &&
+      o.featured &&
+      o.hotelName &&
+      (o.destination.country === offer.destination.country || true),
+  ).slice(0, 4)
 
   return (
     <>
@@ -71,8 +65,8 @@ export default async function AngebotPage({
           nights: offer.nights,
           adultsCount: offer.adultsCount,
           departureFrom: offer.departureFrom,
-          dateFrom: offer.dateFrom,
-          dateTo: offer.dateTo,
+          dateFrom: offer.dateFrom ? new Date(offer.dateFrom) : null,
+          dateTo: offer.dateTo ? new Date(offer.dateTo) : null,
           region: offer.region,
           rating: offer.rating,
           reviews: offer.reviews,

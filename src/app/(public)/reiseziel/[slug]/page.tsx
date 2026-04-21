@@ -1,13 +1,18 @@
-export const dynamic = 'force-dynamic'
-
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ChevronRight } from 'lucide-react'
-import { prisma } from '@/lib/prisma'
 import { PublicOfferCard } from '@/components/public/public-offer-card'
 import { CATEGORY_DE_MAP } from '@/lib/public-constants'
+import { destinations as ALL_DESTINATIONS, getDestinationBySlug } from '@/data/destinations'
+import { getOffersByDestinationSlug } from '@/data/offers'
+
+export function generateStaticParams() {
+  return ALL_DESTINATIONS
+    .filter((d) => d.slug)
+    .map((d) => ({ slug: d.slug! }))
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -19,7 +24,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const dest = await prisma.destination.findUnique({ where: { slug } })
+  const dest = getDestinationBySlug(slug)
 
   if (!dest) {
     return { title: 'Reiseziel nicht gefunden | Bester Urlaub' }
@@ -47,24 +52,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function DestinationPage({ params }: PageProps) {
   const { slug } = await params
 
-  const destination = await prisma.destination.findUnique({
-    where: { slug },
-    include: {
-      offers: {
-        orderBy: { createdAt: 'desc' },
-      },
-    },
-  })
+  const destination = getDestinationBySlug(slug)
+  if (!destination) notFound()
 
-  if (!destination) {
-    notFound()
-  }
+  const destOffers = getOffersByDestinationSlug(slug)
 
   const categoryLabel = CATEGORY_DE_MAP[destination.category]
   const heroImage = `/destinations/${destination.slug}.webp`
 
   // Shape each offer to match what PublicOfferCard expects
-  const offersForCards = destination.offers.map((offer) => ({
+  const offersForCards = destOffers.map((offer) => ({
     id: offer.id,
     title: offer.title,
     priceFrom: offer.priceFrom,

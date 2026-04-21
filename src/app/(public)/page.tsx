@@ -1,8 +1,6 @@
-export const dynamic = 'force-dynamic'
-
+// Static data — no DB queries, page is statically rendered + cached by Next
 import Link from 'next/link'
 import Image from 'next/image'
-import { prisma } from '@/lib/prisma'
 import { HeroSection } from '@/components/public/hero-section'
 import { DestinationGrid } from '@/components/public/destination-grid'
 import { TikTokFeed } from '@/components/public/tiktok-feed'
@@ -13,60 +11,48 @@ import { TrackedOfferLink } from '@/components/public/tracked-offer-link'
 import { PhoneCtaSection } from '@/components/public/phone-cta-section'
 import { CallbackModal } from '@/components/public/callback-modal'
 import { extractOfferDates, formatOfferDateRange } from '@/lib/offer-dates'
+import { getFeaturedOffers, offers as ALL_OFFERS } from '@/data/offers'
+import { destinations as ALL_DESTINATIONS } from '@/data/destinations'
 
-export default async function HomePage() {
-  const [featuredOffers, popularDestinations] = await Promise.all([
-    prisma.offer.findMany({
-      where: { featured: true },
-      include: {
-        destination: {
-          select: {
-            id: true,
-            name: true,
-            country: true,
-            category: true,
-            slug: true,
-          },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-    }),
-    prisma.destination.findMany({
-      where: { slug: { not: null }, offers: { some: {} } },
-      include: { _count: { select: { offers: true } } },
-      orderBy: { offers: { _count: 'desc' } },
-      take: 8,
-    }),
-  ])
+export default function HomePage() {
+  const featured = getFeaturedOffers()
 
-  // Narrow slug to string for the public components (DB has slug as String?)
-  const toTyped = (o: (typeof featuredOffers)[number]) => ({
-    id: o.id,
-    title: o.title,
-    priceFrom: o.priceFrom,
-    affiliateLink: o.affiliateLink,
-    description: o.description,
-    destination: {
-      name: o.destination.name,
-      country: o.destination.country,
-      category: o.destination.category,
-      slug: o.destination.slug as string,
-    },
-  })
+  // Count offers per destination slug
+  const counts = new Map<string, number>()
+  for (const o of ALL_OFFERS) {
+    const slug = o.destination.slug
+    if (slug) counts.set(slug, (counts.get(slug) || 0) + 1)
+  }
 
-  const typedFeatured = featuredOffers
+  // Top 8 destinations by offer count (only those with a slug + at least 1 offer)
+  const popularDestinations = ALL_DESTINATIONS
+    .filter((d) => d.slug && (counts.get(d.slug) || 0) > 0)
+    .sort((a, b) => (counts.get(b.slug!) || 0) - (counts.get(a.slug!) || 0))
+    .slice(0, 8)
+
+  const typedFeatured = featured
     .filter((o) => o.destination.slug !== null)
-    .map(toTyped)
-
-  const typedDestinations = popularDestinations
-    .filter((d) => d.slug !== null)
-    .map((d) => ({
-      name: d.name,
-      country: d.country,
-      category: d.category,
-      slug: d.slug as string,
-      _count: d._count,
+    .map((o) => ({
+      id: o.id,
+      title: o.title,
+      priceFrom: o.priceFrom,
+      affiliateLink: o.affiliateLink,
+      description: o.description,
+      destination: {
+        name: o.destination.name,
+        country: o.destination.country,
+        category: o.destination.category,
+        slug: o.destination.slug as string,
+      },
     }))
+
+  const typedDestinations = popularDestinations.map((d) => ({
+    name: d.name,
+    country: d.country,
+    category: d.category,
+    slug: d.slug as string,
+    _count: { offers: counts.get(d.slug!) || 0 },
+  }))
 
   return (
     <>

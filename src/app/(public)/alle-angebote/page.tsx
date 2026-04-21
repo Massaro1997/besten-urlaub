@@ -1,31 +1,14 @@
-export const dynamic = 'force-dynamic'
-
 import type { Metadata } from 'next'
-import { prisma } from '@/lib/prisma'
 import { OffersSection } from '@/components/public/offers-section'
+import { offers as ALL_OFFERS } from '@/data/offers'
 
 export const metadata: Metadata = {
   title: 'Alle Angebote | Bester Urlaub',
   description: 'Alle Urlaubsangebote im Überblick. Vergleiche Pauschalreisen und buche direkt.',
 }
 
-export default async function AlleAngebotePage() {
-  const offers = await prisma.offer.findMany({
-    include: {
-      destination: {
-        select: {
-          id: true,
-          name: true,
-          country: true,
-          category: true,
-          slug: true,
-        },
-      },
-    },
-    orderBy: { createdAt: 'desc' },
-  })
-
-  const typedOffers = offers
+export default function AlleAngebotePage() {
+  const typedOffers = ALL_OFFERS
     .filter((o) => o.destination.slug !== null)
     .map((o) => ({
       id: o.id,
