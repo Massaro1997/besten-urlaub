@@ -184,6 +184,9 @@ export async function fetchVideoList(accessToken: string, cursor = 0): Promise<{
   cursor: number
   has_more: boolean
 }> {
+  // Only fields supported by /v2/video/list/. Advanced metrics
+  // (reach, avg_watch_time, completion_rate) require a separate
+  // Research/Insights API and are not exposed via the basic video list.
   const fields = [
     'id',
     'title',
@@ -197,9 +200,6 @@ export async function fetchVideoList(accessToken: string, cursor = 0): Promise<{
     'like_count',
     'comment_count',
     'share_count',
-    'reach',
-    'avg_watch_time',
-    'completion_rate',
   ].join(',')
   const res = await fetch(
     `https://open.tiktokapis.com/v2/video/list/?fields=${fields}`,
