@@ -152,10 +152,13 @@ export async function fetchUserInfo(accessToken: string): Promise<UserInfo> {
     headers: { Authorization: `Bearer ${accessToken}` },
   })
   const json = await res.json()
-  if (!res.ok || json.error?.code) {
+  // v2 returns error: { code: "ok", ... } even on success — check for real error codes
+  const errCode = json.error?.code
+  const isError = errCode && errCode !== 'ok' && errCode !== 0 && errCode !== '0'
+  if (!res.ok || isError || !json.data?.user) {
     throw new Error(`TikTok user info failed: ${JSON.stringify(json)}`)
   }
-  return json.data?.user
+  return json.data.user
 }
 
 interface VideoRow {
@@ -210,7 +213,9 @@ export async function fetchVideoList(accessToken: string, cursor = 0): Promise<{
     },
   )
   const json = await res.json()
-  if (!res.ok || json.error?.code) {
+  const errCode = json.error?.code
+  const isError = errCode && errCode !== 'ok' && errCode !== 0 && errCode !== '0'
+  if (!res.ok || isError) {
     throw new Error(`TikTok video list failed: ${JSON.stringify(json)}`)
   }
   return {

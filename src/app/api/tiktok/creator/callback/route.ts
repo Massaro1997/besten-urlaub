@@ -34,8 +34,9 @@ export async function GET(request: NextRequest) {
     const tok = await exchangeCreatorCode(code)
     const user = await fetchUserInfo(tok.access_token)
 
-    const openId = user.open_id
-    if (!openId) throw new Error('Missing open_id')
+    // open_id comes from token response (always present) — fallback to user info
+    const openId = tok.open_id || user.open_id
+    if (!openId) throw new Error(`Missing open_id. Token: ${JSON.stringify(tok)}, User: ${JSON.stringify(user)}`)
 
     await prisma.tikTokToken.upsert({
       where: { flow_accountKey: { flow: 'creator', accountKey: openId } },
