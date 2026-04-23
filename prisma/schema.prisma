@@ -325,6 +325,70 @@ model Lead {
   @@index([source])
 }
 
+/// OAuth token store for TikTok Developer App.
+/// Two flows: "advertiser" (Marketing API scope) and "creator" (TikTok-for-Developers scope).
+/// One row per (flow, account). Upsert on refresh.
+model TikTokToken {
+  id           String   @id @default(cuid())
+  flow         String   // "advertiser" | "creator"
+  accountKey   String   // advertiser_id (flow=advertiser) or open_id (flow=creator)
+  accessToken  String
+  refreshToken String?
+  expiresAt    DateTime
+  scope        String?  // space-separated or comma-separated, as returned
+  rawGrant     Json?    // full token response for debugging
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([flow, accountKey])
+  @@index([flow])
+}
+
+/// Snapshot of our own TikTok videos pulled via Creator API (video.list + video.insights).
+/// One row per video id. Upsert on every refresh. Distinct from OwnTikTokVideo which is scraped.
+model TikTokCreatorVideo {
+  id              String   @id          // TikTok video id
+  openId          String                // creator flow account key
+  title           String?
+  description     String?
+  coverUrl        String?
+  videoUrl        String?
+  shareUrl        String?
+  duration        Int?                  // seconds
+  createTime      DateTime
+  viewCount       BigInt   @default(0)
+  likeCount       BigInt   @default(0)
+  commentCount    BigInt   @default(0)
+  shareCount      BigInt   @default(0)
+  reach           BigInt?
+  avgWatchTime    Float?                // seconds
+  completionRate  Float?                // 0..1
+  engagementRate  Float?
+  lastRefreshedAt DateTime @default(now())
+
+  @@index([openId])
+  @@index([createTime])
+  @@index([viewCount])
+}
+
+/// Account-level insights snapshot (follower count, audience demos).
+/// One row per day per account, for historical charts.
+model TikTokCreatorInsight {
+  id              String   @id @default(cuid())
+  openId          String
+  date            DateTime // UTC midnight
+  followerCount   Int      @default(0)
+  followingCount  Int      @default(0)
+  likesCount      BigInt   @default(0)
+  videoCount      Int      @default(0)
+  profileViews    Int?
+  audienceJson    Json?    // age/gender/country/city breakdown
+  createdAt       DateTime @default(now())
+
+  @@unique([openId, date])
+  @@index([openId])
+}
+
 /// Daily TikTok Ads spend snapshot — manual input from Ads Manager until Reporting API is wired up.
 /// One row per day (UTC). Lets us compute CPA / ROAS in the tracking dashboard.
 model AdSpend {

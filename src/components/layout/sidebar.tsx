@@ -30,6 +30,7 @@ const navItems = [
   { href: '/offerte/suggerimenti', label: 'AI Suggerimenti', icon: MapPin },
   { href: '/contenuti', label: 'Contenuti TikTok', icon: Video },
   { href: '/tiktok-intel', label: 'TikTok Intel', icon: TrendingUp },
+  { href: '/tiktok-organic', label: 'TikTok Organic', icon: Video },
   { href: '/creativi', label: 'Creativi', icon: Palette },
   { href: '/impostazioni', label: 'Impostazioni', icon: Settings },
 ]
