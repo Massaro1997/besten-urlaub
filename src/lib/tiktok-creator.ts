@@ -75,7 +75,10 @@ interface TokenResponse {
 export async function exchangeCreatorCode(code: string): Promise<TokenResponse> {
   const res = await fetch('https://open.tiktokapis.com/v2/oauth/token/', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Cache-Control': 'no-cache',
+    },
     body: new URLSearchParams({
       client_key: TIKTOK_APP_ID,
       client_secret: TIKTOK_APP_SECRET,
@@ -84,11 +87,21 @@ export async function exchangeCreatorCode(code: string): Promise<TokenResponse> 
       redirect_uri: CREATOR_REDIRECT_URI,
     }),
   })
-  const json = await res.json()
-  if (!res.ok || json.error) {
-    throw new Error(`TikTok token exchange failed: ${JSON.stringify(json)}`)
+  const text = await res.text()
+  let json: Record<string, unknown> = {}
+  try {
+    json = JSON.parse(text)
+  } catch {
+    throw new Error(`TikTok token exchange non-JSON (${res.status}): ${text}`)
   }
-  return json
+  // v2 returns access_token at top level, OR nested under data, depending on region
+  const accessToken = (json.access_token ?? (json.data as Record<string, unknown>)?.access_token) as string | undefined
+  if (!res.ok || json.error || !accessToken) {
+    throw new Error(`TikTok token exchange failed (${res.status}): ${text}`)
+  }
+  // Normalize to flat shape
+  const flat = (json.access_token ? json : json.data) as unknown as TokenResponse
+  return flat
 }
 
 export async function refreshCreatorToken(refreshToken: string): Promise<TokenResponse> {

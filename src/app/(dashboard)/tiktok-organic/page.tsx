@@ -32,7 +32,7 @@ function fmtPct(n: number | null | undefined): string {
 export default async function TikTokOrganicPage({
   searchParams,
 }: {
-  searchParams: Promise<{ connected?: string; error?: string; advertisers?: string }>
+  searchParams: Promise<{ connected?: string; error?: string; advertisers?: string; detail?: string }>
 }) {
   const params = await searchParams
 
@@ -143,11 +143,16 @@ export default async function TikTokOrganicPage({
       {params.error && (
         <Card className="flex items-start gap-3 bg-[#ff3b30]/5 border-[#ff3b30]/30">
           <AlertTriangle className="w-5 h-5 text-[#ff3b30] shrink-0 mt-0.5" />
-          <div className="text-sm">
+          <div className="text-sm min-w-0">
             <p className="font-semibold">Errore OAuth</p>
             <p className="text-secondary mt-1">
               Codice: <code className="text-xs">{params.error}</code>
             </p>
+            {params.detail && (
+              <pre className="text-[11px] text-secondary mt-2 p-2 bg-surface rounded-md overflow-x-auto whitespace-pre-wrap break-all">
+                {decodeURIComponent(params.detail)}
+              </pre>
+            )}
           </div>
         </Card>
       )}

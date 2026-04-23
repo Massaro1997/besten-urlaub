@@ -85,8 +85,10 @@ export async function GET(request: NextRequest) {
     return res
   } catch (e) {
     console.error('[tiktok/creator/callback] error:', e)
+    const msg = e instanceof Error ? e.message : String(e)
+    const detail = encodeURIComponent(msg.slice(0, 500))
     return NextResponse.redirect(
-      new URL('/tiktok-organic?error=exchange_failed', request.url),
+      new URL(`/tiktok-organic?error=exchange_failed&detail=${detail}`, request.url),
     )
   }
 }
