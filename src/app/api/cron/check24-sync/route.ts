@@ -104,7 +104,7 @@ export async function GET(request: NextRequest) {
     await sendTikTokEvent({
       event: 'CompletePayment',
       eventId: `${sale.subid}-cp`,
-      url: click.landingUrl || `https://www.bestenurlaub.com/angebot/${click.offerId || 'unknown'}`,
+      url: click.landingUrl || `https://www.besterurlaub.com/angebot/${click.offerId || 'unknown'}`,
       contentId: click.offerId || undefined,
       value: sale.revenue || undefined,
       currency: sale.currency || 'EUR',

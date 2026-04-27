@@ -37,7 +37,7 @@ export function CallbackForm({ offerId, offerTitle, source = 'callback-form' }: 
         payload.email = val
       } else {
         payload.phone = val
-        payload.email = `phone-${val.replace(/[^\d]/g, '')}@phone.bestenurlaub.local`
+        payload.email = `phone-${val.replace(/[^\d]/g, '')}@phone.besterurlaub.local`
       }
 
       const res = await fetch('/api/lead', {

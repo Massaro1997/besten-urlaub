@@ -2,8 +2,70 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Bester Urlaub — Die besten Urlaubsangebote",
-  description: "Finde die besten Reiseangebote und Urlaubsschnäppchen. Direkt für dich gefunden.",
+  metadataBase: new URL('https://www.besterurlaub.com'),
+  title: {
+    default: 'Bester Urlaub — Die besten Urlaubsangebote',
+    template: '%s | Bester Urlaub',
+  },
+  description:
+    'Finde die besten Reiseangebote, Pauschalreisen, All-Inclusive-Urlaube und Lastminute-Schnäppchen. Handgepickte Angebote für deinen perfekten Urlaub.',
+  keywords: [
+    'Pauschalreisen',
+    'All Inclusive',
+    'Lastminute Urlaub',
+    'Frühbucher',
+    'Urlaub buchen',
+    'Reiseangebote',
+    'Mallorca',
+    'Türkei',
+    'Sardinien',
+    'Mauritius',
+    'Sansibar',
+  ],
+  authors: [{ name: 'Massaro Calogero' }],
+  creator: 'Bester Urlaub',
+  publisher: 'Bester Urlaub',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'de_DE',
+    url: 'https://www.besterurlaub.com',
+    siteName: 'Bester Urlaub',
+    title: 'Bester Urlaub — Die besten Urlaubsangebote',
+    description:
+      'Handgepickte Reiseangebote für deinen perfekten Urlaub. Pauschalreisen, All-Inclusive, Lastminute.',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Bester Urlaub — Die besten Urlaubsangebote',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bester Urlaub — Die besten Urlaubsangebote',
+    description:
+      'Handgepickte Reiseangebote für deinen perfekten Urlaub.',
+    images: ['/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  verification: {
+    google: 't0EiLZIm15abO8Cm-v851j9AkAR3x5bRtq5ZuvFuLVk',
+  },
   icons: {
     icon: '/symbol.svg',
     apple: '/symbol.svg',

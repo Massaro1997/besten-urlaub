@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     await sendTikTokEvent({
       event: 'Lead',
       eventId,
-      url: referrer || 'https://www.bestenurlaub.com/',
+      url: referrer || 'https://www.besterurlaub.com/',
       contentName: source || 'unknown',
       ip,
       userAgent,

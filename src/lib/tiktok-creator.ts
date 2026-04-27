@@ -10,7 +10,7 @@ import crypto from 'crypto'
 
 const TIKTOK_APP_ID = process.env.TIKTOK_APP_ID || ''
 const TIKTOK_APP_SECRET = process.env.TIKTOK_APP_SECRET || ''
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.bestenurlaub.com'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.besterurlaub.com'
 
 export const CREATOR_REDIRECT_URI = `${BASE_URL}/api/tiktok/creator/callback`
 export const ADVERTISER_REDIRECT_URI = `${BASE_URL}/api/tiktok/auth/callback`

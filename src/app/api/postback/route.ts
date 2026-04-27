@@ -15,7 +15,7 @@ import { sendTikTokEvent } from '@/lib/tiktok-server'
  * booking, not just a click. TikTok then optimizes for actual conversions.
  *
  * Check24 postback URL (configure in Check24 partner portal):
- *   https://www.bestenurlaub.com/api/postback?subid={subid}&revenue={revenue}&currency={currency}
+ *   https://www.besterurlaub.com/api/postback?subid={subid}&revenue={revenue}&currency={currency}
  *
  * Also supports GET for compatibility with Check24's postback format.
  */
@@ -79,7 +79,7 @@ async function handlePostback(request: NextRequest) {
     await sendTikTokEvent({
       event: 'CompletePayment',
       eventId: `${subid}-cp`,
-      url: click.landingUrl || `https://www.bestenurlaub.com/angebot/${click.offerId || 'unknown'}`,
+      url: click.landingUrl || `https://www.besterurlaub.com/angebot/${click.offerId || 'unknown'}`,
       contentId: click.offerId || undefined,
       value: revenue || undefined,
       currency,

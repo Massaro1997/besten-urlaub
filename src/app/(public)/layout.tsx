@@ -12,7 +12,7 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.bestenurlaub.com'),
+  metadataBase: new URL('https://www.besterurlaub.com'),
   title: 'Bester Urlaub — Die besten Urlaubsangebote',
   description:
     'Finde die besten Reiseangebote und Urlaubsschnaeppchen fuer deinen naechsten Traumurlaub. Direkt fuer dich gefunden.',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
       'Finde die besten Reiseangebote und Urlaubsschnaeppchen fuer deinen naechsten Traumurlaub.',
     type: 'website',
     locale: 'de_DE',
-    url: 'https://www.bestenurlaub.com',
+    url: 'https://www.besterurlaub.com',
     siteName: 'Bester Urlaub',
     images: [
       {
