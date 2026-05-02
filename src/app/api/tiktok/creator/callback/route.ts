@@ -19,6 +19,12 @@ export async function GET(request: NextRequest) {
   const error = params.get('error')
   const cookieState = request.cookies.get('tt_oauth_state')?.value
 
+  // Orchestra bridge: forward to orchestra-api if state has Orchestra prefix
+  if (state && state.startsWith('tt_') && state.includes('__')) {
+    const orchestraUrl = `https://orchestra-api.slywebsite.de/tiktok/oauth/exchange?${error ? `error=${encodeURIComponent(error)}` : `code=${encodeURIComponent(code || '')}&state=${encodeURIComponent(state)}`}`
+    return NextResponse.redirect(orchestraUrl)
+  }
+
   if (error) {
     return NextResponse.redirect(
       new URL(`/tiktok-organic?error=${encodeURIComponent(error)}`, request.url),
