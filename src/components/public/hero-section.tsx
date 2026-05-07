@@ -243,7 +243,7 @@ export function HeroSection() {
     <section className="relative overflow-hidden min-h-0 sm:min-h-[620px] lg:min-h-[700px] flex flex-col justify-center bg-[#0a1a3a]">
       {/* Hero photo desktop only; mobile uses solid navy for faster paint */}
       <div className="hidden sm:block absolute inset-0">
-        <Image src="/santorini.png" alt="" fill className="object-cover" priority quality={75} sizes="(max-width: 640px) 0vw, 100vw" />
+        <Image src="/hero-sea.webp" alt="" fill className="object-cover" priority quality={90} sizes="(max-width: 640px) 0vw, 100vw" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a3a]/70 via-[#0a1a3a]/30 to-[#0a1a3a]/70" />
       </div>
 
