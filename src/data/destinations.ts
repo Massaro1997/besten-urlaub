@@ -470,6 +470,18 @@ export const destinations: DestinationData[] = [
     "popularity": null,
     "bestSeason": null,
     "targetAudience": null
+  },
+  {
+    "id": "phuket",
+    "name": "Phuket",
+    "country": "Thailand",
+    "slug": "phuket",
+    "category": "isola",
+    "imageUrl": null,
+    "description": "Phuket, die größte Insel Thailands, lockt mit feinsandigen Stränden wie Patong, Karon und Kata, türkisblauer Andamanensee und tropischem Hinterland. Tempel, Streetfood-Märkte und Bootsausflüge zu den Phi Phi Islands gehören dazu.",
+    "popularity": null,
+    "bestSeason": "November bis April",
+    "targetAudience": null
   }
 ]
 

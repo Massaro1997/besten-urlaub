@@ -1029,6 +1029,41 @@ export const offers: OfferData[] = [
       "slug": "santorini",
       "category": "mare"
     }
+  },
+  {
+    "id": "cmovei7ik0001twnsdiy499t8",
+    "destinationId": "phuket",
+    "title": "Phuket: 1 Woche Thailand mit Flug und Hotel",
+    "priceFrom": null,
+    "affiliateLink": "https://a.check24.net/misc/click.php?aid=18&pid=1168044&tid=Puket001&target_url=https%3A%2F%2Fwww.check24.net%2Fpauschalreisen-vergleich%2F%3Fc24pp_departure_date%3D2026-09-01%26c24pp_return_date%3D2026-12-31%26c24pp_travel_duration%3D1w%26c24pp_airport%3DBLL%252CBRE%252CGWT%252CHAJ%252CHAM%252CLBC%252CRLG%26c24pp_hotel_id%3D1060413%26c24pp_region_id%3D821%26c24pp_adult%3D2%26c24pp_childrenCount%3D0%26c24pp_children_0%255Bage%255D%3D-%26c24pp_children_1%255Bage%255D%3D-%26c24pp_children_2%255Bage%255D%3D-%26c24pp_children_3%255Bage%255D%3D-%26pid%3D1168044%26tid%3DPuket001%23%2Fsuche%2Fangebot%3Fairport%3DBRE%25252CGWT%25252CHAJ%25252CHAM%25252CLBC%25252CRLG%25252CBER%25252CCGN%25252CDRS%25252CDTM%25252CDUS%25252CERF%25252CFDH%25252CFKB%25252CFMM%25252CFMO%25252CFRA%25252CHHN%25252CKSF%25252CLEJ%25252CMUC%25252CNRN%25252CNUE%25252CPAD%25252CSCN%25252CSTR%26areaId%3D821%26areaSort%3Dtopregion%26days%3D1w%26departureDate%3D2026-09-01%26dhs%3D1060413%26offerSort%3Ddefault%26pageArea%3Dpackage%26returnDate%3D2026-12-31%26roomAllocation%3DA-A%26sorting%3DcategoryDistribution%26transportType%3Dflight%26hotelId%3D1060413%26hotelListId%3Dd7eeb9a3-6bd1-41d2-82ac-d1478183d48d",
+    "description": "Flug und Hotel ab norddeutschen Flughäfen, 7 Nächte für 2 Personen. Reisezeitraum September bis Dezember 2026. Strände, Andamanensee und thailändische Küche inklusive. Jetzt vergleichen und buchen.",
+    "notes": null,
+    "usedInVideo": false,
+    "featured": false,
+    "hotelName": null,
+    "hotelStars": null,
+    "board": null,
+    "nights": 7,
+    "adultsCount": 2,
+    "departureFrom": "ab norddeutschen Flughäfen",
+    "dateFrom": "2026-09-01T00:00:00.000Z",
+    "dateTo": "2026-12-31T00:00:00.000Z",
+    "region": "Phuket",
+    "rating": null,
+    "reviews": null,
+    "priceStrike": null,
+    "discount": null,
+    "limitedText": null,
+    "gallery": [],
+    "amenities": [],
+    "longDescription": null,
+    "destination": {
+      "id": "phuket",
+      "name": "Phuket",
+      "country": "Thailand",
+      "slug": "phuket",
+      "category": "isola"
+    }
   }
 ]
 
