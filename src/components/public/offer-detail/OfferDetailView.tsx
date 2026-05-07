@@ -49,13 +49,13 @@ const NAVY = '#0a1a3a'
 const ORANGE = '#ff6b35'
 const BLUE = '#2e75fa'
 
-// 29 destination photos available in /public/destinations/
+// 30 destination photos available in /public/destinations/
 const ALL_DEST_PHOTOS = [
   'antalya', 'aruba', 'bad-griesbach', 'canarie', 'chalkidiki', 'corf', 'creta',
   'fuessen', 'holland', 'hurghada', 'istanbul', 'korfu', 'lago-di-garda',
   'mallorca', 'marbella', 'mauritius', 'mont-saint-michel', 'nordkroatien',
-  'playa-del-carmen', 'punta-cana', 'rodi', 'salento', 'sansibar', 'santorini',
-  'sardegna', 'sharm-el-sheikh', 'sicilia', 'thailandia', 'zypern',
+  'phuket', 'playa-del-carmen', 'punta-cana', 'rodi', 'salento', 'sansibar',
+  'santorini', 'sardegna', 'sharm-el-sheikh', 'sicilia', 'thailandia', 'zypern',
 ]
 
 function seededShuffle<T>(arr: T[], seed: string): T[] {
