@@ -62,10 +62,20 @@ export default function HomePage() {
       {/* Urlaubsregionen entdecken */}
       {typedFeatured.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-8 sm:pb-16">
-          {/* Row 1: 2 large cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
-            {typedFeatured.slice(0, 2).map((offer) => {
+          <div className="grid grid-cols-2 sm:grid-cols-12 auto-rows-[10rem] sm:auto-rows-[14rem] gap-3 sm:gap-4">
+            {typedFeatured.map((offer, idx) => {
               const dateRange = formatOfferDateRange(extractOfferDates(offer.affiliateLink))
+              // Mosaic pattern repeating every 5 cards on desktop:
+              //   0: wide tall (8 cols, 2 rows)   1: tall (4 cols, 2 rows)
+              //   2: small (4 cols, 1 row)       3: small (4 cols, 1 row)   4: small (4 cols, 1 row)
+              const mod = idx % 5
+              const span =
+                mod === 0
+                  ? 'col-span-2 sm:col-span-8 sm:row-span-2'
+                  : mod === 1
+                  ? 'col-span-2 sm:col-span-4 sm:row-span-2'
+                  : 'col-span-2 sm:col-span-4 sm:row-span-1'
+              const isLarge = mod === 0 || mod === 1
               return (
                 <TrackedOfferLink
                   key={offer.id}
@@ -73,26 +83,26 @@ export default function HomePage() {
                   offerTitle={offer.title}
                   priceFrom={offer.priceFrom}
                   href={`/angebot/${offer.id}`}
-                  className="group relative rounded-2xl overflow-hidden h-48 sm:h-72 block"
+                  className={`group relative rounded-2xl overflow-hidden block ${span}`}
                 >
                   <Image
                     src={`/destinations/${offer.destination.slug}.webp`}
                     alt={offer.destination.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 100vw, 50vw"
+                    sizes={isLarge ? '(max-width: 640px) 100vw, 66vw' : '(max-width: 640px) 100vw, 33vw'}
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50" />
                   <div className="absolute top-4 left-4 right-4">
-                    <p className="text-white font-bold text-lg drop-shadow">
+                    <p className={`text-white font-bold drop-shadow ${isLarge ? 'text-lg' : 'text-base'}`}>
                       {offer.destination.name}, <span className="font-normal">{offer.destination.country}</span>
                     </p>
-                    <p className="text-white/80 text-sm drop-shadow">7 Tage, 2 Erw., inkl. Flug</p>
+                    <p className={`text-white/80 drop-shadow ${isLarge ? 'text-sm' : 'text-xs'}`}>7 Tage, 2 Erw., inkl. Flug</p>
                   </div>
                   {dateRange && (
                     <div className="absolute bottom-4 left-4">
-                      <span className="inline-flex items-center gap-1.5 bg-[#ff3333]/90 backdrop-blur-sm text-white text-[11px] font-bold px-2.5 py-1 rounded-full">
-                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      <span className={`inline-flex items-center gap-1.5 bg-[#ff3333]/90 backdrop-blur-sm text-white font-bold rounded-full ${isLarge ? 'text-[11px] px-2.5 py-1' : 'text-[10px] px-2 py-0.5'}`}>
+                        <svg className={isLarge ? 'w-3 h-3' : 'w-2.5 h-2.5'} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                         {dateRange}
                       </span>
                     </div>
@@ -100,109 +110,13 @@ export default function HomePage() {
                   {offer.priceFrom && (
                     <div className="absolute bottom-4 right-4">
                       <span className="text-white/70 text-sm drop-shadow">ab </span>
-                      <span className="text-white font-extrabold text-2xl drop-shadow">{Math.round(offer.priceFrom)} &euro;</span>
+                      <span className={`text-white font-extrabold drop-shadow ${isLarge ? 'text-2xl' : 'text-xl'}`}>{Math.round(offer.priceFrom)} &euro;</span>
                     </div>
                   )}
                 </TrackedOfferLink>
               )
             })}
           </div>
-
-          {/* Row 2: 3 smaller cards */}
-          {typedFeatured.length > 2 && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-3 sm:mb-4">
-              {typedFeatured.slice(2, 5).map((offer) => {
-                const dateRange = formatOfferDateRange(extractOfferDates(offer.affiliateLink))
-                return (
-                  <TrackedOfferLink
-                    key={offer.id}
-                    offerId={offer.id}
-                    offerTitle={offer.title}
-                    priceFrom={offer.priceFrom}
-                    href={`/angebot/${offer.id}`}
-                    className="group relative rounded-2xl overflow-hidden h-40 sm:h-56 block"
-                  >
-                    <Image
-                      src={`/destinations/${offer.destination.slug}.webp`}
-                      alt={offer.destination.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50" />
-                    <div className="absolute top-4 left-4 right-4">
-                      <p className="text-white font-bold text-base drop-shadow">
-                        {offer.destination.name}, <span className="font-normal">{offer.destination.country}</span>
-                      </p>
-                      <p className="text-white/80 text-xs drop-shadow">6 Tage, 2 Erw., inkl. Flug</p>
-                    </div>
-                    {dateRange && (
-                      <div className="absolute bottom-4 left-4">
-                        <span className="inline-flex items-center gap-1 bg-[#ff3333]/90 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                          <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                          {dateRange}
-                        </span>
-                      </div>
-                    )}
-                    {offer.priceFrom && (
-                      <div className="absolute bottom-4 right-4">
-                        <span className="text-white/70 text-sm drop-shadow">ab </span>
-                        <span className="text-white font-extrabold text-xl drop-shadow">{Math.round(offer.priceFrom)} &euro;</span>
-                      </div>
-                    )}
-                  </TrackedOfferLink>
-                )
-              })}
-            </div>
-          )}
-
-          {/* Row 3+: remaining featured in 3-column grid (matching Row 2 size) */}
-          {typedFeatured.length > 5 && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-              {typedFeatured.slice(5).map((offer) => {
-                const dateRange = formatOfferDateRange(extractOfferDates(offer.affiliateLink))
-                return (
-                  <TrackedOfferLink
-                    key={offer.id}
-                    offerId={offer.id}
-                    offerTitle={offer.title}
-                    priceFrom={offer.priceFrom}
-                    href={`/angebot/${offer.id}`}
-                    className="group relative rounded-2xl overflow-hidden h-40 sm:h-56 block"
-                  >
-                    <Image
-                      src={`/destinations/${offer.destination.slug}.webp`}
-                      alt={offer.destination.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50" />
-                    <div className="absolute top-4 left-4 right-4">
-                      <p className="text-white font-bold text-base drop-shadow">
-                        {offer.destination.name}, <span className="font-normal">{offer.destination.country}</span>
-                      </p>
-                      <p className="text-white/80 text-xs drop-shadow">6 Tage, 2 Erw., inkl. Flug</p>
-                    </div>
-                    {dateRange && (
-                      <div className="absolute bottom-4 left-4">
-                        <span className="inline-flex items-center gap-1 bg-[#ff3333]/90 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                          <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                          {dateRange}
-                        </span>
-                      </div>
-                    )}
-                    {offer.priceFrom && (
-                      <div className="absolute bottom-4 right-4">
-                        <span className="text-white/70 text-sm drop-shadow">ab </span>
-                        <span className="text-white font-extrabold text-xl drop-shadow">{Math.round(offer.priceFrom)} &euro;</span>
-                      </div>
-                    )}
-                  </TrackedOfferLink>
-                )
-              })}
-            </div>
-          )}
         </section>
       )}
 
