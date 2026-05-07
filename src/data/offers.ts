@@ -1039,7 +1039,7 @@ export const offers: OfferData[] = [
     "description": "Flug und Hotel ab norddeutschen Flughäfen, 7 Nächte für 2 Personen. Reisezeitraum September bis Dezember 2026. Strände, Andamanensee und thailändische Küche inklusive. Jetzt vergleichen und buchen.",
     "notes": null,
     "usedInVideo": false,
-    "featured": false,
+    "featured": true,
     "hotelName": null,
     "hotelStars": null,
     "board": null,

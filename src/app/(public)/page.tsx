@@ -62,10 +62,6 @@ export default function HomePage() {
       {/* Urlaubsregionen entdecken */}
       {typedFeatured.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-8 sm:pb-16">
-          <h2 className="text-lg sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight text-center mb-5 sm:mb-8">
-            Bester Urlaub
-          </h2>
-
           {/* Row 1: 2 large cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
             {typedFeatured.slice(0, 2).map((offer) => {
