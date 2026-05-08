@@ -50,7 +50,49 @@ export function DestinationGrid({ destinations }: { destinations: DestinationIte
         Die Destinationen, die gerade alle wollen.
       </p>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
+      {/* Mobile: horizontal snap scroll */}
+      <div className="sm:hidden mt-6 -mx-4">
+        <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 pb-3 scroll-px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {destinations.map((dest) => {
+            const image = DESTINATION_IMAGES[dest.slug] || '/maldives.png'
+
+            return (
+              <Link
+                key={dest.slug}
+                href={`/reiseziel/${dest.slug}`}
+                className="relative shrink-0 w-[60vw] max-w-[240px] aspect-[4/5] rounded-2xl overflow-hidden snap-start flex flex-col justify-end group"
+              >
+                <Image
+                  src={image}
+                  alt={dest.name}
+                  fill
+                  className="object-cover"
+                  sizes="60vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+
+                <div className="relative p-3">
+                  <span className="text-white font-semibold text-base leading-tight drop-shadow">
+                    {dest.name}
+                  </span>
+                  <br />
+                  <span className="text-white/70 text-xs">
+                    {dest.country}
+                  </span>
+                  {dest._count.offers > 0 && (
+                    <span className="block bg-white/20 backdrop-blur rounded-full px-2 py-0.5 text-[11px] text-white w-fit mt-1.5">
+                      {dest._count.offers} {dest._count.offers === 1 ? 'Angebot' : 'Angebote'}
+                    </span>
+                  )}
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Desktop/tablet: grid */}
+      <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         {destinations.map((dest) => {
           const image = DESTINATION_IMAGES[dest.slug] || '/maldives.png'
 
@@ -65,7 +107,7 @@ export function DestinationGrid({ destinations }: { destinations: DestinationIte
                 alt={dest.name}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                sizes="(max-width: 1024px) 33vw, 25vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
