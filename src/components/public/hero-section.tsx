@@ -322,88 +322,69 @@ export function HeroSection() {
 
         {/* Widget card — tabs integrated as header; on mobile appears above chips */}
         <div className="w-full max-w-5xl order-2 sm:order-3">
-          {/* Mobile: two direct CTAs to Check24 with marketing hooks */}
+          {/* Mobile: two clean CTA cards (no bg images) */}
           <div className="sm:hidden flex flex-col gap-3">
-            {/* Pauschalreisen — primary with destination photo background */}
+            {/* Pauschalreisen — primary CTA */}
             <a
               href="https://p1168044s0m.urlaub.check24.net/?tid1=mobile-hero-pauschal&deviceoutput=mobile"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.45)] overflow-hidden active:scale-[0.98] transition-transform min-h-[180px] flex flex-col justify-end"
+              className="group relative rounded-2xl overflow-hidden active:scale-[0.98] transition-transform bg-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.35)] border border-white/10"
             >
-              {/* Bg photo */}
-              <Image
-                src="/destinations/mauritius.webp"
-                alt=""
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, 0"
-                priority
-              />
-              {/* Gradient scrim */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/20" />
+              {/* Top color band */}
+              <div className="h-1.5 bg-[#ff6b35]" />
 
-              {/* Corner discount badge */}
-              <div className="absolute top-0 right-0 bg-[#ff6b35] text-white px-3 py-1.5 rounded-bl-xl text-[11px] font-extrabold tracking-wide shadow-lg shadow-[#ff6b35]/40 z-10">
-                BIS ZU 60% SPAREN
-              </div>
-
-              {/* Text content */}
-              <div className="relative p-4 pt-14">
-                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#ff6b35] drop-shadow mb-1">Pauschalreisen</p>
-                <p className="text-[20px] font-extrabold text-white leading-[1.1] tracking-tight drop-shadow-lg">Dein Traumurlaub.<br/>Alles inklusive.</p>
-
-                <div className="flex items-center justify-between gap-3 mt-3">
-                  <span className="inline-flex items-center gap-1.5 text-[11px] text-white/85 font-semibold whitespace-nowrap">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#34c759] shrink-0" />
-                    ab 199 €
-                  </span>
-                  <span className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-[#ff6b35] text-white text-[12px] font-bold shadow-md shadow-[#ff6b35]/40 whitespace-nowrap shrink-0">
-                    Sparen
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
+              <div className="p-4 flex items-center gap-4">
+                {/* Icon */}
+                <div className="shrink-0 w-12 h-12 rounded-xl bg-[#ff6b35]/10 flex items-center justify-center">
+                  <Palmtree className="w-6 h-6 text-[#ff6b35]" strokeWidth={2.2} />
                 </div>
+
+                {/* Text */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] uppercase tracking-[0.18em] font-bold text-[#ff6b35] mb-0.5">Pauschalreisen</p>
+                  <p className="text-[16px] font-extrabold text-[#0a1a3a] leading-tight tracking-tight">Bis zu 60% sparen</p>
+                  <p className="text-[12px] text-[#0a1a3a]/60 font-medium mt-0.5">Flug + Hotel ab 199 €</p>
+                </div>
+
+                {/* Arrow */}
+                <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#ff6b35] text-white shadow-md shadow-[#ff6b35]/40">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
               </div>
             </a>
 
-            {/* Mietwagen — secondary with car photo background */}
+            {/* Mietwagen — secondary CTA */}
             <a
               href="https://p1168044s0.mietwagen.check24.net/?tid1=mobile-hero-mietwagen&tid2=223"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.45)] overflow-hidden active:scale-[0.98] transition-transform min-h-[180px] flex flex-col justify-end"
+              className="group relative rounded-2xl overflow-hidden active:scale-[0.98] transition-transform bg-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.35)] border border-white/10"
             >
-              <Image
-                src="/destinations/mietwagen.webp"
-                alt=""
-                fill
-                className="object-cover object-[center_25%]"
-                sizes="(max-width: 640px) 100vw, 0"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/20" />
+              {/* Top color band */}
+              <div className="h-1.5 bg-[#2e75fa]" />
 
-              <div className="absolute top-0 right-0 bg-[#2e75fa] text-white px-3 py-1.5 rounded-bl-xl text-[11px] font-extrabold tracking-wide shadow-lg shadow-[#2e75fa]/40 z-10">
-                TÄGLICH AB 9 €
-              </div>
-
-              <div className="relative p-4 pt-14">
-                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#2e75fa] drop-shadow mb-1">Mietwagen</p>
-                <p className="text-[20px] font-extrabold text-white leading-[1.1] tracking-tight drop-shadow-lg">Einsteigen.<br/>Losfahren.</p>
-
-                <div className="flex items-center justify-between gap-3 mt-3">
-                  <span className="inline-flex items-center gap-1.5 text-[11px] text-white/85 font-semibold whitespace-nowrap">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#34c759] shrink-0" />
-                    Frei stornierbar
-                  </span>
-                  <span className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-[#2e75fa] text-white text-[12px] font-bold shadow-md shadow-[#2e75fa]/40 whitespace-nowrap shrink-0">
-                    Vergleichen
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
+              <div className="p-4 flex items-center gap-4">
+                {/* Icon */}
+                <div className="shrink-0 w-12 h-12 rounded-xl bg-[#2e75fa]/10 flex items-center justify-center">
+                  <Car className="w-6 h-6 text-[#2e75fa]" strokeWidth={2.2} />
                 </div>
+
+                {/* Text */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] uppercase tracking-[0.18em] font-bold text-[#2e75fa] mb-0.5">Mietwagen</p>
+                  <p className="text-[16px] font-extrabold text-[#0a1a3a] leading-tight tracking-tight">Täglich ab 9 €</p>
+                  <p className="text-[12px] text-[#0a1a3a]/60 font-medium mt-0.5">Frei stornierbar</p>
+                </div>
+
+                {/* Arrow */}
+                <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#2e75fa] text-white shadow-md shadow-[#2e75fa]/40">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
               </div>
             </a>
 
