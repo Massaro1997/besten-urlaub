@@ -104,7 +104,6 @@ export default function NuovoCreativoPage() {
 
   const destOptions = destinations.map((d) => ({ value: d.id, label: `${d.name} (${d.country})` }))
   const offerOptions = offers.map((o) => ({ value: o.id, label: `${o.title} — ${formatPrice(o.price)}` }))
-  const designOptions = DESIGN_TYPES.map((t) => ({ value: t.value, label: t.label }))
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
