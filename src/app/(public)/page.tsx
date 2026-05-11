@@ -10,9 +10,12 @@ import { LogoMarquee } from '@/components/public/logo-marquee'
 import { TrackedOfferLink } from '@/components/public/tracked-offer-link'
 import { PhoneCtaSection } from '@/components/public/phone-cta-section'
 import { CallbackModal } from '@/components/public/callback-modal'
+import { JsonLd } from '@/components/public/json-ld'
 import { extractOfferDates, formatOfferDateRange } from '@/lib/offer-dates'
 import { getFeaturedOffers, offers as ALL_OFFERS } from '@/data/offers'
 import { destinations as ALL_DESTINATIONS } from '@/data/destinations'
+import { organizationJsonLd, websiteJsonLd, faqJsonLd } from '@/lib/seo-jsonld'
+import { HOMEPAGE_FAQ } from '@/lib/faq-data'
 
 export default function HomePage() {
   const featured = getFeaturedOffers()
@@ -56,6 +59,7 @@ export default function HomePage() {
 
   return (
     <>
+      <JsonLd data={[organizationJsonLd(), websiteJsonLd(), faqJsonLd(HOMEPAGE_FAQ)]} />
       <CallbackModal source="homepage" />
       <HeroSection />
 

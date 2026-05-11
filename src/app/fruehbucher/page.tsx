@@ -7,6 +7,15 @@ import { Check24Widget } from '@/components/public/check24-widget'
 export const metadata: Metadata = {
   title: 'Frühbucher Angebote | Bester Urlaub',
   description: 'Frühbucher-Rabatte sichern! Jetzt früh buchen und bei deinem nächsten Urlaub sparen.',
+  alternates: { canonical: 'https://www.besterurlaub.com/fruehbucher' },
+  openGraph: {
+    title: 'Frühbucher Angebote | Bester Urlaub',
+    description: 'Frühbucher-Rabatte sichern und beim nächsten Urlaub sparen.',
+    type: 'website',
+    locale: 'de_DE',
+    url: 'https://www.besterurlaub.com/fruehbucher',
+    siteName: 'Bester Urlaub',
+  },
 }
 
 export default function FruehbucherPage() {

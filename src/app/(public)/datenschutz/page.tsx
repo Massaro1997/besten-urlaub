@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { SITE_URL } from '@/lib/seo-jsonld'
 
 export const metadata: Metadata = {
   title: 'Datenschutz | Bester Urlaub',
   description:
     'Datenschutzerklaerung von Bester Urlaub. Informationen zur Erhebung und Verarbeitung personenbezogener Daten.',
+  alternates: { canonical: `${SITE_URL}/datenschutz` },
   robots: { index: true, follow: true },
 }
 

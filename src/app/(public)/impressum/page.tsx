@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { SITE_URL } from '@/lib/seo-jsonld'
 
 export const metadata: Metadata = {
   title: 'Impressum | Bester Urlaub',
   description:
     'Impressum und Angaben gemaess Paragraph 5 TMG fuer Bester Urlaub.',
+  alternates: { canonical: `${SITE_URL}/impressum` },
   robots: { index: true, follow: true },
 }
 

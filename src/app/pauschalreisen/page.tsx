@@ -7,6 +7,15 @@ import { PauschalreisenSearchForm } from '@/components/public/pauschalreisen-sea
 export const metadata: Metadata = {
   title: 'Pauschalreisen vergleichen | Bester Urlaub',
   description: 'Pauschalreisen vergleichen und günstig buchen. Flug + Hotel zum besten Preis.',
+  alternates: { canonical: 'https://www.besterurlaub.com/pauschalreisen' },
+  openGraph: {
+    title: 'Pauschalreisen vergleichen | Bester Urlaub',
+    description: 'Pauschalreisen vergleichen und günstig buchen.',
+    type: 'website',
+    locale: 'de_DE',
+    url: 'https://www.besterurlaub.com/pauschalreisen',
+    siteName: 'Bester Urlaub',
+  },
 }
 
 export default function PauschalreisenPage() {

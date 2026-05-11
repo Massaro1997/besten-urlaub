@@ -3,16 +3,42 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { BookOpen } from 'lucide-react'
 import { ratgeberArticles } from '@/lib/ratgeber-data'
+import { JsonLd } from '@/components/public/json-ld'
+import { SITE_URL, breadcrumbJsonLd, itemListJsonLd } from '@/lib/seo-jsonld'
 
 export const metadata: Metadata = {
   title: 'Reise-Ratgeber | Bester Urlaub',
   description:
     'Alle Reise-Ratgeber auf Bester Urlaub: Inspiration & Insider-Tipps für deinen nächsten Urlaub. Entdecke die besten Reiseziele und Geheimtipps.',
+  alternates: { canonical: `${SITE_URL}/ratgeber` },
+  openGraph: {
+    title: 'Reise-Ratgeber | Bester Urlaub',
+    description:
+      'Alle Reise-Ratgeber auf Bester Urlaub: Inspiration & Insider-Tipps für deinen nächsten Urlaub.',
+    type: 'website',
+    locale: 'de_DE',
+    url: `${SITE_URL}/ratgeber`,
+    siteName: 'Bester Urlaub',
+  },
 }
 
 export default function RatgeberIndexPage() {
+  const breadcrumb = breadcrumbJsonLd([
+    { name: 'Startseite', url: '/' },
+    { name: 'Ratgeber', url: '/ratgeber' },
+  ])
+  const itemList = itemListJsonLd({
+    name: 'Reise-Ratgeber',
+    url: `${SITE_URL}/ratgeber`,
+    items: ratgeberArticles.map((a) => ({
+      url: `/ratgeber/${a.slug}`,
+      name: a.title,
+    })),
+  })
+
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+      <JsonLd data={[breadcrumb, itemList]} />
       {/* Header */}
       <div className="text-center mb-10 sm:mb-14">
         <div className="inline-flex items-center gap-2 mb-3">

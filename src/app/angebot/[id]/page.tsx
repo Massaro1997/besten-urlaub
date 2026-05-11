@@ -2,9 +2,15 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { AngebotTrackingPixel } from '@/components/public/angebot-redirect'
 import { CallbackModal } from '@/components/public/callback-modal'
+import { JsonLd } from '@/components/public/json-ld'
 import { generateEventId, buildAffiliateLinkWithSubid } from '@/lib/affiliate-link'
 import { OfferDetailView } from '@/components/public/offer-detail/OfferDetailView'
 import { getOfferById, offers as ALL_OFFERS } from '@/data/offers'
+import {
+  SITE_URL,
+  breadcrumbJsonLd,
+  offerProductJsonLd,
+} from '@/lib/seo-jsonld'
 
 // Static data — no DB. Every offer becomes a statically-generated page.
 export function generateStaticParams() {
@@ -19,9 +25,31 @@ export async function generateMetadata({
   const { id } = await params
   const offer = getOfferById(id)
   if (!offer) return { title: 'Angebot nicht gefunden' }
+  const url = `${SITE_URL}/angebot/${offer.id}`
+  const title = `${offer.hotelName || offer.title} | Bester Urlaub`
+  const description =
+    offer.description ||
+    `Urlaubsangebot: ${offer.title} — jetzt buchen auf Check24`
+  const heroImage = offer.gallery?.[0] || `/destinations/${offer.destination.slug || 'mallorca'}.webp`
   return {
-    title: `${offer.hotelName || offer.title} | Bester Urlaub`,
-    description: offer.description || `Urlaubsangebot: ${offer.title} — jetzt buchen auf Check24`,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      locale: 'de_DE',
+      url,
+      siteName: 'Bester Urlaub',
+      images: [{ url: heroImage, width: 1200, height: 630, alt: offer.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [heroImage],
+    },
   }
 }
 
@@ -46,8 +74,36 @@ export default async function AngebotPage({
       (o.destination.country === offer.destination.country || true),
   ).slice(0, 4)
 
+  /* ---- JSON-LD: Product + Breadcrumb ---- */
+  const pageUrl = `${SITE_URL}/angebot/${offer.id}`
+  const heroImage = offer.gallery?.[0] || `/destinations/${offer.destination.slug || 'mallorca'}.webp`
+  const productSchema = offerProductJsonLd({
+    id: offer.id,
+    title: offer.hotelName || offer.title,
+    description: offer.description || offer.title,
+    image: heroImage,
+    brand: 'Bester Urlaub',
+    price: offer.priceFrom,
+    url: pageUrl,
+    availability: offer.limitedText ? 'LimitedAvailability' : 'InStock',
+    rating: offer.rating,
+    reviewCount: offer.reviews,
+    priceValidUntil: offer.dateTo
+      ? new Date(offer.dateTo).toISOString().slice(0, 10)
+      : undefined,
+  })
+  const breadcrumbSchema = breadcrumbJsonLd([
+    { name: 'Startseite', url: '/' },
+    { name: 'Alle Angebote', url: '/alle-angebote' },
+    ...(offer.destination.slug
+      ? [{ name: offer.destination.name, url: `/reiseziel/${offer.destination.slug}` }]
+      : []),
+    { name: offer.hotelName || offer.title, url: `/angebot/${offer.id}` },
+  ])
+
   return (
     <>
+      <JsonLd data={[productSchema, breadcrumbSchema]} />
       <AngebotTrackingPixel
         offerId={offer.id}
         offerTitle={offer.title}

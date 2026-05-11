@@ -1,10 +1,21 @@
 import type { Metadata } from 'next'
 import { OffersSection } from '@/components/public/offers-section'
 import { offers as ALL_OFFERS } from '@/data/offers'
+import { JsonLd } from '@/components/public/json-ld'
+import { SITE_URL, breadcrumbJsonLd, itemListJsonLd } from '@/lib/seo-jsonld'
 
 export const metadata: Metadata = {
   title: 'Alle Angebote | Bester Urlaub',
   description: 'Alle Urlaubsangebote im Überblick. Vergleiche Pauschalreisen und buche direkt.',
+  alternates: { canonical: `${SITE_URL}/alle-angebote` },
+  openGraph: {
+    title: 'Alle Angebote | Bester Urlaub',
+    description: 'Alle Urlaubsangebote im Überblick.',
+    type: 'website',
+    locale: 'de_DE',
+    url: `${SITE_URL}/alle-angebote`,
+    siteName: 'Bester Urlaub',
+  },
 }
 
 export default function AlleAngebotePage() {
@@ -24,8 +35,23 @@ export default function AlleAngebotePage() {
       },
     }))
 
+  const breadcrumb = breadcrumbJsonLd([
+    { name: 'Startseite', url: '/' },
+    { name: 'Alle Angebote', url: '/alle-angebote' },
+  ])
+  const itemList = itemListJsonLd({
+    name: 'Alle Urlaubsangebote',
+    url: `${SITE_URL}/alle-angebote`,
+    items: typedOffers.slice(0, 50).map((o) => ({
+      url: `/angebot/${o.id}`,
+      name: o.title,
+      price: o.priceFrom,
+    })),
+  })
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+      <JsonLd data={[breadcrumb, itemList]} />
       <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight">
         Alle Angebote
       </h1>

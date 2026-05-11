@@ -7,6 +7,15 @@ import { Check24Widget } from '@/components/public/check24-widget'
 export const metadata: Metadata = {
   title: 'Mietwagen vergleichen | Bester Urlaub',
   description: 'Mietwagen weltweit vergleichen und günstig buchen. Die besten Angebote für deinen Urlaub.',
+  alternates: { canonical: 'https://www.besterurlaub.com/mietwagen' },
+  openGraph: {
+    title: 'Mietwagen vergleichen | Bester Urlaub',
+    description: 'Mietwagen weltweit vergleichen und günstig buchen.',
+    type: 'website',
+    locale: 'de_DE',
+    url: 'https://www.besterurlaub.com/mietwagen',
+    siteName: 'Bester Urlaub',
+  },
 }
 
 export default function MietwagenPage() {

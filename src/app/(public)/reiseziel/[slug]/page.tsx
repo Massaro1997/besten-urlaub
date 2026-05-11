@@ -4,9 +4,16 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ChevronRight } from 'lucide-react'
 import { PublicOfferCard } from '@/components/public/public-offer-card'
+import { JsonLd } from '@/components/public/json-ld'
 import { CATEGORY_DE_MAP } from '@/lib/public-constants'
 import { destinations as ALL_DESTINATIONS, getDestinationBySlug } from '@/data/destinations'
 import { getOffersByDestinationSlug } from '@/data/offers'
+import {
+  SITE_URL,
+  breadcrumbJsonLd,
+  itemListJsonLd,
+  touristDestinationJsonLd,
+} from '@/lib/seo-jsonld'
 
 export function generateStaticParams() {
   return ALL_DESTINATIONS
@@ -30,10 +37,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Reiseziel nicht gefunden | Bester Urlaub' }
   }
 
+  const url = `${SITE_URL}/reiseziel/${slug}`
+  const heroImage = `/destinations/${slug}.webp`
+
   return {
     title: `${dest.name} Urlaub — Angebote | Bester Urlaub`,
     description:
       dest.description || `Die besten Urlaubsangebote f\u00fcr ${dest.name}.`,
+    alternates: { canonical: url },
     openGraph: {
       title: `${dest.name} Urlaub — Angebote`,
       description:
@@ -41,6 +52,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         `Urlaubsangebote f\u00fcr ${dest.name}, ${dest.country}.`,
       type: 'website',
       locale: 'de_DE',
+      url,
+      siteName: 'Bester Urlaub',
+      images: [{ url: heroImage, width: 1200, height: 630, alt: dest.name }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${dest.name} Urlaub — Angebote`,
+      description:
+        dest.description || `Urlaubsangebote f\u00fcr ${dest.name}.`,
+      images: [heroImage],
     },
   }
 }
@@ -75,8 +96,43 @@ export default async function DestinationPage({ params }: PageProps) {
     },
   }))
 
+  /* ---- JSON-LD: TouristDestination + ItemList of offers + Breadcrumb ---- */
+  const pageUrl = `${SITE_URL}/reiseziel/${slug}`
+  const destinationSchema = touristDestinationJsonLd({
+    name: destination.name,
+    country: destination.country,
+    description:
+      destination.description ||
+      `Urlaubsangebote für ${destination.name}, ${destination.country}.`,
+    image: heroImage,
+    url: pageUrl,
+  })
+  const breadcrumbSchema = breadcrumbJsonLd([
+    { name: 'Startseite', url: '/' },
+    { name: 'Reiseziele', url: '/alle-angebote' },
+    { name: destination.name, url: `/reiseziel/${slug}` },
+  ])
+  const itemListSchema = offersForCards.length > 0
+    ? itemListJsonLd({
+        name: `Angebote für ${destination.name}`,
+        url: pageUrl,
+        items: offersForCards.map((o) => ({
+          url: `/angebot/${o.id}`,
+          name: o.title,
+          price: o.priceFrom,
+        })),
+      })
+    : null
+
   return (
     <>
+      <JsonLd
+        data={
+          itemListSchema
+            ? [destinationSchema, breadcrumbSchema, itemListSchema]
+            : [destinationSchema, breadcrumbSchema]
+        }
+      />
       {/* ---- Breadcrumb ---- */}
       <nav
         aria-label="Breadcrumb"

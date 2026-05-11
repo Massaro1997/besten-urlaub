@@ -7,6 +7,15 @@ import { Check24Widget } from '@/components/public/check24-widget'
 export const metadata: Metadata = {
   title: 'All Inclusive Urlaub | Bester Urlaub',
   description: 'Die besten All Inclusive Angebote vergleichen. Sorgenfrei Urlaub genießen mit Rundum-Verpflegung.',
+  alternates: { canonical: 'https://www.besterurlaub.com/all-inclusive' },
+  openGraph: {
+    title: 'All Inclusive Urlaub | Bester Urlaub',
+    description: 'Die besten All Inclusive Angebote vergleichen.',
+    type: 'website',
+    locale: 'de_DE',
+    url: 'https://www.besterurlaub.com/all-inclusive',
+    siteName: 'Bester Urlaub',
+  },
 }
 
 export default function AllInclusivePage() {

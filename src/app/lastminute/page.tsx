@@ -7,6 +7,15 @@ import { Check24Widget } from '@/components/public/check24-widget'
 export const metadata: Metadata = {
   title: 'Last Minute Angebote | Bester Urlaub',
   description: 'Finde die besten Last Minute Reiseangebote. Pauschalreisen zum besten Preis direkt vergleichen und buchen.',
+  alternates: { canonical: 'https://www.besterurlaub.com/lastminute' },
+  openGraph: {
+    title: 'Last Minute Angebote | Bester Urlaub',
+    description: 'Last Minute Reiseangebote zum besten Preis.',
+    type: 'website',
+    locale: 'de_DE',
+    url: 'https://www.besterurlaub.com/lastminute',
+    siteName: 'Bester Urlaub',
+  },
 }
 
 export default function LastMinutePage() {
