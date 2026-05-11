@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { formatPrice } from '@/lib/utils'
@@ -63,8 +63,16 @@ export function PublicOfferCard({
   const image = DESTINATION_IMAGES[offer.destination.slug] || '/maldives.png'
   const isCompact = size === 'compact'
 
-  // Marketing: fake original price (2.5-3x) and discount percentage
-  const originalPrice = offer.priceFrom ? Math.round(offer.priceFrom * (2.5 + Math.random() * 0.5)) : null
+  // Marketing: fake original price (2.5-3x) and discount percentage.
+  // Uses a deterministic hash from offer.id so server and client render the same value
+  // (Math.random would produce a hydration mismatch).
+  const seedHash = useMemo(() => {
+    let h = 0
+    for (let i = 0; i < offer.id.length; i++) h = (h * 31 + offer.id.charCodeAt(i)) | 0
+    return Math.abs(h)
+  }, [offer.id])
+  const seedFactor = 2.5 + (seedHash % 50) / 100 // 2.50–2.99, stable per offer
+  const originalPrice = offer.priceFrom ? Math.round(offer.priceFrom * seedFactor) : null
   const discountPercent = offer.priceFrom && originalPrice ? Math.round((1 - offer.priceFrom / originalPrice) * 100) : null
 
   // ViewContent — when card scrolls into view

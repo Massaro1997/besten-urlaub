@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronRight, Lightbulb, MapPin, ArrowLeft } from 'lucide-react'
 import { ratgeberArticles } from '@/lib/ratgeber-data'
+import { JsonLd } from '@/components/public/json-ld'
+import { SITE_URL, articleJsonLd, breadcrumbJsonLd } from '@/lib/seo-jsonld'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -21,15 +23,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Ratgeber nicht gefunden | Bester Urlaub' }
   }
 
+  const url = `${SITE_URL}/ratgeber/${slug}`
+
   return {
     title: `${article.title} | Reise-Ratgeber | Bester Urlaub`,
     description: article.metaDescription,
+    alternates: { canonical: url },
     openGraph: {
       title: article.title,
       description: article.metaDescription,
       type: 'article',
       locale: 'de_DE',
+      url,
+      siteName: 'Bester Urlaub',
       images: [{ url: article.heroImage, width: 1200, height: 630, alt: article.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.metaDescription,
+      images: [article.heroImage],
     },
   }
 }
@@ -43,13 +56,24 @@ export function generateStaticParams() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Helper — pick N random related articles                           */
+/*  Helper — pick N related articles deterministically                */
+/*  Uses a hash of the current slug so each page gets the same set on */
+/*  every render (no hydration mismatch, stable across deployments,    */
+/*  cacheable + indexable internal links).                             */
 /* ------------------------------------------------------------------ */
 
 function getRelatedArticles(currentSlug: string, count: number) {
   const others = ratgeberArticles.filter((a) => a.slug !== currentSlug)
-  const shuffled = [...others].sort(() => Math.random() - 0.5)
-  return shuffled.slice(0, count)
+  if (others.length === 0) return []
+  // Deterministic offset from slug hash — different slugs see different neighbors
+  let hash = 0
+  for (let i = 0; i < currentSlug.length; i++) hash = (hash * 31 + currentSlug.charCodeAt(i)) | 0
+  const start = Math.abs(hash) % others.length
+  const out = []
+  for (let i = 0; i < count && i < others.length; i++) {
+    out.push(others[(start + i) % others.length])
+  }
+  return out
 }
 
 /* ------------------------------------------------------------------ */
@@ -66,11 +90,26 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
 
   const related = getRelatedArticles(article.slug, 3)
 
-  // Insert the Check24 banner after the 2nd section (index 1)
-  const bannerAfterIndex = 1
+  /* ---- JSON-LD: Article + Breadcrumb ---- */
+  const pageUrl = `${SITE_URL}/ratgeber/${article.slug}`
+  const articleSchema = articleJsonLd({
+    headline: article.title,
+    description: article.metaDescription,
+    url: pageUrl,
+    image: article.heroImage,
+    datePublished: '2026-04-01',
+    dateModified: '2026-05-11',
+    authorName: 'Bester Urlaub Redaktion',
+  })
+  const breadcrumbSchema = breadcrumbJsonLd([
+    { name: 'Startseite', url: '/' },
+    { name: 'Ratgeber', url: '/ratgeber' },
+    { name: article.destination, url: `/ratgeber/${article.slug}` },
+  ])
 
   return (
     <>
+      <JsonLd data={[articleSchema, breadcrumbSchema]} />
       {/* ---- Breadcrumb ---- */}
       <nav
         aria-label="Breadcrumb"
@@ -87,7 +126,7 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
           </li>
           <li>
             <Link
-              href="/"
+              href="/ratgeber"
               className="hover:text-[#2e75fa] transition-colors"
             >
               Ratgeber

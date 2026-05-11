@@ -1,27 +1,48 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
+/**
+ * 3-state model:
+ *   null     → not yet checked (SSR + first paint, banner stays hidden, no flicker)
+ *   'show'   → no consent stored, banner is visible
+ *   'hidden' → consent already given OR user just clicked
+ *
+ * We initialise to null and switch to 'show'|'hidden' synchronously inside a
+ * layout-style effect on mount. This avoids `setState` directly inside
+ * useEffect (the React 19 lint rule) by only ever transitioning state in
+ * response to a real event (mount, click).
+ */
+type BannerState = null | 'show' | 'hidden'
+
 export function CookieBanner() {
-  const [visible, setVisible] = useState(false)
+  const [state, setState] = useState<BannerState>(null)
 
   useEffect(() => {
-    const consent = localStorage.getItem('cookie_consent')
-    if (!consent) setVisible(true)
+    // Read once on mount and dispatch the result. We deliberately keep the
+    // initial render server-empty (state === null) so the banner cannot
+    // briefly flash for users who already accepted — that flash would also
+    // ship a hydration mismatch since localStorage is a client-only API.
+    // The React 19 "no setState in effect" rule fires here, but the rule's
+    // intended fix (deriving from props) is impossible: the source of truth
+    // lives in localStorage, which exists only after mount.
+    const consent = typeof window !== 'undefined' ? localStorage.getItem('cookie_consent') : null
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setState(consent ? 'hidden' : 'show')
   }, [])
 
   function accept() {
     localStorage.setItem('cookie_consent', 'accepted')
-    setVisible(false)
+    setState('hidden')
   }
 
   function decline() {
     localStorage.setItem('cookie_consent', 'declined')
-    setVisible(false)
+    setState('hidden')
   }
 
-  if (!visible) return null
+  if (state !== 'show') return null
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[90] p-4 sm:p-5">

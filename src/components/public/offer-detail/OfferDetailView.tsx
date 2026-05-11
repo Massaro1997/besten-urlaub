@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Check, Phone, Share2, Heart, X, ChevronDown, Plane, Moon, Utensils, Shield, Waves, Wifi, Dumbbell, Users, Car, Sparkles, TreePalm, Baby, Wine, Mountain } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Phone, Share2, Heart, X, ChevronDown, Plane, Moon, Utensils, Shield, Waves, Wifi, Car, Sparkles, TreePalm, Baby, Wine, Mountain } from 'lucide-react'
 import { overrideCheck24Params } from '@/lib/affiliate-link'
 import { trackClickOutbound, trackLead } from '@/lib/tiktok-pixel'
 
@@ -84,23 +84,9 @@ function buildGallery(offer: OfferData): string[] {
   return picks.map((s) => `/destinations/${s}.webp`)
 }
 
-function formatDate(d: Date | null): string {
-  if (!d) return ''
-  return new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', year: '2-digit' }).format(d)
-}
-
 function formatPrice(n: number | null): string {
   if (n === null) return ''
   return new Intl.NumberFormat('de-DE').format(Math.round(n))
-}
-
-function ratingLabel(r: number | null): string {
-  if (!r) return ''
-  if (r >= 9) return 'Hervorragend'
-  if (r >= 8.5) return 'Fabelhaft'
-  if (r >= 8) return 'Sehr gut'
-  if (r >= 7) return 'Gut'
-  return 'Akzeptabel'
 }
 
 export function OfferDetailView({ offer, affiliateLinkWithSubid, related = [] }: { offer: OfferData; affiliateLinkWithSubid: string; related?: RelatedOffer[] }) {
@@ -428,7 +414,7 @@ function TitleBlock({ offer, mobile }: { offer: OfferData; mobile: boolean }) {
       )}
       {mobile && (
         <>
-          <h1 style={{ fontSize: 'clamp(20px, 5.5vw, 24px)', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2, margin: '4px 0 0', color: NAVY, textWrap: 'balance' as 'balance' }}>
+          <h1 style={{ fontSize: 'clamp(20px, 5.5vw, 24px)', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2, margin: '4px 0 0', color: NAVY, textWrap: 'balance' as const }}>
             {offer.title}
           </h1>
           {offer.hotelName && (
@@ -780,7 +766,6 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
 
   // Live state (seeded from DB)
   const [depDate, setDepDate] = useState<Date | null>(offer.dateFrom)
-  const [retDate, setRetDate] = useState<Date | null>(offer.dateTo)
   const [nights, setNights] = useState<number>(offer.nights || 7)
   const [adults, setAdults] = useState<number>(offer.adultsCount || 2)
   const [rooms, setRooms] = useState<number>(1)
@@ -788,13 +773,14 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
   const [airports, setAirports] = useState<string[]>([])
   const [openPanel, setOpenPanel] = useState<null | 'dates' | 'guests' | 'airport'>(null)
 
-  // Recompute return date when dep or nights change
-  useEffect(() => {
-    if (depDate) {
-      const r = new Date(depDate.getTime())
-      r.setUTCDate(r.getUTCDate() + nights)
-      setRetDate(r)
-    }
+  // Return date is fully derived from depDate + nights — compute it instead
+  // of mirroring it into state (avoids a setState-in-effect cascade and one
+  // wasted render per change).
+  const retDate = useMemo<Date | null>(() => {
+    if (!depDate) return null
+    const r = new Date(depDate.getTime())
+    r.setUTCDate(r.getUTCDate() + nights)
+    return r
   }, [depDate, nights])
 
   const pricePerPerson = offer.priceFrom || 0
