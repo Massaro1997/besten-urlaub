@@ -47,6 +47,8 @@ next-env.d.ts
 /src/generated/prisma
 dev.db
 scripts/
+!scripts/gsc-submit-sitemap.ts
+!scripts/gsc-request-indexing.ts
 .claude/
 
 .vercel
