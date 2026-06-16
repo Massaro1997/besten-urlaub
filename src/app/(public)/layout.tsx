@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google'
 import { PublicHeader } from '@/components/public/public-header'
 import { PublicFooter } from '@/components/public/public-footer'
 import { CookieBanner } from '@/components/public/cookie-banner'
+import { MobileStickyCta } from '@/components/public/mobile-sticky-cta'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -52,6 +53,7 @@ export default function PublicLayout({
       <main className="flex-1">{children}</main>
       <PublicFooter />
       <CookieBanner />
+      <MobileStickyCta />
     </div>
   )
 }

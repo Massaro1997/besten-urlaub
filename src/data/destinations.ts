@@ -256,6 +256,18 @@ export const destinations: DestinationData[] = [
     "targetAudience": null
   },
   {
+    "id": "cmp2oosg300005cnsozjyss5i",
+    "name": "Kreta",
+    "country": "Griechenland",
+    "slug": "kreta",
+    "category": "isola",
+    "imageUrl": null,
+    "description": "Kreta, die größte griechische Insel, vereint zerklüftete Berge, türkisfarbene Buchten, antike Stätten wie Knossos und legendäre Strände wie Elafonissi und Balos. Perfekt für Familien, Paare und Aktivurlauber.",
+    "popularity": null,
+    "bestSeason": "Mai - Oktober",
+    "targetAudience": null
+  },
+  {
     "id": "lago-di-garda",
     "name": "Lago di Garda",
     "country": "Italia",
@@ -481,6 +493,18 @@ export const destinations: DestinationData[] = [
     "description": "Phuket, die größte Insel Thailands, lockt mit feinsandigen Stränden wie Patong, Karon und Kata, türkisblauer Andamanensee und tropischem Hinterland. Tempel, Streetfood-Märkte und Bootsausflüge zu den Phi Phi Islands gehören dazu.",
     "popularity": null,
     "bestSeason": "November bis April",
+    "targetAudience": null
+  },
+  {
+    "id": "cmp2uzf1x0000w0nsp1wm068m",
+    "name": "Zakynthos",
+    "country": "Griechenland",
+    "slug": "zakynthos",
+    "category": "isola",
+    "imageUrl": null,
+    "description": "Zakynthos, die südlichste der Ionischen Inseln, kombiniert weltbekannte Strände wie Navagio mit ruhigen Bergdörfern und Caretta-Schildkröten im Süden. Ideal für Paare und Familien, die echte griechische Inselatmosphäre suchen.",
+    "popularity": null,
+    "bestSeason": "Mai bis Oktober",
     "targetAudience": null
   }
 ]

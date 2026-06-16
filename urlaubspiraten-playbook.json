@@ -1,0 +1,431 @@
+{
+  "meta": {
+    "title": "Urlaubspiraten.de — Master Playbook for besterurlaub.com",
+    "generated": "2026-05-13",
+    "source": "Deep analysis of urlaubspiraten.de (desktop+mobile), HolidayPirates GmbH, social channels, SEO, funnel CRO, daily-deal pipeline",
+    "purpose": "Steal 13 years of competitor know-how to scale besterurlaub.com via Check24 affiliate (PID 1168044)",
+    "competitor_intel": {
+      "legal_entity": "HolidayPirates GmbH",
+      "address": "Neue Grünstrasse 18, 10179 Berlin",
+      "hrb": "141365 B (Charlottenburg)",
+      "ust_id": "DE 283575860",
+      "ceo": ["David Armstrong", "Sönke Kisker"],
+      "founded": 2011,
+      "markets": ["DE", "AT", "CH", "FR", "IT", "NL", "PL", "ES", "UK", "USA"],
+      "monthly_reach": "20M+ consumers",
+      "social_following": {
+        "facebook": "2.2M",
+        "instagram": "720k",
+        "tiktok": "220k"
+      },
+      "traffic_estimate": "~2M visits/month DE (Similarweb), rank #23 Travel DE"
+    }
+  },
+
+  "business_model": {
+    "type": "Affiliate travel marketplace (no direct e-commerce)",
+    "revenue_streams": [
+      "Affiliate commissions (Awin, TradeDoubler, direct partner deals)",
+      "Newsletter sponsored placements",
+      "Native content sponsorships"
+    ],
+    "partner_networks_observed": [
+      {"name": "weg.de", "type": "TUI Group OTA white-label", "url_pattern": "urlaubspiraten.weg.de/hotel/...cid_XXXX"},
+      {"name": "lastminute.de", "type": "Lastminute Partner Profile", "url_pattern": "holidaypirates.lastminute.de/s/tsx?...businessProfileId=HOLIDAYSPIRATESDE"},
+      {"name": "TUI", "type": "Direct deeplink", "url_pattern": "tui.com/magic-life/..."},
+      {"name": "Aldiana", "type": "Direct deeplink", "url_pattern": "aldiana.com/booking/de?...utm_source=urlaubspiraten"},
+      {"name": "Ryanair / Eurowings", "type": "Direct flight deeplink"},
+      {"name": "Animod / Travelcircus / Journaway", "type": "Hotel package partners"}
+    ],
+    "check24_used": false,
+    "link_shortener": {
+      "domain": "l.urlaubspiraten.de",
+      "pattern": "5-char base62 code, 302 redirect with UTM merge",
+      "purpose": "Centralized attribution, swap affiliate destination without re-publishing cards, strips referrer"
+    },
+    "lessons_for_besterurlaub": [
+      "Build l.besterurlaub.com shortlink redirector (Next.js /api/r/[code]) to swap Check24 deeplinks without redeploy",
+      "Diversify beyond Check24 (Awin already setup): add weg.de, lastminute partner, direct TUI affiliate",
+      "Newsletter sponsored placements monetize once 5k subs reached"
+    ]
+  },
+
+  "tech_stack": {
+    "frontend": "Next.js/React (inferred from URL pattern + lazy load grid)",
+    "image_cdn": "Cloudinary (image.urlaubspiraten.de, media.holidaypirates.group)",
+    "analytics": ["GTM/GA4", "Hotjar", "Meta Pixel", "TikTok Pixel", "Pinterest Tag", "Google Ads Conversion"],
+    "esp_inferred": "Klaviyo (DSGVO Art.49 USA processing disclaimer)",
+    "tracking_attribution": "Server-side CAPI for Meta + TikTok (iOS 14+ workaround)"
+  },
+
+  "site_architecture": {
+    "url_patterns": {
+      "homepage": "/",
+      "category": "/pauschalreisen, /fluege, /hotels, /eigenanreise, /wellness, /rundreisen, /ferienhaeuser",
+      "single_deal": "/pauschalreisen/{kebab-slug}  (slug = hotel+destinazione)",
+      "country_pillar": "/reiseziele/{land}",
+      "regional": "/reiseziele/{land}/{regione}",
+      "theme_hub": "/reisethemen/{tema}",
+      "theme_combo": "/reisethemen/{tema}/{destination}  (HIGH long-tail capture)",
+      "seasonal": "/reisethemen/reisekalender/{mese}",
+      "blog": "/journal/ or /magazin/",
+      "know_how": "/know-how/{topic}"
+    },
+    "homepage_section_order": [
+      "1. Hero search (8 tab: Flug+Hotel/Pauschal/Flüge/Hotels/Eigenanreise/Wellness/Rundreisen/Ferienhäuser) + headline 'Suche & buche deine Traumreise'",
+      "2. Handverlesene Reise-Deals — grid ~20 card",
+      "3. Categorie tematiche chip row",
+      "4. Die beliebtesten Urlaubsziele — 6 destination card + SEO paragrafi",
+      "5. Urlaubsschnäppchen Die günstigsten — 6 budget destinations",
+      "6. Featured 4-card promo",
+      "7. Newsletter signup (con DSGVO disclaimer)",
+      "8. Social row (8 piattaforme: IG/FB/WA/TT/X/Pinterest/Telegram/RSS)",
+      "9. App stores (Play + iOS)",
+      "10. Blog journal — 5 articoli",
+      "11. Brand story Wer sind die Urlaubspiraten",
+      "12. Footer mega (Categorien/Reiseziele/Themen/Newsletter/Social/App/9 Märkte/Legal)"
+    ],
+    "menu_categories_25_voci": [
+      "All Inclusive", "Familienurlaub", "Besondere Reisen", "Wellnessurlaub",
+      "Frühbucher", "Last Minute", "Städtereisen", "Kreuzfahrten",
+      "Flüge", "Kurzurlaub", "Bahnreisen", "Unterkunft",
+      "Exklusive Deals", "Singlereisen", "Skiurlaub", "Winterflucht",
+      "Airbnb", "Unter 500€", "Reisen", "Ägypten",
+      "Türkei", "Mallorca", "Griechenland", "Deutschland",
+      "Italia", "Albanien", "Grün & Gut"
+    ]
+  },
+
+  "card_deal_pattern": {
+    "structure": [
+      "Image lazy-load 1600px Cloudinary 16:9",
+      "Title with emoji ('Apulien entdecken 🇮🇹')",
+      "Subtitle benefit description",
+      "Price prominent 'Ab X € p. P.' (bold number, muted suffix)",
+      "Timestamp 'vor 3 Stunden' OR 'Gültig bis DD.MM.' (urgency cue)",
+      "Badge: FEATURED | Top-Deal | Last Minute | Exklusiv bei uns | HOT DEAL (max 20% of cards)",
+      "Entire card = single anchor link → l.urlaubspiraten.de/{code}"
+    ],
+    "psychology": {
+      "price_framing": "'Ab' avoids price-lock liability, frames as floor",
+      "p_p_suffix": "Per-person reduces sticker shock vs total",
+      "timestamp_relative": "'vor X Stunden' triggers FOMO + freshness signal",
+      "badge_scarcity": "HOT DEAL only on 20% inventory to maintain meaning",
+      "price_anchors_nav": "'Unter 500 EUR' chips act as floor anchor + price filter"
+    }
+  },
+
+  "mobile_ux_patterns": {
+    "viewport_1_above_fold": "Top bar 56px (hamburger left, logo center, search-icon right) → hero bg image → horizontal scrollable tab pills → 4 stacked vertical search inputs full-width 48px → orange CTA 'Suchen' full-width",
+    "viewport_2": "H2 'Handverlesene Reise-Deals' → category chip filter row (horizontal scroll) → single-column card 16:9 image ~210px tall → bold 'Ab X €' + muted 'p.P.' + 'Gültig bis...' + heart icon",
+    "viewport_3": "Newsletter inline (NOT only footer) + DSGVO disclaimer + 'Registrieren' orange CTA → app-store dual badges (Play + Apple)",
+    "key_patterns_15": [
+      "Horizontal scrollable tab pills (Flug+Hotel first by intent value)",
+      "Stacked vertical search inputs (NOT side-by-side, thumb-friendly)",
+      "Orange primary CTA full-width",
+      "Single-column deal cards full-bleed image",
+      "Bold 'Ab X €' + muted 'p.P.' typography hierarchy",
+      "Booking-deadline urgency text under price",
+      "Category chip filter row above grid (NOT drawer)",
+      "Load-more button (NOT infinite scroll) preserves footer reachability",
+      "Inline newsletter mid-listing after 6-8 cards",
+      "App-download dual store badges in footer",
+      "Multi-channel social row (Telegram + WhatsApp included for DACH)",
+      "Persistent magnifier icon top-right",
+      "Entire card single anchor link (no nested buttons)",
+      "GDPR consent inline at newsletter",
+      "Editorial framing 'Handverlesene' beats 'Alle Angebote'"
+    ],
+    "gaps_to_exploit_for_besterurlaub": [
+      "No save/favorite heart visible — add wishlist sync",
+      "No filter drawer — add bottom-sheet filter (price range, sterne, board type)",
+      "No share button per deal — add Web Share API (WhatsApp/Telegram 1-tap)",
+      "No countdown timer — add mm:ss FOMO on time-limited deals",
+      "No PWA install prompt — leapfrog with beforeinstallprompt banner",
+      "No autocomplete search — Algolia/Typesense destination autocomplete"
+    ]
+  },
+
+  "seo_playbook": {
+    "top_20_keywords_to_target": [
+      "last minute urlaub 2026",
+      "pauschalreise mallorca",
+      "all inclusive mallorca",
+      "ägypten urlaub all inclusive",
+      "last minute mallorca",
+      "türkei urlaub all inclusive",
+      "griechenland urlaub",
+      "kurzurlaub deutschland",
+      "flug und hotel",
+      "familienurlaub mallorca",
+      "hurghada urlaub",
+      "kreta urlaub",
+      "wellnessurlaub deutschland",
+      "dubai urlaub günstig",
+      "rhodos all inclusive",
+      "gran canaria pauschalreise",
+      "antalya urlaub",
+      "fuerteventura last minute",
+      "städtereise wochenende",
+      "sommerurlaub 2026"
+    ],
+    "title_tag_patterns": {
+      "destination_guide": "{Destination} Urlaub buchen ▷ Günstige Angebote & Reisetipps",
+      "theme_page": "{Thema} Urlaub {YYYY} » Jetzt günstige Angebote buchen",
+      "category": "{Kategorie} » Jetzt günstig buchen",
+      "single_deal": "{Hook emotivo} ✈️🌞 | Besten Urlaub",
+      "combo_theme_dest": "Last Minute {Destination}: Günstige Deals & Urlaubsangebote",
+      "homepage": "Urlaub günstig buchen & sparen | Urlaubsangebote {YYYY}",
+      "boost_chars": "Use ▷ » | 💥 ✈️ 🌞 😎 for CTR +15-25%"
+    },
+    "content_depth_targets": {
+      "destination_guide_pillar": "4200-5000 words (Mallorca, Türkei, Ägypten, Griechenland, Dubai, Kanaren, Italien, Kreta, Rhodos, Hurghada)",
+      "category_listing": "2800-3200 words",
+      "theme_page": "1500-2500 words",
+      "single_deal": "250-500 words (short, emotional)",
+      "magazin_post": "800-1500 words"
+    },
+    "destination_guide_h2_template": [
+      "Intro",
+      "Flug + Flugdauer",
+      "Klima / Wetter",
+      "Beste Reisezeit",
+      "Tipologie alloggio",
+      "Regioni / spiagge top",
+      "Aktivitäten",
+      "Familien / Party varianti",
+      "Häufige Fragen (FAQ — opportunità: aggiungi FAQPage schema che UP NON usa)",
+      "CTA cross-link"
+    ],
+    "schema_org_to_implement": {
+      "must_have": ["Organization", "BreadcrumbList sitewide", "ItemList on listings", "Product+Offer on deals", "WebSite SearchAction"],
+      "competitive_advantage": "FAQPage schema (UP doesn't use it despite having FAQ H2 — easy win)"
+    },
+    "internal_linking_10_patterns": [
+      "Homepage → 8-12 deal in evidenza (hub & spoke)",
+      "Category /pauschalreisen → 6-8 destination guide top",
+      "Destination guide → 8 deal attivi nella destinazione",
+      "Destination guide → /reisethemen/{tema}/{stessa-destinazione}",
+      "Theme hub → tutte destination varianti del tema",
+      "Single deal → destination guide padre + 3-4 deal correlati",
+      "Country page → regional sub-pages",
+      "Footer sitewide → top 15 destinations + top 10 themes",
+      "Reisekalender → deal stagionali + destinazioni climatic-fit",
+      "Magazin post → CTA destination guide + 2-3 deal embedded"
+    ],
+    "actionable_30_day_roadmap": [
+      "WEEK 1: URL architecture rebuild (/reiseziele/{paese}/{regione} + /reisethemen/{tema}/{destination})",
+      "WEEK 1: Title pattern with emoji+price+year",
+      "WEEK 2: Top 10 destination pillar pages 4000+ words",
+      "WEEK 2: Theme hubs (/last-minute, /all-inclusive, /familienurlaub, /wellness, /kurzurlaub, /staedtereisen)",
+      "WEEK 3: Theme×Destination matrix (60+ combo pages long-tail)",
+      "WEEK 3: Schema FAQPage on every destination guide (4 standard Q)",
+      "WEEK 3: Schema Product+Offer on every deal",
+      "WEEK 4: Reisekalender section (12 mesi pages)",
+      "WEEK 4: Footer hub linking (15 dest + 10 themes sitewide)",
+      "WEEK 4: Sitelinks SearchAction in homepage WebSite JSON-LD",
+      "ONGOING: Magazin 3 post/week 800-1500 words 'Top X {Dest}' / 'Geheimtipps {Dest}'",
+      "ONGOING: Link building target 100 referring domains in 6 mesi (mydealz.de submission, Pinterest pin, travel blog outreach)"
+    ]
+  },
+
+  "social_content_strategy": {
+    "posting_cadence": {
+      "telegram": "3-4 post/day (09:45 / 13:45 / 17:45 CET)",
+      "whatsapp_channel": "2-3 deal/day",
+      "instagram_feed_reels": "1-2 post/day + 3-5 Stories",
+      "tiktok": "1-3 video/day",
+      "facebook": "5-8 post/day",
+      "pinterest": "5-10 pin/day",
+      "newsletter_email": "3-5/week (lun/mer/dom peak)"
+    },
+    "universal_post_template": "[EMOJI BRAND ⭐️] + [HOOK ALL-CAPS] + [EMOJI DEST]\\n[Foto hero hotel]\\n[Subtitle benefit: Wellness 2500m² / Adults Only / All Inclusive]\\nAb [PREZZO]€ p.P. — [DURATA] Nächte, [STELLE]⭐\\n[URGENCY: Gratis-Storno / Nur dieses WE / Letzte Plätze]\\n[CTA: Jetzt zum Deal 👉 + affiliate link]",
+    "10_copy_templates_rubabili": [
+      "{HOOK ALL-CAPS}: {DEST} MIT GRATIS-STORNO-OPTION BUCHEN! 🏝️ → Ab {PREZZO}€ p.P., {NIGHTS} Nächte",
+      "{M²}M² WELLNESSTRAUM IM {REGIONE} ⛰️ → {NIGHTS} Nächte Adults-Only, ab {PREZZO}€",
+      "FAMILIENGLÜCK AUF {ISOLA} 🥰 → Ab {PREZZO}€ (2 Erw. + 1 Kind), inkl. Flug & Transfer",
+      "MORGENS HIN, ABENDS ZURÜCK 🇦🇹 → Direktverbindung {ORIGINE} → {DEST}, ab {PREZZO}€",
+      "DIESEN INFINITY-POOL AUF {ISOLA} MÜSST IHR GESEHEN HABEN 🤩",
+      "ÜBERNACHTEN IM LUXURIÖSEN {TIPO HOTEL} IN {REGIONE} 😍🇮🇹",
+      "VERGESST {DEST MAINSTREAM}: HIER IST DAS WAHRE JUWEL VON {LAND} ✨",
+      "ALL INCLUSIVE LUXUS IN {DEST} 🏜️ → {STELLE}⭐ Resort, ab {PREZZO}€",
+      "NEUE DIREKTVERBINDUNG VON {ORIGINE} NACH {DEST} ANGEKÜNDIGT",
+      "ERROR FARE: {DEST} FLUG NUR {PREZZO}€ HIN & ZURÜCK ✈️🔥"
+    ],
+    "tiktok_5_hooks_3sec": [
+      "Niemand redet über DIESES Hotel auf {Isola}... → cut secco a foto piscina",
+      "{PREZZO}€ All-Inclusive 5-Sterne, kein Witz. → zoom su prezzo overlay giallo",
+      "Vergiss Mallorca. Geh stattdessen HIERHIN: → reveal destinazione alternativa",
+      "POV: Du buchst Urlaub für unter {PREZZO}€ → split screen prezzo Booking vs deal",
+      "Das günstigste Hotel-Schnäppchen der Woche 👇 → countdown overlay 7-3-1"
+    ],
+    "tiktok_format_specs": {
+      "ratio": "9:16",
+      "duration": "15-30 sec",
+      "voice_over": "tedesco colloquiale (male/female)",
+      "on_screen_text": "giallo/rosso bold all-caps",
+      "audio": "beat trend TikTok"
+    },
+    "instagram_split": {
+      "reels": "60% (visuali destination, POV booking, price reveal)",
+      "caroselli": "30% (10 slide: hook → 4-6 foto hotel → mappa → prezzo → CTA Link in Bio)",
+      "foto_singole": "10% (UGC #travellikeapirate, contest)",
+      "performance": "Reels 3-5x reach, Carosello 2x save/share"
+    },
+    "hashtag_set_20_tedesco_travel": [
+      "#urlaub", "#reise", "#fernweh", "#reiselust", "#urlaubsreif", "#urlaubsdeals",
+      "#reiseschnäppchen", "#günstigreisen", "#urlaubmachen", "#wanderlust",
+      "#instatravel", "#travellikeapirate", "#urlaubsplanung", "#traumurlaub",
+      "#strandurlaub", "#mallorca", "#türkei", "#italienliebe", "#europareise", "#sommerurlaub"
+    ],
+    "hashtag_usage_rule": "5-10 in caption + 3-5 in primo commento. MAI spam 30.",
+    "newsletter_strategy": {
+      "frequency": "3-5/week peak lun/mer/dom",
+      "subject_pattern": "🏝️ Türkei All-Inclusive ab 299€ — nur diese Woche! (emoji + dest + prezzo + urgency)",
+      "structure": "1 hero deal + 4-6 deal grid + 1 inspiration article + footer social CTA",
+      "segmentation": ["destinazione preferita", "aeroporto partenza", "family/couple/solo"],
+      "send_time_de_optimal": "06:30 CET (commute peak open)"
+    },
+    "brand_emojis_top_10": ["🏴‍☠️ (signature)", "⭐️ (post opener)", "🏝️ ☀️ 🌴 (tropical)", "✈️ (flight)", "🔥 (urgency)", "😍 🤩 🥰 (emotion)", "👉 (CTA pointer)"]
+  },
+
+  "funnel_cro_15_patterns": [
+    {"pattern": "Relative timestamp on every offer card ('vor 3 Stunden')", "why": "Freshness > absolute date, triggers FOMO", "how_replicate": "dayjs.fromNow() on offer.publishedAt, refresh on render"},
+    {"pattern": "Centralized shortlink redirector (l.besterurlaub.com/{code})", "why": "Swap affiliate destinations without redeploy", "how_replicate": "Next.js /api/r/[code] → DB lookup → 302 with UTM merge"},
+    {"pattern": "Internal detail page before redirect", "why": "SEO juice + Pixel firing + email capture", "how_replicate": "/offerta/[slug] with own copy, then 'Zum Deal' button to shortlink"},
+    {"pattern": "'Ab X € p. P.' price framing", "why": "Avoids price-lock liability, lowers perceived cost", "how_replicate": "Schema field priceFrom + suffix 'EUR p.P.' bold number"},
+    {"pattern": "Insolvenzversicherung trust paragraph", "why": "German legal trust trigger on Pauschalreisen", "how_replicate": "Static block every Pauschal detail, link BGB §651r"},
+    {"pattern": "5 newsletter touchpoints (header inline / mid-grid / detail inline / footer / exit-intent)", "why": "Each touchpoint ~2% conv → 8-10% blended", "how_replicate": "Inline + scroll-60% modal trigger"},
+    {"pattern": "Sticky search bar (airport+date)", "why": "Segments visitor before any click", "how_replicate": "Capture in localStorage, pass to email signup"},
+    {"pattern": "Server-side CAPI Meta + TikTok", "why": "Recovers ~20% iOS attribution loss", "how_replicate": "Conversions API endpoint Vercel function + dedupe event_id"},
+    {"pattern": "Custom ClickOut event with deal_id + price", "why": "Attributes revenue without partner postback delay", "how_replicate": "Fire on 'Zum Deal' click, pass deal_id/price/partner"},
+    {"pattern": "HOT DEAL badges sparingly (≤20% inventory)", "why": "Scarcity decays if always-on", "how_replicate": "Flag in DB, cap 20% via cron"},
+    {"pattern": "Floor anchors in nav ('Unter 500 EUR')", "why": "Sets cheap reference, raises post-click satisfaction", "how_replicate": "Nav chips Unter 300/500/800 EUR → filtered grid"},
+    {"pattern": "Mobile sticky bottom CTA", "why": "Reduces scroll-to-conversion distance", "how_replicate": "Fixed-bottom bar 56px, single orange button"},
+    {"pattern": "WhatsApp floating button mobile", "why": "Replaces email capture for low-intent mobile users", "how_replicate": "wa.me link prefilled 'Ich suche...'"},
+    {"pattern": "E0 welcome email with 3 editor picks", "why": "51% open rate, immediate value", "how_replicate": "Klaviyo flow trigger=signup, 3 dynamic blocks"},
+    {"pattern": "Daily 06:30 CET digest send", "why": "DE commute peak open window", "how_replicate": "Schedule cron daily 06:30 Europe/Berlin"}
+  ],
+
+  "daily_deal_pipeline": {
+    "ingestion_sources": {
+      "rss_feed": "https://www.urlaubspiraten.de/feed (RSS 2.0, valid, daily updated, GOLDMINE)",
+      "sitemap_news": "https://www.urlaubspiraten.de/sitemap/sitemap_news.xml (~9 URLs <24h, rolling window)",
+      "sitemap_index": "https://www.urlaubspiraten.de/sitemap/sitemap_index.xml.gz",
+      "robots_disallow": ["/explore", "/suche", "/*?*ref=", "/*?*clickout_id="]
+    },
+    "rss_item_structure": {
+      "title": "deal headline with emoji",
+      "link": "/pauschalreisen/{slug}",
+      "pubDate": "RFC822",
+      "description": "HTML excerpt",
+      "category": "pauschalreisen | hotels | fluege | sonstiges"
+    },
+    "partner_url_extraction_regex": {
+      "weg_de": "urlaubspiraten\\.weg\\.de/hotel/[^?]+cid_(\\d+)",
+      "lastminute": "holidaypirates\\.lastminute\\.de.*destination=(\\d+).*origin=([A-Z]{3}).*businessProfileId=HOLIDAYSPIRATESDE",
+      "aldiana": "aldiana\\.com/booking/de.*productRef=giata:(\\d+)",
+      "tui": "tui\\.com/(magic-life|hotels)/([^?]+)",
+      "giata_id": "productRef=giata:(\\d+)"
+    },
+    "replication_workflow_cron_1h": [
+      "1. INGEST: GET /feed + sitemap_news → diff vs Postgres up_deals(slug, pubDate, raw_payload), new rows only",
+      "2. PARSE: per nuovo URL scrape (Cheerio/Playwright): JSON-LD Product+Offer + GIATA ID regex + dest+price+nights+board+dates+airport",
+      "3. MATCH CHECK24: API call (creds check24_api_credentials.md) {giata_id, date_from, date_to, adults, board}. Fallback: dest+stars+date+price-band. Returns best offer + deeplink partnerid=1168044",
+      "4. REWRITE COPY: Claude Sonnet prompt 'Rewrite German travel deal in besterurlaub voice (du, no em/en dashes per bestenurlaub_copy_rules.md). Input: {title, hotel, dest, price, nights}'",
+      "5. IMAGE: Booking.com scrape per bestenurlaub_offer_workflow.md (hib_popup hotel name → Booking foto + stars + GPS + rating). Store own CDN",
+      "6. PUBLISH: write offers.ts, deploy vercel deploy --prod, trigger TikTok pipeline (bestenurlaub_tiktok_video_guide.md) for reel",
+      "7. POSTBACK: Awin S2S postback (awin_credentials.md) closes attribution loop"
+    ],
+    "throttle": "1 deal/day curated (highest-margin Check24 match). Tag others 'backlog' for slow days.",
+    "legal_safety": {
+      "ok": ["Read RSS title/dest/price/dates (factual data, not copyrightable)", "Match GIATA ID to Check24 catalog", "Rewrite copy in own voice", "Source own images from Booking.com"],
+      "not_ok": ["Reproduce verbatim copy", "Hotlink their Cloudinary images", "Crawl /explore or /suche (robots-disallowed)", "Exceed 1 req/sec"]
+    },
+    "tooling": {
+      "rss_parser": "rss-parser npm pkg",
+      "html_scraper": "cheerio (fast HTML parsing)",
+      "fallback_dynamic": "playwright (if JS-rendered)",
+      "scheduler": "node-cron OR Vercel Cron jobs",
+      "storage": "Postgres (or SQLite for prototype) — table up_deals + besterurlaub_offers"
+    }
+  },
+
+  "sample_20_deals_extracted": [
+    {"title":"Bis zu 300€ Rabatt auf Cluburlaub am Roten Meer","destination":"Ägypten / Soma Bay","hotel":"Aldiana Club Naga Bay","price":"ab 1003€ p.P.","nights":7,"departure":"17.-24.06.2026","partner":"Aldiana direct","copy_hook":"All Inclusive Cluburlaub mit Codes NAGABAY300 + ALDIANA YOUNG, bis 700€ Ersparnis"},
+    {"title":"Sommerurlaub in Bayern Secret Sale","destination":"Deutschland / Bayerischer Wald","hotel":"Secret Summer Sale Hotel","stars":4,"price":"ab 129€ p.P.","nights":3,"partner":"Travelcircus","copy_hook":"3 Nächte AI inkl. Wasserpark"},
+    {"title":"2 für 1 Südafrika Roadtrip","destination":"Südafrika","price":"ab 1999€ für 2","nights":10,"partner":"weg.de","copy_hook":"10-16 Tage Roadtrip inkl. Flüge, Hotels & Mietwagen"},
+    {"title":"Apulien entdecken","destination":"Italien / Apulien","hotel":"Authentic Masseria","stars":4,"price":"ab 359€ p.P.","nights":4,"partner":"weg.de","copy_hook":"Masseria mit Frühstück, Mietwagen & Flüge"},
+    {"title":"Super günstig ins Disneyland Paris","destination":"Frankreich / Paris","hotel":"Disneyland Partner Hotel","stars":3,"price":"ab 119€ p.P.","nights":1,"partner":"Disneyland direct","copy_hook":"Übernachtung + Parkeintritt"},
+    {"title":"Günstige Flüge nach Porto","destination":"Portugal / Porto","price":"ab 55€ p.P.","partner":"Ryanair","copy_hook":"Hin- und Rückflug ab mehreren deutschen Airports"},
+    {"title":"Super Sorglos Urlaub Türkische Riviera","destination":"Türkei / Alanya","hotel":"Incekum West Hotel","stars":4,"price":"ab 452€ p.P.","nights":7,"departure":"15.05-03.09.2026","partner":"weg.de","copy_hook":"4* Hotel 150m vom Strand, Flüge + Transfer + All Inclusive"},
+    {"title":"Dein Sommer bei TUI MAGIC LIFE","destination":"Mittelmeer / Rotes Meer","stars":4,"price":"ab 683€ p.P.","nights":7,"partner":"TUI","copy_hook":"24/7 All Inclusive + Top Entertainment"},
+    {"title":"Frühbucher Citytrip Mostar","destination":"Bosnien / Mostar","price":"ab 280€ p.P.","nights":7,"departure":"10.-17.10.2026","partner":"Lastminute","copy_hook":"Eurowings Direktflüge ab STR + Apartment"},
+    {"title":"5* Wellnesshotel in Bayern","destination":"Deutschland / Bad Griesbach","hotel":"Wellness Golfhotel Maximilian","stars":5,"price":"ab 219€ p.P.","nights":2,"partner":"Travelcircus","copy_hook":"2 Nächte HP + Thermenbad"},
+    {"title":"Mallorca UNTER 500€","destination":"Spanien / Mallorca","hotel":"Ilusion Moreyo","stars":4,"price":"unter 500€ p.P.","nights":7,"partner":"weg.de","copy_hook":"Beachfront + Flüge + Verpflegung unter 500€"},
+    {"title":"HOT DEAL Montenegro Sommerflug","destination":"Montenegro / Tivat","price":"ab 44€ Flug / ab 299€ Paket","nights":7,"partner":"Lastminute","copy_hook":"Flüge ab 44€ + Wochenpaket-Option"},
+    {"title":"Familienurlaub Polnische Ostsee","destination":"Polen / Swinemünde","hotel":"Vacation Club Baltic Park Fort","stars":4,"price":"ab 199€ p.P.","nights":4,"partner":"weg.de","copy_hook":"Polnische Ostseeküste familienfreundlich"},
+    {"title":"Luxuriöser Citytrip Istanbul 5*","destination":"Türkei / Istanbul","stars":5,"price":"ab 247€ p.P.","nights":3,"partner":"weg.de","copy_hook":"5* Hotel + Flug + Frühstück ab 247€"},
+    {"title":"Sommer auf Ibiza","destination":"Spanien / Ibiza","stars":4,"price":"ab 399€ p.P.","nights":7,"departure":"Juli-Sept 2026","partner":"weg.de","copy_hook":"Sommer-Sammeldeal Ibiza Hotels"},
+    {"title":"Sommer auf Sizilien","destination":"Italien / Sizilien","stars":4,"price":"ab 379€ p.P.","nights":7,"partner":"weg.de","copy_hook":"Sammeldeal Hotels Sizilien"},
+    {"title":"ESL Sprachcamps Familie","destination":"diverse Europa","price":"ab 999€","nights":7,"partner":"ESL direct","copy_hook":"All-inclusive Sprachcamps Kinder"},
+    {"title":"Kreta-Knaller Eigener Pool","destination":"Griechenland / Kreta","stars":4,"price":"unter 570€ p.P.","nights":7,"partner":"weg.de","copy_hook":"Eigener Pool + All Inclusive unter 570€"},
+    {"title":"Aldiana Club Calabria","destination":"Italien / Kalabrien","hotel":"Aldiana Club Calabria","stars":4,"price":"ab 899€ p.P.","nights":7,"partner":"Aldiana direct","copy_hook":"Cluburlaub Kalabrien mit Aldiana Young Rabatt"},
+    {"title":"TUI Magic Life Bodrum","destination":"Türkei / Bodrum","hotel":"TUI Magic Life Bodrum","stars":5,"price":"ab 749€ p.P.","nights":7,"partner":"TUI","copy_hook":"24/7 AI Premium Resort Ägäis"}
+  ],
+
+  "master_roadmap_90_days": {
+    "month_1_foundation": [
+      "Week 1: Build l.besterurlaub.com shortlink redirector (Next.js /api/r/[code])",
+      "Week 1: Server-side Meta CAPI + TikTok CAPI endpoints",
+      "Week 1: Add 'ClickOut' event + GA4 funnel View→Detail→ClickOut→Postback",
+      "Week 2: Insolvenzversicherung trust block on Pauschal pages",
+      "Week 2: Refactor price rendering 'Ab X € p.P.' everywhere",
+      "Week 2: 'vor X Stunden' relative timestamps on all cards",
+      "Week 3: 5 newsletter touchpoints (header inline / mid-grid / detail inline / footer / exit-intent scroll-60%)",
+      "Week 3: Klaviyo welcome E0 (3 editor picks) + E1 trust mail",
+      "Week 4: Mobile sticky bottom CTA + WhatsApp floating button",
+      "Week 4: Daily 06:30 CET digest send",
+      "Week 4: A/B test HOT DEAL badge 20% vs 100%"
+    ],
+    "month_2_content_seo": [
+      "Week 5: Top 10 destination pillar pages 4000+ words (Mallorca, Türkei, Ägypten, Griechenland, Dubai, Kanaren, Italien, Kreta, Rhodos, Hurghada)",
+      "Week 5: Theme hubs (/last-minute, /all-inclusive, /familienurlaub, /wellness, /kurzurlaub, /staedtereisen)",
+      "Week 6: Schema FAQPage + Product+Offer + BreadcrumbList sitewide",
+      "Week 6: Title patterns emoji+price+year on all pages",
+      "Week 7: Theme×Destination matrix (60+ combo long-tail pages)",
+      "Week 7: Reisekalender 12 mesi pages",
+      "Week 8: Magazin/Journal launch 3 posts/week",
+      "Week 8: Footer hub linking sitewide"
+    ],
+    "month_3_scale_automation": [
+      "Week 9: RSS daily-deal cron pipeline (urlaubspiraten /feed → diff → Check24 match → rewrite Claude → publish)",
+      "Week 9: Telegram + WhatsApp channel launch",
+      "Week 10: Orchestra scheduler 3 slot/day (09:45/13:45/17:45) for all social channels",
+      "Week 10: TikTok 1 video/day with 5 hook rotation",
+      "Week 11: Instagram Reels daily + Carosello 3x/week",
+      "Week 11: Pinterest 5 pin/day automated",
+      "Week 12: Link building 100 referring domains (mydealz.de submission, Pinterest, travel blog outreach)"
+    ],
+    "kpi_targets_90_days": {
+      "telegram_subs": "500",
+      "whatsapp_subs": "1000",
+      "instagram_followers": "2000",
+      "newsletter_subs": "5000",
+      "newsletter_ctr": "≥18%",
+      "organic_referring_domains": "100",
+      "daily_deal_publishes": "1/day curated",
+      "check24_postback_conversions": "track via Awin S2S"
+    }
+  },
+
+  "quick_wins_immediate_this_week": [
+    "Implement 'Ab X € p.P.' price framing site-wide (1 day work)",
+    "Add 'vor X Stunden' relative timestamps using dayjs.fromNow() (1 day)",
+    "Add Schema FAQPage to existing destination pages (UP doesn't use it — competitive advantage, 2 days)",
+    "Add Schema Product+Offer to existing deal pages (1 day)",
+    "Build l.besterurlaub.com shortlink redirector (3 days)",
+    "5 newsletter touchpoints (2 days)",
+    "Mobile sticky bottom CTA (1 day)"
+  ]
+}

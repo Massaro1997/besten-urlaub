@@ -5,17 +5,23 @@ import { CallbackModal } from '@/components/public/callback-modal'
 import { JsonLd } from '@/components/public/json-ld'
 import { generateEventId, buildAffiliateLinkWithSubid } from '@/lib/affiliate-link'
 import { OfferDetailView } from '@/components/public/offer-detail/OfferDetailView'
-import { getOfferById, offers as ALL_OFFERS } from '@/data/offers'
+import { offers as ALL_OFFERS } from '@/data/offers'
+import { getOfferByIdMerged } from '@/lib/offers-merged'
 import {
   SITE_URL,
   breadcrumbJsonLd,
   offerProductJsonLd,
 } from '@/lib/seo-jsonld'
 
-// Static data — no DB. Every offer becomes a statically-generated page.
+// Hybrid: static IDs pre-rendered, DB-imported IDs handled at runtime (ISR).
+// dynamicParams=true (default) means unknown IDs fall through to runtime render.
 export function generateStaticParams() {
   return ALL_OFFERS.map((o) => ({ id: o.id }))
 }
+
+// Force dynamic rendering for unknown IDs (auto-imported from UP pipeline)
+export const dynamicParams = true
+export const revalidate = 3600 // ISR 1h
 
 export async function generateMetadata({
   params,
@@ -23,7 +29,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>
 }): Promise<Metadata> {
   const { id } = await params
-  const offer = getOfferById(id)
+  const offer = await getOfferByIdMerged(id)
   if (!offer) return { title: 'Angebot nicht gefunden' }
   const url = `${SITE_URL}/angebot/${offer.id}`
   const title = `${offer.hotelName || offer.title} | Bester Urlaub`
@@ -59,7 +65,7 @@ export default async function AngebotPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const offer = getOfferById(id)
+  const offer = await getOfferByIdMerged(id)
   if (!offer) notFound()
 
   const eventId = generateEventId()

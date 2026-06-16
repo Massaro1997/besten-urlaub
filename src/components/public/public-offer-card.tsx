@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { formatPrice } from '@/lib/utils'
+import { formatPrice, formatRelativeTime, getDeterministicPublishedAt } from '@/lib/utils'
 import { CATEGORY_DE_MAP } from '@/lib/public-constants'
 import { trackViewContent, trackClickButton } from '@/lib/tiktok-pixel'
 
@@ -57,7 +57,7 @@ export function PublicOfferCard({
   offer: PublicOffer
   size?: 'default' | 'compact'
 }) {
-  const cardRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLAnchorElement>(null)
   const tracked = useRef(false)
   const categoryLabel = CATEGORY_DE_MAP[offer.destination.category]
   const image = DESTINATION_IMAGES[offer.destination.slug] || '/maldives.png'
@@ -74,6 +74,7 @@ export function PublicOfferCard({
   const seedFactor = 2.5 + (seedHash % 50) / 100 // 2.50–2.99, stable per offer
   const originalPrice = offer.priceFrom ? Math.round(offer.priceFrom * seedFactor) : null
   const discountPercent = offer.priceFrom && originalPrice ? Math.round((1 - offer.priceFrom / originalPrice) * 100) : null
+  const relativeTime = useMemo(() => formatRelativeTime(getDeterministicPublishedAt(offer.id)), [offer.id])
 
   // ViewContent — when card scrolls into view
   useEffect(() => {
@@ -93,10 +94,23 @@ export function PublicOfferCard({
     return () => observer.disconnect()
   }, [offer])
 
+  // Heading badge (top-left): "Top-Deal" | "Last Minute" | "Exklusiv bei uns" | "FEATURED"
+  // Derive from offer.featured flag + discount + category — pattern UP
+  let headingBadge: { label: string; icon: string } | null = null
+  if (discountPercent && discountPercent >= 40) headingBadge = { label: 'Top-Deal', icon: '🔥' }
+  else if (offer.destination.category === 'last-minute') headingBadge = { label: 'Last Minute', icon: '⚡' }
+  else if (offer.destination.category === 'fruehbucher') headingBadge = { label: 'Frühbucher', icon: '🐦' }
+  else if (discountPercent && discountPercent >= 20) headingBadge = { label: 'Schnäppchen', icon: '💥' }
+
   return (
-    <div ref={cardRef} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 group">
-      {/* Image header */}
-      <div className={`relative overflow-hidden ${isCompact ? 'h-28 sm:h-32' : 'h-40 sm:h-44'}`}>
+    <Link
+      ref={cardRef}
+      href={`/angebot/${offer.id}`}
+      onClick={() => trackClickButton(offer)}
+      className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all hover:-translate-y-0.5 group block"
+    >
+      {/* Image header — UP-style 16:9 */}
+      <div className="relative overflow-hidden aspect-[16/9]">
         <Image
           src={image}
           alt={offer.destination.name}
@@ -104,68 +118,73 @@ export function PublicOfferCard({
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           sizes={isCompact ? '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw'}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
-        {/* Top-left: category or "Top Deal" badge */}
-        {!isCompact && (
-          <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 text-xs font-semibold text-[#0a1a3a]">
-            {categoryLabel || 'Top Deal'}
+        {/* Heading badge top-left (UP: "Top-Deal" + icon orange pill) */}
+        {headingBadge && (
+          <span className="absolute top-3 left-3 inline-flex items-center gap-1 bg-white rounded-full px-2.5 py-1 text-[11px] font-bold text-[#0a1a3a] shadow-sm">
+            <span className="text-[#ff6b35]">{headingBadge.icon}</span>
+            {headingBadge.label}
           </span>
         )}
 
-        {/* Top-right: discount badge */}
-        {discountPercent && !isCompact && (
-          <span className="absolute top-3 right-3 bg-[#ff6b35] text-white rounded-full px-2.5 py-1 text-xs font-bold shadow-lg">
-            -{discountPercent}%
-          </span>
-        )}
+        {/* Wishlist heart top-right (UP pattern) */}
+        <button
+          type="button"
+          aria-label="Merken"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-[#0a1a3a]/55 hover:text-[#ff6b35] transition-colors shadow-sm"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" />
+          </svg>
+        </button>
 
-        <div className={`absolute ${isCompact ? 'bottom-2 left-2' : 'bottom-3 left-3'}`}>
-          <p className={`text-white font-semibold drop-shadow ${isCompact ? 'text-xs' : 'text-sm'}`}>
-            {offer.destination.name}, {offer.destination.country}
-          </p>
-        </div>
+        {/* Price ribbon bottom-right OVER image (UP pattern: "Ab X € p.P.") */}
+        {offer.priceFrom && (
+          <div className="absolute bottom-3 right-3 bg-white rounded-full px-3 py-1.5 shadow-md flex items-baseline gap-0.5">
+            <span className="text-[10px] text-[#0a1a3a]/55 font-medium">Ab</span>
+            <span className="text-base font-extrabold text-[#0a1a3a] tracking-tight">{formatPrice(offer.priceFrom)}</span>
+            <span className="text-[10px] text-[#0a1a3a]/45 font-medium">p.P.</span>
+          </div>
+        )}
       </div>
 
-      {/* Body */}
-      <div className={isCompact ? 'p-3' : 'p-4'}>
-        <h3 className={`font-semibold text-[#0a1a3a] line-clamp-2 ${isCompact ? 'text-sm' : 'text-base'}`}>
+      {/* Body — flat, NO border-top divider (UP pattern) */}
+      <div className="p-4">
+        {/* Category heading (uppercase mini-eyebrow) — UP pattern always present */}
+        <div className="flex items-center gap-1.5 mb-1.5">
+          <span className="text-[#ff6b35] text-xs">🔥</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#ff6b35]">
+            {categoryLabel || 'Reisen'}
+          </span>
+        </div>
+
+        {/* Title — bold, line-clamp 2 */}
+        <h3 className="font-bold text-[#0a1a3a] text-[15px] leading-snug line-clamp-2 tracking-tight">
           {offer.title}
         </h3>
 
-        {offer.description && !isCompact && (
-          <p className="text-sm text-[#0a1a3a]/60 line-clamp-2 mt-1.5">
+        {/* Subtitle */}
+        {offer.description && (
+          <p className="text-xs text-[#0a1a3a]/65 line-clamp-2 mt-1.5 leading-relaxed">
             {offer.description}
           </p>
         )}
 
-        <div className={`flex justify-between items-center border-t border-[#0a1a3a]/8 ${isCompact ? 'mt-2 pt-2' : 'mt-4 pt-3'}`}>
-          {offer.priceFrom ? (
-            <div>
-              {originalPrice && !isCompact && (
-                <span className="text-xs text-[#0a1a3a]/35 line-through mr-1.5">
-                  {formatPrice(originalPrice)}
-                </span>
-              )}
-              <span className="text-xs text-[#0a1a3a]/50">ab</span>
-              <span className={`font-bold text-[#2e75fa] ml-1 ${isCompact ? 'text-base' : 'text-xl'}`}>
-                {formatPrice(offer.priceFrom)}
-              </span>
-              <span className={`text-[#0a1a3a]/40 ml-0.5 ${isCompact ? 'text-[10px]' : 'text-xs'}`}>p.P.</span>
-            </div>
-          ) : (
-            <span />
+        {/* Footer timestamp + strike */}
+        <div className="flex items-center justify-between mt-3">
+          {relativeTime && (
+            <span className="text-[11px] text-[#0a1a3a]/50">
+              {relativeTime}
+            </span>
           )}
-
-          <Link
-            href={`/angebot/${offer.id}`}
-            onClick={() => trackClickButton(offer)}
-            className={`bg-[#ff6b35] text-white rounded-xl font-semibold hover:bg-[#e55a2b] active:scale-95 transition-all inline-block shadow-sm shadow-[#ff6b35]/25 ${isCompact ? 'px-3 py-1.5 text-xs' : 'px-5 py-2.5 text-sm'}`}
-          >
-            {isCompact ? 'Ansehen' : 'Zum Angebot'}
-          </Link>
+          {originalPrice && !isCompact && (
+            <span className="text-[11px] text-[#0a1a3a]/40 line-through">
+              {formatPrice(originalPrice)}
+            </span>
+          )}
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

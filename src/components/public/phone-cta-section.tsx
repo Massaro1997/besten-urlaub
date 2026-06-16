@@ -17,16 +17,16 @@ export function PhoneCtaSection() {
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 text-center">
         <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#ff6b35] font-bold mb-3">
-          Persönliche Beratung
+          Persönliche Beratung · Kostenlos
         </p>
 
         <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
-          Brauchst du Hilfe bei deiner Buchung?
+          Sprich mit einem echten Piraten 📞
         </h2>
 
         <p className="text-white/60 text-sm sm:text-lg max-w-xl mx-auto mb-8 sm:mb-10">
-          Ruf uns direkt an. Kostenlos. Keine Warteschlange.<br className="hidden sm:block" />
-          Wir finden gemeinsam dein perfektes Angebot.
+          Keine Warteschlange. Kein Bot. Wir finden gemeinsam dein perfektes Schnäppchen —
+          schnell und ohne Stress.
         </p>
 
         {/* Big phone number */}

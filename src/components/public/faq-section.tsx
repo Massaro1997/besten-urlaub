@@ -9,12 +9,17 @@ export function FaqSection() {
 
   return (
     <section id="faq" className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
-      <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight mb-2">
-        G&uuml;nstige Pauschalreisen: H&auml;ufig gestellte Fragen
-      </h2>
-      <p className="text-sm text-[#0a1a3a]/50 mb-8">
-        Plane deine Reise &mdash; alles, was du wissen musst.
-      </p>
+      <div className="flex flex-col items-center text-center mb-8">
+        <span className="text-[11px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-2">
+          Häufige Fragen · Schnell beantwortet
+        </span>
+        <h2 className="text-xl sm:text-3xl lg:text-[2rem] font-extrabold text-[#0a1a3a] tracking-tight leading-tight">
+          Alles, was du wissen musst 💡
+        </h2>
+        <p className="text-sm sm:text-base text-[#0a1a3a]/55 mt-2 max-w-xl">
+          Plane deinen Urlaub ohne Stress — wir haben die Antworten.
+        </p>
+      </div>
 
       <div className="space-y-0 border-t border-[#0a1a3a]/10">
         {HOMEPAGE_FAQ.map((item, i) => (

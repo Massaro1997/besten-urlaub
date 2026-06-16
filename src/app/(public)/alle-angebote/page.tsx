@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { OffersSection } from '@/components/public/offers-section'
-import { offers as ALL_OFFERS } from '@/data/offers'
+import { getAllOffersMerged } from '@/lib/offers-merged'
 import { JsonLd } from '@/components/public/json-ld'
 import { SITE_URL, breadcrumbJsonLd, itemListJsonLd } from '@/lib/seo-jsonld'
 
@@ -18,7 +18,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default function AlleAngebotePage() {
+export default async function AlleAngebotePage() {
+  const ALL_OFFERS = await getAllOffersMerged()
   const typedOffers = ALL_OFFERS
     .filter((o) => o.destination.slug !== null)
     .map((o) => ({

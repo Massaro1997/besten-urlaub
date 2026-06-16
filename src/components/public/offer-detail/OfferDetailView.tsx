@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, ChevronLeft, ChevronRight, Star, Flame, MapPin, Phone, Share2, Heart, X, ChevronDown, Plane, Moon, Utensils, Shield, Waves, Wifi, Car, Sparkles, TreePalm, Baby, Wine, Mountain } from 'lucide-react'
 import { overrideCheck24Params } from '@/lib/affiliate-link'
 import { trackClickOutbound, trackLead } from '@/lib/tiktok-pixel'
+import { InsolvenzTrustBlock } from '@/components/public/insolvenz-trust-block'
 
 type OfferData = {
   id: string
@@ -976,6 +977,10 @@ function BookingCard({ offer, affiliateLink }: { offer: OfferData; affiliateLink
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         </svg>
         Sicher buchen bei unserem Partner CHECK24
+      </div>
+
+      <div style={{ marginTop: 14 }}>
+        <InsolvenzTrustBlock variant="compact" />
       </div>
     </div>
   )

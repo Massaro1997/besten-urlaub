@@ -45,16 +45,16 @@ export function RatgeberCarousel() {
       <div className="flex items-end justify-between mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <BookOpen className="w-4 h-4 text-[#2e75fa]" />
-            <span className="text-xs font-semibold text-[#2e75fa] uppercase tracking-wider">
-              Ratgeber
+            <BookOpen className="w-4 h-4 text-[#ff6b35]" />
+            <span className="text-[11px] sm:text-xs font-bold text-[#ff6b35] uppercase tracking-[0.25em]">
+              Reise-Magazin · Insider-Tipps
             </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight">
-            Reise-Ratgeber
+          <h2 className="text-xl sm:text-3xl lg:text-[2rem] font-extrabold text-[#0a1a3a] tracking-tight leading-tight">
+            Lass dich inspirieren ✨
           </h2>
-          <p className="text-sm text-[#0a1a3a]/50 mt-1 max-w-lg">
-            Inspiration &amp; Insider-Tipps f&uuml;r deinen n&auml;chsten Urlaub
+          <p className="text-sm sm:text-base text-[#0a1a3a]/55 mt-1.5 max-w-lg">
+            Geheimtipps, Reiseführer und Sparhacks für deinen nächsten Urlaub.
           </p>
         </div>
 

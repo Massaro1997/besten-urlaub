@@ -1,0 +1,406 @@
+{
+  "meta": {
+    "version": "2.0",
+    "generated": "2026-05-13",
+    "source": "Live chrome-devtools MCP scrape of urlaubspiraten.de + RSS feed + sitemap + JSON-LD analysis",
+    "verified_data": true,
+    "purpose": "Replicate exact urlaubspiraten copy patterns, posting cadence, card structure, SEO strategy on besterurlaub.com"
+  },
+
+  "verified_intel": {
+    "company": "HolidayPirates GmbH, Berlin (HRB 141365 B, USt DE 283575860)",
+    "founded": 2011,
+    "site_meta": {
+      "homepage_title": "Urlaub günstig buchen & sparen | Urlaubsangebote 2026",
+      "homepage_meta_desc": "Jetzt günstig deinen nächsten Urlaub buchen ✈️ Top Deals ✓ Von Frühbucher bis Last Minute ✓ Finde dein perfektes Angebot & spare mit Urlaubspiraten!",
+      "lang": "de",
+      "image_cdn": "image.urlaubspiraten.de (Cloudinary) — sizes 640/1x1/4x3/16x9/1600",
+      "schema_org": ["Article", "Organization (publisher inside Article)"]
+    }
+  },
+
+  "posting_cadence_VERIFIED_2026_05_13": {
+    "total_deals_today_so_far": 22,
+    "first_deal_today": "05:45",
+    "last_deal_today": "18:30",
+    "time_slots_today": [
+      "05:45", "06:17", "08:04", "08:35", "09:30", "10:00", "10:30",
+      "10:45", "10:51", "11:00", "11:30", "12:00", "12:33", "12:58",
+      "13:00", "13:30", "14:00", "14:30", "14:45", "15:00", "16:30", "18:30"
+    ],
+    "interval_avg_minutes": "~35 minuti tra deal (cluster mattino 09-15)",
+    "rss_total_items": 60,
+    "rss_rolling_days": "~3 giorni (60 / 22 ≈ 3 giorni)",
+    "INSIGHT": "Urlaubspiraten posta 20+ deal/giorno (NON 3-4 come stima precedente). Cluster denso 09:00-15:00, evening light 16:00-18:30. Sera/notte silenzio."
+  },
+
+  "categories_verified": {
+    "primary": ["pauschalreisen", "hotels", "fluege", "sonstiges", "kreuzfahrten"],
+    "ratios_today_22_deals": {
+      "pauschalreisen": "8 (36%)",
+      "hotels": "8 (36%)",
+      "fluege": "3 (14%)",
+      "sonstiges": "2 (9%)",
+      "kreuzfahrten": "1 (5%)"
+    },
+    "menu_25_subcats": [
+      "All Inclusive", "Familienurlaub", "Besondere Reisen", "Wellnessurlaub",
+      "Frühbucher", "Urlaub verschenken", "Last Minute", "Städtereisen",
+      "Kreuzfahrten", "Flüge", "Kurzurlaub", "Bahnreisen", "Unterkunft",
+      "Exklusive Deals", "Urlaub für Alleinreisende", "Skiurlaub", "Winterflucht",
+      "Airbnb", "Unter 500 €", "Reisen", "Ägypten", "Türkei", "Mallorca",
+      "Griechenland", "Deutschland", "Italien", "Albanien", "Grün & Gut",
+      "Sonstiges", "Freizeitparks"
+    ]
+  },
+
+  "card_pattern_REAL": {
+    "structure_observed": [
+      "BADGE TOP-LEFT (uppercase): FEATURED | Top-Deal | Last Minute | Exklusiv bei uns",
+      "CATEGORY BADGE (uppercase): REISEN | UNTERKUNFT | FLÜGE | SONSTIGES | KREUZFAHRTEN",
+      "TITLE (h2 emoji-rich): 'Apulien entdecken 🇮🇹' / 'Mallorca UNTER 500€❗️😎'",
+      "SUBTITLE (1-line benefit): '4 Nächte in einer authentischen Masseria mit Frühstück sowie Mietwagen und Flügen'",
+      "PRICE: 'Ab 359 € p. P.' (number + 'p. P.' suffix)",
+      "TIMESTAMP: 'vor 1 Stunde' / 'vor 5 Stunden' / '12.5.2026' (relative or absolute fallback)",
+      "AUTHOR ATTRIBUTION (deal detail): 'VERÖFFENTLICHT VON {NickName} · vor X Stunden'",
+      "CTA: 'ZUM DEAL' (uppercase, opens new tab to partner)"
+    ],
+    "emoji_density": "1-3 emoji per title, ALWAYS at title end OR strategic mid-sentence",
+    "title_length_observed": "30-85 caratteri",
+    "typical_emoji_set": [
+      "🇮🇹 🇹🇷 🇵🇱 🇿🇦 🇩🇰 (flag destinazione)",
+      "🌊 🏖️ ☀️ 🌴 🍷 (vibes)",
+      "😍 🤩 🥰 ❤️ 💚 🩵 (emotion)",
+      "🔥 ❗️ 🤯 (urgency)",
+      "✈️ ☕ 🥐 🏨 (travel context)",
+      "😎 🥳 (mood)"
+    ]
+  },
+
+  "real_copy_examples_20_VERIFIED": [
+    {
+      "title": "Apulien entdecken 🇮🇹",
+      "subtitle": "4 Nächte in einer authentischen Masseria mit Frühstück sowie Mietwagen und Flügen",
+      "price": "Ab 359 € p. P.",
+      "category": "REISEN",
+      "timestamp": "vor 1 Stunde",
+      "h1_detail_page": "Apulien entdecken 🇮🇹",
+      "meta_title": "Apulien Reise | Pauschalurlaub",
+      "meta_desc": "4 Nächte in einer authentischen Masseria mit Frühstück sowie Mietwagen und Flügen",
+      "partner": "secret-escapes-de.b7ohif.net (Awin)",
+      "cta": "ZUM DEAL"
+    },
+    {
+      "title": "Mallorca UNTER 500€❗️😎",
+      "subtitle": "1 Woche im 4* Adults Only Hotel mit Halbpension, Pool, Spa & DIREKT am Meer",
+      "price": "Ab 481 € p. P.",
+      "category": "UNTERKUNFT",
+      "timestamp": "vor 7 Stunden"
+    },
+    {
+      "title": "HOT DEAL ✈️😍 Im Sommer nach Montenegro fliegen",
+      "subtitle": "z.B. im Juni ab 6x Flughäfen in Deutschland unter 70€ | 7 Nächte mit Apartment & Flug ab 195€",
+      "price": "Ab 44 € p. P.",
+      "category": "FLÜGE",
+      "timestamp": "vor 7 Stunden"
+    },
+    {
+      "title": "Dein Sommer bei TUI MAGIC LIFE ist wie Urlaub, nur geiler! 🌊",
+      "subtitle": "24/7 All Inclusive, top Entertainment, sportliche Vielfalt und das immer direkt am Strand 🏖️ ☀️",
+      "price": "Ab 683 € p. P.",
+      "category": "REISEN",
+      "badge": "FEATURED",
+      "timestamp": "vor 5 Stunden"
+    },
+    {
+      "title": "Super Sorglos Urlaub an der Türkischen Riviera ☀️",
+      "subtitle": "1 Woche im 4* Hotel -nur 150m vom Strand entfernt- inkl. Flügen, Transfer & All Inclusive",
+      "price": "Ab 452 € p. P.",
+      "category": "REISEN",
+      "badge": "Last Minute",
+      "timestamp": "vor 5 Stunden"
+    },
+    {
+      "title": "Frühbucher: Citytrip nach Mostar 🤩",
+      "subtitle": "7 Nächte 😎 inkl. Eurowings Direktflügen ✈️",
+      "price": "Ab 280 € p. P.",
+      "category": "REISEN",
+      "timestamp": "vor 6 Stunden"
+    },
+    {
+      "title": "5* Wellnesshotel in Bayern 😍",
+      "subtitle": "Verbringt 2 Nächte in Bad Griesbach inkl. Halbpension + Zugang zur Thermalbadelandschaft",
+      "price": "Ab 219 € p. P.",
+      "category": "UNTERKUNFT",
+      "timestamp": "vor 6 Stunden"
+    },
+    {
+      "title": "Luxuriöser Citytrip: Extrem günstig! 😍 🇹🇷",
+      "subtitle": "3 Nächte Istanbul im 5* Hotel in Bestlage 🤩 inkl. Flug & Frühstück ☕🥐",
+      "price": "Ab 247 € p. P.",
+      "category": "REISEN",
+      "timestamp": "vor 8 Stunden"
+    },
+    {
+      "title": "Sale bei Ryanair ✈️",
+      "subtitle": "Viele günstige Tickets 🤯 ✈️ Billig durch Europa fliegen 👉 One-Way-Tickets ab 15€ sichern",
+      "price": "Ab 15 € p. P.",
+      "category": "FLÜGE",
+      "timestamp": "vor 10 Stunden"
+    },
+    {
+      "title": "Sommerurlaub in Bayern 🫶",
+      "subtitle": "Perfekt für Familien: 3 Nächte mit All Inclusive, Badewelt & Kinderbetreuung | Kids bis 9 J. übernachten kostenfrei 🥳",
+      "price": "Ab 129 € p. P.",
+      "category": "UNTERKUNFT",
+      "badge": "Top-Deal"
+    },
+    {
+      "title": "Erlebe Irlands Facetten zwischen Hauptstadt & Atlantikküste 💚",
+      "subtitle": "Von Dublin bis Galway mit Flügen, 4* Hotels, Frühstück, Tagestour Cliffs of Moher & Aran Islands inkl. Fähre",
+      "price": "Ab 699 € p. P.",
+      "category": "REISEN",
+      "badge": "Exklusiv bei uns",
+      "timestamp": "vor 9 Stunden"
+    },
+    {
+      "title": "Die Urlaubssonne naht: Heute buchen, morgen fliegen! 🏖️ ☀️",
+      "subtitle": "Ultra kurzfristig Urlauben z.B. Mallorca & Türkei, Griechenland & mehr: Mit ✈️, 🏨 & 🍽️",
+      "category": "REISEN",
+      "badge": "Last Minute",
+      "timestamp": "vor 9 Stunden"
+    },
+    {
+      "title": "Wellness + Kulinarik = ❤️",
+      "subtitle": "Stylisches & familienfreundliches 4* Hotel in Südtirol 🥰 2 Nächte mit Frühstück & täglichem 5-Gang-Dinner",
+      "price": "Ab 199 € p. P.",
+      "category": "UNTERKUNFT"
+    },
+    {
+      "title": "2 für 1 Südafrika: Roadtrip zu zweit, doppelter Spaß 🇿🇦",
+      "subtitle": "Dein Travelbuddy reist KOSTENLOS! 10-16 Tage inkl. Flügen, Hotels, Mietwagen & mehr",
+      "price": "Ab 1.999 € Gesamtpreis",
+      "category": "REISEN",
+      "badge": "Top-Deal"
+    },
+    {
+      "title": "Super günstig ins Disneyland® Paris 🤩",
+      "subtitle": "Disneyland® Paris-Tickets + Hotel-Übernachtung mit Frühstück",
+      "price": "Ab 119 € p. P.",
+      "category": "SONSTIGES"
+    },
+    {
+      "title": "Günstige Flüge nach Porto im Sommer ☀️🍷",
+      "subtitle": "Nonstop Hin- und Rückflüge ab 10 deutschen Airports! 🇵🇹",
+      "price": "Ab 55 € p. P.",
+      "category": "FLÜGE"
+    },
+    {
+      "title": "Ausflug an den Eibsee 🩵",
+      "subtitle": "Last Minute! Übernachtung im schicken Hotel in Garmisch-Partenkirchen inkl. Frühstück",
+      "price": "Ab 82,50 € p. P.",
+      "category": "UNTERKUNFT"
+    },
+    {
+      "title": "Hyggelig in Dänemark 🇩🇰",
+      "category": "UNTERKUNFT",
+      "url": "/hotels/plantagevej-26-daenemark-ferienhaus"
+    },
+    {
+      "title": "🔻 KABINEN-SALE! Los geht's bei 499€ 🩵❤️💛💚",
+      "category": "KREUZFAHRTEN",
+      "url": "/kreuzfahrten/sommeraktion-aida"
+    },
+    {
+      "title": "Last-Minute-Sommerurlaub auf Kreta 🌊🌴",
+      "category": "REISEN",
+      "url": "/pauschalreisen/amazones-village-suites"
+    }
+  ],
+
+  "copy_patterns_FORMULAS": {
+    "title_structure": [
+      "FORMULA A — Destination + Action + Emoji: '{Destination} entdecken 🇮🇹'",
+      "FORMULA B — Price hook + Urgency + Emoji: '{Destination} UNTER {Prezzo}€❗️😎'",
+      "FORMULA C — Badge + Vibe + Emoji: 'HOT DEAL ✈️😍 Im {Stagione} nach {Dest} fliegen'",
+      "FORMULA D — Hotel type + Region + Emoji: '5* Wellnesshotel in {Region} 😍'",
+      "FORMULA E — Theme + Place + Emoji: 'Luxuriöser Citytrip: Extrem günstig! 😍 🇹🇷'",
+      "FORMULA F — Brand collab + Vibe: 'Dein Sommer bei {Brand} ist wie Urlaub, nur geiler! 🌊'",
+      "FORMULA G — Mathematical equation: 'Wellness + Kulinarik = ❤️'",
+      "FORMULA H — Time-pressure pun: 'Die Urlaubssonne naht: Heute buchen, morgen fliegen! 🏖️ ☀️'",
+      "FORMULA I — Offer mechanic: '2 für 1 {Destination}: {Benefit} 🇿🇦'",
+      "FORMULA J — Hyggelig/cultural reference: 'Hyggelig in Dänemark 🇩🇰'"
+    ],
+    "subtitle_structure": [
+      "PATTERN A — Duration + Hotel quality + Inclusions: '{N} Nächte im {Stars}* {Type Hotel} inkl. {Flug/Transfer/Verpflegung}'",
+      "PATTERN B — Premium feature + Conditions: 'Adults Only Hotel mit Halbpension, Pool, Spa & DIREKT am Meer'",
+      "PATTERN C — Example + Multi-airport: 'z.B. im Juni ab 6x Flughäfen in Deutschland unter 70€'",
+      "PATTERN D — Brand benefit list: '24/7 All Inclusive, top Entertainment, sportliche Vielfalt und das immer direkt am Strand 🏖️ ☀️'",
+      "PATTERN E — Family hook: 'Perfekt für Familien: {N} Nächte mit {Board}, {Amenities} | Kids bis {Age} J. übernachten kostenfrei 🥳'"
+    ],
+    "voice_rules_VERIFIED": [
+      "Always 'ihr/euch' (formal Du-plural) NOT 'du' (single)",
+      "Emoji ALWAYS at title end or after key noun",
+      "Price ALWAYS 'Ab X € p. P.' format (with spaces around €)",
+      "Numbers with german thousand separator '1.003 €' NOT '1003 €'",
+      "'❗️' single exclamation rare, '🔥 ❤️ 😍' frequent",
+      "ALL CAPS only for emphasis: 'UNTER 500€', 'HOT DEAL', 'KOSTENLOS'",
+      "Brand names italic-style: '5* Hotel', '4* Adults Only'"
+    ]
+  },
+
+  "url_structure_VERIFIED": {
+    "patterns": [
+      "/pauschalreisen/{slug}              single deal — package",
+      "/hotels/{slug}                       single deal — hotel only",
+      "/fluege/{slug}                       single deal — flight only",
+      "/sonstiges/{slug}                    single deal — misc (Disneyland, etc.)",
+      "/kreuzfahrten/{slug}                 single deal — cruise",
+      "/reisethemen/{tema}                  theme hub (last-minute, all-inclusive, familienurlaub)",
+      "/reisethemen/{tema}/{destination}    theme×destination combo (60+ pages, long-tail)",
+      "/reiseziele/{land}                   country pillar",
+      "/reiseziele/{land}/{regione}         regional sub",
+      "/reise-journal                       blog hub",
+      "/reise-journal/{slug}                blog post",
+      "/know-how/{slug}                     evergreen guide"
+    ],
+    "slug_style": "kebab-case descrittivo (es. 'apulien-entdecken-se', 'ilusion-moreyo', 'incekum-west-hotel-tuerkei')",
+    "slug_pattern_partner_suffix": "-se | -tp | -vivido (suffisso = partner source: secret-escapes / travelcircus / vivido)"
+  },
+
+  "seo_REAL": {
+    "title_pattern": "{Destination/Theme} Reise | Pauschalurlaub",
+    "title_examples": [
+      "Apulien Reise | Pauschalurlaub",
+      "Last Minute Mallorca: Günstige Deals & Urlaubsangebote",
+      "Urlaub günstig buchen & sparen | Urlaubsangebote 2026"
+    ],
+    "meta_desc_pattern": "Stesso testo del card subtitle (riusato) — usa emoji ☀ ✓ ✈️ per CTR",
+    "schema_org_implemented": ["Article (su detail pages, NON Product!)"],
+    "schema_org_MISSING_opportunity": [
+      "Product+Offer (deal pages — manca, advantage per besterurlaub)",
+      "BreadcrumbList (manca)",
+      "FAQPage (manca anche su pagine FAQ)",
+      "ItemList (manca su listing)",
+      "WebSite SearchAction (manca sitelinks search box)"
+    ],
+    "internal_links_per_deal_page": "10+ link verso: tabs hero, top categorie, footer 9 reiseziele + 10 reisethemen + 10 weitere themen",
+    "theme_page_word_count": "1584 parole (Last Minute Mallorca verificato)",
+    "theme_page_h1": "Last Minute Urlaub Mallorca: Die günstigsten Angebote 2026",
+    "theme_page_h2_structure": [
+      "Die schönsten Reiseziele für Last Minute {Destination}",
+      "Geheimtipps für einen Last Minute Urlaub auf {Destination}",
+      "Interessante Fragen zu Last Minute Urlaub auf {Destination}"
+    ]
+  },
+
+  "partner_networks_VERIFIED": [
+    {
+      "partner": "Secret Escapes",
+      "domain": "secret-escapes-de.b7ohif.net",
+      "network": "Awin (b7ohif.net = Awin domain)",
+      "slug_suffix": "-se"
+    },
+    {
+      "partner": "weg.de (TUI Group OTA)",
+      "domain": "urlaubspiraten.weg.de",
+      "pattern": "/hotel/{slug}-cid_{ID}"
+    },
+    {
+      "partner": "lastminute.de",
+      "domain": "holidaypirates.lastminute.de",
+      "pattern": "/s/tsx?destination={ID}&origin={IATA}&businessProfileId=HOLIDAYSPIRATESDE"
+    },
+    {
+      "partner": "Aldiana",
+      "domain": "aldiana.com",
+      "pattern": "/booking/de?productRef=giata:{ID}&utm_source=urlaubspiraten"
+    },
+    {
+      "partner": "TUI",
+      "domain": "tui.com",
+      "pattern": "/magic-life/{slug}"
+    },
+    {
+      "partner": "Ryanair / Eurowings",
+      "domain": "direct flight deeplinks"
+    },
+    {
+      "partner": "Travelcircus / Animod / Journaway",
+      "type": "Hotel package partners"
+    }
+  ],
+
+  "rss_feed_structure_VERIFIED": {
+    "url": "https://www.urlaubspiraten.de/feed",
+    "format": "RSS 2.0 (UTF-8, atom:link self)",
+    "item_count": 60,
+    "rolling_window_days": 3,
+    "fields_per_item": ["title (CDATA)", "link", "pubDate (RFC 822)", "description", "category", "guid"],
+    "lastBuildDate_seen": "Wed, 13 May 2026 20:25:46 +0200 (real-time)",
+    "publisher_in_jsonld": {
+      "@type": "Organization",
+      "name": "Urlaubspiraten",
+      "logo": "https://media.holidaypirates.group/icons/v2/logos/urlaubspiraten_purple.svg"
+    }
+  },
+
+  "blog_strategy_VERIFIED": {
+    "url": "/reise-journal",
+    "categories": ["Inspiration", "News"],
+    "post_examples": [
+      "Inspiration: 'Freiwilligenarbeit mit Katzen in Griechenland 🇬🇷😸'",
+      "News: 'Immer mehr Airlines verschlechtern Gepäckregeln'",
+      "News: 'Verbraucherzentrale warnt vor Datenleck bei Booking.com'",
+      "News: 'Kerosin-Krise im Sommer: Welche Rechte ihr bei Flugausfällen habt'",
+      "Inspiration: 'Food Heaven: Diese Städte haben das leckerste Essen 🍱'",
+      "Inspiration: 'All-inclusive Sprachcamps von ESL ✅'"
+    ],
+    "post_topics_pattern": "1) Travel rights / consumer warnings | 2) Destination inspiration | 3) Insider tips | 4) Lifestyle/food"
+  },
+
+  "robots_txt_VERIFIED": {
+    "allow": "/",
+    "disallow": ["/explore", "/suche", "/*?*ref=", "/*?*clickout_id="],
+    "sitemaps": [
+      "https://www.urlaubspiraten.de/sitemap/sitemap_index.xml.gz",
+      "https://www.urlaubspiraten.de/sitemap/sitemap_news.xml"
+    ]
+  },
+
+  "REPLICATION_ROADMAP_besterurlaub": {
+    "PHASE_1_immediate": [
+      "1. Rewrite offers.ts titles with FORMULA A-J (emoji at end, ihr-voice, action verbs)",
+      "2. Rewrite offers.ts descriptions with PATTERN A-E (duration + stars + inclusions)",
+      "3. Add category badge UPPERCASE on every card ('REISEN' / 'UNTERKUNFT' / 'FLÜGE')",
+      "4. Add 'vor X Stunden' timestamp (already done in step 1 deploy)",
+      "5. Schema Product+Offer on /angebot/[id] (advantage: UP doesn't have it)",
+      "6. Schema FAQPage on every destination page (advantage: UP doesn't have it)",
+      "7. Schema BreadcrumbList sitewide"
+    ],
+    "PHASE_2_content": [
+      "8. Reise-Journal /journal launch (mirror /reise-journal): 2 cat 'Inspiration' + 'News'",
+      "9. Target 1584-word theme×destination pages (60+ matrix: 6 themes × 10 destinations)",
+      "10. RSS feed /feed (RSS 2.0 with last 60 items rolling)",
+      "11. Sitemap_news (rolling 24h)"
+    ],
+    "PHASE_3_automation": [
+      "12. Cron 1h ingest /feed of urlaubspiraten → diff → match Check24 → rewrite Claude → publish",
+      "13. Posting cadence Telegram/WA: 8-12 deal/day (start conservative, scale to 22/day)",
+      "14. Slot schedule: 09:00, 10:30, 12:00, 13:30, 15:00 (5 slots, peak hours)"
+    ]
+  },
+
+  "POSTING_SCHEDULE_REPLICA_besterurlaub": {
+    "phase_1_week_1_5_posts_day": ["09:00", "11:00", "13:00", "15:00", "17:00"],
+    "phase_2_week_2_3_8_posts_day": ["08:30", "10:00", "11:30", "13:00", "14:30", "16:00", "17:30", "19:00"],
+    "phase_3_scaled_15_posts_day": "match UP cluster mattino 09-15 + 3 sera 16:30/18:30/20:00",
+    "per_channel_breakdown": {
+      "telegram": "tutti 8-15 posts",
+      "whatsapp_channel": "best 3-5 (top deals giorno)",
+      "instagram_reels": "1-2 (curated)",
+      "tiktok": "1-3 (5 hook rotation)",
+      "facebook": "5-8 cross-post automatico"
+    }
+  }
+}

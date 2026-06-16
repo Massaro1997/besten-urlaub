@@ -59,8 +59,13 @@ export function TikTokFeed() {
               <TikTokIcon className="w-[18px] h-[18px] text-white" />
             </div>
             <div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight">Schon gesehen?</h2>
-              <p className="text-xs text-[#0a1a3a]/50">@{TIKTOK_USERNAME}</p>
+              <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase text-[#ff6b35] block leading-none mb-0.5">
+                Folge uns
+              </span>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight leading-tight">
+                Schnäppchen-Alarm auf TikTok 🎬
+              </h2>
+              <p className="text-xs text-[#0a1a3a]/50 mt-0.5">@{TIKTOK_USERNAME}</p>
             </div>
           </div>
           <a

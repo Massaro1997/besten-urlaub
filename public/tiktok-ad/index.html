@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Bester Urlaub, TikTok Ad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="/tiktok-ad/">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #0a0a0a; overflow: hidden; }
+  #root { position: absolute; inset: 0; }
+  #rec-ui {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 9999;
+    display: flex;
+    gap: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  #rec-ui button {
+    background: #ff6b35;
+    color: #fff;
+    border: 0;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  #rec-ui button[disabled] { background: #888; cursor: not-allowed; }
+  #rec-ui .status {
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    align-self: center;
+  }
+</style>
+</head>
+<body>
+<div id="root" data-video-root data-screen-label="t=0.0s"></div>
+<div id="rec-ui">
+  <span class="status" id="rec-status">Pronto</span>
+  <button id="rec-btn" type="button">Registra MP4 (20s)</button>
+</div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="animations.jsx"></script>
+<script type="text/babel" src="scenes.jsx"></script>
+<script type="text/babel" src="scenes2.jsx"></script>
+<script type="text/babel" src="scenes3.jsx"></script>
+
+<script type="text/babel">
+const DURATION = 20;
+
+function Video() {
+  return (
+    <Stage width={1080} height={1920} duration={DURATION} background="#0a1a3a" persistKey="bu-tiktok-ad">
+      <ScreenLabel />
+      <Scene1_Desk />
+      <Scene2_Reel />
+      <Scene3_Deal />
+      <Scene4_Trust />
+      <Scene5_CTA />
+    </Stage>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Video />);
+</script>
+
+<script>
+(function() {
+  const btn = document.getElementById('rec-btn');
+  const status = document.getElementById('rec-status');
+  const DURATION_MS = 20500; // 20s + small buffer
+
+  function pickMime() {
+    const candidates = [
+      'video/mp4;codecs=h264',
+      'video/mp4',
+      'video/webm;codecs=h264',
+      'video/webm;codecs=vp9',
+      'video/webm;codecs=vp8',
+      'video/webm',
+    ];
+    for (const m of candidates) {
+      if (window.MediaRecorder && MediaRecorder.isTypeSupported(m)) return m;
+    }
+    return '';
+  }
+
+  btn.addEventListener('click', async () => {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+      status.textContent = 'Browser non supporta';
+      return;
+    }
+    btn.disabled = true;
+    status.textContent = 'Seleziona questa scheda...';
+
+    let stream;
+    try {
+      stream = await navigator.mediaDevices.getDisplayMedia({
+        video: { width: { ideal: 1080 }, height: { ideal: 1920 }, frameRate: { ideal: 30 } },
+        audio: false,
+      });
+    } catch (e) {
+      status.textContent = 'Annullato';
+      btn.disabled = false;
+      return;
+    }
+
+    const mime = pickMime();
+    const recorder = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 8_000_000 } : { videoBitsPerSecond: 8_000_000 });
+    const chunks = [];
+    recorder.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+    recorder.onstop = () => {
+      stream.getTracks().forEach(t => t.stop());
+      const ext = mime.includes('mp4') ? 'mp4' : 'webm';
+      const blob = new Blob(chunks, { type: mime || 'video/webm' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `bester-urlaub-tiktok-ad.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 500);
+      status.textContent = 'Salvato (' + ext.toUpperCase() + ')';
+      btn.disabled = false;
+    };
+
+    // Reset playhead and start
+    try {
+      localStorage.setItem('bu-tiktok-ad', '0');
+    } catch (e) { /* noop */ }
+    location.hash = '#t=0';
+    window.dispatchEvent(new Event('storage'));
+
+    recorder.start();
+    status.textContent = 'Registrazione 20s...';
+
+    let remaining = Math.ceil(DURATION_MS / 1000);
+    const tick = setInterval(() => {
+      remaining -= 1;
+      if (remaining > 0) status.textContent = 'Rec ' + remaining + 's';
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(tick);
+      if (recorder.state !== 'inactive') recorder.stop();
+    }, DURATION_MS);
+  });
+})();
+</script>
+</body>
+</html>

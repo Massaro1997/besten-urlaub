@@ -43,12 +43,17 @@ interface DestinationItem {
 export function DestinationGrid({ destinations }: { destinations: DestinationItem[] }) {
   return (
     <section id="reiseziele">
-      <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a1a3a] tracking-tight">
-        Wohin soll es gehen?
-      </h2>
-      <p className="text-sm text-[#0a1a3a]/50 mt-2">
-        Die Destinationen, die gerade alle wollen.
-      </p>
+      <div className="flex flex-col items-center text-center mb-2">
+        <span className="text-[11px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-2">
+          Beliebte Reiseziele · Top 10
+        </span>
+        <h2 className="text-xl sm:text-3xl lg:text-[2rem] font-extrabold text-[#0a1a3a] tracking-tight leading-tight">
+          Wohin soll es gehen? 🌍
+        </h2>
+        <p className="text-sm sm:text-base text-[#0a1a3a]/55 mt-2 max-w-2xl">
+          Die Lieblings-Destinationen unserer Piraten — von Mallorca bis Sansibar.
+        </p>
+      </div>
 
       {/* Mobile: horizontal snap scroll */}
       <div className="sm:hidden mt-6 -mx-4">

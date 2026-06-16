@@ -61,6 +61,13 @@ model Offer {
   amenities     String[] @default([])     // ["Pool", "Strand 200m", "WLAN"]
   longDescription String?                  // full descriptive paragraph
 
+  /// Pending = offer creata da pipeline UP ma affiliateLink ancora placeholder.
+  /// User deve generare manualmente link Check24 partner e incollarlo via admin.
+  /// Quando false → offer pronta per pubblicazione.
+  affiliateLinkPending Boolean @default(false)
+  /// Reference URL deal originale UP (per copy/research manuale).
+  upSourceUrl   String?
+
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -404,3 +411,57 @@ model AdSpend {
 
   @@index([date])
 }
+
+/// Deal scraped da urlaubspiraten.de via RSS feed.
+/// Pipeline 3-stage: ingest → match Check24 → publish.
+/// Solo dati factuali (no copyright copy/image originale UP).
+model UpDeal {
+  id              String    @id @default(cuid())
+
+  // Stage 1: Ingest
+  upUrl           String    @unique             // /pauschalreisen/{slug}
+  upSlug          String                        // {slug} only
+  category        String                        // pauschalreisen | hotels | fluege | sonstiges | kreuzfahrten
+  rawTitle        String                        // original UP title (factual)
+  rawDescription  String?                       // original UP subtitle
+  publishedAt     DateTime                      // pubDate from RSS
+  upImageUrl      String?                       // reference only, NO hotlink
+  partnerUrl      String?                       // affiliate URL from CTA
+  partnerName     String?                       // 'weg.de' | 'lastminute' | 'aldiana' | 'tui' | 'awin-se'
+  giataId         String?                       // /productRef=giata:(\d+)/
+  hotelName       String?                       // parsed from title/description
+  hotelStars      Int?                          // 3, 4, 5
+  destinationCity String?                       // 'Apulien' | 'Mallorca' | ...
+  destinationCountry String?                    // 'Italien' | 'Spanien' | ...
+  priceFromUp     Float?                        // "Ab X € p.P." parsed
+  nights          Int?                          // parsed from description
+  board           String?                       // 'Frühstück' | 'Halbpension' | 'All Inclusive'
+  departure       String?                       // departure airport hint
+
+  // Stage 2: Match Check24
+  matched         Boolean   @default(false)
+  matchAttempts   Int       @default(0)
+  matchStrategy   String?                       // 'giata' | 'name' | 'destination_price'
+  check24OfferId  String?
+  check24Url      String?                       // affiliate URL with partnerid=1168044
+  check24Price    Float?
+  matchedAt       DateTime?
+  skipReason      String?                       // 'no_check24_match' | 'flights_only' | 'price_too_high'
+
+  // Stage 3: Publish
+  published       Boolean   @default(false)
+  publishedOfferId String?                      // FK Offer.id once published
+  rewrittenTitle  String?                       // Claude rewrite (besterurlaub voice)
+  rewrittenDesc   String?                       // Claude rewrite
+  ownImageUrl     String?                       // re-hosted on our CDN
+  publishedAtBu   DateTime?
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([category])
+  @@index([matched])
+  @@index([published])
+  @@index([publishedAt])
+}
+
