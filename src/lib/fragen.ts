@@ -21,7 +21,6 @@ import { getBesteMonate, getGuenstigsterMonat } from '@/lib/reisemonat'
 export type FrageTyp =
   | 'beste-reisezeit'
   | 'guenstigste-reisezeit'
-  | 'wassertemperatur'
   | 'klimatabelle'
   | 'mit-kindern'
 
@@ -51,7 +50,6 @@ function warm(m: MonatKlima) {
 const FRAGE_TYPEN: FrageTyp[] = [
   'beste-reisezeit',
   'guenstigste-reisezeit',
-  'wassertemperatur',
   'klimatabelle',
   'mit-kindern',
 ]
@@ -65,11 +63,10 @@ const FRAGE_TYPEN: FrageTyp[] = [
  * Side teilt Antalya (AYT); Teneriffa teilt Gran Canaria (Kanaren-Wasser).
  */
 const NEAR_DUP_BLOCK = new Set<string>([
+  // Side ist Antalyas Klima-Zwilling (gleicher Flughafen AYT, gleiche Küste).
   'beste-reisezeit-side',
-  'wassertemperatur-side',
   'klimatabelle-side',
   'mit-kindern-side',
-  'wassertemperatur-teneriffa',
 ])
 
 export function getAllFragenParams(): { slug: string }[] {
@@ -165,33 +162,6 @@ export function getFrage(slug: string): FragenPage | null {
       ],
       faq: [
         { q: `Wie viel kostet eine Woche ${ziel.name}?`, a: `Im günstigsten Monat (${jahr(guenstig)}) ab ${guenstig.preisAb} € pro Person, in der Hochsaison (${jahr(teuer)}) ab ${teuer.preisAb} €.` },
-      ],
-    }
-  }
-
-  if (typ === 'wassertemperatur') {
-    const sortedByWater = [...ziel.monate].sort((a, b) => b.wasser - a.wasser)
-    return {
-      ...base,
-      frage: `Wie warm ist das Wasser auf ${ziel.name}?`,
-      kurzantwort: `Das Meer auf ${ziel.name} ist im ${jahr(peak)} mit ${peak.wasser}°C am wärmsten und im ${jahr(sortedByWater[sortedByWater.length - 1])} mit ${sortedByWater[sortedByWater.length - 1].wasser}°C am kühlsten.`,
-      absatz: [
-        `Die Wassertemperatur auf ${ziel.name} schwankt zwischen ${sortedByWater[sortedByWater.length - 1].wasser}°C im ${jahr(sortedByWater[sortedByWater.length - 1])} und ${peak.wasser}°C im ${jahr(peak)}.`,
-        warmMonate.length
-          ? `Angenehm zum Baden (ab 22°C) ist es in: ${warmMonate.map((m) => `${jahr(m)} (${m.wasser}°C)`).join(', ')}.`
-          : `Für ausgedehntes Baden bleibt das Wasser auf ${ziel.name} das Jahr über eher frisch.`,
-        `Im ${jahr(peak)}, wenn das Meer am wärmsten ist, gilt auf ${ziel.name}: ${peak.highlights[0]}.`,
-        `Die vollständige Wassertemperatur-Tabelle pro Monat findest du unten. Der Flug ab Deutschland dauert ${ziel.flugStunden} Stunden zum Flughafen ${ziel.flughafen}.`,
-      ],
-      tabelleHead: ['Monat', 'Wasser °C', 'Luft °C'],
-      tabelle: ziel.monate.map((m) => ({ monat: jahr(m), werte: [`${m.wasser}°`, `${m.tagMax}°`] })),
-      datapoints: [
-        `Spitze ${peak.wasser}°C im ${jahr(peak)}`,
-        `Tief ${sortedByWater[sortedByWater.length - 1].wasser}°C`,
-        ...sortedByWater.slice(0, 4).map((m) => `${jahr(m)} ${m.wasser}°C`),
-      ],
-      faq: [
-        { q: `In welchem Monat ist das Wasser auf ${ziel.name} am wärmsten?`, a: `Im ${jahr(peak)} mit ${peak.wasser}°C.` },
       ],
     }
   }
