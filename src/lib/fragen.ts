@@ -23,6 +23,7 @@ export type FrageTyp =
   | 'guenstigste-reisezeit'
   | 'klimatabelle'
   | 'mit-kindern'
+  | 'anreise'
 
 export type FragenPage = {
   slug: string
@@ -52,6 +53,7 @@ const FRAGE_TYPEN: FrageTyp[] = [
   'guenstigste-reisezeit',
   'klimatabelle',
   'mit-kindern',
+  'anreise',
 ]
 
 /**
@@ -188,6 +190,39 @@ export function getFrage(slug: string): FragenPage | null {
       ],
       faq: [
         { q: `Wie viele Sonnenstunden hat ${ziel.name}?`, a: `Im Hochsommer bis zu ${Math.max(...ziel.monate.map((m) => m.sonne))} Sonnenstunden pro Tag.` },
+      ],
+    }
+  }
+
+  if (typ === 'anreise') {
+    const dauer = ziel.flugStunden <= 2.5 ? 'Kurzstrecke' : ziel.flugStunden <= 5 ? 'Mittelstrecke' : 'Langstrecke'
+    const zv = ziel.zeitverschiebung === 0
+      ? 'keine Zeitverschiebung zu Deutschland'
+      : `${Math.abs(ziel.zeitverschiebung)} Stunden ${ziel.zeitverschiebung > 0 ? 'vor' : 'hinter'} Deutschland`
+    const orte = [...new Set(ziel.monate.flatMap((m) => m.highlights))].slice(0, 2)
+    return {
+      ...base,
+      frage: `Wie lange dauert der Flug nach ${ziel.name}?`,
+      kurzantwort: `Der Flug von Deutschland nach ${ziel.name} dauert rund ${ziel.flugStunden} Stunden (${dauer}) zum Flughafen ${ziel.flughafen}, ${zv}. Direktflüge ab ${ziel.abflug.join(', ')}.`,
+      absatz: [
+        `Der Flug von Deutschland nach ${ziel.name} dauert rund ${ziel.flugStunden} Stunden und ist damit eine ${dauer}. Geflogen wird zum Flughafen ${ziel.flughafen}, ${zv}. Direktflüge starten ab ${ziel.abflug.join(', ')}.`,
+        ziel.flugStunden <= 4
+          ? `Als ${dauer} eignet sich ${ziel.name} auch gut für einen kürzeren Urlaub oder mit kleinen Kindern.`
+          : ziel.flugStunden <= 7
+            ? `Die ${dauer} nach ${ziel.name} ist mit Kindern machbar, lohnt sich aber eher ab einer Woche.`
+            : `Wegen der ${dauer} von ${ziel.flugStunden} Stunden lohnt sich ${ziel.name} vor allem für längere Reisen ab zwei Wochen.`,
+        `Vom Flughafen ${ziel.flughafen} aus erreichst du die Highlights von ${ziel.name}: ${orte.join(' ')}.`,
+        `Eine Pauschalreise nach ${ziel.name} startet ab ${guenstig.preisAb} € pro Person inklusive Flug und Hotel.`,
+      ],
+      datapoints: [
+        `${ziel.flugStunden} h Flug`,
+        ziel.flughafen,
+        `${ziel.zeitverschiebung} h Zeitverschiebung`,
+        ...ziel.abflug.slice(0, 3),
+      ],
+      faq: [
+        { q: `Welche Flughäfen fliegen ${ziel.name} an?`, a: `Direktflüge ab ${ziel.abflug.join(', ')} landen auf dem Flughafen ${ziel.flughafen}.` },
+        { q: `Wie groß ist die Zeitverschiebung in ${ziel.name}?`, a: zv.charAt(0).toUpperCase() + zv.slice(1) + '.' },
       ],
     }
   }
