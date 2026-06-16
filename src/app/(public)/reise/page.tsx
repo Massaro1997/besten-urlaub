@@ -70,7 +70,7 @@ export default function ReiseHub() {
                   Beste Reisezeit: {beste.map((mi) => MONAT_NAMEN[mi - 1]).join(', ')}. Günstigster Monat: {MONAT_NAMEN[guenstig.monat - 1]} (ab {guenstig.preisAb} €).
                 </p>
                 <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                  {z.monate.map((m) => (
+                  {z.monate.filter((m) => m.preisAb > 0).map((m) => (
                     <Link
                       key={m.monat}
                       href={`/reise/${z.slug}/${MONAT_SLUGS[m.monat - 1]}`}

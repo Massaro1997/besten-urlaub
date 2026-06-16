@@ -23,10 +23,20 @@ export type ReisemonatPage = {
   monatIndex: number // 0-11
 }
 
+/**
+ * Monate mit preisAb === 0 = Resort/Saison geschlossen, KEIN Pauschalangebot.
+ * Solche Seiten werden NICHT generiert (404 statt thin/soft-404-Seite ohne
+ * Verkaufsdatenpunkt). Korrektes page-forge-Verhalten: keine Seite ohne Daten.
+ */
+export function isPublishableMonth(m: MonatKlima): boolean {
+  return m.preisAb > 0
+}
+
 export function getAllReisemonatParams() {
   const out: { ziel: string; monat: string }[] = []
   for (const z of reiseKlima) {
     for (const m of z.monate) {
+      if (!isPublishableMonth(m)) continue
       out.push({ ziel: z.slug, monat: MONAT_SLUGS[m.monat - 1] })
     }
   }
@@ -40,6 +50,7 @@ export function getReisemonat(zielSlug: string, monatSlug: string): ReisemonatPa
   if (monatIndex < 0) return null
   const monat = ziel.monate.find((m) => m.monat === monatIndex + 1)
   if (!monat) return null
+  if (!isPublishableMonth(monat)) return null
   return {
     ziel,
     monat,
@@ -61,9 +72,10 @@ export function getBesteMonate(ziel: ZielKlima): number[] {
     .map((x) => x.monat)
 }
 
-/** Günstigster Monat (niedrigster preisAb). */
+/** Günstigster buchbarer Monat (niedrigster preisAb > 0). */
 export function getGuenstigsterMonat(ziel: ZielKlima): MonatKlima {
-  return [...ziel.monate].sort((a, b) => a.preisAb - b.preisAb)[0]
+  const buchbar = ziel.monate.filter((m) => m.preisAb > 0)
+  return [...buchbar].sort((a, b) => a.preisAb - b.preisAb)[0] ?? ziel.monate[0]
 }
 
 /** Bewertung Badewetter aus Wassertemperatur. */

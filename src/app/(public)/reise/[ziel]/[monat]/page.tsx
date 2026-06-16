@@ -70,13 +70,16 @@ export default async function ReisemonatPage({ params }: PageProps) {
   const url = `${SITE_URL}/reise/${ziel}/${monat}`
   const heroImage = `/destinations/${ziel}.webp`
 
-  // sibling months for internal linking (alle 12 Monate dieser Destination)
-  const siblings = z.monate.map((sm) => ({
-    name: MONAT_NAMEN[sm.monat - 1],
-    slug: MONAT_SLUGS[sm.monat - 1],
-    aktiv: sm.monat === m.monat,
-    preisAb: sm.preisAb,
-  }))
+  // sibling months for internal linking — nur buchbare Monate (preisAb > 0),
+  // damit keine Links auf 404-Seiten zeigen (Gate 6 sauber).
+  const siblings = z.monate
+    .filter((sm) => sm.preisAb > 0)
+    .map((sm) => ({
+      name: MONAT_NAMEN[sm.monat - 1],
+      slug: MONAT_SLUGS[sm.monat - 1],
+      aktiv: sm.monat === m.monat,
+      preisAb: sm.preisAb,
+    }))
 
   const offers = getOffersByDestinationSlug(ziel).slice(0, 3)
 
