@@ -86,7 +86,7 @@ export default async function ReisemonatPage({ params }: PageProps) {
   const stats = [
     { icon: Thermometer, label: 'Tagestemperatur', value: `${m.tagMax}°C` },
     { icon: Thermometer, label: 'Nachts', value: `${m.tagMin}°C` },
-    { icon: Droplets, label: 'Wassertemperatur', value: `${m.wasser}°C` },
+    ...(c.istBinnen ? [] : [{ icon: Droplets, label: 'Wassertemperatur', value: `${m.wasser}°C` }]),
     { icon: Sun, label: 'Sonnenstunden', value: `${m.sonne} h` },
     { icon: CloudRain, label: 'Regentage', value: `${m.regen}` },
     { icon: CalendarDays, label: 'Pauschalreise ab', value: `${m.preisAb} €` },
@@ -98,10 +98,10 @@ export default async function ReisemonatPage({ params }: PageProps) {
       q: `Wie ist das Wetter auf ${z.name} im ${monatName}?`,
       a: `Im ${monatName} liegt die Tagestemperatur auf ${z.name} bei rund ${m.tagMax}°C, nachts bei ${m.tagMin}°C. Das Meer hat ${m.wasser}°C, es gibt etwa ${m.sonne} Sonnenstunden pro Tag und ${m.regen} Regentage.`,
     },
-    {
+    ...(c.istBinnen ? [] : [{
       q: `Kann man auf ${z.name} im ${monatName} baden?`,
       a: `Bei ${m.wasser}°C Wassertemperatur ${m.wasser >= 22 ? `ist Baden im ${monatName} ohne Weiteres möglich` : m.wasser >= 19 ? `ist Baden erfrischend, aber für die meisten gut machbar` : `ist das Meer für längeres Baden zu kühl`}.`,
-    },
+    }]),
     {
       q: `Was kostet ein Urlaub auf ${z.name} im ${monatName}?`,
       a: `Eine Pauschalreise nach ${z.name} startet im ${monatName} ab ${m.preisAb} € pro Person inklusive Flug und Hotel. Es ist ${c.andrangText}.`,

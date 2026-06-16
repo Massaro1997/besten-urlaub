@@ -109,7 +109,9 @@ function tempSatz(ziel: ZielKlima, m: MonatKlima, mn: string): string {
   return `Der ${mn} ist mit ${m.tagMax} Grad am Tag und ${m.tagMin} Grad nachts die kühle Jahreszeit auf ${ziel.name}.`
 }
 
+/** Inland-Ziele (Städte) haben wasser=0 → kein Meer-Satz. */
 function wasserSatz(m: MonatKlima): string {
+  if (m.wasser <= 0) return '' // Binnenziel ohne Meer
   if (m.wasser >= 25) return `Das Meer ist mit ${m.wasser} Grad badewannenwarm.`
   if (m.wasser >= 22) return `Bei ${m.wasser} Grad Wassertemperatur ist Baden ein Vergnügen.`
   if (m.wasser >= 19) return `Das Wasser hat ${m.wasser} Grad: erfrischend, aber gut zum Schwimmen.`
@@ -136,20 +138,23 @@ export function buildReisemonatContent(page: ReisemonatPage) {
   const guenstigName = MONAT_NAMEN[guenstig.monat - 1]
   const istBesterMonat = beste.includes(monat.monat)
 
+  const istBinnen = monat.wasser <= 0
+
   const datapoints: string[] = [
     `${monat.tagMax} °C tagsüber`,
     `${monat.tagMin} °C nachts`,
-    `${monat.wasser} °C Wassertemperatur`,
+    ...(istBinnen ? [] : [`${monat.wasser} °C Wassertemperatur`]),
     `${monat.sonne} Sonnenstunden täglich`,
     `${monat.regen} Regentage`,
     `Pauschalreise ab ${monat.preisAb} €`,
     ...monat.highlights,
   ]
 
-  const klimaSatz = `${tempSatz(ziel, monat, monatName)} ${wasserSatz(monat)} Im Schnitt ${monat.sonne} Sonnenstunden pro Tag und etwa ${monat.regen} Regentage. Damit ist es ${vergleichVormonat(ziel, monatIndex)}.`
+  const klimaSatz = `${tempSatz(ziel, monat, monatName)} ${wasserSatz(monat)} Im Schnitt ${monat.sonne} Sonnenstunden pro Tag und etwa ${monat.regen} Regentage. Damit ist es ${vergleichVormonat(ziel, monatIndex)}.`.replace(/\s+/g, ' ').trim()
 
+  const meerTeil = istBinnen ? '' : `, das Meer hat ${monat.wasser} Grad`
   const intro =
-    `${ziel.name} im ${monatName}: ${monat.tagMax} Grad am Tag, das Meer hat ${monat.wasser} Grad ` +
+    `${ziel.name} im ${monatName}: ${monat.tagMax} Grad am Tag${meerTeil} ` +
     `und die Sonne scheint im Schnitt ${monat.sonne} Stunden pro Tag. ` +
     `${monat.andrang === 'hoch' ? 'Es ist Hauptsaison' : monat.andrang === 'mittel' ? 'Es ist Nebensaison' : 'Es ist Vorsaison'} — ` +
     `Pauschalreisen starten ab ${monat.preisAb} Euro pro Person.`
@@ -160,6 +165,7 @@ export function buildReisemonatContent(page: ReisemonatPage) {
     guenstig,
     guenstigName,
     istBesterMonat,
+    istBinnen,
     intro,
     klimaSatz,
     andrangText: andrangText(monat.andrang),
