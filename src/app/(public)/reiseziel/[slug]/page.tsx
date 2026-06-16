@@ -14,6 +14,10 @@ import {
   itemListJsonLd,
   touristDestinationJsonLd,
 } from '@/lib/seo-jsonld'
+import { reiseKlima, MONAT_NAMEN, MONAT_SLUGS } from '@/data/reise-klima'
+import { getBesteMonate, getGuenstigsterMonat } from '@/lib/reisemonat'
+import { ratgeberArticles } from '@/lib/ratgeber-data'
+import { getAllFragenParams, getFrage } from '@/lib/fragen'
 
 export function generateStaticParams() {
   return ALL_DESTINATIONS
@@ -228,6 +232,49 @@ export default async function DestinationPage({ params }: PageProps) {
           </div>
         )}
       </section>
+
+      {/* ---- Cross-axis internal links (Reisezeit / Fragen / Ratgeber) ---- */}
+      {(() => {
+        const klima = reiseKlima.find((z) => z.slug === slug)
+        const ratgeber = ratgeberArticles.find((r) => r.slug === slug)
+        const fragen = getAllFragenParams()
+          .filter((p) => p.slug.endsWith(`-${slug}`))
+          .map((p) => ({ slug: p.slug, frage: getFrage(p.slug)?.frage }))
+          .filter((x): x is { slug: string; frage: string } => Boolean(x.frage))
+        const links: { href: string; label: string }[] = []
+        if (klima) {
+          const beste = getBesteMonate(klima)
+          const guenstig = getGuenstigsterMonat(klima)
+          links.push({ href: `/reise/${slug}/${MONAT_SLUGS[beste[0] - 1]}`, label: `${destination.name} im ${MONAT_NAMEN[beste[0] - 1]} (beste Reisezeit)` })
+          if (guenstig.preisAb > 0) {
+            links.push({ href: `/reise/${slug}/${MONAT_SLUGS[guenstig.monat - 1]}`, label: `${destination.name} im ${MONAT_NAMEN[guenstig.monat - 1]} (günstigster Monat, ab ${guenstig.preisAb} €)` })
+          }
+        }
+        for (const f of fragen.slice(0, 3)) links.push({ href: `/fragen/${f.slug}`, label: f.frage })
+        if (ratgeber) links.push({ href: `/ratgeber/${slug}`, label: `${destination.name} Reiseführer: ${ratgeber.title}` })
+        if (links.length === 0) return null
+        return (
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-10">
+            <h2 className="text-xl font-bold text-[#0a1a3a] mb-4">Mehr zu {destination.name}</h2>
+            <ul className="grid sm:grid-cols-2 gap-2.5">
+              {links.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="flex items-start gap-1.5 text-[#2e75fa] hover:underline text-sm">
+                    <ChevronRight className="w-3.5 h-3.5 mt-0.5 shrink-0" /> {l.label}
+                  </Link>
+                </li>
+              ))}
+              {klima && (
+                <li>
+                  <Link href="/reise" className="flex items-start gap-1.5 text-[#2e75fa] hover:underline text-sm">
+                    <ChevronRight className="w-3.5 h-3.5 mt-0.5 shrink-0" /> Klima &amp; beste Reisezeit Monat für Monat
+                  </Link>
+                </li>
+              )}
+            </ul>
+          </section>
+        )
+      })()}
 
       {/* ---- Back link ---- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-12">

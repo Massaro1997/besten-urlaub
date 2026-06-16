@@ -16,7 +16,7 @@ import {
   buildReisemonatContent,
 } from '@/lib/reisemonat'
 import { MONAT_NAMEN, MONAT_SLUGS } from '@/data/reise-klima'
-import { getOffersByDestinationSlug } from '@/data/offers'
+import { ratgeberArticles } from '@/lib/ratgeber-data'
 
 export const dynamicParams = false
 
@@ -81,7 +81,6 @@ export default async function ReisemonatPage({ params }: PageProps) {
       preisAb: sm.preisAb,
     }))
 
-  const offers = getOffersByDestinationSlug(ziel).slice(0, 3)
 
   const stats = [
     { icon: Thermometer, label: 'Tagestemperatur', value: `${m.tagMax}°C` },
@@ -255,12 +254,14 @@ export default async function ReisemonatPage({ params }: PageProps) {
           </div>
         </section>
 
-        {offers.length > 0 && (
-          <p className="mt-8 text-sm text-[#0a1a3a]/55">
-            Aktuelle {z.name}-Angebote findest du auf der{' '}
-            <Link href={`/reiseziel/${ziel}`} className="text-[#2e75fa] underline">{z.name}-Seite</Link>.
-          </p>
-        )}
+        {/* Cross-axis links: Ratgeber + Reise-Fragen für dieselbe Destination */}
+        <nav className="mt-8 flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-[#0a1a3a]/55">
+          <Link href={`/reiseziel/${ziel}`} className="text-[#2e75fa] hover:underline">{z.name}-Angebote</Link>
+          <Link href={`/fragen/beste-reisezeit-${ziel}`} className="text-[#2e75fa] hover:underline">Beste Reisezeit {z.name}</Link>
+          {ratgeberArticles.some((r) => r.slug === ziel) && (
+            <Link href={`/ratgeber/${ziel}`} className="text-[#2e75fa] hover:underline">{z.name} Reiseführer</Link>
+          )}
+        </nav>
       </article>
     </>
   )

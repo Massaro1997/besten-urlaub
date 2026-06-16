@@ -6,6 +6,8 @@ import { ChevronRight, Lightbulb, MapPin, ArrowLeft } from 'lucide-react'
 import { ratgeberArticles } from '@/lib/ratgeber-data'
 import { JsonLd } from '@/components/public/json-ld'
 import { SITE_URL, articleJsonLd, breadcrumbJsonLd } from '@/lib/seo-jsonld'
+import { reiseKlima } from '@/data/reise-klima'
+import { getFrage } from '@/lib/fragen'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -337,6 +339,30 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      {/* ---- Cross-axis links: Reisezeit + Fragen für dieselbe Destination ---- */}
+      {(() => {
+        const zielSlug = article.offerLink.replace('/reiseziel/', '')
+        const hasKlima = reiseKlima.some((z) => z.slug === zielSlug)
+        const hasFrage = Boolean(getFrage(`beste-reisezeit-${zielSlug}`))
+        if (!hasKlima && !hasFrage) return null
+        return (
+          <section className="max-w-3xl mx-auto px-4 sm:px-6 pb-4">
+            <h2 className="text-lg font-bold text-[#0a1a3a] mb-3">Plane deinen {article.destination}-Urlaub</h2>
+            <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
+              {hasKlima && Boolean(getFrage(`klimatabelle-${zielSlug}`)) && (
+                <li><Link href={`/fragen/klimatabelle-${zielSlug}`} className="text-[#2e75fa] hover:underline">Klimatabelle {article.destination}</Link></li>
+              )}
+              {hasFrage && (
+                <li><Link href={`/fragen/beste-reisezeit-${zielSlug}`} className="text-[#2e75fa] hover:underline">Wann ist die beste Reisezeit?</Link></li>
+              )}
+              {hasFrage && Boolean(getFrage(`guenstigste-reisezeit-${zielSlug}`)) && (
+                <li><Link href={`/fragen/guenstigste-reisezeit-${zielSlug}`} className="text-[#2e75fa] hover:underline">Wann am günstigsten?</Link></li>
+              )}
+            </ul>
+          </section>
+        )
+      })()}
 
       {/* ---- Back link ---- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
