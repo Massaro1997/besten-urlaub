@@ -4,6 +4,7 @@ import { destinations } from '@/data/destinations'
 import { ratgeberArticles } from '@/lib/ratgeber-data'
 import { getAllReisemonatParams } from '@/lib/reisemonat'
 import { getAllFragenParams } from '@/lib/fragen'
+import { isThinHub } from '@/app/(public)/reiseziel/[slug]/page'
 
 const BASE_URL = 'https://www.besterurlaub.com'
 
@@ -73,6 +74,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
   const destinationPages: MetadataRoute.Sitemap = destinations
     .filter((d) => d.slug)
+    .filter((d) => !isThinHub(d.slug!)) // thin Hubs sind noindex → nicht in Sitemap
     .map((d) => {
       const hasOffers = (offerCountBySlug.get(d.slug!) || 0) > 0
       return {

@@ -33,6 +33,19 @@ interface PageProps {
 /*  Metadata                                                          */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Ein Destination-Hub ist "thin", wenn er weder Klimadaten noch Angebote noch
+ * einen Ratgeber hat — dann ist die Seite ein near-duplicate Gerüst (forge.py
+ * blockt sie). Solche Hubs bleiben erreichbar, aber auf noindex + raus aus der
+ * Sitemap, damit sie die Site-Qualität nicht runterziehen.
+ */
+export function isThinHub(slug: string): boolean {
+  const hasKlima = reiseKlima.some((z) => z.slug === slug)
+  const hasOffers = getOffersByDestinationSlug(slug).length > 0
+  const hasRatgeber = ratgeberArticles.some((r) => r.slug === slug)
+  return !hasKlima && !hasOffers && !hasRatgeber
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const dest = getDestinationBySlug(slug)
@@ -43,12 +56,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const url = `${SITE_URL}/reiseziel/${slug}`
   const heroImage = `/destinations/${slug}.webp`
+  const thin = isThinHub(slug)
 
   return {
     title: `${dest.name} Urlaub — Angebote | Bester Urlaub`,
     description:
       dest.description || `Die besten Urlaubsangebote f\u00fcr ${dest.name}.`,
     alternates: { canonical: url },
+    ...(thin ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: `${dest.name} Urlaub — Angebote`,
       description:
@@ -204,6 +219,59 @@ export default async function DestinationPage({ params }: PageProps) {
           )}
         </div>
       </section>
+
+      {/* ---- Klima-Überblick (divergente Realdaten je Destination) ---- */}
+      {(() => {
+        const klima = reiseKlima.find((z) => z.slug === slug)
+        if (!klima) return null
+        const beste = getBesteMonate(klima)
+        const guenstig = getGuenstigsterMonat(klima)
+        const buchbar = klima.monate.filter((m) => m.preisAb > 0)
+        const peak = [...klima.monate].sort((a, b) => b.wasser - a.wasser)[0]
+        const minPreis = Math.min(...buchbar.map((m) => m.preisAb))
+        const maxPreis = Math.max(...buchbar.map((m) => m.preisAb))
+        const topHighlights = [...new Set(klima.monate.flatMap((m) => m.highlights))].slice(0, 4)
+        const istBinnen = peak.wasser <= 0
+        const fakten = [
+          { k: 'Beste Reisezeit', v: beste.map((mi) => MONAT_NAMEN[mi - 1]).join(', ') },
+          { k: 'Günstigster Monat', v: `${MONAT_NAMEN[guenstig.monat - 1]} (ab ${guenstig.preisAb} €)` },
+          ...(istBinnen ? [] : [{ k: 'Wassertemperatur', v: `bis ${peak.wasser}°C im ${MONAT_NAMEN[peak.monat - 1]}` }]),
+          { k: 'Preisspanne', v: `${minPreis}–${maxPreis} € p. P.` },
+          { k: 'Flugzeit', v: `${klima.flugStunden} h ab Deutschland` },
+          { k: 'Flughafen', v: klima.flughafen },
+        ]
+        return (
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-10">
+            <h2 className="text-2xl font-bold text-[#0a1a3a]">{destination.name} im Überblick</h2>
+            <p className="text-[#0a1a3a]/75 mt-3 max-w-3xl leading-relaxed">
+              {destination.name} in {klima.land}: Die beste Reisezeit sind {beste.map((mi) => MONAT_NAMEN[mi - 1]).join(', ')}.
+              {!istBinnen && ` Das Meer erreicht bis zu ${peak.wasser}°C im ${MONAT_NAMEN[peak.monat - 1]}.`}{' '}
+              Pauschalreisen starten ab {guenstig.preisAb} € pro Person, der Flug dauert rund {klima.flugStunden} Stunden zum Flughafen {klima.flughafen}.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-6">
+              {fakten.map((f) => (
+                <div key={f.k} className="rounded-2xl border border-[#0a1a3a]/10 bg-white p-4">
+                  <div className="text-xs text-[#0a1a3a]/55">{f.k}</div>
+                  <div className="text-sm font-semibold text-[#0a1a3a] mt-0.5">{f.v}</div>
+                </div>
+              ))}
+            </div>
+            {topHighlights.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-lg font-bold text-[#0a1a3a] mb-2">Highlights in {destination.name}</h3>
+                <ul className="space-y-1.5">
+                  {topHighlights.map((h, i) => (
+                    <li key={i} className="flex gap-2 text-sm text-[#0a1a3a]/80">
+                      <span className="text-[#2e75fa] mt-0.5 shrink-0">●</span>
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+        )
+      })()}
 
       {/* ---- Offers grid ---- */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
