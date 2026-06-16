@@ -3,6 +3,7 @@ import { offers } from '@/data/offers'
 import { destinations } from '@/data/destinations'
 import { ratgeberArticles } from '@/lib/ratgeber-data'
 import { getAllReisemonatParams } from '@/lib/reisemonat'
+import { getAllFragenParams } from '@/lib/fragen'
 
 const BASE_URL = 'https://www.besterurlaub.com'
 
@@ -47,6 +48,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/ratgeber`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     // Reisezeit hub (Klima × Monat)
     { url: `${BASE_URL}/reise`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
+    // Reise-Fragen hub (Q&A)
+    { url: `${BASE_URL}/fragen`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     // Legal
     { url: `${BASE_URL}/impressum`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE_URL}/datenschutz`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
@@ -96,5 +99,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  return [...staticPages, ...offerPages, ...destinationPages, ...ratgeberPages, ...reisemonatPages]
+  // Reise-Fragen /fragen/[slug] — Q&A, je Antwort destinationsspezifische Daten.
+  const fragenPages: MetadataRoute.Sitemap = getAllFragenParams().map((p) => ({
+    url: `${BASE_URL}/fragen/${p.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }))
+
+  return [...staticPages, ...offerPages, ...destinationPages, ...ratgeberPages, ...reisemonatPages, ...fragenPages]
 }
