@@ -66,6 +66,14 @@ const nextConfig: NextConfig = {
   /* ----------------------------------------------------------------- */
   async redirects() {
     return [
+      // SEO FIX 2026-06-23: apex -> www con 308 PERMANENTE (era Vercel platform 307
+      // temporaneo -> Google non consolidava l'indicizzazione). Niente loop: matcha solo apex nudo.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'besterurlaub.com' }],
+        destination: 'https://www.besterurlaub.com/:path*',
+        permanent: true,
+      },
       // Trailing-slash variants of category pages — keep canonical without slash.
       { source: '/all-inclusive/', destination: '/all-inclusive', permanent: true },
       { source: '/lastminute/', destination: '/lastminute', permanent: true },
