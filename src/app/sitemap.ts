@@ -9,6 +9,15 @@ import { isThinHub } from '@/app/(public)/reiseziel/[slug]/page'
 const BASE_URL = 'https://www.besterurlaub.com'
 
 /**
+ * Stabiles lastModified für programmatische Seiten (/reise, /fragen,
+ * /reiseziel, /ratgeber). Diese Inhalte sind datengetrieben und ändern sich
+ * NUR, wenn der Datenstand (reise-klima / fragen / destinations) aktualisiert
+ * wird, nicht bei jedem Build. Beim nächsten Datenupdate dieses Datum erhöhen.
+ * So churnt der Sitemap-lastmod nicht bei jedem Deploy (Crawl-Budget schonen).
+ */
+const DATA_VERSION = '2026-06-16'
+
+/**
  * Sitemap for Bester Urlaub.
  *
  * Strategy
@@ -34,7 +43,10 @@ const BASE_URL = 'https://www.besterurlaub.com'
  * sitemap-offers.xml, sitemap-destinations.xml, sitemap-ratgeber.xml.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
+  // new Date() NUR für Seiten, die sich täglich über das Check24-Widget
+  // erneuern (Angebote/Kategorien). Programmatische Seiten nutzen DATA_VERSION.
   const now = new Date()
+  const stable = new Date(DATA_VERSION)
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/`, lastModified: now, changeFrequency: 'daily', priority: 1.0 },
@@ -47,10 +59,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/alle-angebote`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
     { url: `${BASE_URL}/mietwagen`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${BASE_URL}/ratgeber`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
-    // Reisezeit hub (Klima × Monat)
-    { url: `${BASE_URL}/reise`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
-    // Reise-Fragen hub (Q&A)
-    { url: `${BASE_URL}/fragen`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
+    // Reisezeit hub (Klima × Monat) — datengetrieben, stabiler lastmod
+    { url: `${BASE_URL}/reise`, lastModified: stable, changeFrequency: 'weekly', priority: 0.7 },
+    // Reise-Fragen hub (Q&A) — datengetrieben, stabiler lastmod
+    { url: `${BASE_URL}/fragen`, lastModified: stable, changeFrequency: 'weekly', priority: 0.7 },
     // Legal
     { url: `${BASE_URL}/impressum`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE_URL}/datenschutz`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
@@ -79,7 +91,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       const hasOffers = (offerCountBySlug.get(d.slug!) || 0) > 0
       return {
         url: `${BASE_URL}/reiseziel/${d.slug}`,
-        lastModified: now,
+        lastModified: stable,
         changeFrequency: hasOffers ? 'weekly' : 'monthly',
         priority: hasOffers ? 0.7 : 0.4,
       }
@@ -87,7 +99,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const ratgeberPages: MetadataRoute.Sitemap = ratgeberArticles.map((r) => ({
     url: `${BASE_URL}/ratgeber/${r.slug}`,
-    lastModified: now,
+    lastModified: stable,
     changeFrequency: 'monthly',
     priority: 0.6,
   }))
@@ -96,7 +108,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Klima-/Preis-/Highlight-Daten. Nur PASS-Seiten (forge.py-validiert).
   const reisemonatPages: MetadataRoute.Sitemap = getAllReisemonatParams().map((p) => ({
     url: `${BASE_URL}/reise/${p.ziel}/${p.monat}`,
-    lastModified: now,
+    lastModified: stable,
     changeFrequency: 'monthly',
     priority: 0.6,
   }))
@@ -104,7 +116,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Reise-Fragen /fragen/[slug] — Q&A, je Antwort destinationsspezifische Daten.
   const fragenPages: MetadataRoute.Sitemap = getAllFragenParams().map((p) => ({
     url: `${BASE_URL}/fragen/${p.slug}`,
-    lastModified: now,
+    lastModified: stable,
     changeFrequency: 'monthly',
     priority: 0.6,
   }))

@@ -15,7 +15,7 @@ import {
   touristDestinationJsonLd,
 } from '@/lib/seo-jsonld'
 import { reiseKlima, MONAT_NAMEN, MONAT_SLUGS } from '@/data/reise-klima'
-import { getBesteMonate, getGuenstigsterMonat } from '@/lib/reisemonat'
+import { getBesteMonate, getGuenstigsterMonat, isPublishableMonth } from '@/lib/reisemonat'
 import { ratgeberArticles } from '@/lib/ratgeber-data'
 import { getAllFragenParams, getFrage } from '@/lib/fragen'
 
@@ -305,20 +305,36 @@ export default async function DestinationPage({ params }: PageProps) {
       {(() => {
         const klima = reiseKlima.find((z) => z.slug === slug)
         const ratgeber = ratgeberArticles.find((r) => r.slug === slug)
+        // ALLE Fragen-Seiten dieser Destination (nicht nur 3), damit der
+        // programmatische Fragen-Baum nicht intern verwaist.
         const fragen = getAllFragenParams()
           .filter((p) => p.slug.endsWith(`-${slug}`))
           .map((p) => ({ slug: p.slug, frage: getFrage(p.slug)?.frage }))
           .filter((x): x is { slug: string; frage: string } => Boolean(x.frage))
+        const beste = klima ? getBesteMonate(klima) : []
+        const guenstig = klima ? getGuenstigsterMonat(klima) : null
+        // ALLE buchbaren Monate (preisAb > 0) verlinken, damit jede generierte
+        // /reise/[ziel]/[monat]-Seite mindestens einen internen Link bekommt.
+        const monatLinks = klima
+          ? klima.monate
+              .filter((mm) => isPublishableMonth(mm))
+              .map((mm) => {
+                const istBeste = beste.includes(mm.monat)
+                const istGuenstig = guenstig ? mm.monat === guenstig.monat : false
+                const zusatz = istBeste
+                  ? ' (beste Reisezeit)'
+                  : istGuenstig
+                    ? ` (günstigster Monat, ab ${mm.preisAb} €)`
+                    : ''
+                return {
+                  href: `/reise/${slug}/${MONAT_SLUGS[mm.monat - 1]}`,
+                  label: `${destination.name} im ${MONAT_NAMEN[mm.monat - 1]}${zusatz}`,
+                }
+              })
+          : []
         const links: { href: string; label: string }[] = []
-        if (klima) {
-          const beste = getBesteMonate(klima)
-          const guenstig = getGuenstigsterMonat(klima)
-          links.push({ href: `/reise/${slug}/${MONAT_SLUGS[beste[0] - 1]}`, label: `${destination.name} im ${MONAT_NAMEN[beste[0] - 1]} (beste Reisezeit)` })
-          if (guenstig.preisAb > 0) {
-            links.push({ href: `/reise/${slug}/${MONAT_SLUGS[guenstig.monat - 1]}`, label: `${destination.name} im ${MONAT_NAMEN[guenstig.monat - 1]} (günstigster Monat, ab ${guenstig.preisAb} €)` })
-          }
-        }
-        for (const f of fragen.slice(0, 3)) links.push({ href: `/fragen/${f.slug}`, label: f.frage })
+        links.push(...monatLinks)
+        for (const f of fragen) links.push({ href: `/fragen/${f.slug}`, label: f.frage })
         if (ratgeber) links.push({ href: `/ratgeber/${slug}`, label: `${destination.name} Reiseführer: ${ratgeber.title}` })
         if (links.length === 0) return null
         return (

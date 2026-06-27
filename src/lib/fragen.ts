@@ -69,6 +69,10 @@ const NEAR_DUP_BLOCK = new Set<string>([
   'beste-reisezeit-side',
   'klimatabelle-side',
   'mit-kindern-side',
+  // Anreise-Antworten der Klima-Zwillinge kollidieren am stärksten: gleicher
+  // Flughafen, gleiche Flugzeit, gleiche Zeitverschiebung. Daher die anreise-
+  // Frage nur für die jeweilige Hauptdestination publizieren (Zwilling -> 404).
+  'anreise-side',
 ])
 
 export function getAllFragenParams(): { slug: string }[] {

@@ -127,6 +127,75 @@ function packSatz(m: MonatKlima, mn: string): string {
 }
 
 /**
+ * Highlights als Fließtext statt Stichpunkte. Die Dataset-Highlights sind bereits
+ * ganze Aussagesätze; wir verketten sie zu 1-2 Absätzen mit variierenden Über-
+ * leitungen je nach Saison. So liest sich der Abschnitt als echter Prosatext und
+ * teilt sich keine identische Stichpunktliste mit Nachbarmonaten.
+ */
+function highlightsProse(ziel: ZielKlima, m: MonatKlima, mn: string): string {
+  const hs = m.highlights.filter(Boolean)
+  if (hs.length === 0) return ''
+  const sats = (t: string) => (/[.!?]$/.test(t.trim()) ? t.trim() : t.trim() + '.')
+  // Überleitung nach Saison-Bucket variieren (nicht nur Zahlen tauschen).
+  let auftakt: string
+  if (m.andrang === 'hoch') {
+    auftakt = `Im ${mn} ist auf ${ziel.name} am meisten los. ${sats(hs[0])}`
+  } else if (m.andrang === 'mittel') {
+    auftakt = `Wer ${ziel.name} abseits des größten Trubels erleben will, ist im ${mn} richtig. ${sats(hs[0])}`
+  } else {
+    auftakt = `Der ${mn} zeigt eine ruhigere, ursprünglichere Seite von ${ziel.name}. ${sats(hs[0])}`
+  }
+  const rest = hs.slice(1).map(sats)
+  if (rest.length === 0) return auftakt
+  const koppler = m.andrang === 'hoch'
+    ? 'Dazu kommt: '
+    : m.andrang === 'mittel'
+      ? 'Sehenswert ist außerdem: '
+      : 'Lohnenswert ist zudem: '
+  return `${auftakt} ${koppler}${rest.join(' ')}`.replace(/\s+/g, ' ').trim()
+}
+
+/**
+ * Preis- und Anreise-Absatz mit ECHT unterschiedlicher Satzstruktur je Saison-
+ * Bucket (andrang) und Binnen-/Küstenflag. Nachbarmonate und klimatisch ähnliche
+ * Ziele teilen so kein wortgleiches Gerüst mehr, sondern nur die Realzahlen.
+ */
+function preiseAnreiseProse(
+  ziel: ZielKlima,
+  m: MonatKlima,
+  mn: string,
+  guenstigName: string,
+  guenstigPreis: number,
+  istBinnen: boolean,
+): string {
+  const istGuenstigster = m.preisAb <= guenstigPreis
+  const reise = istBinnen ? 'Städtereise' : 'Pauschalreise'
+  const ort = istBinnen ? 'mit Hotel zentral' : 'inklusive Flug und Hotel'
+
+  if (m.andrang === 'hoch') {
+    // Hochsaison: Knappheit/früh buchen voranstellen.
+    const teil = istGuenstigster
+      ? `Selbst in der Hochsaison bleibt der ${mn} preislich der günstigste Reisemonat des Jahres.`
+      : `Günstiger reist du im ${guenstigName} (ab ${guenstigPreis} €), wer aber die volle Saisonstimmung sucht, ist im ${mn} genau richtig.`
+    return `Der ${mn} ist auf ${ziel.name} Hochsaison: entsprechend gefragt sind Hotels und Flüge, eine frühe Buchung lohnt sich. Eine ${reise} startet ab ${m.preisAb} € pro Person ${ort}. ${teil}`
+  }
+
+  if (m.andrang === 'mittel') {
+    // Nebensaison: Preis/Leistung in den Mittelpunkt.
+    const teil = istGuenstigster
+      ? `Damit fällt der ${mn} zugleich in den günstigsten Zeitraum des Jahres.`
+      : `Den absoluten Tiefpreis findest du im ${guenstigName} ab ${guenstigPreis} €, doch das Verhältnis aus Wetter und Preis ist im ${mn} schwer zu schlagen.`
+    return `Im ${mn} liegt ${ziel.name} in der Nebensaison, das macht die ${reise} mit Preisen ab ${m.preisAb} € pro Person ${ort} attraktiv. ${teil}`
+  }
+
+  // Vorsaison / niedrig: Ruhe und Sparpotenzial betonen.
+  const teil = istGuenstigster
+    ? `Günstiger als im ${mn} (ab ${m.preisAb} €) wird es das ganze Jahr nicht.`
+    : `Noch ein paar Euro sparst du im ${guenstigName} (ab ${guenstigPreis} €), viel ruhiger als im ${mn} geht es aber kaum.`
+  return `Wer Andrang meiden und sparen will, reist im ${mn}: Die ${reise} ist mit ab ${m.preisAb} € pro Person ${ort} eine der günstigsten des Jahres. ${teil}`
+}
+
+/**
  * Liefert alle Datapoints der Seite (für forge.py-Validierung) UND die Textblöcke.
  * Recipe (geprüft, 100% PASS): Klimawerte + tempSatz/wasserSatz + monatsspezifische
  * highlights (der divergente Realwert) + packSatz + Anreise.
@@ -170,5 +239,14 @@ export function buildReisemonatContent(page: ReisemonatPage) {
     klimaSatz,
     andrangText: andrangText(monat.andrang),
     packSatz: packSatz(monat, monatName),
+    highlightsProse: highlightsProse(ziel, monat, monatName),
+    preiseAnreiseProse: preiseAnreiseProse(
+      ziel,
+      monat,
+      monatName,
+      guenstigName,
+      guenstig.preisAb,
+      istBinnen,
+    ),
   }
 }

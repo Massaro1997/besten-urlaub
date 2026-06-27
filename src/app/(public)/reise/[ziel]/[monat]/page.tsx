@@ -177,25 +177,27 @@ export default async function ReisemonatPage({ params }: PageProps) {
           <p className="text-[#0a1a3a]/80 leading-relaxed">{c.klimaSatz}</p>
         </section>
 
-        {/* Highlights = der divergente Realwert */}
+        {/* Highlights als Fließtext = der divergente Realwert, strukturell variiert */}
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-[#0a1a3a] mb-3">Was ist im {monatName} auf {z.name} los?</h2>
-          <ul className="space-y-2.5">
-            {m.highlights.map((h, i) => (
-              <li key={i} className="flex gap-2.5 text-[#0a1a3a]/80 leading-relaxed">
-                <span className="text-[#2e75fa] mt-1 shrink-0">●</span>
-                <span>{h}</span>
-              </li>
-            ))}
-          </ul>
+          {c.highlightsProse ? (
+            <p className="text-[#0a1a3a]/80 leading-relaxed">{c.highlightsProse}</p>
+          ) : (
+            <ul className="space-y-2.5">
+              {m.highlights.map((h, i) => (
+                <li key={i} className="flex gap-2.5 text-[#0a1a3a]/80 leading-relaxed">
+                  <span className="text-[#2e75fa] mt-1 shrink-0">●</span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
 
         {/* Preise & Anreise */}
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-[#0a1a3a] mb-3">Preise & Anreise</h2>
-          <p className="text-[#0a1a3a]/80 leading-relaxed">
-            Eine Pauschalreise nach {z.name} startet im {monatName} <strong>ab {m.preisAb} €</strong> pro Person inklusive Flug und Hotel. Es ist {c.andrangText}. Der günstigste Reisemonat des Jahres ist der {c.guenstigName} (ab {c.guenstig.preisAb} €).
-          </p>
+          <p className="text-[#0a1a3a]/80 leading-relaxed">{c.preiseAnreiseProse}</p>
           <p className="text-[#0a1a3a]/80 leading-relaxed mt-3 flex items-start gap-2">
             <Plane className="w-5 h-5 text-[#2e75fa] mt-0.5 shrink-0" />
             <span>Der Flug von Deutschland dauert rund {z.flugStunden} Stunden zum Flughafen {z.flughafen}, die Zeitverschiebung beträgt {z.zeitverschiebung} {z.zeitverschiebung === 1 ? 'Stunde' : 'Stunden'}. Abflug ab {z.abflug.join(', ')}.</span>

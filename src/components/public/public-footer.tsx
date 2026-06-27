@@ -10,6 +10,17 @@ const destinations = [
   { label: 'Hurghada', slug: 'hurghada' },
   { label: 'Sardegna', slug: 'sardegna' },
   { label: 'Marbella', slug: 'marbella' },
+  { label: 'Santorini', slug: 'santorini' },
+  { label: 'Mauritius', slug: 'mauritius' },
+  { label: 'Sansibar', slug: 'sansibar' },
+  { label: 'Sicilia', slug: 'sicilia' },
+  { label: 'Korfu', slug: 'korfu' },
+  { label: 'Lago di Garda', slug: 'lago-di-garda' },
+]
+
+const reiseInfos = [
+  { label: 'Beste Reisezeit', href: '/reise' },
+  { label: 'Reise-Tipps & Fragen', href: '/fragen' },
 ]
 
 const services = [
@@ -91,7 +102,7 @@ export function PublicFooter() {
           </div>
 
           {/* Link columns */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-10">
             {/* Reiseziele */}
             <div>
               <h4 className="text-[11px] uppercase tracking-[0.15em] text-white/30 font-semibold mb-3">
@@ -124,6 +135,25 @@ export function PublicFooter() {
                       className="text-sm text-white/55 hover:text-white transition-colors"
                     >
                       {s.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Reise-Infos */}
+            <div>
+              <h4 className="text-[11px] uppercase tracking-[0.15em] text-white/30 font-semibold mb-3">
+                Reise-Infos
+              </h4>
+              <ul className="space-y-2">
+                {reiseInfos.map((r) => (
+                  <li key={r.href}>
+                    <Link
+                      href={r.href}
+                      className="text-sm text-white/55 hover:text-white transition-colors"
+                    >
+                      {r.label}
                     </Link>
                   </li>
                 ))}
