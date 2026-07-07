@@ -5,6 +5,7 @@ import { JsonLd } from '@/components/public/json-ld'
 import { SITE_URL, breadcrumbJsonLd, itemListJsonLd } from '@/lib/seo-jsonld'
 import { reiseKlima, MONAT_NAMEN, MONAT_SLUGS } from '@/data/reise-klima'
 import { getBesteMonate, getGuenstigsterMonat } from '@/lib/reisemonat'
+import { TopSeitenLinks } from '@/components/public/top-seiten-links'
 
 const url = `${SITE_URL}/reise`
 
@@ -24,6 +25,23 @@ export const metadata: Metadata = {
 }
 
 export default function ReiseHub() {
+  // Saisonale Sektion: der Monat, den die Leute JETZT suchen (Folgemonat).
+  // Wird bei jedem Build neu berechnet; mindestens ein Deploy pro Monat noetig.
+  const nextIdx = (new Date().getMonth() + 1) % 12
+  const nextName = MONAT_NAMEN[nextIdx]
+  const nextSlug = MONAT_SLUGS[nextIdx]
+  const imNaechstenMonat = reiseKlima
+    .filter((z) => {
+      const m = z.monate.find((mm) => mm.monat === nextIdx + 1)
+      return m && m.preisAb > 0 && m.regen <= 6 && (m.wasser >= 22 || m.tagMax >= 24)
+    })
+    .sort((a, b) => {
+      const ma = a.monate.find((mm) => mm.monat === nextIdx + 1)!
+      const mb = b.monate.find((mm) => mm.monat === nextIdx + 1)!
+      return mb.sonne - ma.sonne
+    })
+    .slice(0, 12)
+
   const breadcrumbSchema = breadcrumbJsonLd([
     { name: 'Startseite', url: '/' },
     { name: 'Reisezeit', url: '/reise' },
@@ -53,6 +71,36 @@ export default function ReiseHub() {
         <p className="text-[#0a1a3a]/70 text-lg mt-3 max-w-2xl">
           Wann ist es wo am schönsten? Für jedes Reiseziel findest du hier Wetter, Wassertemperatur, Sonnenstunden und Pauschalreise-Preise — Monat für Monat.
         </p>
+
+        {imNaechstenMonat.length > 0 && (
+          <div className="mt-8 rounded-3xl border border-[#2e75fa]/25 bg-[#2e75fa]/5 p-5 sm:p-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0a1a3a]">Wohin im {nextName}?</h2>
+            <p className="text-sm text-[#0a1a3a]/70 mt-1 mb-4">
+              Die sonnigsten Ziele im {nextName}, sortiert nach Sonnenstunden. Mit Wetter, Wassertemperatur und Preisen.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+              {imNaechstenMonat.map((z) => {
+                const m = z.monate.find((mm) => mm.monat === nextIdx + 1)!
+                return (
+                  <Link
+                    key={z.slug}
+                    href={`/reise/${z.slug}/${nextSlug}`}
+                    className="rounded-xl border border-[#0a1a3a]/10 bg-white hover:border-[#2e75fa] transition-colors px-3 py-2.5"
+                  >
+                    <div className="text-sm font-semibold text-[#0a1a3a]">{z.name} im {nextName}</div>
+                    <div className="text-xs text-[#0a1a3a]/55 mt-0.5">
+                      {m.tagMax}°{m.wasser > 0 ? ` · Meer ${m.wasser}°` : ''} · ab {m.preisAb} €
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-8">
+          <TopSeitenLinks />
+        </div>
 
         <div className="mt-10 space-y-8">
           {reiseKlima.map((z) => {

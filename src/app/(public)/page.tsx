@@ -12,6 +12,7 @@ import { FaqSection } from '@/components/public/faq-section'
 import { LogoMarquee } from '@/components/public/logo-marquee'
 import { TrackedOfferLink } from '@/components/public/tracked-offer-link'
 import { PhoneCtaSection } from '@/components/public/phone-cta-section'
+import { TopSeitenLinks } from '@/components/public/top-seiten-links'
 import { CallbackModal } from '@/components/public/callback-modal'
 import { JsonLd } from '@/components/public/json-ld'
 import { extractOfferDates, formatOfferDateRange } from '@/lib/offer-dates'
@@ -188,6 +189,11 @@ export default async function HomePage() {
       {/* Beliebte Reiseziele */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <DestinationGrid destinations={typedDestinations} />
+      </section>
+
+      {/* Meistgesuchte Seiten (interne Links auf GSC-Top-Seiten) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+        <TopSeitenLinks />
       </section>
 
       {/* Reise-Ratgeber */}

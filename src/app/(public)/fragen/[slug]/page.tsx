@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronRight } from 'lucide-react'
 import { JsonLd } from '@/components/public/json-ld'
-import { SITE_URL, breadcrumbJsonLd, faqJsonLd, articleJsonLd } from '@/lib/seo-jsonld'
+import { SITE_URL, BUILD_DATE, breadcrumbJsonLd, faqJsonLd, articleJsonLd } from '@/lib/seo-jsonld'
 import { getAllFragenParams, getFrage } from '@/lib/fragen'
+import { getSeitenExtra } from '@/data/seiten-extra'
 
 export const dynamicParams = false
 
@@ -45,6 +46,7 @@ export default async function FragePage({ params }: PageProps) {
   if (!f) notFound()
 
   const url = `${SITE_URL}/fragen/${slug}`
+  const extra = getSeitenExtra(slug)
 
   // related questions for the same destination (internal linking, Gate 6)
   const related = getAllFragenParams()
@@ -68,7 +70,7 @@ export default async function FragePage({ params }: PageProps) {
     url,
     image: `/destinations/${f.ziel.slug}.webp`,
     datePublished: '2026-06-16',
-    dateModified: '2026-06-16',
+    dateModified: BUILD_DATE,
   })
 
   return (
@@ -123,6 +125,18 @@ export default async function FragePage({ params }: PageProps) {
               </tbody>
             </table>
           </div>
+        )}
+
+        {/* Handgeschriebener Zusatzcontent (Top-Seiten, siehe seiten-extra.ts) */}
+        {extra && (
+          <section className="mt-10">
+            <h2 className="text-xl font-bold text-[#0a1a3a] mb-3">{extra.titel}</h2>
+            <div className="space-y-4">
+              {extra.absaetze.map((p, i) => (
+                <p key={i} className="text-[#0a1a3a]/80 leading-relaxed">{p}</p>
+              ))}
+            </div>
+          </section>
         )}
 
         {/* CTA */}

@@ -6,6 +6,7 @@ import { ChevronRight, Sun, Droplets, Thermometer, CloudRain, CalendarDays, Plan
 import { JsonLd } from '@/components/public/json-ld'
 import {
   SITE_URL,
+  BUILD_DATE,
   breadcrumbJsonLd,
   faqJsonLd,
   articleJsonLd,
@@ -16,6 +17,7 @@ import {
   buildReisemonatContent,
 } from '@/lib/reisemonat'
 import { MONAT_NAMEN, MONAT_SLUGS } from '@/data/reise-klima'
+import { getSeitenExtra } from '@/data/seiten-extra'
 import { ratgeberArticles } from '@/lib/ratgeber-data'
 
 export const dynamicParams = false
@@ -74,6 +76,7 @@ export default async function ReisemonatPage({ params }: PageProps) {
   const c = buildReisemonatContent(page)
   const url = `${SITE_URL}/reise/${ziel}/${monat}`
   const heroImage = `/destinations/${ziel}.webp`
+  const extra = getSeitenExtra(`${ziel}/${monat}`)
 
   // sibling months for internal linking — nur buchbare Monate (preisAb > 0),
   // damit keine Links auf 404-Seiten zeigen (Gate 6 sauber).
@@ -129,7 +132,7 @@ export default async function ReisemonatPage({ params }: PageProps) {
     url,
     image: heroImage,
     datePublished: '2026-06-16',
-    dateModified: '2026-06-16',
+    dateModified: BUILD_DATE,
   })
 
   return (
@@ -209,6 +212,18 @@ export default async function ReisemonatPage({ params }: PageProps) {
           </p>
           <p className="text-[#0a1a3a]/80 leading-relaxed mt-3"><strong>Was anziehen?</strong> {c.packSatz}</p>
         </section>
+
+        {/* Handgeschriebener Zusatzcontent (Top-Seiten, siehe seiten-extra.ts) */}
+        {extra && (
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold text-[#0a1a3a] mb-4">{extra.titel}</h2>
+            <div className="space-y-4">
+              {extra.absaetze.map((p, i) => (
+                <p key={i} className="text-[#0a1a3a]/80 leading-relaxed">{p}</p>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* CTA */}
         <div className="rounded-3xl bg-[#0a1a3a] text-white p-6 sm:p-8 mb-12 text-center">

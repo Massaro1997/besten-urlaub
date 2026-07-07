@@ -4,6 +4,7 @@ import { ChevronRight } from 'lucide-react'
 import { JsonLd } from '@/components/public/json-ld'
 import { SITE_URL, breadcrumbJsonLd, itemListJsonLd } from '@/lib/seo-jsonld'
 import { getAllFragenParams, getFrage } from '@/lib/fragen'
+import { TopSeitenLinks } from '@/components/public/top-seiten-links'
 import { reiseKlima } from '@/data/reise-klima'
 
 const url = `${SITE_URL}/fragen`
@@ -61,6 +62,10 @@ export default function FragenHub() {
         <p className="text-[#0a1a3a]/70 text-lg mt-3 max-w-2xl">
           Beste Reisezeit, günstigste Monate, Wassertemperatur, Klima und Familienurlaub — die wichtigsten Fragen zu jedem Reiseziel, mit echten Daten beantwortet.
         </p>
+
+        <div className="mt-8">
+          <TopSeitenLinks title="Meistgestellte Fragen" />
+        </div>
 
         <div className="mt-10 grid sm:grid-cols-2 gap-6">
           {reiseKlima
