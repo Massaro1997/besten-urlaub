@@ -246,7 +246,8 @@ export default async function DestinationPage({ params }: PageProps) {
             <p className="text-[#0a1a3a]/75 mt-3 max-w-3xl leading-relaxed">
               {destination.name} in {klima.land}: Die beste Reisezeit sind {beste.map((mi) => MONAT_NAMEN[mi - 1]).join(', ')}.
               {!istBinnen && ` Das Meer erreicht bis zu ${peak.wasser}°C im ${MONAT_NAMEN[peak.monat - 1]}.`}{' '}
-              Pauschalreisen starten ab {guenstig.preisAb} € pro Person, der Flug dauert rund {klima.flugStunden} Stunden zum Flughafen {klima.flughafen}.
+              Pauschalreisen starten ab {guenstig.preisAb} € pro Person, der Flug dauert rund {klima.flugStunden} Stunden zum Flughafen {klima.flughafen}.{' '}
+              Alle ab-Preise pro Monat: <Link href={`/pauschalreise/${slug}`} className="text-[#2e75fa] hover:underline font-medium">Pauschalreise {destination.name} Preistabelle</Link>.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-6">
               {fakten.map((f) => (

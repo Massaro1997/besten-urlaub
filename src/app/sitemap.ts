@@ -4,6 +4,7 @@ import { destinations } from '@/data/destinations'
 import { ratgeberArticles } from '@/lib/ratgeber-data'
 import { getAllReisemonatParams } from '@/lib/reisemonat'
 import { getAllFragenParams } from '@/lib/fragen'
+import { getAllPauschalreiseParams } from '@/lib/pauschalreise'
 import { isThinHub } from '@/app/(public)/reiseziel/[slug]/page'
 
 const BASE_URL = 'https://www.besterurlaub.com'
@@ -121,5 +122,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  return [...staticPages, ...offerPages, ...destinationPages, ...ratgeberPages, ...reisemonatPages, ...fragenPages]
+  // Pauschalreise-Preisseiten /pauschalreise/[ziel] — kommerzieller Intent,
+  // ab-Preise pro Monat aus reise-klima. Hoehere Prio: das sind die Seiten,
+  // deren Queries wirklich klicken.
+  const pauschalreisePages: MetadataRoute.Sitemap = [
+    { url: `${BASE_URL}/pauschalreise`, lastModified: stable, changeFrequency: 'weekly' as const, priority: 0.8 },
+    ...getAllPauschalreiseParams().map((p) => ({
+      url: `${BASE_URL}/pauschalreise/${p.ziel}`,
+      lastModified: stable,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
+  ]
+
+  return [...staticPages, ...offerPages, ...destinationPages, ...ratgeberPages, ...reisemonatPages, ...fragenPages, ...pauschalreisePages]
 }

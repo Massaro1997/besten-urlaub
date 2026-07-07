@@ -229,13 +229,21 @@ export default async function ReisemonatPage({ params }: PageProps) {
         <div className="rounded-3xl bg-[#0a1a3a] text-white p-6 sm:p-8 mb-12 text-center">
           <h3 className="text-xl sm:text-2xl font-bold mb-2">{z.name}-Angebote im {monatName}</h3>
           <p className="text-white/75 mb-5">Ab {m.preisAb} € pro Person — handgepickte Deals, verglichen mit Check24.</p>
-          <Link
-            href={`/reiseziel/${ziel}`}
-            className="inline-flex items-center gap-2 bg-[#2e75fa] hover:bg-[#1f5fd8] transition-colors text-white font-semibold rounded-full px-7 py-3"
-          >
-            {z.name}-Angebote ansehen
-            <ChevronRight className="w-4 h-4" />
-          </Link>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link
+              href={`/reiseziel/${ziel}`}
+              className="inline-flex items-center gap-2 bg-[#2e75fa] hover:bg-[#1f5fd8] transition-colors text-white font-semibold rounded-full px-7 py-3"
+            >
+              {z.name}-Angebote ansehen
+              <ChevronRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href={`/pauschalreise/${ziel}`}
+              className="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 transition-colors text-white font-semibold rounded-full px-7 py-3"
+            >
+              Preise pro Monat
+            </Link>
+          </div>
         </div>
 
         {/* FAQ (sichtbar, deckt sich mit FAQ-Schema) */}

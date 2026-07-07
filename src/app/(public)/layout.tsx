@@ -14,13 +14,13 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.besterurlaub.com'),
-  title: 'Bester Urlaub — Die besten Urlaubsangebote',
+  title: 'Pauschalreisen günstig buchen: Deals, Preise und beste Reisezeit',
   description:
-    'Finde die besten Reiseangebote und Urlaubsschnaeppchen fuer deinen naechsten Traumurlaub. Direkt fuer dich gefunden.',
+    'Pauschalreisen zum Bestpreis: handgepickte Deals, Preistabellen pro Monat und die beste Reisezeit für über 50 Reiseziele. Verglichen mit Check24.',
   openGraph: {
-    title: 'Bester Urlaub — Die besten Urlaubsangebote',
+    title: 'Pauschalreisen günstig buchen: Deals, Preise und beste Reisezeit',
     description:
-      'Finde die besten Reiseangebote und Urlaubsschnaeppchen fuer deinen naechsten Traumurlaub.',
+      'Handgepickte Deals, Preistabellen pro Monat und die beste Reisezeit für über 50 Reiseziele.',
     type: 'website',
     locale: 'de_DE',
     url: 'https://www.besterurlaub.com',
@@ -30,14 +30,14 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Bester Urlaub — Traumurlaub zum besten Preis',
+        alt: 'Bester Urlaub: Traumurlaub zum besten Preis',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bester Urlaub — Die besten Urlaubsangebote',
-    description: 'Finde die besten Reiseangebote fuer deinen naechsten Traumurlaub.',
+    title: 'Pauschalreisen günstig buchen: Deals, Preise und beste Reisezeit',
+    description: 'Handgepickte Deals, Preistabellen pro Monat und die beste Reisezeit für über 50 Reiseziele.',
     images: ['/og-image.jpg'],
   },
 }

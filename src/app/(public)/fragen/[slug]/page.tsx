@@ -179,6 +179,11 @@ export default async function FragePage({ params }: PageProps) {
                 </li>
               ))}
               <li>
+                <Link href={`/pauschalreise/${f.ziel.slug}`} className="text-[#2e75fa] hover:underline flex items-center gap-1.5">
+                  <ChevronRight className="w-3.5 h-3.5" /> Pauschalreise {f.ziel.name}: Preise pro Monat
+                </Link>
+              </li>
+              <li>
                 <Link href={`/reiseziel/${f.ziel.slug}`} className="text-[#2e75fa] hover:underline flex items-center gap-1.5">
                   <ChevronRight className="w-3.5 h-3.5" /> Alle {f.ziel.name}-Angebote
                 </Link>
