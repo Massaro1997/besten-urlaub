@@ -30,6 +30,8 @@ export type FragenPage = {
   typ: FrageTyp
   ziel: ZielKlima
   frage: string
+  /** SERP-Title: Keyword vorn + konkrete Zahlen. Fallback in metadata = frage. */
+  seoTitle?: string
   kurzantwort: string
   /** Absätze der Langantwort */
   absatz: string[]
@@ -121,6 +123,7 @@ export function getFrage(slug: string): FragenPage | null {
     return {
       ...base,
       frage: `Wann ist die beste Reisezeit für ${ziel.name}?`,
+      seoTitle: `Beste Reisezeit ${ziel.name}: ${besteNamen.join(', ')} (bis ${peak.wasser}°C Wasser)`,
       kurzantwort: `Die beste Reisezeit für ${ziel.name} sind die Monate ${besteNamen.join(', ')}. Dann liegt die Wassertemperatur bei bis zu ${peak.wasser}°C bei ${beste[0].sonne}+ Sonnenstunden täglich.`,
       absatz: [
         `Für einen Badeurlaub auf ${ziel.name} eignen sich am besten ${besteNamen.join(', ')}: In diesen Monaten erreicht das Meer ${beste.map((m) => `${m.wasser}°C im ${jahr(m)}`).join(', ')}, kombiniert mit ${beste[0].sonne} bis ${peak.sonne} Sonnenstunden pro Tag.`,
@@ -151,6 +154,7 @@ export function getFrage(slug: string): FragenPage | null {
     return {
       ...base,
       frage: `Wann ist ${ziel.name} am günstigsten?`,
+      seoTitle: `${ziel.name} günstig buchen: im ${jahr(guenstig)} ab ${guenstig.preisAb} € (Preistabelle)`,
       kurzantwort: `${ziel.name} ist im ${jahr(guenstig)} am günstigsten: Pauschalreisen ab ${guenstig.preisAb} € pro Person. Am teuersten ist der ${jahr(teuer)} (ab ${teuer.preisAb} €).`,
       absatz: [
         `Der günstigste Reisemonat für ${ziel.name} ist der ${jahr(guenstig)} mit Pauschalpreisen ab ${guenstig.preisAb} € pro Person inklusive Flug und Hotel. Zu diesem Zeitpunkt liegt die Tagestemperatur bei ${guenstig.tagMax}°C, das Wasser bei ${guenstig.wasser}°C.`,
@@ -176,6 +180,7 @@ export function getFrage(slug: string): FragenPage | null {
     return {
       ...base,
       frage: `Wie ist das Klima auf ${ziel.name}? (Klimatabelle)`,
+      seoTitle: `Klimatabelle ${ziel.name}: ${ziel.monate[0].tagMax}°C bis ${peak.tagMax}°C${peak.wasser > 0 ? `, Meer bis ${peak.wasser}°C` : ''} (alle Monate)`,
       kurzantwort: `${ziel.name} hat von ${ziel.monate[0].tagMax}°C im Winter bis ${peak.tagMax}°C im Hochsommer, das Meer erreicht bis zu ${peak.wasser}°C. Hier die komplette Klimatabelle.`,
       absatz: [
         `Die Klimatabelle für ${ziel.name} zeigt Tag- und Nachttemperatur, Wassertemperatur, Sonnenstunden und Regentage für jeden Monat.`,
@@ -207,6 +212,7 @@ export function getFrage(slug: string): FragenPage | null {
     return {
       ...base,
       frage: `Wie lange dauert der Flug nach ${ziel.name}?`,
+      seoTitle: `Flugzeit nach ${ziel.name}: ca. ${String(ziel.flugStunden).replace('.', ',')} Stunden ab Deutschland`,
       kurzantwort: `Der Flug von Deutschland nach ${ziel.name} dauert rund ${ziel.flugStunden} Stunden (${dauer}) zum Flughafen ${ziel.flughafen}, ${zv}. Direktflüge ab ${ziel.abflug.join(', ')}.`,
       absatz: [
         `Der Flug von Deutschland nach ${ziel.name} dauert rund ${ziel.flugStunden} Stunden und ist damit eine ${dauer}. Geflogen wird zum Flughafen ${ziel.flughafen}, ${zv}. Direktflüge starten ab ${ziel.abflug.join(', ')}.`,
@@ -237,6 +243,7 @@ export function getFrage(slug: string): FragenPage | null {
   return {
     ...base,
     frage: `Wann ist die beste Reisezeit für ${ziel.name} mit Kindern?`,
+    seoTitle: `${ziel.name} mit Kindern: beste Reisezeit ${empfohlen.slice(0, 3).map(jahr).join(', ')}`,
     kurzantwort: `Für Familienurlaub auf ${ziel.name} eignen sich ${empfohlen.map(jahr).join(', ')} am besten: warmes Wasser (${empfohlen[0].wasser}°C+) ohne extreme Hitze.`,
     absatz: [
       `Mit Kindern ist auf ${ziel.name} die ideale Reisezeit ${empfohlen.map(jahr).join(', ')}: Das Wasser ist mit ${empfohlen.map((m) => m.wasser).join(', ')}°C kindgerecht warm, die Lufttemperatur bleibt mit maximal ${Math.max(...empfohlen.map((m) => m.tagMax))}°C aushaltbar.`,

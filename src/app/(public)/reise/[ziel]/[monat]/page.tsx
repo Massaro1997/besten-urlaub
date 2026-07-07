@@ -33,10 +33,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const page = getReisemonat(ziel, monat)
   if (!page) return { title: 'Seite nicht gefunden | Bester Urlaub' }
 
-  const { ziel: z, monat: m, monatName } = page
+  const { ziel: z, monat: m, monatName, monatIndex } = page
   const url = `${SITE_URL}/reise/${ziel}/${monat}`
-  const title = `${z.name} im ${monatName}: Wetter, Wassertemperatur & Preise`
-  const description = `${z.name} im ${monatName}: ${m.tagMax}°C am Tag, ${m.wasser}°C Wasser, ${m.sonne} Sonnenstunden. Pauschalreise ab ${m.preisAb} €. Beste Reisezeit, Klima & Tipps.`
+  // Jahr der nächsten Ausgabe dieses Monats: Frische-Signal im SERP-Title
+  const now = new Date()
+  const jahr = monatIndex >= now.getMonth() ? now.getFullYear() : now.getFullYear() + 1
+  const meerTitel = m.wasser > 0 ? `, Meer ${m.wasser}°C` : `, ${m.sonne} Sonnenstunden`
+  const meerDesc = m.wasser > 0 ? `${m.wasser}°C Wasser, ` : ''
+  const title = `${z.name} im ${monatName} ${jahr}: ${m.tagMax}°C${meerTitel}. Lohnt es sich?`
+  const description = `${z.name} im ${monatName}: ${m.tagMax}°C am Tag, ${meerDesc}${m.sonne} Sonnenstunden, ${m.regen} Regentage. Ehrliche Einschätzung + Pauschalreisen ab ${m.preisAb} €.`
 
   return {
     title: `${title} | Bester Urlaub`,

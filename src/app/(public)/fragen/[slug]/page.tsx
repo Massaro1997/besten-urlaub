@@ -21,12 +21,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const f = getFrage(slug)
   if (!f) return { title: 'Frage nicht gefunden | Bester Urlaub' }
   const url = `${SITE_URL}/fragen/${slug}`
+  const serpTitle = f.seoTitle ?? f.frage
   return {
-    title: `${f.frage} | Bester Urlaub`,
+    title: `${serpTitle} | Bester Urlaub`,
     description: f.kurzantwort.slice(0, 160),
     alternates: { canonical: url },
     openGraph: {
-      title: f.frage,
+      title: serpTitle,
       description: f.kurzantwort.slice(0, 200),
       type: 'article',
       locale: 'de_DE',
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       siteName: 'Bester Urlaub',
       images: [{ url: `/destinations/${f.ziel.slug}.webp`, width: 1200, height: 630, alt: f.ziel.name }],
     },
-    twitter: { card: 'summary_large_image', title: f.frage, description: f.kurzantwort.slice(0, 200), images: [`/destinations/${f.ziel.slug}.webp`] },
+    twitter: { card: 'summary_large_image', title: serpTitle, description: f.kurzantwort.slice(0, 200), images: [`/destinations/${f.ziel.slug}.webp`] },
   }
 }
 
