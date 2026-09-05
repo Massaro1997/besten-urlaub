@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { Clock, ShieldCheck, Tag, Phone } from 'lucide-react'
+import { BrandMark } from './brand-mark'
 import { Check24SearchTabs } from './check24-search-tabs'
 import { HeroClouds } from './hero-clouds'
 import { TrackedPhoneLink } from './tracked-phone-link'
@@ -31,14 +32,9 @@ export function HeroSection() {
 
       <div className="relative max-w-[1500px] mx-auto px-4 sm:px-6 pt-20 sm:pt-28 lg:pt-32 pb-[calc(16.7vw+28px)]">
         {/* Sotto sm la navbar è nascosta finché non si scorre: il marchio sta qui */}
-        <Image
-          src="/noBgWhite.png"
-          alt="Bester Urlaub"
-          width={280}
-          height={72}
-          priority
-          className="sm:hidden w-[165px] h-auto mx-auto mb-6"
-        />
+        <div className="sm:hidden flex justify-center mb-6">
+          <BrandMark variant="light" size="lg" />
+        </div>
 
         <div className="text-center max-w-4xl 2xl:max-w-5xl mx-auto">
           <h1 className="text-[26px] sm:text-5xl lg:text-[56px] 2xl:text-[64px] font-extrabold text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(10,26,58,0.5)]">

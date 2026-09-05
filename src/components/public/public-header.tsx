@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { BrandMark } from './brand-mark'
 import { Menu, X, Search, Phone } from 'lucide-react'
 import { trackLead } from '@/lib/tiktok-pixel'
 
@@ -132,15 +132,8 @@ export function PublicHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center gap-3 sm:gap-6 h-14 sm:h-16">
           {/* Logo */}
-          <Link href="/" className="shrink-0">
-            <Image
-              src={transparent ? '/noBgWhite.png' : '/noBgColor.png'}
-              alt="Bester Urlaub"
-              width={140}
-              height={36}
-              className="h-8 sm:h-9 w-auto"
-              priority
-            />
+          <Link href="/" className="shrink-0" aria-label="Bester Urlaub — Startseite">
+            <BrandMark variant={transparent ? 'light' : 'dark'} size="md" />
           </Link>
 
           {/* Search — centered */}

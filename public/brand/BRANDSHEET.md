@@ -65,7 +65,7 @@ geometrico monolinea in due righe.
 | `noBgBlack.png` | Stampa a un colore, fax, timbri |
 | `whiteBgColor.png` | Quando serve un fondo bianco chiuso (marketplace, PDF) |
 | `symbol.svg` | Simbolo monocromatico blu: pattern, timbri, stampa a un colore |
-| `symbol-2026.svg` | **Simbolo a colori 2026** (palma, sole, onde): favicon, avatar social, app |
+| `symbol-2026.svg` | **Simbolo a colori 2026** (palma, sole, onde): e il marchio del sito, della favicon e degli avatar social. Fondo trasparente, viewBox gia ritagliato sul disegno |
 
 **Regole**
 

@@ -67,8 +67,8 @@ export const metadata: Metadata = {
     google: 't0EiLZIm15abO8Cm-v851j9AkAR3x5bRtq5ZuvFuLVk',
   },
   icons: {
-    icon: '/symbol.svg',
-    apple: '/symbol.svg',
+    icon: '/symbol-2026.svg',
+    apple: '/symbol-2026.svg',
   },
 };
 
