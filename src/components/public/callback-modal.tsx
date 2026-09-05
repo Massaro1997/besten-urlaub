@@ -72,21 +72,44 @@ interface Props {
 
 const STORAGE_KEY = 'bu_callback_shown'
 
-export function CallbackModal({ source = 'callback-modal', delayMs = 4000 }: Props) {
+export function CallbackModal({ source = 'callback-modal', delayMs = 45000 }: Props) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    // Only show once per session
+    // Una volta sola per sessione
     try {
       if (sessionStorage.getItem(STORAGE_KEY) === '1') return
     } catch {}
 
-    const timer = setTimeout(() => {
+    let done = false
+    function show() {
+      if (done) return
+      done = true
       setOpen(true)
       try { sessionStorage.setItem(STORAGE_KEY, '1') } catch {}
-    }, delayMs)
+      cleanup()
+    }
 
-    return () => clearTimeout(timer)
+    // 1) il mouse esce dalla finestra (desktop), 2) meta' pagina scrollata, 3) dopo delayMs
+    function onLeave(e: MouseEvent) {
+      if (e.clientY <= 0) show()
+    }
+    function onScroll() {
+      const h = document.documentElement
+      if (h.scrollHeight > h.clientHeight * 1.5 &&
+          window.scrollY > (h.scrollHeight - h.clientHeight) * 0.5) show()
+    }
+    const timer = setTimeout(show, delayMs)
+
+    function cleanup() {
+      clearTimeout(timer)
+      document.removeEventListener('mouseout', onLeave)
+      window.removeEventListener('scroll', onScroll)
+    }
+
+    document.addEventListener('mouseout', onLeave)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return cleanup
   }, [delayMs])
 
   // Lock body scroll when open
@@ -101,7 +124,7 @@ export function CallbackModal({ source = 'callback-modal', delayMs = 4000 }: Pro
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0a1a3a]/45 animate-fade-in"
       onClick={() => setOpen(false)}
     >
       <div

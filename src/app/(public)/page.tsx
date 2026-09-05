@@ -2,7 +2,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { HeroSection } from '@/components/public/hero-section'
-import { HeroCtaBar } from '@/components/public/hero-cta-bar'
 import { DestinationGrid } from '@/components/public/destination-grid'
 import { TikTokFeed } from '@/components/public/tiktok-feed'
 import { RatgeberCarousel } from '@/components/public/ratgeber-carousel'
@@ -90,16 +89,15 @@ export default async function HomePage() {
       <JsonLd data={[organizationJsonLd(), websiteJsonLd(), faqJsonLd(HOMEPAGE_FAQ)]} />
       <CallbackModal source="homepage" />
       <HeroSection />
-      <HeroCtaBar />
       <CategoryChipRow />
+
+      {/* Reiseveranstalter Logos */}
+      <LogoMarquee />
 
       {/* Handverlesene Reise-Deals */}
       {typedFeatured.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-8 sm:pb-16">
           <div className="flex flex-col items-center text-center mb-5 sm:mb-8">
-            <span className="text-[11px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-2">
-              Handverlesen · Täglich aktualisiert
-            </span>
             <h2 className="text-xl sm:text-3xl lg:text-[2rem] font-extrabold text-[#0a1a3a] tracking-tight">
               Die besten Reise-Deals der Woche
             </h2>
@@ -137,35 +135,42 @@ export default async function HomePage() {
                     sizes={isLarge ? '(max-width: 640px) 100vw, 66vw' : '(max-width: 640px) 100vw, 33vw'}
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50" />
-                  {relativeTime && (
-                    <div className="absolute top-3 right-3">
-                      <span className={`inline-flex items-center gap-1 bg-white/95 backdrop-blur-sm text-[#0a1a3a] font-semibold rounded-full shadow-sm ${isLarge ? 'text-[11px] px-2.5 py-1' : 'text-[10px] px-2 py-0.5'}`}>
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] animate-pulse" />
-                        {relativeTime}
-                      </span>
+
+                  {/* Overlay in colonna: niente sovrapposizioni quando la card si stringe */}
+                  <div className="absolute inset-0 flex flex-col p-3 sm:p-4">
+                    <div className="flex items-start gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className={`text-white font-bold drop-shadow truncate ${isLarge ? 'text-base sm:text-lg' : 'text-sm sm:text-base'}`}>
+                          {offer.destination.name}, <span className="font-normal">{offer.destination.country}</span>
+                        </p>
+                        <p className={`text-white/80 drop-shadow truncate ${isLarge ? 'text-xs sm:text-sm' : 'text-[11px] sm:text-xs'}`}>
+                          7 Tage, 2 Erw., inkl. Flug
+                        </p>
+                      </div>
+                      {relativeTime && (
+                        <span className={`shrink-0 inline-flex items-center gap-1 bg-white/95 backdrop-blur-sm text-[#0a1a3a] font-semibold rounded-full shadow-sm whitespace-nowrap ${isLarge ? 'text-[11px] px-2.5 py-1' : 'text-[10px] px-2 py-0.5'}`}>
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] animate-pulse" />
+                          {relativeTime}
+                        </span>
+                      )}
                     </div>
-                  )}
-                  <div className="absolute top-4 left-4 right-20">
-                    <p className={`text-white font-bold drop-shadow ${isLarge ? 'text-lg' : 'text-base'}`}>
-                      {offer.destination.name}, <span className="font-normal">{offer.destination.country}</span>
-                    </p>
-                    <p className={`text-white/80 drop-shadow ${isLarge ? 'text-sm' : 'text-xs'}`}>7 Tage, 2 Erw., inkl. Flug</p>
+
+                    <div className="mt-auto flex flex-wrap items-end justify-between gap-x-2 gap-y-1">
+                      {dateRange ? (
+                        <span className={`inline-flex items-center gap-1.5 bg-[#ff3333]/90 backdrop-blur-sm text-white font-bold rounded-full whitespace-nowrap ${isLarge ? 'text-[11px] px-2.5 py-1' : 'text-[10px] px-2 py-0.5'}`}>
+                          <svg className={isLarge ? 'w-3 h-3' : 'w-2.5 h-2.5'} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          {dateRange}
+                        </span>
+                      ) : <span />}
+                      {offer.priceFrom && (
+                        <div className="ml-auto text-right whitespace-nowrap shrink-0">
+                          <span className="text-white/70 text-[11px] sm:text-xs drop-shadow">ab</span>{' '}
+                          <span className={`text-white font-extrabold drop-shadow ${isLarge ? 'text-xl sm:text-2xl' : 'text-lg sm:text-xl'}`}>{Math.round(offer.priceFrom)} €</span>
+                          <span className="text-white/70 text-[11px] sm:text-xs drop-shadow ml-0.5">p.P.</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  {dateRange && (
-                    <div className="absolute bottom-4 left-4">
-                      <span className={`inline-flex items-center gap-1.5 bg-[#ff3333]/90 backdrop-blur-sm text-white font-bold rounded-full ${isLarge ? 'text-[11px] px-2.5 py-1' : 'text-[10px] px-2 py-0.5'}`}>
-                        <svg className={isLarge ? 'w-3 h-3' : 'w-2.5 h-2.5'} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        {dateRange}
-                      </span>
-                    </div>
-                  )}
-                  {offer.priceFrom && (
-                    <div className="absolute bottom-4 right-4 text-right">
-                      <span className="text-white/70 text-xs drop-shadow">ab</span>{' '}
-                      <span className={`text-white font-extrabold drop-shadow ${isLarge ? 'text-2xl' : 'text-xl'}`}>{Math.round(offer.priceFrom)} €</span>
-                      <span className="text-white/70 text-xs drop-shadow ml-0.5">p.P.</span>
-                    </div>
-                  )}
                 </TrackedOfferLink>
               )
             })}
@@ -216,9 +221,6 @@ export default async function HomePage() {
         </Link>
 
         <div className="flex flex-col items-center text-center mb-5 sm:mb-8">
-          <span className="text-[11px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-2">
-            Schnäppchen-Alarm · Nur diese Woche
-          </span>
           <h2 className="text-xl sm:text-3xl lg:text-[2rem] font-extrabold text-[#0a1a3a] tracking-tight leading-tight">
             Urlaubsdeals zum Bestpreis sichern 🔥
           </h2>
@@ -270,9 +272,6 @@ export default async function HomePage() {
             ))}
         </div>
       </section>
-
-      {/* Reiseveranstalter Logos */}
-      <LogoMarquee />
 
       {/* TikTok Feed */}
       <TikTokFeed />

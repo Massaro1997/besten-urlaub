@@ -10,9 +10,6 @@ export function FaqSection() {
   return (
     <section id="faq" className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
       <div className="flex flex-col items-center text-center mb-8">
-        <span className="text-[11px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-2">
-          Häufige Fragen · Schnell beantwortet
-        </span>
         <h2 className="text-xl sm:text-3xl lg:text-[2rem] font-extrabold text-[#0a1a3a] tracking-tight leading-tight">
           Alles, was du wissen musst 💡
         </h2>

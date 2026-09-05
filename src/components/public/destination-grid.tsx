@@ -44,14 +44,11 @@ export function DestinationGrid({ destinations }: { destinations: DestinationIte
   return (
     <section id="reiseziele">
       <div className="flex flex-col items-center text-center mb-2">
-        <span className="text-[11px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-2">
-          Beliebte Reiseziele · Top 10
-        </span>
         <h2 className="text-xl sm:text-3xl lg:text-[2rem] font-extrabold text-[#0a1a3a] tracking-tight leading-tight">
           Wohin soll es gehen? 🌍
         </h2>
         <p className="text-sm sm:text-base text-[#0a1a3a]/55 mt-2 max-w-2xl">
-          Die Lieblings-Destinationen unserer Piraten — von Mallorca bis Sansibar.
+          Die beliebtesten Ziele unserer Kunden — von Mallorca bis Sansibar.
         </p>
       </div>
 

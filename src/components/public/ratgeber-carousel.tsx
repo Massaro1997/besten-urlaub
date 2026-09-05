@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { ratgeberArticles } from '@/lib/ratgeber-data'
 
 export function RatgeberCarousel() {
@@ -44,12 +44,6 @@ export function RatgeberCarousel() {
       {/* Header */}
       <div className="flex items-end justify-between mb-6">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <BookOpen className="w-4 h-4 text-[#ff6b35]" />
-            <span className="text-[11px] sm:text-xs font-bold text-[#ff6b35] uppercase tracking-[0.25em]">
-              Reise-Magazin · Insider-Tipps
-            </span>
-          </div>
           <h2 className="text-xl sm:text-3xl lg:text-[2rem] font-extrabold text-[#0a1a3a] tracking-tight leading-tight">
             Lass dich inspirieren ✨
           </h2>

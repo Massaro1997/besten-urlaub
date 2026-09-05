@@ -1,0 +1,248 @@
+/* ------------------------------------------------------------------ *
+ * Bester Urlaub — brand tokens + utility layer
+ * Fonte: /brand/BRANDSHEET.md  ·  v1.0
+ * Importato da src/app/globals.css. Non ridefinire questi valori altrove.
+ * ------------------------------------------------------------------ */
+
+:root {
+  /* --- Core ------------------------------------------------------- */
+  --bu-blue: #2e75fa;
+  --bu-blue-deep: #1a5fe0;
+  --bu-blue-mist: #e8f0ff;
+  --bu-navy: #0a1a3a;
+  --bu-orange: #ff6b35;
+  --bu-orange-deep: #e85d2c;
+
+  /* --- Support ---------------------------------------------------- */
+  --bu-lagune: #cfeef5;
+  --bu-teal: #21b5c9;
+  --bu-sand: #f7efe3;
+  --bu-green: #17a67b;
+  --bu-coral: #e5343f;
+
+  /* --- Neutrals --------------------------------------------------- */
+  --bu-white: #ffffff;
+  --bu-grey-50: #f5f7fa;
+  --bu-grey-200: #e6eaf0;
+  --bu-grey-500: #8a94a6;
+
+  /* --- Gradients -------------------------------------------------- */
+  --bu-grad-cta: linear-gradient(135deg, #ff6b35 0%, #e85d2c 100%);
+  --bu-grad-sea: linear-gradient(135deg, #2e75fa 0%, #21b5c9 100%);
+  --bu-veil-left: linear-gradient(90deg, rgba(10, 26, 58, .95) 0%, rgba(10, 26, 58, .85) 45%, transparent 100%);
+  --bu-veil-bottom: linear-gradient(180deg, rgba(10, 26, 58, .2) 0%, rgba(10, 26, 58, .85) 40%, #0a1a3a 100%);
+
+  /* --- Radii ------------------------------------------------------ */
+  --bu-r-chip: 8px;
+  --bu-r-input: 12px;
+  --bu-r-card: 16px;
+  --bu-r-block: 24px;
+  --bu-r-pill: 9999px;
+
+  /* --- Elevation -------------------------------------------------- */
+  --bu-shadow-1: 0 1px 2px rgba(10, 26, 58, .06);
+  --bu-shadow-2: 0 8px 24px -8px rgba(10, 26, 58, .18);
+  --bu-shadow-3: 0 20px 50px -12px rgba(10, 26, 58, .28);
+  --bu-shadow-cta: 0 12px 40px -8px rgba(255, 107, 53, .6);
+
+  /* --- Motion ----------------------------------------------------- */
+  --bu-ease: cubic-bezier(.22, 1, .36, 1);
+  --bu-t-micro: 200ms;
+  --bu-t-section: 300ms;
+
+  /* --- Rhythm ----------------------------------------------------- */
+  --bu-container: 1280px;
+  --bu-section-y: 80px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Type
+ * ------------------------------------------------------------------ */
+
+.bu-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: .25em;
+  color: var(--bu-orange);
+}
+
+@media (min-width: 640px) {
+  .bu-eyebrow { font-size: 12px; }
+}
+
+.bu-display {
+  font-size: clamp(30px, 5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.08;
+}
+
+.bu-h2 {
+  font-size: clamp(26px, 3.4vw, 42px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.15;
+}
+
+.bu-lead {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.bu-price {
+  font-weight: 800;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ *
+ * Buttons — sempre pill, è la firma del brand
+ * ------------------------------------------------------------------ */
+
+.bu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: var(--bu-r-pill);
+  padding: 14px 26px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--bu-t-micro) var(--bu-ease),
+              background-color var(--bu-t-micro) var(--bu-ease),
+              box-shadow var(--bu-t-micro) var(--bu-ease),
+              color var(--bu-t-micro) var(--bu-ease);
+}
+
+.bu-btn:hover { transform: scale(1.02); }
+.bu-btn:active { transform: scale(.98); }
+
+.bu-btn--primary {
+  background: var(--bu-grad-cta);
+  color: #fff;
+  box-shadow: var(--bu-shadow-cta);
+}
+
+.bu-btn--blue {
+  background: var(--bu-blue);
+  color: #fff;
+  box-shadow: var(--bu-shadow-2);
+}
+
+.bu-btn--blue:hover { background: var(--bu-blue-deep); }
+
+.bu-btn--ghost {
+  background: transparent;
+  color: var(--bu-navy);
+  box-shadow: inset 0 0 0 1.5px rgba(10, 26, 58, .15);
+}
+
+.bu-btn--ghost:hover {
+  color: var(--bu-blue);
+  box-shadow: inset 0 0 0 1.5px var(--bu-blue);
+}
+
+.bu-btn--on-navy {
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25);
+  backdrop-filter: blur(6px);
+}
+
+/* ------------------------------------------------------------------ *
+ * Surfaces
+ * ------------------------------------------------------------------ */
+
+.bu-card {
+  background: #fff;
+  border: 1px solid rgba(10, 26, 58, .08);
+  border-radius: var(--bu-r-card);
+  box-shadow: var(--bu-shadow-1);
+  transition: box-shadow var(--bu-t-micro) var(--bu-ease),
+              transform var(--bu-t-micro) var(--bu-ease);
+}
+
+.bu-card:hover {
+  box-shadow: var(--bu-shadow-2);
+  transform: translateY(-2px);
+}
+
+.bu-surface-navy { background: var(--bu-navy); color: #fff; }
+.bu-surface-sand { background: var(--bu-sand); color: var(--bu-navy); }
+.bu-surface-mist { background: var(--bu-blue-mist); color: var(--bu-navy); }
+
+.bu-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--bu-r-pill);
+  background: var(--bu-blue-mist);
+  color: var(--bu-blue-deep);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+
+.bu-badge--green { background: rgba(23, 166, 123, .12); color: #0f7c5b; }
+.bu-badge--orange { background: rgba(255, 107, 53, .12); color: var(--bu-orange-deep); }
+.bu-badge--on-navy { background: rgba(255, 255, 255, .1); color: #fff; }
+
+/* ------------------------------------------------------------------ *
+ * Pattern — mai sotto un testo lungo oltre l'8% di opacità
+ * ------------------------------------------------------------------ */
+
+.bu-pattern-wellen,
+.bu-pattern-insel,
+.bu-pattern-sonne { position: relative; isolation: isolate; }
+
+.bu-pattern-wellen::before,
+.bu-pattern-insel::before,
+.bu-pattern-sonne::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: var(--bu-pattern-opacity, .08);
+  background-repeat: repeat;
+  pointer-events: none;
+}
+
+.bu-pattern-wellen::before { background-image: url("/brand/patterns/pattern-wellen.svg"); background-size: 120px 60px; }
+.bu-pattern-insel::before  { background-image: url("/brand/patterns/pattern-insel.svg");  background-size: 200px 200px; }
+.bu-pattern-sonne::before  { background-image: url("/brand/patterns/pattern-sonne.svg");  background-size: 120px 120px; }
+
+/* Variante chiara: pattern bianco su fondo scuro */
+.bu-pattern--light::before {
+  filter: brightness(0) invert(1);
+  opacity: var(--bu-pattern-opacity, .12);
+}
+
+/* Su navy il pattern è bianco: si alza l'opacità perché il tratto è tenue */
+.bu-surface-navy.bu-pattern-wellen::before,
+.bu-surface-navy.bu-pattern-insel::before,
+.bu-surface-navy.bu-pattern-sonne::before {
+  filter: brightness(0) invert(1);
+  opacity: var(--bu-pattern-opacity, .12);
+}
+
+/* Divisore d'onda tra due sezioni */
+.bu-wave-divider {
+  display: block;
+  width: 100%;
+  height: 48px;
+  border: 0;
+  background: url("/brand/elements/wave-divider.svg") center / 1440px 48px repeat-x;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bu-btn:hover,
+  .bu-btn:active,
+  .bu-card:hover { transform: none; }
+}

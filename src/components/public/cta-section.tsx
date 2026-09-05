@@ -17,7 +17,6 @@ export function CtaSection() {
       </div>
 
       <div className="relative max-w-3xl mx-auto px-4 text-center">
-        <p className="text-xs uppercase tracking-[0.2em] text-white/40 font-medium mb-3">Immer einen Schritt voraus</p>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white drop-shadow-lg tracking-tight">
           Die besten Deals?<br />Bekommst du zuerst.
         </h2>

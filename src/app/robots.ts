@@ -18,6 +18,10 @@ const BASE_URL = 'https://www.besterurlaub.com'
  *    the affiliate model is paid by referrals, not by ad impressions.
  *  - We block `/api/` to avoid indexing JSON endpoints (lead capture,
  *    tracking, postbacks, GA4 proxy).
+ *  - AhrefsBot is hard-blocked (2026-08-28). It is a backlink crawler: it
+ *    crawls continuously and sends zero referral traffic, so on an affiliate
+ *    site it is pure cost. `AhrefsSiteAudit` is a DIFFERENT user agent and is
+ *    left allowed, so our own Ahrefs site audits keep working.
  *  - `/redirect`, `/_next/`, `/static/` are auto-handled by Next/Vercel.
  */
 export default function robots(): MetadataRoute.Robots {
@@ -45,6 +49,11 @@ export default function robots(): MetadataRoute.Robots {
           // No-track query short-circuit (internal staff)
           '/*?no-track=1',
         ],
+      },
+      // Backlink crawler: crawls non-stop, sends no visitors. Not AhrefsSiteAudit.
+      {
+        userAgent: 'AhrefsBot',
+        disallow: '/',
       },
     ],
     sitemap: `${BASE_URL}/sitemap.xml`,

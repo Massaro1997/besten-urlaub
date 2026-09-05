@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="48" viewBox="0 0 1440 48" preserveAspectRatio="none">
+  <title>Bester Urlaub — Wellen-Divider (ripetibile ogni 1440px)</title>
+  <g fill="none" stroke-linecap="round" stroke-width="3">
+    <path d="M0 18 q60 -14 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0" stroke="#2e75fa" opacity=".9"/>
+    <path d="M-60 32 q60 -14 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0" stroke="#21b5c9" opacity=".6"/>
+  </g>
+</svg>

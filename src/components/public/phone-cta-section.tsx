@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Phone } from 'lucide-react'
 import { TrackedPhoneLink } from './tracked-phone-link'
 
@@ -6,51 +7,53 @@ const PHONE_DISPLAY = '+49 176 8240 5507'
 
 export function PhoneCtaSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#0a1a3a] via-[#0f2454] to-[#0a1a3a]">
-      {/* Subtle background pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.05]"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 20% 50%, #2e75fa 0%, transparent 50%), radial-gradient(circle at 80% 50%, #ff6b35 0%, transparent 50%)',
-        }}
+    <section className="relative isolate overflow-hidden bg-[#0a1a3a]">
+      {/* Full-bleed destination photo */}
+      <Image
+        src="/destinations/malediven.webp"
+        alt="Überwasser-Villen einer Insel im Indischen Ozean bei Sonnenuntergang"
+        fill
+        quality={85}
+        sizes="100vw"
+        className="object-cover object-[72%_center]"
       />
 
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 text-center">
-        <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#ff6b35] font-bold mb-3">
-          Persönliche Beratung · Kostenlos
-        </p>
+      {/* Readability gradient: from the left on desktop, from the bottom on mobile */}
+      <div className="absolute inset-0 hidden sm:block bg-gradient-to-r from-[#0a1a3a] from-10% via-[#0a1a3a]/85 via-55% to-transparent" />
+      <div className="absolute inset-0 sm:hidden bg-gradient-to-b from-[#0a1a3a]/20 via-[#0a1a3a]/85 via-40% to-[#0a1a3a]" />
 
-        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
-          Sprich mit einem echten Piraten 📞
-        </h2>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-44 pb-12 sm:py-20 lg:py-24">
+        <div className="max-w-xl">
+          <h2 className="text-[26px] sm:text-4xl lg:text-[42px] font-extrabold text-white tracking-tight leading-[1.15] mb-4">
+            Lieber beraten lassen?
+          </h2>
 
-        <p className="text-white/60 text-sm sm:text-lg max-w-xl mx-auto mb-8 sm:mb-10">
-          Keine Warteschlange. Kein Bot. Wir finden gemeinsam dein perfektes Schnäppchen —
-          schnell und ohne Stress.
-        </p>
+          <p className="text-white/75 text-[15px] sm:text-lg leading-relaxed mb-7">
+            Wir vergleichen die Angebote und stellen deine Reise zusammen — unverbindlich.
+          </p>
 
-        {/* Big phone number */}
-        <TrackedPhoneLink
-          href={`tel:${PHONE_NUMBER}`}
-          source="phone-cta-section"
-          className="group inline-flex items-center gap-3 sm:gap-5 bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 rounded-2xl sm:rounded-3xl px-5 sm:px-10 py-5 sm:py-7 transition-all hover:scale-[1.02] active:scale-[0.98]"
-        >
-          <div className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#e85d2c] shadow-[0_8px_30px_rgba(255,107,53,0.4)] shrink-0">
-            <Phone className="w-5 h-5 sm:w-7 sm:h-7 text-white" fill="currentColor" />
-          </div>
-          <div className="text-left">
-            <div className="text-[10px] sm:text-xs uppercase tracking-widest text-white/40 font-semibold mb-0.5 sm:mb-1">
-              Jetzt anrufen
-            </div>
-            <div className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-none tracking-tight tabular-nums">
-              {PHONE_DISPLAY}
-            </div>
-          </div>
-        </TrackedPhoneLink>
+          <TrackedPhoneLink
+            href={`tel:${PHONE_NUMBER}`}
+            source="phone-cta-section"
+            className="group inline-flex items-center gap-3 sm:gap-4 rounded-2xl bg-gradient-to-br from-[#ff6b35] to-[#e85d2c] px-5 sm:px-7 py-4 sm:py-5 shadow-[0_12px_40px_-8px_rgba(255,107,53,0.6)] transition-all hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <span className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/15 shrink-0">
+              <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="currentColor" />
+            </span>
+            <span className="text-left">
+              <span className="block text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-white/75 font-bold mb-0.5">
+                Direkt anrufen
+              </span>
+              <span className="block text-xl sm:text-3xl font-black text-white leading-none tracking-tight tabular-nums">
+                {PHONE_DISPLAY}
+              </span>
+            </span>
+          </TrackedPhoneLink>
 
-        <p className="text-white/40 text-xs sm:text-sm mt-6 sm:mt-8">
-          Mo–Fr 9:00 – 19:00 Uhr · Sa 10:00 – 16:00 Uhr
-        </p>
+          <p className="text-white/50 text-xs sm:text-sm mt-5">
+            Erreichbar Mo–Fr 9:00 – 19:00 Uhr · Sa 10:00 – 16:00 Uhr
+          </p>
+        </div>
       </div>
     </section>
   )

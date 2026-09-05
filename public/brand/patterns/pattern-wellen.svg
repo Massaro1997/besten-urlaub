@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="60" viewBox="0 0 120 60">
+  <title>Bester Urlaub — Wellen (tile 120×60)</title>
+  <g fill="none" stroke="#2e75fa" stroke-width="2" stroke-linecap="round">
+    <path d="M0 12 q15 -8 30 0 t30 0 t30 0 t30 0" opacity=".9"/>
+    <path d="M-30 32 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0" opacity=".55"/>
+    <path d="M0 52 q15 -8 30 0 t30 0 t30 0 t30 0" opacity=".75"/>
+  </g>
+</svg>

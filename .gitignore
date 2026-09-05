@@ -53,3 +53,6 @@ scripts/
 
 .vercel
 .env*.local
+
+# SEO work files (indexing scripts, credentials)
+.seo-work/

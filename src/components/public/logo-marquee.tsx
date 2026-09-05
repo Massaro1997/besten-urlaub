@@ -15,12 +15,7 @@ const LOGOS = [
 
 export function LogoMarquee() {
   return (
-    <section className="bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-2">
-        <p className="text-xs uppercase tracking-[0.2em] text-[#0a1a3a]/30 text-center font-semibold mb-8">
-          Top Reiseveranstalter im Vergleich
-        </p>
-      </div>
+    <section className="bg-white overflow-hidden pt-4 pb-10 sm:pt-6 sm:pb-14">
       <div
         className="relative"
         style={{
@@ -37,13 +32,12 @@ export function LogoMarquee() {
                 alt={logo.alt}
                 width={120}
                 height={40}
-                className="h-10 w-auto shrink-0"
+                className="h-9 sm:h-11 w-auto shrink-0 opacity-80"
               />
             ))
           )}
         </div>
       </div>
-      <div className="pb-8" />
       <style jsx>{`
         @keyframes scroll-logos {
           from { transform: translateX(0); }

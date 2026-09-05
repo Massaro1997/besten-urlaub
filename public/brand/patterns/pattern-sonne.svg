@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <title>Bester Urlaub — Sonne / Horizont (tile 120×120)</title>
+  <g fill="none" stroke="#ff6b35" stroke-width="2" stroke-linecap="round">
+    <!-- archi centrati sugli angoli: il tile combacia su tutti i lati -->
+    <path d="M0 34 A34 34 0 0 0 34 0" opacity=".85"/>
+    <path d="M0 22 A22 22 0 0 0 22 0" opacity=".55"/>
+    <path d="M120 34 A34 34 0 0 1 86 0" opacity=".85"/>
+    <path d="M120 22 A22 22 0 0 1 98 0" opacity=".55"/>
+    <path d="M0 86 A34 34 0 0 1 34 120" opacity=".85"/>
+    <path d="M0 98 A22 22 0 0 1 22 120" opacity=".55"/>
+    <path d="M120 86 A34 34 0 0 0 86 120" opacity=".85"/>
+    <path d="M120 98 A22 22 0 0 0 98 120" opacity=".55"/>
+  </g>
+  <g stroke="#2e75fa" stroke-width="2" stroke-linecap="round" fill="none">
+    <circle cx="60" cy="60" r="12" opacity=".9"/>
+    <path d="M60 36 v-8 M60 92 v-8 M36 60 h-8 M92 60 h8" opacity=".7"/>
+  </g>
+</svg>

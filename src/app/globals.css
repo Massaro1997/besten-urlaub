@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Brand layer — fonte: public/brand/BRANDSHEET.md (token + classi .bu-*) */
+@import "../../public/brand/tokens/brand-tokens.css";
 
 :root {
   --background: #ffffff;
@@ -148,4 +150,28 @@ a, button, input, select, textarea {
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* ---- Nuvole della hero: deriva lenta, si ferma con reduced-motion ---- */
+@keyframes bu-cloud-drift {
+  from { transform: translate3d(-18px, 0, 0); }
+  to   { transform: translate3d(18px, 0, 0); }
+}
+
+.bu-cloud-a { animation: bu-cloud-drift 26s ease-in-out infinite alternate; }
+.bu-cloud-b { animation: bu-cloud-drift 38s ease-in-out infinite alternate-reverse; }
+.bu-cloud-c { animation: bu-cloud-drift 32s ease-in-out infinite alternate; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bu-cloud-a, .bu-cloud-b, .bu-cloud-c { animation: none; }
+}
+
+/* ---- Righe scorrevoli: sfumatura ai lati solo finche' il contenuto esce ---- */
+.bu-scroll-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 20px, #000 calc(100% - 32px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 20px, #000 calc(100% - 32px), transparent 100%);
+}
+
+@media (min-width: 1280px) {
+  .bu-scroll-fade { -webkit-mask-image: none; mask-image: none; }
 }

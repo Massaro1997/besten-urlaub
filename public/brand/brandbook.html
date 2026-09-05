@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bester Urlaub — Brand Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./tokens/brand-tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Poppins, system-ui, sans-serif;
+    color: var(--bu-navy);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  header.hero {
+    background: var(--bu-navy);
+    color: #fff;
+    padding: 72px 0 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  header.hero::before {
+    content: ""; position: absolute; inset: 0;
+    background: url("./patterns/pattern-wellen.svg") repeat;
+    background-size: 120px 60px;
+    filter: brightness(0) invert(1);
+    opacity: .1;
+  }
+  header.hero .wrap { position: relative; }
+  header.hero img { height: 46px; margin-bottom: 28px; }
+  header.hero h1 { font-size: clamp(30px, 5vw, 52px); letter-spacing: -.03em; margin: 0 0 12px; }
+  header.hero p { max-width: 620px; color: rgba(255,255,255,.7); font-size: 17px; line-height: 1.6; margin: 0; }
+  .meta { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .meta span {
+    font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    padding: 7px 14px; border-radius: 999px;
+    background: rgba(255,255,255,.1); color: #fff;
+  }
+
+  section { padding: 64px 0; border-top: 1px solid var(--bu-grey-200); }
+  section:first-of-type { border-top: 0; }
+  h2.s { font-size: 13px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--bu-orange); margin: 0 0 8px; }
+  h3.t { font-size: clamp(24px, 3vw, 34px); letter-spacing: -.02em; margin: 0 0 28px; }
+  p.lead { font-size: 17px; line-height: 1.65; color: #45506b; max-width: 720px; margin: -14px 0 32px; }
+
+  .grid { display: grid; gap: 16px; }
+  .g2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .g4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+  @media (max-width: 900px) { .g3, .g4 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  @media (max-width: 620px) { .g2, .g3, .g4 { grid-template-columns: 1fr; } }
+
+  .sw { border-radius: var(--bu-r-card); overflow: hidden; border: 1px solid var(--bu-grey-200); }
+  .sw .chip { height: 96px; }
+  .sw .info { padding: 12px 14px; background: #fff; }
+  .sw .info b { display: block; font-size: 14px; }
+  .sw .info code { font-size: 12px; color: var(--bu-grey-500); font-family: ui-monospace, monospace; }
+  .sw .info small { display: block; margin-top: 6px; font-size: 11px; color: #5b6580; line-height: 1.45; }
+
+  .card { border: 1px solid var(--bu-grey-200); border-radius: var(--bu-r-card); padding: 22px; background: #fff; }
+  .card h4 { margin: 0 0 10px; font-size: 15px; letter-spacing: -.01em; }
+  .card p { margin: 0; font-size: 14px; line-height: 1.6; color: #45506b; }
+
+  .type-row { display: flex; align-items: baseline; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--bu-grey-200); }
+  .type-row .k { width: 120px; flex: none; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--bu-grey-500); }
+  .type-row .v { flex: 1; }
+  .type-row .n { font-size: 12px; color: var(--bu-grey-500); font-family: ui-monospace, monospace; white-space: nowrap; }
+  @media (max-width: 700px) { .type-row { flex-direction: column; gap: 6px; } .type-row .k { width: auto; } }
+
+  .asset { border: 1px solid var(--bu-grey-200); border-radius: var(--bu-r-card); overflow: hidden; background: #fff; }
+  .asset .frame { padding: 20px; display: flex; align-items: center; justify-content: center; background: var(--bu-grey-50); min-height: 180px; }
+  .asset .frame img { max-width: 100%; height: auto; display: block; }
+  .asset .lab { padding: 12px 16px; font-size: 13px; font-weight: 600; border-top: 1px solid var(--bu-grey-200); }
+  .asset .lab span { display: block; font-weight: 400; font-size: 12px; color: var(--bu-grey-500); margin-top: 3px; }
+
+  .pat { height: 150px; border-radius: var(--bu-r-card); border: 1px solid var(--bu-grey-200); }
+
+  .voice { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 700px) { .voice { grid-template-columns: 1fr; } }
+  .voice div { border-radius: var(--bu-r-card); padding: 18px 20px; font-size: 14.5px; line-height: 1.7; }
+  .ok { background: rgba(23,166,123,.08); border: 1px solid rgba(23,166,123,.25); }
+  .no { background: rgba(229,52,63,.06); border: 1px solid rgba(229,52,63,.22); }
+  .ok b, .no b { display: block; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 10px; }
+  .ok b { color: #0f7c5b; } .no b { color: #b02630; }
+  .voice ul { margin: 0; padding-left: 18px; }
+  .voice li + li { margin-top: 7px; }
+
+  footer { background: var(--bu-sand); padding: 44px 0; font-size: 13px; color: #5b6580; }
+  footer code { font-family: ui-monospace, monospace; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <img src="./logo/noBgWhite.png" alt="Bester Urlaub">
+    <h1>Brand Book</h1>
+    <p>Come si vede, come suona e come si comporta Bester Urlaub. Una fonte sola per sito, social e stampa.</p>
+    <div class="meta">
+      <span>Versione 1.0</span><span>05 · 09 · 2026</span><span>besterurlaub.com</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2 class="s">Carattere</h2>
+    <h3 class="t">La guida esperta in spiaggia</h3>
+    <p class="lead">Rilassata nei modi, precisa nei fatti. Ogni scelta di design o di testo deve poter rivendicare almeno due di questi quattro tratti.</p>
+    <div class="grid g4">
+      <div class="card"><h4>Klar</h4><p>Una informazione per volta, prezzi leggibili, niente asterischi. Layout arioso, gerarchia forte.</p></div>
+      <div class="card"><h4>Nah</h4><p>Si dà del «du» e risponde una persona vera. Numero in chiaro, orari dichiarati, foto reali.</p></div>
+      <div class="card"><h4>Geprüft</h4><p>Solo numeri verificabili. Badge di verifica, fonti citate, nessuna cifra stimata.</p></div>
+      <div class="card"><h4>Sonnig</h4><p>Leggerezza mediterranea, mai infantile. Blu oceano e arancio sole, onde, palma, luce alta.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="s">Colore</h2>
+    <h3 class="t">Il blu è il marchio, l'arancio è l'azione</h3>
+    <p class="lead">L'arancio non supera circa il 10% della superficie di una pagina: se tutto è arancio, niente è un bottone. Il rosso corallo non decora mai un prezzo.</p>
+    <div class="grid g4">
+      <div class="sw"><div class="chip" style="background:#2e75fa"></div><div class="info"><b>Bester Blau</b><code>#2e75fa</code><small>Marchio, link, icone, grafici</small></div></div>
+      <div class="sw"><div class="chip" style="background:#0a1a3a"></div><div class="info"><b>Tiefsee Navy</b><code>#0a1a3a</code><small>Inchiostro e fondi emotivi</small></div></div>
+      <div class="sw"><div class="chip" style="background:#ff6b35"></div><div class="info"><b>Sonnenorange</b><code>#ff6b35</code><small>Solo azione: CTA, prezzo, occhiello</small></div></div>
+      <div class="sw"><div class="chip" style="background:#cfeef5"></div><div class="info"><b>Lagune</b><code>#cfeef5</code><small>Hero, aree luce</small></div></div>
+      <div class="sw"><div class="chip" style="background:#21b5c9"></div><div class="info"><b>Türkis</b><code>#21b5c9</code><small>Secondo colore di grafici e pattern</small></div></div>
+      <div class="sw"><div class="chip" style="background:#f7efe3"></div><div class="info"><b>Sand</b><code>#f7efe3</code><small>Fondo editoriale, Ratgeber</small></div></div>
+      <div class="sw"><div class="chip" style="background:#17a67b"></div><div class="info"><b>Palmgrün</b><code>#17a67b</code><small>Disponibile, incluso, confermato</small></div></div>
+      <div class="sw"><div class="chip" style="background:#e5343f"></div><div class="info"><b>Koralle</b><code>#e5343f</code><small>Solo errori e ultimi posti</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="s">Tipografia</h2>
+    <h3 class="t">Poppins, un carattere solo</h3>
+    <p class="lead">Geometrico come il lettering del logo. Massimo due pesi per schermata; prezzi e numeri di telefono con cifre tabellari.</p>
+    <div class="type-row"><div class="k">Display</div><div class="v" style="font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1.08">Dein Urlaub, geprüft.</div><div class="n">700 · −0.03em</div></div>
+    <div class="type-row"><div class="k">H2</div><div class="v" style="font-size:32px;font-weight:700;letter-spacing:-.02em">Lieber beraten lassen?</div><div class="n">700 · −0.02em</div></div>
+    <div class="type-row"><div class="k">H3</div><div class="v" style="font-size:24px;font-weight:600;letter-spacing:-.02em">Beliebte Reiseziele</div><div class="n">600 · −0.02em</div></div>
+    <div class="type-row"><div class="k">Body</div><div class="v" style="font-size:16px;line-height:1.6;max-width:60ch">Wir prüfen Verfügbarkeit, Flugzeiten und enthaltene Leistungen und stellen deine Reise zusammen.</div><div class="n">400 · 16/1.6</div></div>
+    <div class="type-row"><div class="k">Occhiello</div><div class="v"><span class="bu-eyebrow">Persönliche Beratung</span></div><div class="n">700 · 0.22em</div></div>
+    <div class="type-row"><div class="k">Prezzo</div><div class="v bu-price" style="font-size:38px;color:#ff6b35">449 €</div><div class="n">800 · tabular-nums</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="s">Logo</h2>
+    <h3 class="t">Cinque file, nessun altro</h3>
+    <p class="lead">Area di rispetto: almeno l'altezza della «B» su ogni lato. Minimo 120 px a schermo, 25 mm in stampa. Sotto questa soglia si usa solo il simbolo.</p>
+    <div class="grid g4">
+      <div class="asset"><div class="frame"><img src="./logo/noBgColor.png" alt="Logo a colori" style="max-height:70px"></div><div class="lab">noBgColor.png<span>Fondo chiaro</span></div></div>
+      <div class="asset"><div class="frame" style="background:#0a1a3a"><img src="./logo/noBgWhite.png" alt="Logo bianco" style="max-height:70px"></div><div class="lab">noBgWhite.png<span>Navy, blu, foto</span></div></div>
+      <div class="asset"><div class="frame"><img src="./logo/noBgBlack.png" alt="Logo nero" style="max-height:70px"></div><div class="lab">noBgBlack.png<span>Un colore, timbri</span></div></div>
+      <div class="asset"><div class="frame"><img src="./logo/symbol.svg" alt="Simbolo" style="max-height:110px"></div><div class="lab">symbol.svg<span>Favicon, avatar social, pattern</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="s">Pattern</h2>
+    <h3 class="t">Onde, isole, sole</h3>
+    <p class="lead">Generati con Nano Banana Pro su fondo bianco, da scontornare a mano. Accanto, la versione SVG che il CSS ripete come tile: quella resta vettoriale perché deve combaciare sui bordi.</p>
+    <div class="grid g3">
+      <div class="asset">
+        <div class="frame" style="padding:0"><img src="./patterns/pattern-wellen.png" alt="Pattern onde"></div>
+        <div class="lab">pattern-wellen.png<span>Sezioni navy, packaging</span></div>
+        <div class="pat" style="border:0;border-top:1px solid var(--bu-grey-200);border-radius:0;height:96px;background:#0a1a3a url(./patterns/pattern-wellen.svg) repeat;background-size:120px 60px"></div>
+        <div class="lab" style="border-top:0;padding-top:8px"><span>tile CSS · pattern-wellen.svg</span></div>
+      </div>
+      <div class="asset">
+        <div class="frame" style="padding:0"><img src="./patterns/pattern-insel.png" alt="Pattern isole"></div>
+        <div class="lab">pattern-insel.png<span>Carta, tote, fondo email</span></div>
+        <div class="pat" style="border:0;border-top:1px solid var(--bu-grey-200);border-radius:0;height:96px;background:#f7efe3 url(./patterns/pattern-insel.svg) repeat;background-size:200px 200px"></div>
+        <div class="lab" style="border-top:0;padding-top:8px"><span>tile CSS · pattern-insel.svg</span></div>
+      </div>
+      <div class="asset">
+        <div class="frame" style="padding:0"><img src="./patterns/pattern-sonne.png" alt="Pattern sole"></div>
+        <div class="lab">pattern-sonne.png<span>Blocchi promo, storie social</span></div>
+        <div class="pat" style="border:0;border-top:1px solid var(--bu-grey-200);border-radius:0;height:96px;background:#fff url(./patterns/pattern-sonne.svg) repeat;background-size:120px 120px"></div>
+        <div class="lab" style="border-top:0;padding-top:8px"><span>tile CSS · pattern-sonne.svg</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="s">Elementi</h2>
+    <h3 class="t">Il kit di montaggio</h3>
+    <p class="lead">Generati con Nano Banana Pro su fondo bianco: lo sfondo va scontornato a mano prima dell'uso. I pattern qui sopra restano vettoriali, perché il CSS li ripete come tile.</p>
+    <div class="grid g2">
+      <div class="asset"><div class="frame"><img src="./elements/icon-set.png" alt="Icone"></div><div class="lab">icon-set.png<span>Palma, sole, aereo, valigia, ombrellone, onda, bussola, biglietto</span></div></div>
+      <div class="asset"><div class="frame"><img src="./elements/badge-set.png" alt="Badge"></div><div class="lab">badge-set.png<span>Le quattro garanzie del servizio</span></div></div>
+      <div class="asset"><div class="frame"><img src="./elements/stamp-set.png" alt="Timbri"></div><div class="lab">stamp-set.png<span>Timbri circolari per stampa, adesivi, packaging</span></div></div>
+      <div class="asset"><div class="frame"><img src="./elements/ticket.png" alt="Ticket"></div><div class="lab">ticket.png<span>Modulo offerta / boarding pass per social e stampa</span></div></div>
+      <div class="asset" style="grid-column:1/-1"><div class="frame" style="min-height:120px"><img src="./elements/wave-divider.png" alt="Divisore"></div><div class="lab">wave-divider.png<span>Il passaggio tra due sezioni è un'onda, non una linea retta · versione SVG in <code>wave-divider.svg</code> per il CSS</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="s">Voce</h2>
+    <h3 class="t">Come si scrive in tedesco</h3>
+    <p class="lead">Frasi corte, verbo presto, una idea per frase. Sempre «du», mai «Sie». Numeri solo se veri e citabili.</p>
+    <div class="voice">
+      <div class="ok">
+        <b>Si scrive</b>
+        <ul>
+          <li>Lieber beraten lassen?</li>
+          <li>Wir prüfen Verfügbarkeit und Flugzeiten für dich.</li>
+          <li>Erreichbar Mo–Fr 9:00 – 19:00 Uhr</li>
+          <li>7 Nächte, All Inclusive, ab Düsseldorf</li>
+        </ul>
+      </div>
+      <div class="no">
+        <b>Non si scrive</b>
+        <ul>
+          <li>MEGA-SCHNÄPPCHEN!!! Nur heute!!!</li>
+          <li>Die besten Deals im ganzen Internet</li>
+          <li>Jederzeit für dich da <em>(non è vero)</em></li>
+          <li>Traumurlaub zum Wahnsinnspreis</li>
+        </ul>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:26px">
+      <strong>Lista nera:</strong> «Piraten», «Schnäppchenjäger», punti esclamativi multipli, emoji nei titoli,
+      maiuscolo urlato, prezzi barrati non documentati, countdown finti.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="s">Interfaccia</h2>
+    <h3 class="t">Bottoni, superfici, ritmo</h3>
+    <p class="lead">I bottoni sono sempre pill: è la firma del brand. Raggi 8 · 12 · 16 · 24. Movimento 200 ms, curva <code>cubic-bezier(.22,1,.36,1)</code>, hover 1.02 e active 0.98.</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:28px">
+      <a class="bu-btn bu-btn--primary" href="#">Jetzt anrufen</a>
+      <a class="bu-btn bu-btn--blue" href="#">Angebote ansehen</a>
+      <a class="bu-btn bu-btn--ghost" href="#">Mehr erfahren</a>
+      <span class="bu-badge">Bestpreis geprüft</span>
+      <span class="bu-badge bu-badge--green">Verfügbar</span>
+      <span class="bu-badge bu-badge--orange">Nur 3 Plätze</span>
+    </div>
+    <div class="bu-surface-navy bu-pattern-wellen" style="border-radius:24px;padding:36px">
+      <p class="bu-eyebrow" style="margin:0 0 10px">Beispiel-Sektion</p>
+      <h4 style="margin:0 0 8px;font-size:28px;letter-spacing:-.02em">Navy, pattern al 12%, un solo bottone</h4>
+      <p style="margin:0 0 22px;color:rgba(255,255,255,.7);max-width:52ch;line-height:1.6">Una sola sezione navy per pagina: quella emotiva o la chiamata finale. Alternanza dei fondi: bianco → sabbia → bianco → navy.</p>
+      <a class="bu-btn bu-btn--primary" href="#">Jetzt anrufen</a>
+    </div>
+    <hr class="bu-wave-divider" style="margin:34px 0">
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Bester Urlaub · Brand Book v1.0 — sorgente <code>public/brand/</code>, documento completo in
+    <code>BRANDSHEET.md</code>, token in <code>tokens/brand-tokens.css</code> e <code>tokens/tokens.json</code>.
+  </div>
+</footer>
+
+</body>
+</html>

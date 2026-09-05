@@ -8,18 +8,13 @@ import { NewsletterForm } from './newsletter-form'
 export function NewsletterInlineBanner({ source = 'newsletter-inline' }: { source?: string }) {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-      <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#0a1a3a] via-[#0a1a3a] to-[#1a2f5a] p-6 sm:p-10">
-        {/* Decorative orange blob */}
-        <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full opacity-30 blur-3xl"
+      <div className="bu-pattern-wellen bu-pattern--light relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#0a1a3a] via-[#0a1a3a] to-[#1a2f5a] p-6 sm:p-10">
+        {/* Un solo bagliore caldo: il resto lo fa il pattern d'onda del brand */}
+        <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full opacity-25 blur-3xl"
           style={{ background: 'radial-gradient(circle, #ff6b35 0%, transparent 70%)' }} />
-        <div className="absolute -left-20 -bottom-20 w-72 h-72 rounded-full opacity-20 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #2e75fa 0%, transparent 70%)' }} />
 
         <div className="relative grid md:grid-cols-2 gap-6 sm:gap-10 items-center">
           <div>
-            <span className="inline-block text-[11px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#ff6b35] mb-3">
-              Newsletter · Kostenlos
-            </span>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
               Verpasse keinen Reise-Deal mehr.
             </h3>
