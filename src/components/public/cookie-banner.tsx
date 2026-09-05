@@ -54,7 +54,7 @@ export function CookieBanner() {
             </p>
             <p className="text-xs text-[#0a1a3a]/50 mt-1 leading-relaxed">
               Wir verwenden Cookies und Tracking-Technologien, um dir das beste Erlebnis zu bieten und unsere Angebote zu verbessern.{' '}
-              <Link href="/datenschutz" className="text-[#2e75fa] hover:underline">
+              <Link href="/datenschutz" className="text-[#006AF9] hover:underline">
                 Mehr erfahren
               </Link>
             </p>
@@ -70,7 +70,7 @@ export function CookieBanner() {
             <button
               type="button"
               onClick={accept}
-              className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#2e75fa] text-white hover:bg-[#1a5fe0] active:scale-95 transition-all"
+              className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#006AF9] text-white hover:bg-[#004DE9] active:scale-95 transition-all"
             >
               Akzeptieren
             </button>

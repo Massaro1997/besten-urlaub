@@ -24,7 +24,7 @@ export default function AllInclusivePage() {
       <div className="bg-white border-b border-[#0a1a3a]/10 px-4 sm:px-6 py-3 shrink-0">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60 hover:text-[#2e75fa] transition-colors shrink-0">
+            <Link href="/" className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60 hover:text-[#006AF9] transition-colors shrink-0">
               <ArrowLeft className="w-4 h-4" />
               <span className="hidden sm:inline">Startseite</span>
             </Link>
@@ -51,7 +51,7 @@ export default function AllInclusivePage() {
       <div className="border-t border-[#0a1a3a]/5 bg-gray-50 shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <p className="text-[10px] text-[#0a1a3a]/40">
-            <span className="font-semibold">CHECK24.net Partnerprogramm</span> — Affiliate-Links. <a href="https://www.check24.net" target="_blank" rel="noopener noreferrer" className="text-[#2e75fa] hover:underline">Mehr Info</a>
+            <span className="font-semibold">CHECK24.net Partnerprogramm</span> — Affiliate-Links. <a href="https://www.check24.net" target="_blank" rel="noopener noreferrer" className="text-[#006AF9] hover:underline">Mehr Info</a>
           </p>
         </div>
       </div>

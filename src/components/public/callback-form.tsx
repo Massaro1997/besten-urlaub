@@ -104,7 +104,7 @@ export function CallbackForm({ offerId, offerTitle, source = 'callback-form' }: 
         placeholder="Dein Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="w-full px-3.5 py-2.5 rounded-lg border border-[#0a1a3a]/15 text-sm focus:outline-none focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/10 transition-all"
+        className="w-full px-3.5 py-2.5 rounded-lg border border-[#0a1a3a]/15 text-sm focus:outline-none focus:border-[#F2660A] focus:ring-2 focus:ring-[#F2660A]/10 transition-all"
       />
 
       <input
@@ -113,13 +113,13 @@ export function CallbackForm({ offerId, offerTitle, source = 'callback-form' }: 
         placeholder={contactType === 'email' ? 'deine@email.de' : '+49 ...'}
         value={contact}
         onChange={(e) => setContact(e.target.value)}
-        className="w-full px-3.5 py-2.5 rounded-lg border border-[#0a1a3a]/15 text-sm focus:outline-none focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/10 transition-all"
+        className="w-full px-3.5 py-2.5 rounded-lg border border-[#0a1a3a]/15 text-sm focus:outline-none focus:border-[#F2660A] focus:ring-2 focus:ring-[#F2660A]/10 transition-all"
       />
 
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="w-full px-4 py-3 rounded-lg bg-[#ff6b35] hover:bg-[#e85d2c] disabled:opacity-50 text-white text-sm font-bold transition-colors shadow-sm shadow-[#ff6b35]/25"
+        className="w-full px-4 py-3 rounded-lg bg-[#F2660A] hover:bg-[#FE561B] disabled:opacity-50 text-white text-sm font-bold transition-colors shadow-sm shadow-[#F2660A]/25"
       >
         {status === 'sending' ? '...' : 'Jetzt beraten lassen'}
       </button>

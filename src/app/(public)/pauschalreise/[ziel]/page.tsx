@@ -97,9 +97,9 @@ export default async function PauschalreisePage({ params }: PageProps) {
 
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-4 sm:px-6 pt-4 pb-2">
         <ol className="flex flex-wrap items-center gap-1.5 text-sm text-[#0a1a3a]/60">
-          <li><Link href="/" className="hover:text-[#2e75fa]">Startseite</Link></li>
+          <li><Link href="/" className="hover:text-[#006AF9]">Startseite</Link></li>
           <li><ChevronRight className="w-3.5 h-3.5 inline" /></li>
-          <li><Link href="/pauschalreise" className="hover:text-[#2e75fa]">Pauschalreise</Link></li>
+          <li><Link href="/pauschalreise" className="hover:text-[#006AF9]">Pauschalreise</Link></li>
           <li><ChevronRight className="w-3.5 h-3.5 inline" /></li>
           <li className="text-[#0a1a3a] font-medium">{z.name}</li>
         </ol>
@@ -111,7 +111,7 @@ export default async function PauschalreisePage({ params }: PageProps) {
         </h1>
 
         {/* Answer-first Box */}
-        <div className="mt-5 rounded-2xl bg-[#2e75fa]/8 border border-[#2e75fa]/20 p-5">
+        <div className="mt-5 rounded-2xl bg-[#006AF9]/8 border border-[#006AF9]/20 p-5">
           <p className="text-[#0a1a3a] leading-relaxed font-medium">
             Pauschalreisen nach {z.name} (Flug + Hotel) gibt es ab {minPreis} € pro Person.
             Am günstigsten reist du im {MONAT_NAMEN[guenstigste[0].monat - 1]}, das beste
@@ -127,7 +127,7 @@ export default async function PauschalreisePage({ params }: PageProps) {
         {/* Preistabelle */}
         <section className="mt-10">
           <h2 className="text-2xl font-bold text-[#0a1a3a] mb-4">
-            <CalendarDays className="w-6 h-6 inline mr-2 text-[#2e75fa]" />
+            <CalendarDays className="w-6 h-6 inline mr-2 text-[#006AF9]" />
             {z.name} Pauschalreise: Preis pro Monat
           </h2>
           <div className="overflow-x-auto">
@@ -143,16 +143,16 @@ export default async function PauschalreisePage({ params }: PageProps) {
               </thead>
               <tbody>
                 {buchbar.map((m) => (
-                  <tr key={m.monat} className={`border-b border-[#0a1a3a]/8 ${m.monat === guenstigste[0].monat ? 'bg-[#2e75fa]/5' : ''}`}>
+                  <tr key={m.monat} className={`border-b border-[#0a1a3a]/8 ${m.monat === guenstigste[0].monat ? 'bg-[#006AF9]/5' : ''}`}>
                     <td className="py-2 px-3 font-medium text-[#0a1a3a]">
                       {MONAT_NAMEN[m.monat - 1]}
-                      {m.monat === guenstigste[0].monat && <span className="ml-2 text-xs font-semibold text-[#2e75fa]">günstigster</span>}
+                      {m.monat === guenstigste[0].monat && <span className="ml-2 text-xs font-semibold text-[#006AF9]">günstigster</span>}
                     </td>
                     <td className="py-2 px-3 text-[#0a1a3a]/75">{m.preisAb} €</td>
                     <td className="py-2 px-3 text-[#0a1a3a]/75">{m.tagMax}°C</td>
                     {!istBinnen && <td className="py-2 px-3 text-[#0a1a3a]/75">{m.wasser > 0 ? `${m.wasser}°C` : 'n. v.'}</td>}
                     <td className="py-2 px-3">
-                      <Link href={`/reise/${ziel}/${MONAT_SLUGS[m.monat - 1]}`} className="text-[#2e75fa] hover:underline">
+                      <Link href={`/reise/${ziel}/${MONAT_SLUGS[m.monat - 1]}`} className="text-[#006AF9] hover:underline">
                         {z.name} im {MONAT_NAMEN[m.monat - 1]}
                       </Link>
                     </td>
@@ -170,9 +170,9 @@ export default async function PauschalreisePage({ params }: PageProps) {
           ))}
           {hatAnreise && (
             <p className="text-[#0a1a3a]/80 leading-relaxed flex items-start gap-2">
-              <Plane className="w-5 h-5 text-[#2e75fa] mt-0.5 shrink-0" />
+              <Plane className="w-5 h-5 text-[#006AF9] mt-0.5 shrink-0" />
               <span>
-                Mehr zur Anreise: <Link href={`/fragen/anreise-${ziel}`} className="text-[#2e75fa] hover:underline">Wie lange dauert der Flug nach {z.name}?</Link>
+                Mehr zur Anreise: <Link href={`/fragen/anreise-${ziel}`} className="text-[#006AF9] hover:underline">Wie lange dauert der Flug nach {z.name}?</Link>
               </span>
             </p>
           )}
@@ -183,7 +183,7 @@ export default async function PauschalreisePage({ params }: PageProps) {
           <h2 className="text-xl sm:text-2xl font-bold mb-2">{z.name}-Angebote vergleichen</h2>
           <p className="text-white/75 mb-5">Aktuelle Pauschalreisen ab {minPreis} €, verglichen mit Check24.</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href={`/reiseziel/${ziel}`} className="inline-flex items-center gap-2 bg-[#2e75fa] hover:bg-[#1f5fd8] transition-colors text-white font-semibold rounded-full px-6 py-2.5">
+            <Link href={`/reiseziel/${ziel}`} className="inline-flex items-center gap-2 bg-[#006AF9] hover:bg-[#1f5fd8] transition-colors text-white font-semibold rounded-full px-6 py-2.5">
               Handgepickte {z.name}-Deals <ChevronRight className="w-4 h-4" />
             </Link>
             <Link href="/pauschalreisen" className="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 transition-colors text-white font-semibold rounded-full px-6 py-2.5">
@@ -214,13 +214,13 @@ export default async function PauschalreisePage({ params }: PageProps) {
           <ul className="space-y-2">
             {fragenLinks.map((l) => (
               <li key={l.slug}>
-                <Link href={`/fragen/${l.slug}`} className="text-[#2e75fa] hover:underline flex items-center gap-1.5">
+                <Link href={`/fragen/${l.slug}`} className="text-[#006AF9] hover:underline flex items-center gap-1.5">
                   <ChevronRight className="w-3.5 h-3.5" /> {l.label}
                 </Link>
               </li>
             ))}
             <li>
-              <Link href={`/reiseziel/${ziel}`} className="text-[#2e75fa] hover:underline flex items-center gap-1.5">
+              <Link href={`/reiseziel/${ziel}`} className="text-[#006AF9] hover:underline flex items-center gap-1.5">
                 <ChevronRight className="w-3.5 h-3.5" /> Alle {z.name}-Angebote
               </Link>
             </li>

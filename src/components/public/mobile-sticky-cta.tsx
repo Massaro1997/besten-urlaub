@@ -56,7 +56,7 @@ export function MobileStickyCta() {
         product="Pauschalreise"
         className="group flex items-center justify-between gap-3 rounded-2xl px-4 py-3 active:scale-[0.98] transition-transform shadow-[0_8px_30px_rgba(255,107,53,0.4)]"
         style={{
-          background: 'linear-gradient(135deg, #ff6b35 0%, #e85d2c 100%)',
+          background: 'linear-gradient(135deg, #F2660A 0%, #FE561B 100%)',
         }}
       >
         <div className="flex items-center gap-3 min-w-0">
@@ -71,7 +71,7 @@ export function MobileStickyCta() {
             <p className="text-[15px] font-extrabold text-white leading-tight mt-0.5 truncate">Jetzt vergleichen · bis 60% sparen</p>
           </div>
         </div>
-        <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-white text-[#ff6b35]">
+        <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-white text-[#F2660A]">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
           </svg>

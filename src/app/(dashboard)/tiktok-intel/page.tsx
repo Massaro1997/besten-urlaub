@@ -223,9 +223,9 @@ export default async function TikTokIntelPage() {
 
       {/* Opportunities alert compact */}
       {opportunities.length > 0 && (
-        <section className="rounded-xl border border-[#ff6b35]/20 bg-[#ff6b35]/5 p-4">
+        <section className="rounded-xl border border-[#F2660A]/20 bg-[#F2660A]/5 p-4">
           <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-[#ff6b35] shrink-0 mt-0.5" />
+            <AlertCircle className="w-5 h-5 text-[#F2660A] shrink-0 mt-0.5" />
             <div className="flex-1">
               <h3 className="font-semibold text-sm mb-1">
                 🔥 {opportunities.length} destinazioni in trend senza offerta tua
@@ -235,13 +235,13 @@ export default async function TikTokIntelPage() {
                   <Link
                     key={d.slug}
                     href={`/tiktok-intel/${d.slug}`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-[#ff6b35]/30 text-xs font-medium hover:border-[#ff6b35]/60 hover:shadow-sm transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-[#F2660A]/30 text-xs font-medium hover:border-[#F2660A]/60 hover:shadow-sm transition-all"
                   >
                     {d.label}
-                    <span className="text-[#ff6b35] font-semibold">
+                    <span className="text-[#F2660A] font-semibold">
                       {fmt(d.totalViews)}
                     </span>
-                    <ChevronRight className="w-3 h-3 text-[#ff6b35]" />
+                    <ChevronRight className="w-3 h-3 text-[#F2660A]" />
                   </Link>
                 ))}
               </div>
@@ -291,7 +291,7 @@ export default async function TikTokIntelPage() {
                     <tr
                       key={d.id}
                       className={`hover:bg-surface/50 transition-colors ${
-                        !hasOffer && isTop10 ? 'bg-[#ff6b35]/5' : ''
+                        !hasOffer && isTop10 ? 'bg-[#F2660A]/5' : ''
                       }`}
                     >
                       <td className="px-4 py-3 text-secondary font-mono text-xs">
@@ -344,7 +344,7 @@ export default async function TikTokIntelPage() {
                         {hasOffer ? (
                           <CheckCircle2 className="w-4 h-4 text-green-600 inline" />
                         ) : isTop10 ? (
-                          <span className="inline-block px-2 py-0.5 rounded-full bg-[#ff6b35] text-white text-[10px] font-semibold">
+                          <span className="inline-block px-2 py-0.5 rounded-full bg-[#F2660A] text-white text-[10px] font-semibold">
                             NUOVO
                           </span>
                         ) : (
@@ -426,7 +426,7 @@ function RecommendationItem({
   detail: React.ReactNode
 }) {
   const colors = {
-    ALTA: 'bg-[#ff6b35] text-white',
+    ALTA: 'bg-[#F2660A] text-white',
     MEDIA: 'bg-primary text-white',
     INFO: 'bg-secondary/20 text-secondary',
   }
@@ -461,7 +461,7 @@ function StatCard({
   return (
     <div
       className={`bg-white rounded-xl border p-4 ${
-        highlight ? 'border-[#ff6b35]/30 bg-[#ff6b35]/5' : 'border-border-light'
+        highlight ? 'border-[#F2660A]/30 bg-[#F2660A]/5' : 'border-border-light'
       }`}
     >
       <div className="flex items-center gap-2 text-secondary text-xs mb-1.5">
@@ -470,7 +470,7 @@ function StatCard({
       </div>
       <div
         className={`text-2xl font-semibold ${
-          highlight ? 'text-[#ff6b35]' : ''
+          highlight ? 'text-[#F2660A]' : ''
         }`}
       >
         {value}

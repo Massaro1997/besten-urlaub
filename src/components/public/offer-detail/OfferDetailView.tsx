@@ -47,8 +47,8 @@ export type RelatedOffer = {
 }
 
 const NAVY = '#0a1a3a'
-const ORANGE = '#ff6b35'
-const BLUE = '#2e75fa'
+const ORANGE = '#F2660A'
+const BLUE = '#006AF9'
 
 // 30 destination photos available in /public/destinations/
 const ALL_DEST_PHOTOS = [

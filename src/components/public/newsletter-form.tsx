@@ -35,11 +35,11 @@ export function NewsletterForm({ source = 'newsletter-footer', variant = 'dark' 
 
   const isLight = variant === 'light'
   const inputClass = isLight
-    ? 'flex-1 px-4 py-3 rounded-xl bg-white border-2 border-[#0a1a3a]/10 text-base text-[#0a1a3a] placeholder:text-[#0a1a3a]/40 focus:outline-none focus:border-[#ff6b35] transition-colors'
-    : 'flex-1 px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-[#ff6b35] transition-colors'
+    ? 'flex-1 px-4 py-3 rounded-xl bg-white border-2 border-[#0a1a3a]/10 text-base text-[#0a1a3a] placeholder:text-[#0a1a3a]/40 focus:outline-none focus:border-[#F2660A] transition-colors'
+    : 'flex-1 px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-[#F2660A] transition-colors'
   const buttonClass = isLight
-    ? 'px-6 py-3 rounded-xl bg-[#ff6b35] hover:bg-[#e85d2c] disabled:opacity-50 text-white text-base font-bold transition-colors whitespace-nowrap shadow-[0_4px_15px_rgba(255,107,53,0.35)]'
-    : 'px-5 py-2.5 rounded-lg bg-[#ff6b35] hover:bg-[#e85d2c] disabled:opacity-50 text-white text-sm font-semibold transition-colors whitespace-nowrap'
+    ? 'px-6 py-3 rounded-xl bg-[#F2660A] hover:bg-[#FE561B] disabled:opacity-50 text-white text-base font-bold transition-colors whitespace-nowrap shadow-[0_4px_15px_rgba(255,107,53,0.35)]'
+    : 'px-5 py-2.5 rounded-lg bg-[#F2660A] hover:bg-[#FE561B] disabled:opacity-50 text-white text-sm font-semibold transition-colors whitespace-nowrap'
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">

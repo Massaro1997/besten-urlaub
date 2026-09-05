@@ -1,6 +1,6 @@
 # Bester Urlaub — Brand Sheet
 
-Versione 1.0 · 05/09/2026 · fonte unica per sito, social e stampa.
+Versione 2.0 · 05/09/2026 · palette allineata al logo 2026 · fonte unica per sito, social e stampa.
 Chi tocca grafica o testi di Bester Urlaub parte da qui.
 
 ---
@@ -64,7 +64,8 @@ geometrico monolinea in due righe.
 | `noBgWhite.png` | Su navy, su foto, su blu |
 | `noBgBlack.png` | Stampa a un colore, fax, timbri |
 | `whiteBgColor.png` | Quando serve un fondo bianco chiuso (marketplace, PDF) |
-| `symbol.svg` | Solo simbolo: favicon, avatar social, pattern |
+| `symbol.svg` | Simbolo monocromatico blu: pattern, timbri, stampa a un colore |
+| `symbol-2026.svg` | **Simbolo a colori 2026** (palma, sole, onde): favicon, avatar social, app |
 
 **Regole**
 
@@ -83,26 +84,31 @@ contorni, ricomporre simbolo e testo, mettere il logo a colori su fondo blu.
 
 | Nome | HEX | Ruolo |
 |---|---|---|
-| **Bester Blau** | `#2e75fa` | Colore del marchio. Link, icone, accenti, grafici |
-| **Blau Tief** | `#1a5fe0` | Hover e stati premuti del blu |
-| **Blau Nebel** | `#e8f0ff` | Fondi tenui, chip, evidenze leggere |
+| **Ozean Blau** | `#006AF9` | Colore del marchio, preso dall'onda del logo. Link, icone, grafici |
+| **Blau Tief** | `#004DE9` | Hover e stati premuti, blu profondo dell'onda |
+| **Blau Nebel** | `#E6F0FF` | Fondi tenui, chip, evidenze leggere |
 | **Tiefsee Navy** | `#0a1a3a` | Inchiostro dei testi e fondo delle sezioni emotive |
-| **Sonnenorange** | `#ff6b35` | **Solo azione**: CTA, prezzo, occhiello |
-| **Orange Tief** | `#e85d2c` | Hover dell'arancio, fine del gradiente CTA |
+| **Sonnenorange** | `#F2660A` | **Solo azione**: CTA, prezzo, accenti. Sole del logo, scurito quanto basta per restare leggibile su bianco |
+| **Sonnenrot** | `#FE561B` | Fine del gradiente CTA, tramonto del logo |
 
 ### Supporto
 
 | Nome | HEX | Ruolo |
 |---|---|---|
-| **Lagune** | `#cfeef5` | Fondo hero, illustrazioni, aree luce |
-| **Türkis** | `#21b5c9` | Secondo colore dei grafici, pattern, dettagli |
+| **Himmel Cyan** | `#2DCBFC` | Onda chiara del logo: secondo colore di grafici e pattern |
+| **Aqua** | `#5FD8FA` | Riflessi, fondi leggeri, illustrazioni |
+| **Lagune** | `#D8F4FE` | Fondo hero, aree luce |
+| **Palmgrün hell** | `#69C734` | Palma del logo: accenti vivi, illustrazioni, adesivi |
+| **Palmgrün** | `#2A9733` | Disponibile, confermato, incluso (testo e icone) |
+| **Sonnengelb** | `#FFD424` | Sole del logo: stelle, evidenze, badge |
 | **Sand** | `#f7efe3` | Fondo editoriale (Ratgeber, testi lunghi) |
-| **Palmgrün** | `#17a67b` | Disponibile, confermato, incluso |
 | **Koralle** | `#e5343f` | Solo errori e ultimi posti. Mai decorativo |
 
 ### Neutri
 
 `#ffffff` · `#f5f7fa` · `#e6eaf0` · `#8a94a6` · `#0a1a3a`
+
+Il marrone del tronco (`#8D471A`) vive solo dentro il logo: non è un colore di interfaccia.
 
 ### Regole d'uso
 
@@ -110,7 +116,7 @@ contorni, ricomporre simbolo e testo, mettere il logo a colori su fondo blu.
 2. Su navy si usa bianco a opacità scalare (100 / 75 / 50%), non grigi.
 3. Il rosso Koralle non decora mai un prezzo: quello è compito dell'arancio.
 4. Contrasto minimo AA: navy su bianco 15.8:1 ✅ · blu su bianco 3.9:1 → solo da 18px/600 in su o per icone e bordi · bianco su arancio 3.1:1 → solo testo ≥18px bold.
-5. Gradiente CTA ufficiale: `linear-gradient(135deg, #ff6b35, #e85d2c)` con ombra `0 12px 40px -8px rgba(255,107,53,.6)`.
+5. Gradiente CTA ufficiale: `linear-gradient(135deg, #FF8A0F, #FE561B)` — è il tramonto del logo con ombra `0 12px 40px -8px rgba(255,107,53,.6)`.
 
 ---
 

@@ -6,18 +6,22 @@
 
 :root {
   /* --- Core ------------------------------------------------------- */
-  --bu-blue: #2e75fa;
-  --bu-blue-deep: #1a5fe0;
-  --bu-blue-mist: #e8f0ff;
+  --bu-blue: #006AF9;
+  --bu-blue-deep: #004DE9;
+  --bu-blue-mist: #E6F0FF;
   --bu-navy: #0a1a3a;
-  --bu-orange: #ff6b35;
-  --bu-orange-deep: #e85d2c;
+  --bu-orange: #F2660A;
+  --bu-orange-deep: #FE561B;
 
-  /* --- Support ---------------------------------------------------- */
-  --bu-lagune: #cfeef5;
-  --bu-teal: #21b5c9;
+  /* --- Support (dal logo 2026) ------------------------------------- */
+  --bu-cyan: #2DCBFC;
+  --bu-aqua: #5FD8FA;
+  --bu-lagune: #D8F4FE;
+  --bu-teal: #2DCBFC;
+  --bu-lime: #69C734;
+  --bu-green: #2A9733;
+  --bu-yellow: #FFD424;
   --bu-sand: #f7efe3;
-  --bu-green: #17a67b;
   --bu-coral: #e5343f;
 
   /* --- Neutrals --------------------------------------------------- */
@@ -27,8 +31,8 @@
   --bu-grey-500: #8a94a6;
 
   /* --- Gradients -------------------------------------------------- */
-  --bu-grad-cta: linear-gradient(135deg, #ff6b35 0%, #e85d2c 100%);
-  --bu-grad-sea: linear-gradient(135deg, #2e75fa 0%, #21b5c9 100%);
+  --bu-grad-cta: linear-gradient(135deg, #FF8A0F 0%, #FE561B 100%);
+  --bu-grad-sea: linear-gradient(135deg, #004DE9 0%, #2DCBFC 100%);
   --bu-veil-left: linear-gradient(90deg, rgba(10, 26, 58, .95) 0%, rgba(10, 26, 58, .85) 45%, transparent 100%);
   --bu-veil-bottom: linear-gradient(180deg, rgba(10, 26, 58, .2) 0%, rgba(10, 26, 58, .85) 40%, #0a1a3a 100%);
 
@@ -190,7 +194,7 @@
   letter-spacing: .01em;
 }
 
-.bu-badge--green { background: rgba(23, 166, 123, .12); color: #0f7c5b; }
+.bu-badge--green { background: rgba(105, 199, 52, .16); color: #217A28; }
 .bu-badge--orange { background: rgba(255, 107, 53, .12); color: var(--bu-orange-deep); }
 .bu-badge--on-navy { background: rgba(255, 255, 255, .1); color: #fff; }
 

@@ -15,7 +15,7 @@ export default function ImpressumPage() {
     <div className="bg-white py-16 sm:py-24">
       <article className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Badge */}
-        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#2e75fa] bg-[#2e75fa]/10 px-3 py-1 rounded-full mb-6">
+        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#006AF9] bg-[#006AF9]/10 px-3 py-1 rounded-full mb-6">
           Rechtliches
         </span>
 
@@ -34,7 +34,7 @@ export default function ImpressumPage() {
             <strong>Telefon:</strong>{' '}
             <a
               href="tel:+4917682405507"
-              className="text-[#2e75fa] hover:underline"
+              className="text-[#006AF9] hover:underline"
             >
               +49 176 82405507
             </a>
@@ -43,7 +43,7 @@ export default function ImpressumPage() {
             <strong>E-Mail:</strong>{' '}
             <a
               href="mailto:info@besterurlaub.com"
-              className="text-[#2e75fa] hover:underline"
+              className="text-[#006AF9] hover:underline"
             >
               info@besterurlaub.com
             </a>
@@ -87,7 +87,7 @@ export default function ImpressumPage() {
               href="https://www.check24.net"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2e75fa] hover:underline"
+              className="text-[#006AF9] hover:underline"
             >
               CHECK24.net
             </a>
@@ -104,7 +104,7 @@ export default function ImpressumPage() {
               href="https://ec.europa.eu/consumers/odr/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2e75fa] hover:underline break-all"
+              className="text-[#006AF9] hover:underline break-all"
             >
               https://ec.europa.eu/consumers/odr/
             </a>
@@ -191,7 +191,7 @@ export default function ImpressumPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <Link
               href="/datenschutz"
-              className="text-sm text-[#2e75fa] hover:underline"
+              className="text-sm text-[#006AF9] hover:underline"
             >
               Zur Datenschutzerkl&auml;rung
             </Link>

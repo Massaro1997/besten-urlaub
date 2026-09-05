@@ -159,7 +159,7 @@ export default async function DestinationPage({ params }: PageProps) {
       >
         <ol className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60">
           <li>
-            <Link href="/" className="hover:text-[#2e75fa] transition-colors">
+            <Link href="/" className="hover:text-[#006AF9] transition-colors">
               Startseite
             </Link>
           </li>
@@ -169,7 +169,7 @@ export default async function DestinationPage({ params }: PageProps) {
           <li>
             <Link
               href="/#reiseziele"
-              className="hover:text-[#2e75fa] transition-colors"
+              className="hover:text-[#006AF9] transition-colors"
             >
               Reiseziele
             </Link>
@@ -247,7 +247,7 @@ export default async function DestinationPage({ params }: PageProps) {
               {destination.name} in {klima.land}: Die beste Reisezeit sind {beste.map((mi) => MONAT_NAMEN[mi - 1]).join(', ')}.
               {!istBinnen && ` Das Meer erreicht bis zu ${peak.wasser}°C im ${MONAT_NAMEN[peak.monat - 1]}.`}{' '}
               Pauschalreisen starten ab {guenstig.preisAb} € pro Person, der Flug dauert rund {klima.flugStunden} Stunden zum Flughafen {klima.flughafen}.{' '}
-              Alle ab-Preise pro Monat: <Link href={`/pauschalreise/${slug}`} className="text-[#2e75fa] hover:underline font-medium">Pauschalreise {destination.name} Preistabelle</Link>.
+              Alle ab-Preise pro Monat: <Link href={`/pauschalreise/${slug}`} className="text-[#006AF9] hover:underline font-medium">Pauschalreise {destination.name} Preistabelle</Link>.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-6">
               {fakten.map((f) => (
@@ -263,7 +263,7 @@ export default async function DestinationPage({ params }: PageProps) {
                 <ul className="space-y-1.5">
                   {topHighlights.map((h, i) => (
                     <li key={i} className="flex gap-2 text-sm text-[#0a1a3a]/80">
-                      <span className="text-[#2e75fa] mt-0.5 shrink-0">●</span>
+                      <span className="text-[#006AF9] mt-0.5 shrink-0">●</span>
                       <span>{h}</span>
                     </li>
                   ))}
@@ -344,14 +344,14 @@ export default async function DestinationPage({ params }: PageProps) {
             <ul className="grid sm:grid-cols-2 gap-2.5">
               {links.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="flex items-start gap-1.5 text-[#2e75fa] hover:underline text-sm">
+                  <Link href={l.href} className="flex items-start gap-1.5 text-[#006AF9] hover:underline text-sm">
                     <ChevronRight className="w-3.5 h-3.5 mt-0.5 shrink-0" /> {l.label}
                   </Link>
                 </li>
               ))}
               {klima && (
                 <li>
-                  <Link href="/reise" className="flex items-start gap-1.5 text-[#2e75fa] hover:underline text-sm">
+                  <Link href="/reise" className="flex items-start gap-1.5 text-[#006AF9] hover:underline text-sm">
                     <ChevronRight className="w-3.5 h-3.5 mt-0.5 shrink-0" /> Klima &amp; beste Reisezeit Monat für Monat
                   </Link>
                 </li>
@@ -365,7 +365,7 @@ export default async function DestinationPage({ params }: PageProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-sm font-medium text-[#2e75fa] hover:text-[#1a5fe0] transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-[#006AF9] hover:text-[#004DE9] transition-colors"
         >
           <ChevronRight className="w-4 h-4 rotate-180" />
           Zur&uuml;ck zur Startseite

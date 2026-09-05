@@ -45,7 +45,7 @@ export default function PauschalreiseHub() {
 
       <nav aria-label="Breadcrumb" className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-2">
         <ol className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60">
-          <li><Link href="/" className="hover:text-[#2e75fa]">Startseite</Link></li>
+          <li><Link href="/" className="hover:text-[#006AF9]">Startseite</Link></li>
           <li><ChevronRight className="w-3.5 h-3.5 inline" /></li>
           <li className="text-[#0a1a3a] font-medium">Pauschalreise</li>
         </ol>
@@ -64,11 +64,11 @@ export default function PauschalreiseHub() {
             <Link
               key={p.slug}
               href={`/pauschalreise/${p.slug}`}
-              className="rounded-2xl border border-[#0a1a3a]/10 bg-white hover:border-[#2e75fa] transition-colors p-5 shadow-sm"
+              className="rounded-2xl border border-[#0a1a3a]/10 bg-white hover:border-[#006AF9] transition-colors p-5 shadow-sm"
             >
               <div className="flex items-baseline justify-between gap-2">
                 <h2 className="text-lg font-bold text-[#0a1a3a]">{p.ziel.name}</h2>
-                <span className="text-[#2e75fa] font-bold whitespace-nowrap">ab {p.minPreis} €</span>
+                <span className="text-[#006AF9] font-bold whitespace-nowrap">ab {p.minPreis} €</span>
               </div>
               <p className="text-sm text-[#0a1a3a]/60 mt-1">
                 {p.ziel.land} · günstigster Monat: {MONAT_NAMEN[p.guenstigste[0].monat - 1]}

@@ -49,7 +49,7 @@ export function HeroSection() {
           <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             {CHIPS.map((chip) => (
               <li key={chip.label} className="inline-flex items-center gap-2 text-white/85 text-[13px] sm:text-[15px] font-medium">
-                <chip.icon className="w-4 h-4 text-[#ff6b35]" strokeWidth={2.2} />
+                <chip.icon className="w-4 h-4 text-[#F2660A]" strokeWidth={2.2} />
                 {chip.label}
               </li>
             ))}
@@ -67,7 +67,7 @@ export function HeroSection() {
             source="hero-phone"
             className="inline-flex items-center gap-2.5 text-white/80 hover:text-white transition-colors text-sm sm:text-[15px]"
           >
-            <Phone className="w-4 h-4 text-[#ff6b35]" fill="currentColor" />
+            <Phone className="w-4 h-4 text-[#F2660A]" fill="currentColor" />
             <span className="whitespace-nowrap">Lieber persönlich? <strong className="font-bold tabular-nums">+49 176 8240 5507</strong><span className="hidden sm:inline"> · Mo–Fr 9–19 Uhr</span></span>
           </TrackedPhoneLink>
         </div>

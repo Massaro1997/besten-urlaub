@@ -70,7 +70,7 @@ export function PendingOfferRow({ offer }: { offer: PendingOffer }) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Left: offer details */}
         <div className="lg:col-span-1">
-          <p className="text-[11px] uppercase tracking-wider text-[#ff6b35] font-bold mb-1">
+          <p className="text-[11px] uppercase tracking-wider text-[#F2660A] font-bold mb-1">
             {offer.destination.country}
           </p>
           <h3 className="text-base font-bold text-[#0a1a3a] leading-tight">{offer.title}</h3>
@@ -122,7 +122,7 @@ export function PendingOfferRow({ offer }: { offer: PendingOffer }) {
               href={`https://www.check24.net/pauschalreisen-vergleich/?c24pp_hotel=${encodeURIComponent(offer.hotelName || offer.destination.name)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#2e75fa]/10 hover:bg-[#2e75fa]/15 text-[#2e75fa] text-xs font-semibold"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#006AF9]/10 hover:bg-[#006AF9]/15 text-[#006AF9] text-xs font-semibold"
             >
               ↗ Check24 Suche öffnen
             </a>
@@ -140,7 +140,7 @@ export function PendingOfferRow({ offer }: { offer: PendingOffer }) {
               href="https://www.check24-partnerprogramm.de/werbemittel/linkgenerator/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#2e75fa]/10 hover:bg-[#2e75fa]/15 text-[#2e75fa] text-xs font-semibold"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#006AF9]/10 hover:bg-[#006AF9]/15 text-[#006AF9] text-xs font-semibold"
             >
               ↗ Linkgenerator
             </a>
@@ -172,7 +172,7 @@ export function PendingOfferRow({ offer }: { offer: PendingOffer }) {
             value={link}
             onChange={(e) => setLink(e.target.value)}
             placeholder="https://a.check24.net/misc/click.php?aid=18&pid=1168044&..."
-            className="w-full h-24 px-3 py-2 text-xs font-mono border border-[#0a1a3a]/15 rounded-lg focus:border-[#ff6b35] focus:outline-none focus:ring-2 focus:ring-[#ff6b35]/20"
+            className="w-full h-24 px-3 py-2 text-xs font-mono border border-[#0a1a3a]/15 rounded-lg focus:border-[#F2660A] focus:outline-none focus:ring-2 focus:ring-[#F2660A]/20"
           />
           {status === 'err' && (
             <p className="text-xs text-red-600 mt-1">{errMsg}</p>
@@ -182,7 +182,7 @@ export function PendingOfferRow({ offer }: { offer: PendingOffer }) {
               type="button"
               onClick={save}
               disabled={status === 'saving'}
-              className="flex-1 px-4 py-2 rounded-lg bg-[#ff6b35] hover:bg-[#e55a2b] text-white text-sm font-bold disabled:opacity-50 transition-colors"
+              className="flex-1 px-4 py-2 rounded-lg bg-[#F2660A] hover:bg-[#e55a2b] text-white text-sm font-bold disabled:opacity-50 transition-colors"
             >
               {status === 'saving' ? '...' : 'Speichern & Live'}
             </button>

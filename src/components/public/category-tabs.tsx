@@ -27,8 +27,8 @@ export function CategoryTabs({
               className={cn(
                 'rounded-full px-4 py-2 text-sm font-medium transition-colors whitespace-nowrap',
                 isActive
-                  ? 'bg-[#2e75fa] text-white'
-                  : 'bg-white text-[#0a1a3a]/70 border border-[#0a1a3a]/10 hover:border-[#2e75fa]/30',
+                  ? 'bg-[#006AF9] text-white'
+                  : 'bg-white text-[#0a1a3a]/70 border border-[#0a1a3a]/10 hover:border-[#006AF9]/30',
               )}
             >
               {'emoji' in cat && cat.emoji ? `${cat.emoji} ` : ''}

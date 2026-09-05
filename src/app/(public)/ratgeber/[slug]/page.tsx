@@ -119,7 +119,7 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
       >
         <ol className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60">
           <li>
-            <Link href="/" className="hover:text-[#2e75fa] transition-colors">
+            <Link href="/" className="hover:text-[#006AF9] transition-colors">
               Startseite
             </Link>
           </li>
@@ -129,7 +129,7 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
           <li>
             <Link
               href="/ratgeber"
-              className="hover:text-[#2e75fa] transition-colors"
+              className="hover:text-[#006AF9] transition-colors"
             >
               Ratgeber
             </Link>
@@ -212,9 +212,9 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
             ))}
 
         {/* ---- Tips Box ---- */}
-        <div className="bg-[#2e75fa]/5 border border-[#2e75fa]/10 rounded-2xl p-6 sm:p-8 my-10">
+        <div className="bg-[#006AF9]/5 border border-[#006AF9]/10 rounded-2xl p-6 sm:p-8 my-10">
           <div className="flex items-center gap-2 mb-4">
-            <Lightbulb className="w-5 h-5 text-[#2e75fa]" />
+            <Lightbulb className="w-5 h-5 text-[#006AF9]" />
             <h3 className="text-lg font-bold text-[#0a1a3a]">
               Insider-Tipps
             </h3>
@@ -222,7 +222,7 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
           <ul className="space-y-3">
             {article.tips.map((tip, idx) => (
               <li key={idx} className="flex gap-3 text-[#0a1a3a] text-sm sm:text-base leading-relaxed">
-                <span className="text-[#2e75fa] font-bold mt-0.5 shrink-0">
+                <span className="text-[#006AF9] font-bold mt-0.5 shrink-0">
                   {idx + 1}.
                 </span>
                 <span>{tip}</span>
@@ -233,21 +233,21 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
 
         {/* Offer CTA */}
         <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden my-12">
-          <div className="h-1 bg-gradient-to-r from-[#ff6b35] via-[#ff6b35] to-[#2e75fa]" />
+          <div className="h-1 bg-gradient-to-r from-[#F2660A] via-[#F2660A] to-[#006AF9]" />
           <div className="p-6 sm:p-8">
             <p className="text-xs text-[#0a1a3a]/40 uppercase tracking-wider font-medium mb-1">
               Unser Deal f&uuml;r dich
             </p>
             <h3 className="text-xl sm:text-2xl font-extrabold text-[#0a1a3a] tracking-tight">
               {article.offerTitle}
-              <span className="text-[#2e75fa] ml-2">{article.offerPrice}</span>
+              <span className="text-[#006AF9] ml-2">{article.offerPrice}</span>
             </h3>
             <p className="text-sm text-[#0a1a3a]/50 mt-2 mb-5">
               Flug + Hotel. Gepr&uuml;ft. Handverlesen. Greif zu, bevor es andere tun.
             </p>
             <Link
               href={article.offerLink}
-              className="inline-flex items-center gap-2 bg-[#ff6b35] text-white px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base hover:bg-[#e55a2b] active:scale-95 transition-all shadow-md shadow-[#ff6b35]/20"
+              className="inline-flex items-center gap-2 bg-[#F2660A] text-white px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base hover:bg-[#e55a2b] active:scale-95 transition-all shadow-md shadow-[#F2660A]/20"
             >
               Zum Angebot
               <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
@@ -327,7 +327,7 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
                   </span>
                 </div>
                 <div className="p-4">
-                  <h3 className="text-sm sm:text-base font-bold text-[#0a1a3a] line-clamp-2 group-hover:text-[#2e75fa] transition-colors">
+                  <h3 className="text-sm sm:text-base font-bold text-[#0a1a3a] line-clamp-2 group-hover:text-[#006AF9] transition-colors">
                     {rel.title}
                   </h3>
                   <p className="text-xs text-[#0a1a3a]/50 mt-1 line-clamp-2">
@@ -351,13 +351,13 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
             <h2 className="text-lg font-bold text-[#0a1a3a] mb-3">Plane deinen {article.destination}-Urlaub</h2>
             <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
               {hasKlima && Boolean(getFrage(`klimatabelle-${zielSlug}`)) && (
-                <li><Link href={`/fragen/klimatabelle-${zielSlug}`} className="text-[#2e75fa] hover:underline">Klimatabelle {article.destination}</Link></li>
+                <li><Link href={`/fragen/klimatabelle-${zielSlug}`} className="text-[#006AF9] hover:underline">Klimatabelle {article.destination}</Link></li>
               )}
               {hasFrage && (
-                <li><Link href={`/fragen/beste-reisezeit-${zielSlug}`} className="text-[#2e75fa] hover:underline">Wann ist die beste Reisezeit?</Link></li>
+                <li><Link href={`/fragen/beste-reisezeit-${zielSlug}`} className="text-[#006AF9] hover:underline">Wann ist die beste Reisezeit?</Link></li>
               )}
               {hasFrage && Boolean(getFrage(`guenstigste-reisezeit-${zielSlug}`)) && (
-                <li><Link href={`/fragen/guenstigste-reisezeit-${zielSlug}`} className="text-[#2e75fa] hover:underline">Wann am günstigsten?</Link></li>
+                <li><Link href={`/fragen/guenstigste-reisezeit-${zielSlug}`} className="text-[#006AF9] hover:underline">Wann am günstigsten?</Link></li>
               )}
             </ul>
           </section>
@@ -368,7 +368,7 @@ export default async function RatgeberArticlePage({ params }: PageProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-sm font-medium text-[#2e75fa] hover:text-[#1a5fe0] transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-[#006AF9] hover:text-[#004DE9] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Zur&uuml;ck zur Startseite

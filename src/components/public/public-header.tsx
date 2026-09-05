@@ -100,9 +100,9 @@ export function PublicHeader() {
               key={dest.slug}
               href={`/reiseziel/${dest.slug}`}
               onClick={() => { setSearchOpen(false); setSearchQuery('') }}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#2e75fa]/5 transition-colors"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#006AF9]/5 transition-colors"
             >
-              <div className="w-8 h-8 rounded-lg bg-[#2e75fa]/8 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-[#006AF9]/8 flex items-center justify-center shrink-0">
                 <span className="text-sm">✈</span>
               </div>
               <div>
@@ -161,7 +161,7 @@ export function PublicHeader() {
                 className={`w-full h-10 pl-10 pr-4 rounded-full text-sm outline-none transition-all ${
                   transparent
                     ? 'bg-white/15 border border-white/30 text-white placeholder:text-white/70 backdrop-blur-sm focus:bg-white/25 focus:border-white/50'
-                    : 'bg-[#0a1a3a]/[0.04] border border-[#0a1a3a]/8 text-[#0a1a3a] placeholder:text-[#0a1a3a]/35 focus:border-[#2e75fa] focus:ring-1 focus:ring-[#2e75fa]/20'
+                    : 'bg-[#0a1a3a]/[0.04] border border-[#0a1a3a]/8 text-[#0a1a3a] placeholder:text-[#0a1a3a]/35 focus:border-[#006AF9] focus:ring-1 focus:ring-[#006AF9]/20'
                 }`}
               />
 
@@ -184,7 +184,7 @@ export function PublicHeader() {
                   className={`text-sm font-medium transition-colors ${
                     transparent
                       ? 'text-white/90 hover:text-white drop-shadow-[0_1px_6px_rgba(10,26,58,0.5)]'
-                      : 'text-[#0a1a3a] hover:text-[#2e75fa]'
+                      : 'text-[#0a1a3a] hover:text-[#006AF9]'
                   }`}
                 >
                   {link.label}
@@ -198,7 +198,7 @@ export function PublicHeader() {
                 type="button"
                 onClick={() => searchOpen ? setSearchOpen(false) : openSearch()}
                 className={`flex items-center justify-center w-9 h-9 rounded-full transition-colors ${
-                  transparent ? 'text-white hover:bg-white/15' : 'text-[#0a1a3a]/70 hover:bg-[#2e75fa]/5 hover:text-[#2e75fa]'
+                  transparent ? 'text-white hover:bg-white/15' : 'text-[#0a1a3a]/70 hover:bg-[#006AF9]/5 hover:text-[#006AF9]'
                 }`}
                 aria-label="Suchen"
               >
@@ -218,7 +218,7 @@ export function PublicHeader() {
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                           placeholder="Reiseziel suchen..."
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#0a1a3a]/[0.03] border border-[#0a1a3a]/8 text-sm text-[#0a1a3a] placeholder:text-[#0a1a3a]/35 outline-none focus:border-[#2e75fa] focus:ring-1 focus:ring-[#2e75fa]/20 transition-all"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#0a1a3a]/[0.03] border border-[#0a1a3a]/8 text-sm text-[#0a1a3a] placeholder:text-[#0a1a3a]/35 outline-none focus:border-[#006AF9] focus:ring-1 focus:ring-[#006AF9]/20 transition-all"
                         />
                       </div>
                     </div>
@@ -256,7 +256,7 @@ export function PublicHeader() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-[#0a1a3a] hover:text-[#2e75fa] hover:bg-[#2e75fa]/5 px-3 py-2.5 rounded-lg transition-colors"
+                className="text-sm font-medium text-[#0a1a3a] hover:text-[#006AF9] hover:bg-[#006AF9]/5 px-3 py-2.5 rounded-lg transition-colors"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
@@ -266,7 +266,7 @@ export function PublicHeader() {
               <a
                 href="tel:+4917682405507"
                 onClick={() => trackLead('header-mobile')}
-                className="flex items-center gap-2 text-sm font-medium text-[#2e75fa] px-3 py-2.5 rounded-lg hover:bg-[#2e75fa]/5 transition-colors"
+                className="flex items-center gap-2 text-sm font-medium text-[#006AF9] px-3 py-2.5 rounded-lg hover:bg-[#006AF9]/5 transition-colors"
               >
                 <Phone className="w-4 h-4" />
                 0176 824 055 07

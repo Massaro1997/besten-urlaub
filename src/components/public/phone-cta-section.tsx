@@ -35,7 +35,7 @@ export function PhoneCtaSection() {
           <TrackedPhoneLink
             href={`tel:${PHONE_NUMBER}`}
             source="phone-cta-section"
-            className="group inline-flex items-center gap-3 sm:gap-4 rounded-2xl bg-gradient-to-br from-[#ff6b35] to-[#e85d2c] px-5 sm:px-7 py-4 sm:py-5 shadow-[0_12px_40px_-8px_rgba(255,107,53,0.6)] transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="group inline-flex items-center gap-3 sm:gap-4 rounded-2xl bg-gradient-to-br from-[#F2660A] to-[#FE561B] px-5 sm:px-7 py-4 sm:py-5 shadow-[0_12px_40px_-8px_rgba(255,107,53,0.6)] transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             <span className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/15 shrink-0">
               <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="currentColor" />

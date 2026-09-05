@@ -119,7 +119,7 @@ export function TikTokFeed() {
             href={`https://www.tiktok.com/@${TIKTOK_USERNAME}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-gradient-to-br from-[#0a1a3a] to-[#2e75fa] flex flex-col items-center justify-center gap-3 group shrink-0 w-[45%] sm:w-[30%] lg:w-[22%] snap-start"
+            className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-gradient-to-br from-[#0a1a3a] to-[#006AF9] flex flex-col items-center justify-center gap-3 group shrink-0 w-[45%] sm:w-[30%] lg:w-[22%] snap-start"
           >
             <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/15 group-hover:scale-110 transition-all">
               <TikTokIcon className="w-7 h-7 text-white" />

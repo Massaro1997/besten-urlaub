@@ -15,7 +15,7 @@ export function TopSeitenLinks({ title = 'Gerade viel gesucht' }: { title?: stri
           <Link
             key={s.href}
             href={s.href}
-            className="rounded-xl border border-[#0a1a3a]/10 bg-white hover:border-[#2e75fa] transition-colors px-3 py-2.5"
+            className="rounded-xl border border-[#0a1a3a]/10 bg-white hover:border-[#006AF9] transition-colors px-3 py-2.5"
           >
             <div className="text-sm font-semibold text-[#0a1a3a] leading-snug">{s.label}</div>
             <div className="text-xs text-[#0a1a3a]/55 mt-0.5">{s.hint}</div>

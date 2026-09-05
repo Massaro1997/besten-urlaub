@@ -122,7 +122,7 @@ export function PublicOfferCard({
         {/* Heading badge top-left (UP: "Top-Deal" + icon orange pill) */}
         {headingBadge && (
           <span className="absolute top-3 left-3 inline-flex items-center gap-1 bg-white rounded-full px-2.5 py-1 text-[11px] font-bold text-[#0a1a3a] shadow-sm">
-            <span className="text-[#ff6b35]">{headingBadge.icon}</span>
+            <span className="text-[#F2660A]">{headingBadge.icon}</span>
             {headingBadge.label}
           </span>
         )}
@@ -132,7 +132,7 @@ export function PublicOfferCard({
           type="button"
           aria-label="Merken"
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-[#0a1a3a]/55 hover:text-[#ff6b35] transition-colors shadow-sm"
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center text-[#0a1a3a]/55 hover:text-[#F2660A] transition-colors shadow-sm"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" />
@@ -153,8 +153,8 @@ export function PublicOfferCard({
       <div className="p-4">
         {/* Category heading (uppercase mini-eyebrow) — UP pattern always present */}
         <div className="flex items-center gap-1.5 mb-1.5">
-          <span className="text-[#ff6b35] text-xs">🔥</span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#ff6b35]">
+          <span className="text-[#F2660A] text-xs">🔥</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#F2660A]">
             {categoryLabel || 'Reisen'}
           </span>
         </div>

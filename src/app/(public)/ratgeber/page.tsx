@@ -42,8 +42,8 @@ export default function RatgeberIndexPage() {
       {/* Header */}
       <div className="text-center mb-10 sm:mb-14">
         <div className="inline-flex items-center gap-2 mb-3">
-          <BookOpen className="w-4 h-4 text-[#2e75fa]" />
-          <span className="text-xs font-semibold text-[#2e75fa] uppercase tracking-wider">
+          <BookOpen className="w-4 h-4 text-[#006AF9]" />
+          <span className="text-xs font-semibold text-[#006AF9] uppercase tracking-wider">
             Ratgeber
           </span>
         </div>
@@ -78,7 +78,7 @@ export default function RatgeberIndexPage() {
               </span>
 
               <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-                <h2 className="text-sm sm:text-base font-bold text-white leading-snug line-clamp-2 drop-shadow group-hover:text-[#ff6b35] transition-colors">
+                <h2 className="text-sm sm:text-base font-bold text-white leading-snug line-clamp-2 drop-shadow group-hover:text-[#F2660A] transition-colors">
                   {article.title}
                 </h2>
                 <p className="text-xs text-white/60 mt-1 hidden sm:block">

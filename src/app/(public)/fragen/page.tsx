@@ -51,7 +51,7 @@ export default function FragenHub() {
 
       <nav aria-label="Breadcrumb" className="max-w-5xl mx-auto px-4 sm:px-6 pt-4 pb-2">
         <ol className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60">
-          <li><Link href="/" className="hover:text-[#2e75fa]">Startseite</Link></li>
+          <li><Link href="/" className="hover:text-[#006AF9]">Startseite</Link></li>
           <li><ChevronRight className="w-3.5 h-3.5 inline" /></li>
           <li className="text-[#0a1a3a] font-medium">Reise-Fragen</li>
         </ol>
@@ -73,12 +73,12 @@ export default function FragenHub() {
             .map((z) => (
               <div key={z.slug} className="rounded-2xl border border-[#0a1a3a]/10 bg-white p-5 shadow-sm">
                 <h2 className="text-lg font-bold text-[#0a1a3a] mb-3">
-                  <Link href={`/reiseziel/${z.slug}`} className="hover:text-[#2e75fa]">{z.name}</Link>
+                  <Link href={`/reiseziel/${z.slug}`} className="hover:text-[#006AF9]">{z.name}</Link>
                 </h2>
                 <ul className="space-y-1.5">
                   {byZiel.get(z.slug)!.map((q) => (
                     <li key={q.slug}>
-                      <Link href={`/fragen/${q.slug}`} className="text-sm text-[#2e75fa] hover:underline flex items-start gap-1.5">
+                      <Link href={`/fragen/${q.slug}`} className="text-sm text-[#006AF9] hover:underline flex items-start gap-1.5">
                         <ChevronRight className="w-3.5 h-3.5 mt-0.5 shrink-0" /> {q.frage}
                       </Link>
                     </li>

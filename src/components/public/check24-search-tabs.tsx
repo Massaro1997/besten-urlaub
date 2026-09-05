@@ -251,7 +251,7 @@ export function Check24SearchTabs() {
               key={tab.key}
               className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-semibold ${
                 activeTab === tab.key
-                  ? 'text-[#0a1a3a] border-b-2 border-[#ff6b35]'
+                  ? 'text-[#0a1a3a] border-b-2 border-[#F2660A]'
                   : 'text-[rgba(10,26,58,0.5)] border-b-2 border-transparent'
               }`}
             >
@@ -265,7 +265,7 @@ export function Check24SearchTabs() {
             <p className="text-[15px] font-semibold text-[#0a1a3a]">Reise finden</p>
             <p className="text-xs text-[#0a1a3a]/55 mt-0.5">Tippe zum Suchen</p>
           </div>
-          <div className="w-10 h-10 rounded-full bg-[#ff6b35] flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-full bg-[#F2660A] flex items-center justify-center shrink-0">
             <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
             </svg>
@@ -288,7 +288,7 @@ export function Check24SearchTabs() {
               onClick={() => handleTabClick(tab)}
               className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-semibold transition-colors ${
                 activeTab === tab.key
-                  ? 'text-[#0a1a3a] border-b-2 border-[#ff6b35]'
+                  ? 'text-[#0a1a3a] border-b-2 border-[#F2660A]'
                   : 'text-[rgba(10,26,58,0.5)] border-b-2 border-transparent hover:text-[#0a1a3a]'
               }`}
             >
@@ -381,7 +381,7 @@ export function Check24SearchTabs() {
         width: 100% !important; box-sizing: border-box !important; outline: none !important;
       }
       .c24-hero-widget input:focus, .c24-hero-widget select:focus {
-        border-color: #2e75fa !important; box-shadow: 0 0 0 2px rgba(46,117,250,0.1) !important;
+        border-color: #006AF9 !important; box-shadow: 0 0 0 2px rgba(46,117,250,0.1) !important;
       }
       .c24-hero-widget input::placeholder { color: #9ca3af !important; }
 
@@ -451,7 +451,7 @@ export function Check24SearchTabs() {
         grid-column: 4 !important; grid-row: 1 / 3 !important;
         display: flex !important; align-items: center !important; justify-content: center !important;
         text-align: center !important;
-        font-size: 11px !important; font-weight: 600 !important; color: #2e75fa !important;
+        font-size: 11px !important; font-weight: 600 !important; color: #006AF9 !important;
         padding: 8px 16px !important;
         white-space: pre-line !important;
         line-height: 1.4 !important;
@@ -465,7 +465,7 @@ export function Check24SearchTabs() {
         padding: 10px 12px !important; width: auto !important;
       }
       .c24-hero-widget button.c24package-submit {
-        background: linear-gradient(135deg, #ff6b35 0%, #e85d2c 100%) !important;
+        background: linear-gradient(135deg, #F2660A 0%, #FE561B 100%) !important;
         border: none !important; border-radius: 12px !important;
         padding: 16px 32px !important; font-size: 15px !important; font-weight: 700 !important;
         color: white !important; cursor: pointer !important; white-space: nowrap !important;
@@ -563,7 +563,7 @@ export function Check24SearchTabs() {
       .ui-datepicker .ui-datepicker-next:hover,
       .c24pp1.c24pp2.c24pp3 .ui-datepicker-prev:hover,
       .c24pp1.c24pp2.c24pp3 .ui-datepicker-next:hover {
-        background: #ff6b35 !important;
+        background: #F2660A !important;
       }
       .ui-datepicker .ui-datepicker-prev:hover::after,
       .ui-datepicker .ui-datepicker-next:hover::after,
@@ -697,7 +697,7 @@ export function Check24SearchTabs() {
       }
       .ui-datepicker td a:hover,
       .c24pp1.c24pp2.c24pp3 .ui-datepicker td a:hover {
-        background: rgba(255,107,53,0.1) !important; color: #ff6b35 !important;
+        background: rgba(255,107,53,0.1) !important; color: #F2660A !important;
       }
       .ui-datepicker td a:active,
       .c24pp1.c24pp2.c24pp3 .ui-datepicker td a:active {
@@ -709,7 +709,7 @@ export function Check24SearchTabs() {
       .c24pp1.c24pp2.c24pp3 .ui-state-highlight,
       .c24pp1.c24pp2.c24pp3 .ui-state-highlight a {
         background: rgba(255,107,53,0.08) !important;
-        color: #ff6b35 !important; font-weight: 700 !important;
+        color: #F2660A !important; font-weight: 700 !important;
       }
       /* Selected */
       .ui-datepicker .ui-state-active,
@@ -718,7 +718,7 @@ export function Check24SearchTabs() {
       .c24pp1.c24pp2.c24pp3 .ui-state-active,
       .c24pp1.c24pp2.c24pp3 .ui-state-active a,
       .c24pp1.c24pp2.c24pp3 .ui-datepicker td.ui-datepicker-current-day a {
-        background: #ff6b35 !important;
+        background: #F2660A !important;
         color: #ffffff !important; font-weight: 700 !important;
         box-shadow: 0 4px 12px -2px rgba(255,107,53,0.45) !important;
       }
@@ -800,7 +800,7 @@ export function Check24SearchTabs() {
         .c24-hero-widget input:focus,
         .c24-hero-widget select:focus,
         .c24-hero-widget input.c24package-location:focus {
-          border-color: #2e75fa !important;
+          border-color: #006AF9 !important;
           box-shadow: 0 0 0 3px rgba(46,117,250,0.12) !important;
         }
 
@@ -817,7 +817,7 @@ export function Check24SearchTabs() {
           padding: 0 !important;
           border-radius: 12px !important;
           font-size: 16px !important; font-weight: 800 !important;
-          background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 100%) !important;
+          background: linear-gradient(135deg, #F2660A 0%, #e55a2b 100%) !important;
           color: #fff !important;
           box-shadow: 0 4px 15px rgba(255,107,53,0.35) !important;
         }
@@ -918,13 +918,13 @@ export function Check24SearchTabs() {
         min-width: 0 !important;
       }
       .c24-mietwagen-widget input:focus, .c24-mietwagen-widget select:focus {
-        border-color: #2e75fa !important; box-shadow: 0 0 0 2px rgba(46,117,250,0.1) !important;
+        border-color: #006AF9 !important; box-shadow: 0 0 0 2px rgba(46,117,250,0.1) !important;
       }
       .c24-mietwagen-widget input::placeholder { color: #9ca3af !important; }
 
       /* Submit button — matching pauschalreisen style */
       .c24-mietwagen-widget button.c24rentalcar-submit {
-        background: linear-gradient(135deg, #ff6b35 0%, #e85d2c 100%) !important;
+        background: linear-gradient(135deg, #F2660A 0%, #FE561B 100%) !important;
         border: none !important; border-radius: 12px !important;
         padding: 12px 20px !important; font-size: 14px !important; font-weight: 700 !important;
         color: white !important; cursor: pointer !important;

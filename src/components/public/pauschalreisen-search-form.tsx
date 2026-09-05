@@ -4,8 +4,8 @@ import { useMemo, useState } from 'react'
 import { Plane, Calendar as CalendarIcon, Users, MapPin, Search } from 'lucide-react'
 
 const NAVY = '#0a1a3a'
-const ORANGE = '#ff6b35'
-const BLUE = '#2e75fa'
+const ORANGE = '#F2660A'
+const BLUE = '#006AF9'
 const CHECK24_PARTNER_ID = '1168044'
 
 const AIRPORTS: { code: string; name: string }[] = [
@@ -262,7 +262,7 @@ export function PauschalreisenSearchForm() {
             rel="noopener noreferrer sponsored"
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-              background: `linear-gradient(135deg, ${ORANGE} 0%, #e85d2c 100%)`,
+              background: `linear-gradient(135deg, ${ORANGE} 0%, #FE561B 100%)`,
               color: '#fff',
               padding: '16px 24px',
               borderRadius: 12,

@@ -58,7 +58,7 @@ export default function ReiseHub() {
 
       <nav aria-label="Breadcrumb" className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-2">
         <ol className="flex items-center gap-1.5 text-sm text-[#0a1a3a]/60">
-          <li><Link href="/" className="hover:text-[#2e75fa]">Startseite</Link></li>
+          <li><Link href="/" className="hover:text-[#006AF9]">Startseite</Link></li>
           <li><ChevronRight className="w-3.5 h-3.5 inline" /></li>
           <li className="text-[#0a1a3a] font-medium">Reisezeit</li>
         </ol>
@@ -73,7 +73,7 @@ export default function ReiseHub() {
         </p>
 
         {imNaechstenMonat.length > 0 && (
-          <div className="mt-8 rounded-3xl border border-[#2e75fa]/25 bg-[#2e75fa]/5 p-5 sm:p-6">
+          <div className="mt-8 rounded-3xl border border-[#006AF9]/25 bg-[#006AF9]/5 p-5 sm:p-6">
             <h2 className="text-xl sm:text-2xl font-bold text-[#0a1a3a]">Wohin im {nextName}?</h2>
             <p className="text-sm text-[#0a1a3a]/70 mt-1 mb-4">
               Die sonnigsten Ziele im {nextName}, sortiert nach Sonnenstunden. Mit Wetter, Wassertemperatur und Preisen.
@@ -85,7 +85,7 @@ export default function ReiseHub() {
                   <Link
                     key={z.slug}
                     href={`/reise/${z.slug}/${nextSlug}`}
-                    className="rounded-xl border border-[#0a1a3a]/10 bg-white hover:border-[#2e75fa] transition-colors px-3 py-2.5"
+                    className="rounded-xl border border-[#0a1a3a]/10 bg-white hover:border-[#006AF9] transition-colors px-3 py-2.5"
                   >
                     <div className="text-sm font-semibold text-[#0a1a3a]">{z.name} im {nextName}</div>
                     <div className="text-xs text-[#0a1a3a]/55 mt-0.5">
@@ -110,7 +110,7 @@ export default function ReiseHub() {
               <div key={z.slug} className="rounded-3xl border border-[#0a1a3a]/10 bg-white p-5 sm:p-6 shadow-sm">
                 <div className="flex flex-wrap items-baseline justify-between gap-2 mb-1">
                   <h2 className="text-xl sm:text-2xl font-bold text-[#0a1a3a]">
-                    <Link href={`/reiseziel/${z.slug}`} className="hover:text-[#2e75fa]">{z.name}</Link>
+                    <Link href={`/reiseziel/${z.slug}`} className="hover:text-[#006AF9]">{z.name}</Link>
                   </h2>
                   <span className="text-sm text-[#0a1a3a]/55">{z.land} · {z.flugStunden} h Flug</span>
                 </div>
@@ -122,7 +122,7 @@ export default function ReiseHub() {
                     <Link
                       key={m.monat}
                       href={`/reise/${z.slug}/${MONAT_SLUGS[m.monat - 1]}`}
-                      className="rounded-xl border border-[#0a1a3a]/10 bg-[#f7f9fc] hover:border-[#2e75fa] hover:text-[#2e75fa] transition-colors px-2 py-2 text-center"
+                      className="rounded-xl border border-[#0a1a3a]/10 bg-[#f7f9fc] hover:border-[#006AF9] hover:text-[#006AF9] transition-colors px-2 py-2 text-center"
                     >
                       <div className="text-xs font-semibold text-[#0a1a3a]">{MONAT_NAMEN[m.monat - 1].slice(0, 3)}</div>
                       <div className="text-[11px] text-[#0a1a3a]/55">{m.tagMax}° · ab {m.preisAb}€</div>

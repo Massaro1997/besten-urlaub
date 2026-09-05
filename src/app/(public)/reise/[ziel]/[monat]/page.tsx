@@ -142,11 +142,11 @@ export default async function ReisemonatPage({ params }: PageProps) {
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="max-w-5xl mx-auto px-4 sm:px-6 pt-4 pb-2">
         <ol className="flex flex-wrap items-center gap-1.5 text-sm text-[#0a1a3a]/60">
-          <li><Link href="/" className="hover:text-[#2e75fa] transition-colors">Startseite</Link></li>
+          <li><Link href="/" className="hover:text-[#006AF9] transition-colors">Startseite</Link></li>
           <li><ChevronRight className="w-3.5 h-3.5 inline" /></li>
-          <li><Link href="/reise" className="hover:text-[#2e75fa] transition-colors">Reisezeit</Link></li>
+          <li><Link href="/reise" className="hover:text-[#006AF9] transition-colors">Reisezeit</Link></li>
           <li><ChevronRight className="w-3.5 h-3.5 inline" /></li>
-          <li><Link href={`/reiseziel/${ziel}`} className="hover:text-[#2e75fa] transition-colors">{z.name}</Link></li>
+          <li><Link href={`/reiseziel/${ziel}`} className="hover:text-[#006AF9] transition-colors">{z.name}</Link></li>
           <li><ChevronRight className="w-3.5 h-3.5 inline" /></li>
           <li className="text-[#0a1a3a] font-medium">{monatName}</li>
         </ol>
@@ -172,7 +172,7 @@ export default async function ReisemonatPage({ params }: PageProps) {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-10">
           {stats.map((s, i) => (
             <div key={i} className="bg-white rounded-2xl border border-[#0a1a3a]/10 p-4 text-center shadow-sm">
-              <s.icon className="w-5 h-5 mx-auto text-[#2e75fa] mb-1.5" />
+              <s.icon className="w-5 h-5 mx-auto text-[#006AF9] mb-1.5" />
               <div className="text-2xl font-bold text-[#0a1a3a]">{s.value}</div>
               <div className="text-xs text-[#0a1a3a]/55 mt-0.5">{s.label}</div>
             </div>
@@ -194,7 +194,7 @@ export default async function ReisemonatPage({ params }: PageProps) {
             <ul className="space-y-2.5">
               {m.highlights.map((h, i) => (
                 <li key={i} className="flex gap-2.5 text-[#0a1a3a]/80 leading-relaxed">
-                  <span className="text-[#2e75fa] mt-1 shrink-0">●</span>
+                  <span className="text-[#006AF9] mt-1 shrink-0">●</span>
                   <span>{h}</span>
                 </li>
               ))}
@@ -207,7 +207,7 @@ export default async function ReisemonatPage({ params }: PageProps) {
           <h2 className="text-2xl font-bold text-[#0a1a3a] mb-3">Preise & Anreise</h2>
           <p className="text-[#0a1a3a]/80 leading-relaxed">{c.preiseAnreiseProse}</p>
           <p className="text-[#0a1a3a]/80 leading-relaxed mt-3 flex items-start gap-2">
-            <Plane className="w-5 h-5 text-[#2e75fa] mt-0.5 shrink-0" />
+            <Plane className="w-5 h-5 text-[#006AF9] mt-0.5 shrink-0" />
             <span>Der Flug von Deutschland dauert rund {z.flugStunden} Stunden zum Flughafen {z.flughafen}, die Zeitverschiebung beträgt {z.zeitverschiebung} {z.zeitverschiebung === 1 ? 'Stunde' : 'Stunden'}. Abflug ab {z.abflug.join(', ')}.</span>
           </p>
           <p className="text-[#0a1a3a]/80 leading-relaxed mt-3"><strong>Was anziehen?</strong> {c.packSatz}</p>
@@ -232,7 +232,7 @@ export default async function ReisemonatPage({ params }: PageProps) {
           <div className="flex flex-wrap justify-center gap-3">
             <Link
               href={`/reiseziel/${ziel}`}
-              className="inline-flex items-center gap-2 bg-[#2e75fa] hover:bg-[#1f5fd8] transition-colors text-white font-semibold rounded-full px-7 py-3"
+              className="inline-flex items-center gap-2 bg-[#006AF9] hover:bg-[#1f5fd8] transition-colors text-white font-semibold rounded-full px-7 py-3"
             >
               {z.name}-Angebote ansehen
               <ChevronRight className="w-4 h-4" />
@@ -273,8 +273,8 @@ export default async function ReisemonatPage({ params }: PageProps) {
                 aria-current={s.aktiv ? 'page' : undefined}
                 className={`rounded-xl border px-3 py-2.5 text-center transition-colors ${
                   s.aktiv
-                    ? 'border-[#2e75fa] bg-[#2e75fa]/10 text-[#2e75fa] font-semibold'
-                    : 'border-[#0a1a3a]/10 bg-white text-[#0a1a3a]/80 hover:border-[#2e75fa] hover:text-[#2e75fa]'
+                    ? 'border-[#006AF9] bg-[#006AF9]/10 text-[#006AF9] font-semibold'
+                    : 'border-[#0a1a3a]/10 bg-white text-[#0a1a3a]/80 hover:border-[#006AF9] hover:text-[#006AF9]'
                 }`}
               >
                 <div className="text-sm font-medium">{s.name}</div>
@@ -286,10 +286,10 @@ export default async function ReisemonatPage({ params }: PageProps) {
 
         {/* Cross-axis links: Ratgeber + Reise-Fragen für dieselbe Destination */}
         <nav className="mt-8 flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-[#0a1a3a]/55">
-          <Link href={`/reiseziel/${ziel}`} className="text-[#2e75fa] hover:underline">{z.name}-Angebote</Link>
-          <Link href={`/fragen/beste-reisezeit-${ziel}`} className="text-[#2e75fa] hover:underline">Beste Reisezeit {z.name}</Link>
+          <Link href={`/reiseziel/${ziel}`} className="text-[#006AF9] hover:underline">{z.name}-Angebote</Link>
+          <Link href={`/fragen/beste-reisezeit-${ziel}`} className="text-[#006AF9] hover:underline">Beste Reisezeit {z.name}</Link>
           {ratgeberArticles.some((r) => r.slug === ziel) && (
-            <Link href={`/ratgeber/${ziel}`} className="text-[#2e75fa] hover:underline">{z.name} Reiseführer</Link>
+            <Link href={`/ratgeber/${ziel}`} className="text-[#006AF9] hover:underline">{z.name} Reiseführer</Link>
           )}
         </nav>
       </article>

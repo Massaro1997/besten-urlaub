@@ -11,7 +11,7 @@ export function NewsletterInlineBanner({ source = 'newsletter-inline' }: { sourc
       <div className="bu-pattern-wellen bu-pattern--light relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#0a1a3a] via-[#0a1a3a] to-[#1a2f5a] p-6 sm:p-10">
         {/* Un solo bagliore caldo: il resto lo fa il pattern d'onda del brand */}
         <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full opacity-25 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #ff6b35 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, #F2660A 0%, transparent 70%)' }} />
 
         <div className="relative grid md:grid-cols-2 gap-6 sm:gap-10 items-center">
           <div>
@@ -24,13 +24,13 @@ export function NewsletterInlineBanner({ source = 'newsletter-inline' }: { sourc
             </p>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-4 text-xs text-white/55">
               <span className="inline-flex items-center gap-1.5">
-                <span className="text-[#ff6b35]">✓</span> Bis zu 60% Rabatt
+                <span className="text-[#F2660A]">✓</span> Bis zu 60% Rabatt
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <span className="text-[#ff6b35]">✓</span> Exklusive Angebote
+                <span className="text-[#F2660A]">✓</span> Exklusive Angebote
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <span className="text-[#ff6b35]">✓</span> Kein Spam
+                <span className="text-[#F2660A]">✓</span> Kein Spam
               </span>
             </div>
           </div>

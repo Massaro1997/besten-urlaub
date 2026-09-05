@@ -32,7 +32,7 @@ export default async function UpPipelinePage() {
             Auto-import RSS → match Check24 → Claude rewrite → publish
           </p>
         </div>
-        <Link href="/admin" className="text-sm text-[#2e75fa] hover:underline">← Admin</Link>
+        <Link href="/admin" className="text-sm text-[#006AF9] hover:underline">← Admin</Link>
       </div>
 
       {/* Stats grid */}
@@ -83,7 +83,7 @@ export default async function UpPipelinePage() {
                   <td className="px-4 py-2">
                     <StatusBadge deal={d} />
                   </td>
-                  <td className="px-4 py-2 text-[11px] uppercase font-semibold text-[#ff6b35]">{d.category}</td>
+                  <td className="px-4 py-2 text-[11px] uppercase font-semibold text-[#F2660A]">{d.category}</td>
                   <td className="px-4 py-2 max-w-[280px] truncate text-[#0a1a3a]" title={d.rawTitle}>
                     {d.rewrittenTitle || d.rawTitle}
                   </td>
@@ -99,7 +99,7 @@ export default async function UpPipelinePage() {
                     {d.publishedAt ? new Date(d.publishedAt).toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short' }) : '-'}
                   </td>
                   <td className="px-4 py-2">
-                    <a href={d.upUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#2e75fa] hover:underline">UP →</a>
+                    <a href={d.upUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#006AF9] hover:underline">UP →</a>
                   </td>
                 </tr>
               ))}
@@ -114,9 +114,9 @@ export default async function UpPipelinePage() {
 function Stat({ label, value, accent = 'default' }: { label: string; value: number; accent?: string }) {
   const colorMap: Record<string, string> = {
     default: 'text-[#0a1a3a]',
-    blue: 'text-[#2e75fa]',
+    blue: 'text-[#006AF9]',
     green: 'text-emerald-600',
-    orange: 'text-[#ff6b35]',
+    orange: 'text-[#F2660A]',
     muted: 'text-[#0a1a3a]/45',
   }
   return (
@@ -130,8 +130,8 @@ function Stat({ label, value, accent = 'default' }: { label: string; value: numb
 function StatusBadge({ deal }: { deal: { published: boolean; matched: boolean; skipReason: string | null } }) {
   if (deal.published) return <span className="inline-block text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-bold uppercase tracking-wider">Live</span>
   if (deal.skipReason) return <span className="inline-block text-[10px] px-2 py-0.5 rounded-full bg-[#0a1a3a]/8 text-[#0a1a3a]/55 font-bold uppercase tracking-wider" title={deal.skipReason}>Skip</span>
-  if (deal.matched) return <span className="inline-block text-[10px] px-2 py-0.5 rounded-full bg-[#ff6b35]/15 text-[#ff6b35] font-bold uppercase tracking-wider">Matched</span>
-  return <span className="inline-block text-[10px] px-2 py-0.5 rounded-full bg-[#2e75fa]/10 text-[#2e75fa] font-bold uppercase tracking-wider">Queued</span>
+  if (deal.matched) return <span className="inline-block text-[10px] px-2 py-0.5 rounded-full bg-[#F2660A]/15 text-[#F2660A] font-bold uppercase tracking-wider">Matched</span>
+  return <span className="inline-block text-[10px] px-2 py-0.5 rounded-full bg-[#006AF9]/10 text-[#006AF9] font-bold uppercase tracking-wider">Queued</span>
 }
 
 function TriggerButton({ path, label }: { path: string; label: string }) {

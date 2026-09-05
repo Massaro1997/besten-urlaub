@@ -79,11 +79,11 @@ export default async function FragePage({ params }: PageProps) {
 
       <nav aria-label="Breadcrumb" className="max-w-3xl mx-auto px-4 sm:px-6 pt-4 pb-2">
         <ol className="flex flex-wrap items-center gap-1.5 text-sm text-[#0a1a3a]/60">
-          <li><Link href="/" className="hover:text-[#2e75fa]">Startseite</Link></li>
+          <li><Link href="/" className="hover:text-[#006AF9]">Startseite</Link></li>
           <li><ChevronRight className="w-3.5 h-3.5 inline" /></li>
-          <li><Link href="/fragen" className="hover:text-[#2e75fa]">Reise-Fragen</Link></li>
+          <li><Link href="/fragen" className="hover:text-[#006AF9]">Reise-Fragen</Link></li>
           <li><ChevronRight className="w-3.5 h-3.5 inline" /></li>
-          <li><Link href={`/reiseziel/${f.ziel.slug}`} className="hover:text-[#2e75fa]">{f.ziel.name}</Link></li>
+          <li><Link href={`/reiseziel/${f.ziel.slug}`} className="hover:text-[#006AF9]">{f.ziel.name}</Link></li>
         </ol>
       </nav>
 
@@ -91,7 +91,7 @@ export default async function FragePage({ params }: PageProps) {
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0a1a3a] tracking-tight">{f.frage}</h1>
 
         {/* Kurzantwort (answer-first, AI-Overview-tauglich) */}
-        <div className="mt-5 rounded-2xl bg-[#2e75fa]/8 border border-[#2e75fa]/20 p-5">
+        <div className="mt-5 rounded-2xl bg-[#006AF9]/8 border border-[#006AF9]/20 p-5">
           <p className="text-[#0a1a3a] leading-relaxed font-medium">{f.kurzantwort}</p>
         </div>
 
@@ -143,7 +143,7 @@ export default async function FragePage({ params }: PageProps) {
         <div className="mt-10 rounded-3xl bg-[#0a1a3a] text-white p-6 text-center">
           <h2 className="text-lg sm:text-xl font-bold mb-2">{f.ziel.name}-Angebote ansehen</h2>
           <p className="text-white/75 mb-4 text-sm">Handgepickte Pauschalreisen, verglichen mit Check24.</p>
-          <Link href={`/reiseziel/${f.ziel.slug}`} className="inline-flex items-center gap-2 bg-[#2e75fa] hover:bg-[#1f5fd8] transition-colors text-white font-semibold rounded-full px-6 py-2.5">
+          <Link href={`/reiseziel/${f.ziel.slug}`} className="inline-flex items-center gap-2 bg-[#006AF9] hover:bg-[#1f5fd8] transition-colors text-white font-semibold rounded-full px-6 py-2.5">
             Zu den {f.ziel.name}-Angeboten <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
@@ -173,18 +173,18 @@ export default async function FragePage({ params }: PageProps) {
             <ul className="space-y-2">
               {related.map((r) => (
                 <li key={r.slug}>
-                  <Link href={`/fragen/${r.slug}`} className="text-[#2e75fa] hover:underline flex items-center gap-1.5">
+                  <Link href={`/fragen/${r.slug}`} className="text-[#006AF9] hover:underline flex items-center gap-1.5">
                     <ChevronRight className="w-3.5 h-3.5" /> {r.frage}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href={`/pauschalreise/${f.ziel.slug}`} className="text-[#2e75fa] hover:underline flex items-center gap-1.5">
+                <Link href={`/pauschalreise/${f.ziel.slug}`} className="text-[#006AF9] hover:underline flex items-center gap-1.5">
                   <ChevronRight className="w-3.5 h-3.5" /> Pauschalreise {f.ziel.name}: Preise pro Monat
                 </Link>
               </li>
               <li>
-                <Link href={`/reiseziel/${f.ziel.slug}`} className="text-[#2e75fa] hover:underline flex items-center gap-1.5">
+                <Link href={`/reiseziel/${f.ziel.slug}`} className="text-[#006AF9] hover:underline flex items-center gap-1.5">
                   <ChevronRight className="w-3.5 h-3.5" /> Alle {f.ziel.name}-Angebote
                 </Link>
               </li>

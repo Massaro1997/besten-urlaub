@@ -15,7 +15,7 @@ export default function DatenschutzPage() {
     <div className="bg-white py-16 sm:py-24">
       <article className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Badge */}
-        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#2e75fa] bg-[#2e75fa]/10 px-3 py-1 rounded-full mb-6">
+        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#006AF9] bg-[#006AF9]/10 px-3 py-1 rounded-full mb-6">
           Rechtliches
         </span>
 
@@ -121,7 +121,7 @@ export default function DatenschutzPage() {
               href="https://vercel.com/legal/privacy-policy"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2e75fa] hover:underline break-all"
+              className="text-[#006AF9] hover:underline break-all"
             >
               https://vercel.com/legal/privacy-policy
             </a>
@@ -164,7 +164,7 @@ export default function DatenschutzPage() {
             Telefon:{' '}
             <a
               href="tel:+4917682405507"
-              className="text-[#2e75fa] hover:underline"
+              className="text-[#006AF9] hover:underline"
             >
               +49 176 82405507
             </a>
@@ -173,7 +173,7 @@ export default function DatenschutzPage() {
             E-Mail:{' '}
             <a
               href="mailto:info@besterurlaub.com"
-              className="text-[#2e75fa] hover:underline"
+              className="text-[#006AF9] hover:underline"
             >
               info@besterurlaub.com
             </a>
@@ -348,7 +348,7 @@ export default function DatenschutzPage() {
               href="https://www.check24.net"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2e75fa] hover:underline"
+              className="text-[#006AF9] hover:underline"
             >
               CHECK24.net
             </a>
@@ -371,7 +371,7 @@ export default function DatenschutzPage() {
               href="https://www.check24.net"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2e75fa] hover:underline"
+              className="text-[#006AF9] hover:underline"
             >
               https://www.check24.net
             </a>
@@ -413,7 +413,7 @@ export default function DatenschutzPage() {
               href="https://www.tiktok.com/legal/privacy-policy"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2e75fa] hover:underline break-all"
+              className="text-[#006AF9] hover:underline break-all"
             >
               https://www.tiktok.com/legal/privacy-policy
             </a>
@@ -458,7 +458,7 @@ export default function DatenschutzPage() {
               href="https://www.luckyorange.com/privacy.php"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2e75fa] hover:underline break-all"
+              className="text-[#006AF9] hover:underline break-all"
             >
               https://www.luckyorange.com/privacy.php
             </a>
@@ -470,7 +470,7 @@ export default function DatenschutzPage() {
               href="https://www.luckyorange.com/visitor-opt-out.php"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2e75fa] hover:underline break-all"
+              className="text-[#006AF9] hover:underline break-all"
             >
               https://www.luckyorange.com/visitor-opt-out.php
             </a>
@@ -500,7 +500,7 @@ export default function DatenschutzPage() {
               href="https://www.tiktok.com/legal/privacy-policy"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#2e75fa] hover:underline break-all"
+              className="text-[#006AF9] hover:underline break-all"
             >
               https://www.tiktok.com/legal/privacy-policy
             </a>
@@ -566,7 +566,7 @@ export default function DatenschutzPage() {
             unter{' '}
             <a
               href="mailto:info@besterurlaub.com"
-              className="text-[#2e75fa] hover:underline"
+              className="text-[#006AF9] hover:underline"
             >
               info@besterurlaub.com
             </a>{' '}
@@ -593,7 +593,7 @@ export default function DatenschutzPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <Link
               href="/impressum"
-              className="text-sm text-[#2e75fa] hover:underline"
+              className="text-sm text-[#006AF9] hover:underline"
             >
               Zum Impressum
             </Link>

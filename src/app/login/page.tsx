@@ -93,7 +93,7 @@ function LoginInner() {
             height: 56,
             margin: '0 auto 16px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #ff6b35, #ff3333)',
+            background: 'linear-gradient(135deg, #F2660A, #ff3333)',
             display: 'grid',
             placeItems: 'center',
             color: '#fff',
@@ -139,7 +139,7 @@ function LoginInner() {
                 transition: 'border-color 0.15s',
               }}
               onFocus={(e) => {
-                e.currentTarget.style.borderColor = '#2e75fa'
+                e.currentTarget.style.borderColor = '#006AF9'
               }}
               onBlur={(e) => {
                 if (!error) e.currentTarget.style.borderColor = '#e2e8f0'

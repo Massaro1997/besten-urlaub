@@ -8,7 +8,7 @@ export function InsolvenzTrustBlock({ variant = 'full' }: { variant?: 'full' | '
   if (variant === 'compact') {
     return (
       <div className="flex items-start gap-3 rounded-xl border border-[#0a1a3a]/10 bg-[#0a1a3a]/[0.02] p-3">
-        <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#2e75fa]/10 text-[#2e75fa]">
+        <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#006AF9]/10 text-[#006AF9]">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" />
           </svg>
@@ -22,9 +22,9 @@ export function InsolvenzTrustBlock({ variant = 'full' }: { variant?: 'full' | '
   }
 
   return (
-    <section className="rounded-2xl border border-[#0a1a3a]/10 bg-gradient-to-br from-[#2e75fa]/[0.04] to-transparent p-5 sm:p-6">
+    <section className="rounded-2xl border border-[#0a1a3a]/10 bg-gradient-to-br from-[#006AF9]/[0.04] to-transparent p-5 sm:p-6">
       <div className="flex items-start gap-4">
-        <span className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#2e75fa]/10 text-[#2e75fa]">
+        <span className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#006AF9]/10 text-[#006AF9]">
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" />
           </svg>
@@ -40,13 +40,13 @@ export function InsolvenzTrustBlock({ variant = 'full' }: { variant?: 'full' | '
           </p>
           <ul className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-[#0a1a3a]/65">
             <li className="flex items-center gap-1.5">
-              <span className="text-[#ff6b35]">✓</span> Sicherungsschein inklusive
+              <span className="text-[#F2660A]">✓</span> Sicherungsschein inklusive
             </li>
             <li className="flex items-center gap-1.5">
-              <span className="text-[#ff6b35]">✓</span> Geld-zurück bei Insolvenz
+              <span className="text-[#F2660A]">✓</span> Geld-zurück bei Insolvenz
             </li>
             <li className="flex items-center gap-1.5">
-              <span className="text-[#ff6b35]">✓</span> Bestpreis-Garantie Check24
+              <span className="text-[#F2660A]">✓</span> Bestpreis-Garantie Check24
             </li>
           </ul>
         </div>

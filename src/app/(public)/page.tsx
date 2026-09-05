@@ -149,7 +149,7 @@ export default async function HomePage() {
                       </div>
                       {relativeTime && (
                         <span className={`shrink-0 inline-flex items-center gap-1 bg-white/95 backdrop-blur-sm text-[#0a1a3a] font-semibold rounded-full shadow-sm whitespace-nowrap ${isLarge ? 'text-[11px] px-2.5 py-1' : 'text-[10px] px-2 py-0.5'}`}>
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] animate-pulse" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#F2660A] animate-pulse" />
                           {relativeTime}
                         </span>
                       )}
@@ -240,7 +240,7 @@ export default async function HomePage() {
               className="object-cover group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 640px) 50vw, 25vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#2e75fa]/70 via-[#2e75fa]/40 to-[#2e75fa]/70" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#006AF9]/70 via-[#006AF9]/40 to-[#006AF9]/70" />
             <span className="absolute top-4 left-4 bg-[#ff3333] text-white text-xs font-bold px-3 py-1.5 rounded-full">
               Bis zu 250 &euro; sparen
             </span>

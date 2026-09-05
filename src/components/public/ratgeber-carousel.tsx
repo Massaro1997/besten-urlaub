@@ -58,7 +58,7 @@ export function RatgeberCarousel() {
             onClick={() => scroll('left')}
             disabled={!canScrollLeft}
             aria-label="Vorherige Artikel"
-            className="w-10 h-10 rounded-full bg-white border border-[#0a1a3a]/10 flex items-center justify-center text-[#0a1a3a]/60 hover:text-[#2e75fa] hover:border-[#2e75fa]/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+            className="w-10 h-10 rounded-full bg-white border border-[#0a1a3a]/10 flex items-center justify-center text-[#0a1a3a]/60 hover:text-[#006AF9] hover:border-[#006AF9]/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -66,7 +66,7 @@ export function RatgeberCarousel() {
             onClick={() => scroll('right')}
             disabled={!canScrollRight}
             aria-label="Nächste Artikel"
-            className="w-10 h-10 rounded-full bg-white border border-[#0a1a3a]/10 flex items-center justify-center text-[#0a1a3a]/60 hover:text-[#2e75fa] hover:border-[#2e75fa]/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+            className="w-10 h-10 rounded-full bg-white border border-[#0a1a3a]/10 flex items-center justify-center text-[#0a1a3a]/60 hover:text-[#006AF9] hover:border-[#006AF9]/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -100,7 +100,7 @@ export function RatgeberCarousel() {
               </div>
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[10px] uppercase tracking-wider text-[#ff6b35] font-bold">Reise-Ratgeber</span>
+                  <span className="text-[10px] uppercase tracking-wider text-[#F2660A] font-bold">Reise-Ratgeber</span>
                   <span className="text-[10px] text-[#0a1a3a]/40">·</span>
                   <span className="text-[10px] text-[#0a1a3a]/50">{3 + (idx % 4)} Min. Lesezeit</span>
                 </div>
@@ -110,7 +110,7 @@ export function RatgeberCarousel() {
                 <p className="text-[13px] text-[#0a1a3a]/55 leading-snug line-clamp-2 mb-3">
                   {article.destination} entdecken: Insider-Tipps, die besten Strände, lokale Highlights.
                 </p>
-                <div className="inline-flex items-center gap-1 text-[13px] font-bold text-[#2e75fa]">
+                <div className="inline-flex items-center gap-1 text-[13px] font-bold text-[#006AF9]">
                   Weiterlesen
                   <ChevronRight className="w-3.5 h-3.5" />
                 </div>
@@ -131,7 +131,7 @@ export function RatgeberCarousel() {
                 {article.country}
               </span>
               <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="text-base font-bold text-white leading-snug line-clamp-2 drop-shadow group-hover:text-[#ff6b35] transition-colors">
+                <h3 className="text-base font-bold text-white leading-snug line-clamp-2 drop-shadow group-hover:text-[#F2660A] transition-colors">
                   {article.title}
                 </h3>
                 <p className="text-xs text-white/60 mt-1">{article.destination}</p>
@@ -146,7 +146,7 @@ export function RatgeberCarousel() {
           className="group flex-none w-[82%] sm:w-[calc(33.333%-11px)] lg:w-[calc(25%-12px)] snap-start"
         >
           {/* Mobile: matches blog-post layout */}
-          <article className="sm:hidden bg-gradient-to-br from-[#2e75fa] to-[#0a1a3a] rounded-2xl overflow-hidden shadow-[0_6px_24px_-8px_rgba(46,117,250,0.4)] h-full min-h-[280px] flex flex-col items-center justify-center text-center p-8">
+          <article className="sm:hidden bg-gradient-to-br from-[#006AF9] to-[#0a1a3a] rounded-2xl overflow-hidden shadow-[0_6px_24px_-8px_rgba(46,117,250,0.4)] h-full min-h-[280px] flex flex-col items-center justify-center text-center p-8">
             <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center mb-3">
               <ChevronRight className="w-7 h-7 text-white" />
             </div>
@@ -155,7 +155,7 @@ export function RatgeberCarousel() {
           </article>
 
           {/* Desktop (unchanged) */}
-          <div className="hidden sm:flex relative aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-[#2e75fa] to-[#0a1a3a] flex-col items-center justify-center text-center p-6">
+          <div className="hidden sm:flex relative aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-[#006AF9] to-[#0a1a3a] flex-col items-center justify-center text-center p-6">
             <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white/20 transition-colors">
               <ChevronRight className="w-6 h-6 text-white" />
             </div>

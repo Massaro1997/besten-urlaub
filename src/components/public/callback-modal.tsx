@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { X } from 'lucide-react'
+import { X, Check } from 'lucide-react'
 import { trackLead } from '@/lib/tiktok-pixel'
 
 function EmailOnlyForm({ source }: { source: string }) {
@@ -31,28 +31,28 @@ function EmailOnlyForm({ source }: { source: string }) {
 
   if (status === 'ok') {
     return (
-      <div className="rounded-xl bg-[#34c759]/10 border border-[#34c759]/30 p-4 text-center">
-        <p className="text-sm font-bold text-[#0a1a3a]">Perfekt. Check dein Postfach.</p>
-        <p className="text-xs text-[#0a1a3a]/60 mt-1">Die erste Deal-Mail kommt in wenigen Minuten.</p>
+      <div className="rounded-2xl bg-[#34c759]/10 border border-[#34c759]/30 p-6 text-center">
+        <p className="text-lg font-bold text-[#0a1a3a]">Perfekt. Check dein Postfach.</p>
+        <p className="text-sm text-[#0a1a3a]/60 mt-1.5">Die erste Deal-Mail kommt in wenigen Minuten.</p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2.5">
+    <form onSubmit={handleSubmit} className="space-y-3">
       <input
         type="email"
         required
-        autoFocus
         placeholder="deine@email.de"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-full px-4 py-3 rounded-xl border-2 border-[#0a1a3a]/10 text-[15px] focus:outline-none focus:border-[#ff6b35] transition-colors"
+        className="w-full rounded-2xl border border-[#0a1a3a]/15 bg-white px-5 py-4 text-base text-[#0a1a3a] placeholder:text-[#0a1a3a]/35 outline-none focus:outline-none focus-visible:outline-none focus:border-[#F2660A] transition-colors"
       />
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="w-full px-4 py-3.5 rounded-xl bg-[#ff6b35] hover:bg-[#e85d2c] disabled:opacity-50 text-white text-[15px] font-extrabold transition-colors shadow-lg shadow-[#ff6b35]/30"
+        className="w-full rounded-2xl px-5 py-4 text-base sm:text-lg font-extrabold text-white transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
+        style={{ background: 'linear-gradient(135deg, #F2660A 0%, #FE561B 100%)', boxShadow: '0 12px 30px -10px rgba(255,107,53,0.7)' }}
       >
         {status === 'sending' ? '...' : 'Deals sichern →'}
       </button>
@@ -124,52 +124,67 @@ export function CallbackModal({ source = 'callback-modal', delayMs = 45000 }: Pr
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0a1a3a]/45 animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-[#0a1a3a]/55 animate-fade-in"
       onClick={() => setOpen(false)}
     >
       <div
-        className="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden animate-scale-in"
+        role="dialog"
+        aria-modal="true"
+        className="relative flex w-full max-w-[560px] sm:max-w-4xl h-[94svh] sm:h-auto sm:min-h-[520px] sm:max-h-[86vh] flex-col overflow-hidden rounded-3xl bg-white shadow-[0_40px_100px_-25px_rgba(10,26,58,0.55)] animate-scale-in sm:flex-row"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-sm text-[#0a1a3a]/60 hover:bg-white hover:text-[#0a1a3a] transition-colors shadow-sm"
+          className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#0a1a3a]/60 shadow-sm backdrop-blur-sm transition-colors hover:bg-white hover:text-[#0a1a3a]"
           aria-label="Schliessen"
         >
-          <X className="w-4 h-4" />
+          <X className="h-5 w-5" />
         </button>
 
-        {/* Hero image — paradise destination */}
-        <div className="relative w-full aspect-[5/3] bg-[#0a1a3a]/5">
+        {/* Foto */}
+        <div className="relative h-[38%] shrink-0 sm:h-auto sm:w-[46%]">
           <Image
             src="/destinations/mauritius.webp"
             alt="Traumurlaub"
             fill
             className="object-cover"
-            sizes="(max-width: 640px) 100vw, 384px"
+            sizes="(max-width: 640px) 100vw, 46vw"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-5">
-            <span className="inline-block bg-[#ff6b35] text-white text-[10px] uppercase tracking-[0.2em] font-bold px-2.5 py-1 rounded-full mb-2">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1a3a]/90 via-[#0a1a3a]/25 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
+            <span className="inline-block rounded-full bg-[#F2660A] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
               Nur für kurze Zeit
             </span>
-            <h3 className="text-[26px] font-extrabold text-white leading-[1.05] tracking-tight drop-shadow-lg">
-              Spare bis zu <span className="text-[#ff6b35]">1.000 €</span> auf deinem nächsten Urlaub
+            <h3 className="mt-3 text-[28px] sm:text-[34px] font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-lg">
+              Spare bis zu <span className="text-[#ffb020]">1.000 €</span> auf deinem nächsten Urlaub
             </h3>
           </div>
         </div>
 
-        <div className="px-6 pb-6 pt-5">
-          <p className="text-[15px] text-[#0a1a3a]/75 leading-snug mb-4">
-            Unsere besten Deals landen direkt in deinem Postfach. Keine Anrufe. Kein Spam. Nur echte Schnäppchen, bevor sie ausverkauft sind.
+        {/* Contenuto */}
+        <div className="flex flex-1 flex-col justify-start sm:justify-center gap-5 overflow-y-auto p-6 pb-8 pt-7 sm:p-10 sm:pr-14">
+          <p className="text-base sm:text-lg leading-relaxed text-[#0a1a3a]/75">
+            Unsere besten Deals landen direkt in deinem Postfach — handverlesen,
+            einmal pro Woche, bevor sie ausverkauft sind.
           </p>
+
+          <ul className="space-y-2.5">
+            {['Handverlesene Angebote, keine Massenmails', 'Einmal pro Woche, sonst nichts', 'Jederzeit abbestellbar'].map((item) => (
+              <li key={item} className="flex items-start gap-3 text-[15px] text-[#0a1a3a]/80">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#F2660A]/12">
+                  <Check className="h-3 w-3 text-[#F2660A]" strokeWidth={3} />
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
 
           <EmailOnlyForm source={source} />
 
-          <p className="text-[11px] text-[#0a1a3a]/45 text-center mt-3">
-            Jederzeit abbestellbar. Über 12.000 Reisende vertrauen uns.
+          <p className="text-center text-xs text-[#0a1a3a]/45">
+            Kein Spam. Abmeldung mit einem Klick in jeder Mail.
           </p>
         </div>
       </div>
