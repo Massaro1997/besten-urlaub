@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import Link from 'next/link'
+import { BrandMark } from './brand-mark'
 import { TrackedPhoneLink } from './tracked-phone-link'
 import { NewsletterForm } from './newsletter-form'
 
@@ -58,15 +58,8 @@ export function PublicFooter() {
         <div className="pt-10 pb-8">
           {/* Top row: Logo + Social */}
           <div className="flex items-center justify-between mb-8">
-            <Link href="/" className="shrink-0">
-              <Image
-                src="/noBgWhite.png"
-                alt="Bester Urlaub"
-                width={130}
-                height={36}
-                className="h-8 w-auto"
-                style={{ maxWidth: '130px' }}
-              />
+            <Link href="/" className="shrink-0" aria-label="Bester Urlaub — Startseite">
+              <BrandMark variant="light" size="sm" />
             </Link>
             <div className="flex items-center gap-2.5">
               <a

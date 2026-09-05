@@ -18,7 +18,7 @@ export const SITE_NAME = 'Bester Urlaub'
 
 /** Build-Datum (SSG): dient als dateModified-Frische-Signal. Ein Deploy pro Monat haelt es aktuell. */
 export const BUILD_DATE = new Date().toISOString().slice(0, 10)
-export const SITE_LOGO = `${SITE_URL}/noBgColor.png`
+export const SITE_LOGO = `${SITE_URL}/logo-lockup-color.png`
 
 /* ------------------------------------------------------------------ */
 /*  Organization / TravelAgency (homepage + footer once)              */
